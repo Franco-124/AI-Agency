@@ -250,10 +250,12 @@
     "message": "Cuéntanos qué necesitas",
     "messagePlaceholder": "Cuéntanos cómo funciona tu negocio hoy y qué te gustaría automatizar",
     "submit": "Agenda tu llamada estratégica",
+    "again": "Enviar otra consulta",
     "note": "Te contactaremos por WhatsApp o correo para coordinar el horario que mejor te funcione."
   },
   "form": {
-    "success": "Listo. Te contactaremos en menos de 24 horas.",
+    "successNamed": "Gracias, {name}. Te contactaremos en menos de 24 horas.",
+    "successDetail": "Te escribiremos por WhatsApp o correo para coordinar el horario que mejor te funcione.",
     "error": "Algo salió mal. Intenta de nuevo o escríbenos directamente por WhatsApp.",
     "empty": "Todavía no hay actividad. En cuanto tu sistema empiece a funcionar, la verás aquí.",
     "loading": "Un momento, estamos procesando tu solicitud.",

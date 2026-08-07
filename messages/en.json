@@ -250,10 +250,12 @@
     "message": "Tell us what you need",
     "messagePlaceholder": "Tell us how your business works today and what you'd like to automate",
     "submit": "Book your strategy call",
+    "again": "Send another message",
     "note": "We'll reach out on WhatsApp or by email to arrange a time that works best for you."
   },
   "form": {
-    "success": "Done. We'll contact you within 24 hours.",
+    "successNamed": "Thanks, {name}. We'll get in touch within 24 hours.",
+    "successDetail": "We'll reach out on WhatsApp or by email to arrange a time that works for you.",
     "error": "Something went wrong. Try again or message us directly on WhatsApp.",
     "empty": "No activity yet. As soon as your system starts running, you'll see it here.",
     "loading": "One moment, we're processing your request.",

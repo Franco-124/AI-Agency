@@ -23,6 +23,16 @@ export const leadSchema = z.object({
     .regex(WHATSAPP_PATTERN, 'invalidWhatsapp'),
   email: z.string().trim().min(1, 'required').max(180).pipe(z.email('invalidEmail')),
   message: z.string().trim().min(10, 'tooShort').max(4000, 'tooLong'),
+  /**
+   * Set only when the visitor reached the form from a specific package card.
+   * Empty strings are normalised away so the column stays null instead of ''.
+   */
+  packageInterest: z
+    .string()
+    .trim()
+    .max(160, 'tooLong')
+    .optional()
+    .transform((value) => value || undefined),
 })
 
 export type Lead = z.infer<typeof leadSchema>

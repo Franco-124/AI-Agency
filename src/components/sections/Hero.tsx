@@ -1,7 +1,7 @@
 import { ArrowRight } from 'lucide-react'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
-import { Fragment } from 'react'
+import { Fragment, type CSSProperties } from 'react'
 
 import { HeroMotion } from '@/components/motion/HeroMotion'
 import { HeroChatCard } from '@/components/sections/HeroChatCard'
@@ -16,7 +16,12 @@ export function Hero() {
 
   return (
     <section id={sectionIds.hero} className="relative isolate overflow-hidden">
-      {/* Static hero image: LCP element and the reduced-motion fallback. */}
+      {/*
+        Static hero image: LCP element and the reduced-motion fallback.
+        Deliberately not animated — the spark layer is aligned to the diagonal
+        painted in this image, and any drift here would slide the line out from
+        under the sparks.
+      */}
       <Image
         src="/images/01-hero-bg-abstracto.webp"
         alt={t('imageAlt')}
@@ -31,25 +36,63 @@ export function Hero() {
       />
 
       {/*
-        The spark is confined to the bottom band of the hero, so the beam can
-        never cross the headline at any breakpoint.
+        Accent haze breathing behind the headline. Sized in vmin so it scales
+        with the viewport instead of overflowing on small screens, and clipped
+        by the section's own `overflow-hidden`.
       */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[32%]">
+      <div
+        aria-hidden
+        className="aurora pointer-events-none absolute left-[-18%] top-[12%] -z-10 h-[70vmin] w-[70vmin] rounded-full blur-3xl [background:radial-gradient(circle,color-mix(in_srgb,var(--color-acento)_22%,transparent)_0%,transparent_70%)] sm:left-[-8%] lg:left-[38%] lg:top-[16%]"
+      />
+
+      {/*
+        The sparks travel along the diagonal that is already in the photograph,
+        so this layer has to cover exactly the same box the image does — it is
+        cropped identically from the inside. It sits behind all copy, so the
+        headline is never crossed by anything that could hurt legibility.
+      */}
+      <div className="pointer-events-none absolute inset-0 -z-10">
         <HeroMotion />
       </div>
 
       <div className="mx-auto grid min-h-dvh max-w-[80rem] items-center gap-14 px-5 pb-16 pt-[calc(var(--header-height)+3rem)] sm:px-8 lg:grid-cols-12 lg:gap-10 lg:pb-24">
+        {/*
+          Load sequence: the block rises in reading order — eyebrow, headline,
+          subtitle, actions, indicators — so the eye is led down to the CTA
+          instead of meeting the whole hero at once. Delays are declared per
+          element with `--hero-delay`; the animation itself is one shared class.
+        */}
         <div className="lg:col-span-7">
-          <p className="type-eyebrow inline-flex items-center gap-2.5">
-            <span aria-hidden className="h-px w-8 bg-[var(--color-acento)]" />
+          <p
+            className="hero-rise type-eyebrow inline-flex items-center gap-2.5"
+            style={{ '--hero-delay': '0.05s' } as CSSProperties}
+          >
+            <span
+              aria-hidden
+              className="rule-grow h-px w-8 bg-[var(--color-acento)]"
+              style={{ '--hero-delay': '0.25s' } as CSSProperties}
+            />
             {t('eyebrow')}
           </p>
 
-          <h1 className="type-display mt-7 max-w-[16ch]">{t('title')}</h1>
+          <h1
+            className="hero-rise type-display mt-7 max-w-[16ch]"
+            style={{ '--hero-delay': '0.12s' } as CSSProperties}
+          >
+            {t('title')}
+          </h1>
 
-          <p className="type-lead mt-7 max-w-[52ch]">{t('subtitle')}</p>
+          <p
+            className="hero-rise type-lead mt-7 max-w-[52ch]"
+            style={{ '--hero-delay': '0.22s' } as CSSProperties}
+          >
+            {t('subtitle')}
+          </p>
 
-          <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <div
+            className="hero-rise mt-10 flex flex-col gap-3 sm:flex-row sm:items-center"
+            style={{ '--hero-delay': '0.32s' } as CSSProperties}
+          >
             <Button asChild size="lg" className="group">
               <a href={`#${sectionIds.finalCta}`}>
                 {t('cta')}
@@ -65,7 +108,10 @@ export function Hero() {
           </div>
 
           {/* Indicator bar: one wrapping row separated by middots. */}
-          <ul className="mt-9 flex flex-wrap items-center gap-x-3 gap-y-2 text-[0.8125rem] text-[color-mix(in_srgb,var(--color-neutro-claro)_65%,transparent)]">
+          <ul
+            className="hero-rise mt-9 flex flex-wrap items-center gap-x-3 gap-y-2 text-[0.8125rem] text-[color-mix(in_srgb,var(--color-neutro-claro)_65%,transparent)]"
+            style={{ '--hero-delay': '0.42s' } as CSSProperties}
+          >
             {indicatorKeys.map((key, index) => (
               <Fragment key={key}>
                 {index > 0 ? (
@@ -79,8 +125,10 @@ export function Hero() {
           </ul>
         </div>
 
-        {/* Product proof — desktop only, so it never pushes the mobile CTA down. */}
-        <div className="hidden lg:col-span-5 lg:block">
+        {/* Product proof — desktop only, so it never pushes the mobile CTA down.
+            The float lives on this wrapper because the card animates its own
+            entrance; stacking both on one element would fight over `transform`. */}
+        <div className="soft-float hidden lg:col-span-5 lg:block">
           <HeroChatCard />
         </div>
       </div>

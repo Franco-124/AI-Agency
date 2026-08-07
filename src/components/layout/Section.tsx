@@ -97,7 +97,15 @@ export function SectionHeading({
             align === 'center' && 'justify-center',
           )}
         >
-          <span aria-hidden className="h-px w-8 bg-[var(--color-acento)]" />
+          {/* Draws itself out of the heading as the block reveals. Centered
+              headings grow from the middle so the rule stays on its axis. */}
+          <span
+            aria-hidden
+            className={cn(
+              'rule-draw h-px w-8 bg-[var(--color-acento)]',
+              align === 'center' && 'origin-center',
+            )}
+          />
           {eyebrow}
         </p>
       ) : null}

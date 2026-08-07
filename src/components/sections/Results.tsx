@@ -34,7 +34,7 @@ export function Results() {
       <div className="mx-auto max-w-[80rem] px-5 sm:px-8">
         <Reveal>
           <p className="type-eyebrow inline-flex items-center gap-2.5">
-            <span aria-hidden className="h-px w-8 bg-[var(--color-acento)]" />
+            <span aria-hidden className="rule-draw h-px w-8 bg-[var(--color-acento)]" />
             {t('title')}
           </p>
         </Reveal>

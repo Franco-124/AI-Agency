@@ -219,6 +219,63 @@
   }
 
   /* ----------------------------------------------------------------
+     Hero load sequence. Driven by CSS keyframes rather than the scroll
+     trigger: the hero is above the fold by definition, so there is
+     nothing to observe and no reason to ship JavaScript for it.
+
+     `both` fill matters — under reduced motion the global rule collapses
+     the duration to 0.01ms and the element lands on its final state
+     immediately instead of being left invisible.
+     ---------------------------------------------------------------- */
+  .hero-rise {
+    animation: hero-rise 700ms var(--ease-entrance) both;
+    animation-delay: var(--hero-delay, 0s);
+  }
+
+  /* The eyebrow's hairline draws itself out of the left edge. */
+  .rule-grow {
+    transform-origin: left;
+    animation: rule-grow 700ms var(--ease-entrance) both;
+    animation-delay: var(--hero-delay, 0s);
+  }
+
+  /*
+    Slow drift on the hero photograph. Transform-only, so it stays on the
+    compositor and never triggers layout — and it starts already scaled up
+    so the crop can never expose an edge mid-cycle.
+  */
+  .hero-drift {
+    animation: hero-drift 30s ease-in-out infinite alternate;
+  }
+
+  /* Accent haze breathing behind the hero copy — atmosphere, not content. */
+  .aurora {
+    animation: aurora-drift 20s ease-in-out infinite;
+  }
+
+  .soft-float {
+    animation: soft-float 7s ease-in-out infinite;
+  }
+
+  /* ----------------------------------------------------------------
+     Section eyebrow rule. Same contract as `[data-reveal]`: the rule
+     rests drawn, and only the `pending` state pulls it back to zero, so
+     without JavaScript nothing is ever missing.
+     ---------------------------------------------------------------- */
+  .rule-draw {
+    transform-origin: left;
+  }
+
+  [data-reveal] .rule-draw {
+    transition: transform 620ms var(--ease-entrance);
+    transition-delay: calc(var(--reveal-delay, 0s) + 140ms);
+  }
+
+  [data-reveal='pending'] .rule-draw {
+    transform: scaleX(0);
+  }
+
+  /* ----------------------------------------------------------------
      Process timeline. The rail lights up node by node as the connector
      between them fills, driven entirely by transition-delay so no
      JavaScript runs per frame.
@@ -271,6 +328,73 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes rule-grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes hero-drift {
+  from {
+    transform: scale(1.06);
+  }
+  to {
+    transform: scale(1.14) translate3d(-1.5%, -1.5%, 0);
+  }
+}
+
+@keyframes aurora-drift {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: translate3d(-5%, 4%, 0) scale(1.15);
+  }
+}
+
+@keyframes soft-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* The confirmation lands with a single beat rather than simply appearing. */
+@keyframes check-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.14);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
@@ -354,5 +478,20 @@
 
   [data-rail='pending'] .rail-node {
     background-color: var(--color-acento);
+  }
+
+  [data-reveal='pending'] .rule-draw {
+    transform: none;
+  }
+
+  /*
+    Dropped outright rather than shortened: these loop forever, and the
+    global 0.01ms override would freeze them on their last keyframe — the
+    hero photograph would stay zoomed in for the whole visit.
+  */
+  .hero-drift,
+  .aurora,
+  .soft-float {
+    animation: none !important;
   }
 }

@@ -7,6 +7,7 @@ import { useForm, useWatch, type RegisterOptions } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
 import type { ApiResponse } from '@/lib/api'
+import { forgetPackageInterest, readPackageInterest } from '@/lib/package-interest'
 import { cn } from '@/lib/utils'
 
 import { Field } from './Field'
@@ -37,6 +38,7 @@ type LeadPayload = {
   whatsapp: string
   email: string
   message: string
+  packageInterest?: string
 }
 
 /** Kept in sync with the niches section — the picker offers what the page sells. */
@@ -69,7 +71,10 @@ export function LeadForm() {
   const t = useTranslations('form')
   const tFields = useTranslations('leadForm')
   const tNiches = useTranslations('niches')
+  const tPackages = useTranslations('packages')
   const [status, setStatus] = useState<Status>('idle')
+  /** Kept after `reset()` so the confirmation can address the visitor by name. */
+  const [submittedName, setSubmittedName] = useState('')
   const prefix = useId()
 
   const {
@@ -108,6 +113,17 @@ export function LeadForm() {
     return known.includes(code) ? t(code) : t('required')
   }
 
+  /**
+   * Read at submit time rather than on mount: the visitor may click a package
+   * card after the form has already rendered, and this way there is no extra
+   * state or subscription just to carry one optional label.
+   */
+  const packageInterestLabel = () => {
+    const key = readPackageInterest()
+
+    return key ? tPackages(`${key}.name`) : undefined
+  }
+
   const onSubmit = handleSubmit(async (values) => {
     setStatus('submitting')
 
@@ -118,6 +134,7 @@ export function LeadForm() {
       whatsapp: values.whatsapp,
       email: values.email,
       message: values.message,
+      packageInterest: packageInterestLabel(),
     }
 
     try {
@@ -133,8 +150,11 @@ export function LeadForm() {
         throw new Error(result.error ?? 'request_failed')
       }
 
+      // Only the first name: the full legal name in a thank-you reads cold.
+      setSubmittedName(values.name.split(' ')[0] ?? values.name)
       setStatus('success')
       reset()
+      forgetPackageInterest()
     } catch (error) {
       console.error('Lead submission failed:', error)
       setStatus('error')
@@ -145,13 +165,41 @@ export function LeadForm() {
     return (
       <div
         role="status"
-        className="flex items-start gap-4 rounded-xl border border-[var(--accent-hairline)] bg-[var(--accent-soft)] p-7"
+        className="relative overflow-hidden rounded-xl border border-[var(--accent-hairline)] bg-[var(--accent-soft)] p-7 motion-safe:animate-[greeting-in_420ms_var(--ease-entrance)_both]"
       >
-        <CheckCircle2
+        {/* The brand rule draws across the top edge as the panel lands. */}
+        <span
           aria-hidden
-          className="mt-0.5 h-5 w-5 shrink-0 text-[var(--color-acento)]"
+          className="accent-rule absolute inset-x-0 top-0 origin-left motion-safe:animate-[rule-grow_700ms_var(--ease-entrance)_120ms_both]"
         />
-        <p className="text-[0.9375rem] leading-relaxed text-ink">{t('success')}</p>
+
+        <div className="flex items-start gap-4">
+          <CheckCircle2
+            aria-hidden
+            className="mt-0.5 h-5 w-5 shrink-0 text-[var(--color-acento)] motion-safe:animate-[check-pop_520ms_var(--ease-entrance)_140ms_both]"
+          />
+          <div>
+            <p className="text-[0.9375rem] font-semibold leading-relaxed text-ink">
+              {t('successNamed', { name: submittedName })}
+            </p>
+            <p className="mt-1.5 text-[0.8125rem] leading-relaxed text-ink-muted">
+              {t('successDetail')}
+            </p>
+
+            {/* A visitor with a second, unrelated case should not have to
+                reload the page to describe it. The fields were already
+                cleared on submit, so this only puts the form back on screen. */}
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="mt-5"
+              onClick={() => setStatus('idle')}
+            >
+              {tFields('again')}
+            </Button>
+          </div>
+        </div>
       </div>
     )
   }

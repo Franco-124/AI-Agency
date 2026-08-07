@@ -4,12 +4,14 @@ import { useTranslations } from 'next-intl'
 import { Section, SectionHeading } from '@/components/layout/Section'
 import { PulseBadge } from '@/components/motion/PulseBadge'
 import { Reveal } from '@/components/motion/Reveal'
+import { PackageCtaLink } from '@/components/sections/PackageCtaLink'
 import { Button } from '@/components/ui/button'
+import type { PackageKey } from '@/lib/package-interest'
 import { sectionIds } from '@/lib/site'
 import { cn } from '@/lib/utils'
 
 type PackageDefinition = {
-  key: 'one' | 'two' | 'three'
+  key: PackageKey
   featureKeys: readonly string[]
   featured: boolean
   /** Mobile order: the highlighted package leads the stack. */
@@ -115,15 +117,12 @@ export function Packages() {
                 <p className="mt-2 text-sm text-ink-faint">{t(`${key}.maintenance`)}</p>
                 <p className="mt-1 text-sm text-ink-faint">{t(`${key}.delivery`)}</p>
 
-                <Button
-                  asChild
-                  block
-                  size="lg"
+                <PackageCtaLink
+                  packageKey={key}
                   variant={featured ? 'primary' : 'outline'}
-                  className="mt-8"
                 >
-                  <a href={`#${sectionIds.finalCta}`}>{t('cta')}</a>
-                </Button>
+                  {t('cta')}
+                </PackageCtaLink>
               </div>
             </article>
           </Reveal>
