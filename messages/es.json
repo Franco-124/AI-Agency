@@ -149,6 +149,11 @@
     "lead": "Tres formas de empezar, según el tamaño de tu operación.",
     "badge": "Más elegido",
     "cta": "Quiero este paquete",
+    "noFit": {
+      "title": "¿Ninguno encaja con tu caso?",
+      "body": "No todos los negocios entran en un paquete. Cuéntanos cómo funciona el tuyo y armamos una propuesta a la medida de tu operación.",
+      "cta": "Cuéntanos tu caso"
+    },
     "one": {
       "name": "Presencia Digital + Agente Esencial",
       "audience": "Para negocios que están empezando a digitalizarse.",
@@ -236,6 +241,10 @@
     "name": "Nombre",
     "business": "Nombre de tu negocio",
     "industry": "¿A qué se dedica tu negocio?",
+    "industryPlaceholder": "Selecciona una opción",
+    "industryOptionOther": "Otro",
+    "industryOther": "Cuéntanos a qué se dedica",
+    "industryOtherPlaceholder": "Por ejemplo: consultorio odontológico, escuela de idiomas…",
     "whatsapp": "WhatsApp",
     "email": "Correo electrónico",
     "message": "Cuéntanos qué necesitas",

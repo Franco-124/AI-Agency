@@ -1,18 +1,36 @@
 'use client'
 
-import { CheckCircle2, Loader2 } from 'lucide-react'
+import { CheckCircle2, ChevronDown, Loader2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useId, useState } from 'react'
-import { useForm, type RegisterOptions } from 'react-hook-form'
+import { useForm, useWatch, type RegisterOptions } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
 import type { ApiResponse } from '@/lib/api'
+import { cn } from '@/lib/utils'
 
 import { Field } from './Field'
 
 type Status = 'idle' | 'submitting' | 'success' | 'error'
 
+/**
+ * `industry` reaches the API as a single string, exactly as before. The form
+ * splits it into a picker plus an optional free-text field purely for input UX:
+ * most visitors belong to one of the niches the page already lists, and typing
+ * that out is friction.
+ */
 type FormValues = {
+  name: string
+  business: string
+  industryChoice: string
+  industryOther: string
+  whatsapp: string
+  email: string
+  message: string
+}
+
+/** Mirrors `leadSchema`, which is the trust boundary for these fields. */
+type LeadPayload = {
   name: string
   business: string
   industry: string
@@ -20,6 +38,11 @@ type FormValues = {
   email: string
   message: string
 }
+
+/** Kept in sync with the niches section — the picker offers what the page sells. */
+const nicheKeys = ['one', 'two', 'three', 'four', 'five'] as const
+
+const OTHER = 'other'
 
 /**
  * Client-side rules mirror `src/lib/schemas.ts`, which is what actually guards
@@ -45,6 +68,7 @@ const requiredText = (max: number): RegisterOptions<FormValues> => ({
 export function LeadForm() {
   const t = useTranslations('form')
   const tFields = useTranslations('leadForm')
+  const tNiches = useTranslations('niches')
   const [status, setStatus] = useState<Status>('idle')
   const prefix = useId()
 
@@ -52,8 +76,30 @@ export function LeadForm() {
     register,
     handleSubmit,
     reset,
+    control,
+    getValues,
+    setValue,
+    clearErrors,
     formState: { errors },
-  } = useForm<FormValues>({ mode: 'onBlur' })
+  } = useForm<FormValues>({
+    mode: 'onBlur',
+    defaultValues: { industryChoice: '', industryOther: '' },
+  })
+
+  /*
+   * `useWatch` rather than `watch()`: the latter subscribes while rendering,
+   * which the React Compiler flags as an unsafe library call.
+   */
+  const isOtherIndustry =
+    useWatch({ control, name: 'industryChoice' }) === OTHER
+
+  /** The picker stores niche keys; the API receives the human-readable label. */
+  const industryValue = (values: FormValues) =>
+    values.industryChoice === OTHER
+      ? values.industryOther
+      : tNiches(`items.${values.industryChoice}`)
+
+  const industryField = register('industryChoice', { required: 'required' })
 
   /** Maps the shared error codes onto the localized copy. */
   const messageFor = (code?: string) => {
@@ -65,11 +111,20 @@ export function LeadForm() {
   const onSubmit = handleSubmit(async (values) => {
     setStatus('submitting')
 
+    const payload: LeadPayload = {
+      name: values.name,
+      business: values.business,
+      industry: industryValue(values),
+      whatsapp: values.whatsapp,
+      email: values.email,
+      message: values.message,
+    }
+
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(values),
+        body: JSON.stringify(payload),
       })
 
       const result = (await response.json()) as ApiResponse<unknown>
@@ -146,12 +201,75 @@ export function LeadForm() {
       <Field
         id={`${prefix}-industry`}
         label={tFields('industry')}
-        error={messageFor(errors.industry?.message)}
+        error={messageFor(errors.industryChoice?.message)}
       >
         {(props) => (
-          <input type="text" {...props} {...register('industry', requiredText(160))} />
+          <div className="relative">
+            <select
+              {...props}
+              {...industryField}
+              onChange={(event) => {
+                industryField.onChange(event)
+
+                // Leaving "other" behind must not keep its value or its error.
+                if (event.target.value !== OTHER) {
+                  setValue('industryOther', '')
+                  clearErrors('industryOther')
+                }
+              }}
+              className={cn(
+                props.className,
+                // Native arrow removed in favour of the site's own chevron.
+                'cursor-pointer appearance-none pr-11',
+                // Some platforms paint the open list from the control's colours.
+                '[&>option]:bg-[var(--color-neutro-oscuro)] [&>option]:text-ink',
+              )}
+            >
+              <option value="" disabled>
+                {tFields('industryPlaceholder')}
+              </option>
+              {nicheKeys.map((key) => (
+                <option key={key} value={key}>
+                  {tNiches(`items.${key}`)}
+                </option>
+              ))}
+              <option value={OTHER}>{tFields('industryOptionOther')}</option>
+            </select>
+
+            <ChevronDown
+              aria-hidden
+              className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-faint"
+            />
+          </div>
         )}
       </Field>
+
+      {/* Progressive disclosure: only asked for when the picker cannot answer. */}
+      {isOtherIndustry ? (
+        <Field
+          id={`${prefix}-industry-other`}
+          label={tFields('industryOther')}
+          error={messageFor(errors.industryOther?.message)}
+          className="motion-safe:animate-[greeting-in_240ms_ease-out]"
+        >
+          {(props) => (
+            <input
+              type="text"
+              autoFocus
+              placeholder={tFields('industryOtherPlaceholder')}
+              {...props}
+              {...register('industryOther', {
+                setValueAs: (value: string) => value?.trim() ?? '',
+                validate: (value) =>
+                  getValues('industryChoice') !== OTHER ||
+                  String(value).trim().length > 0 ||
+                  'required',
+                maxLength: { value: 160, message: 'tooLong' },
+              })}
+            />
+          )}
+        </Field>
+      ) : null}
 
       <div className="grid gap-5 sm:grid-cols-2">
         <Field

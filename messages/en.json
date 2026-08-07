@@ -149,6 +149,11 @@
     "lead": "Three ways to start, depending on the size of your operation.",
     "badge": "Most chosen",
     "cta": "I want this package",
+    "noFit": {
+      "title": "None of these fit your case?",
+      "body": "Not every business fits into a package. Tell us how yours works and we'll put together a proposal shaped around your operation.",
+      "cta": "Tell us about your case"
+    },
     "one": {
       "name": "Digital Presence + Essential Agent",
       "audience": "For businesses taking their first steps into digital.",
@@ -236,6 +241,10 @@
     "name": "Name",
     "business": "Your business name",
     "industry": "What does your business do?",
+    "industryPlaceholder": "Select an option",
+    "industryOptionOther": "Other",
+    "industryOther": "Tell us what it does",
+    "industryOtherPlaceholder": "For example: dental practice, language school…",
     "whatsapp": "WhatsApp",
     "email": "Email address",
     "message": "Tell us what you need",

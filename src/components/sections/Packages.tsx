@@ -1,4 +1,4 @@
-import { Check } from 'lucide-react'
+import { ArrowRight, Check } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
 import { Section, SectionHeading } from '@/components/layout/Section'
@@ -129,6 +129,43 @@ export function Packages() {
           </Reveal>
         ))}
       </ul>
+
+      {/*
+        Escape hatch for the visitor who does not fit any package. It sits right
+        under the grid — the moment the mismatch is felt — and routes into the
+        same single form as every other CTA, so there is still only one place to
+        describe a case.
+      */}
+      <Reveal delay={0.24} className="mt-6">
+        <div className="group relative overflow-hidden rounded-2xl border border-hairline bg-[color-mix(in_srgb,var(--color-primario)_88%,transparent)] p-7 transition-[border-color,transform] duration-200 ease-out hover:border-[var(--accent-hairline)] motion-safe:hover:-translate-y-0.5 sm:p-9">
+          {/* Draws itself across the top edge on hover — the brand spark, once. */}
+          <span
+            aria-hidden
+            className="accent-rule absolute inset-x-0 top-0 origin-left scale-x-0 transition-transform duration-500 ease-out group-hover:scale-x-100"
+          />
+
+          <div className="flex flex-col gap-7 sm:flex-row sm:items-center sm:justify-between sm:gap-10">
+            <div className="max-w-xl">
+              <h3 className="text-lg font-semibold leading-snug tracking-[-0.02em]">
+                {t('noFit.title')}
+              </h3>
+              <p className="mt-3 text-[0.9375rem] leading-relaxed text-ink-muted">
+                {t('noFit.body')}
+              </p>
+            </div>
+
+            <Button asChild size="lg" variant="outline" className="shrink-0">
+              <a href={`#${sectionIds.finalCta}`}>
+                {t('noFit.cta')}
+                <ArrowRight
+                  aria-hidden
+                  className="h-4 w-4 transition-transform duration-200 group-hover/btn:translate-x-0.5"
+                />
+              </a>
+            </Button>
+          </div>
+        </div>
+      </Reveal>
     </Section>
   )
 }
