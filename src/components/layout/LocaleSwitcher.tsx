@@ -18,10 +18,28 @@ export function LocaleSwitcher({ label, className }: LocaleSwitcherProps) {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
 
+  /*
+   * Switching language must not move the visitor: they are re-reading the page
+   * they are already on, not navigating to a new one.
+   *
+   * `scroll: false` is what guarantees that. Without it Next applies its
+   * route-change scroll reset, which walks forward through the segment's
+   * siblings skipping fixed/sticky and zero-size elements (`ScrollProgress`,
+   * `Header` and the JSON-LD `<script>` are all skipped) and calls
+   * `scrollIntoView()` on the first one it keeps — landing somewhere the
+   * visitor never asked to go.
+   *
+   * The hash is carried over by hand because next-intl's `usePathname()`
+   * returns the pathname only, so `/es#paquetes` would otherwise become a bare
+   * `/en` and lose the section the visitor was reading.
+   */
   const switchTo = (locale: Locale) => {
     if (locale === active) return
+
+    const { hash } = window.location
+
     startTransition(() => {
-      router.replace(pathname, { locale })
+      router.replace(`${pathname}${hash}`, { locale, scroll: false })
     })
   }
 
