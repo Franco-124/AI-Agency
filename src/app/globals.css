@@ -239,15 +239,6 @@
     animation-delay: var(--hero-delay, 0s);
   }
 
-  /*
-    Slow drift on the hero photograph. Transform-only, so it stays on the
-    compositor and never triggers layout — and it starts already scaled up
-    so the crop can never expose an edge mid-cycle.
-  */
-  .hero-drift {
-    animation: hero-drift 30s ease-in-out infinite alternate;
-  }
-
   /* Accent haze breathing behind the hero copy — atmosphere, not content. */
   .aurora {
     animation: aurora-drift 20s ease-in-out infinite;
@@ -255,6 +246,30 @@
 
   .soft-float {
     animation: soft-float 7s ease-in-out infinite;
+  }
+
+  /* ----------------------------------------------------------------
+     Hero particle field. Transform and opacity only, so the whole
+     field stays on the compositor. Negative delays start each particle
+     mid-cycle, which is what stops them rising as one visible wave.
+     ---------------------------------------------------------------- */
+  .particle {
+    position: absolute;
+    border-radius: 9999px;
+    /* A soft gradient instead of a solid dot plus `filter: blur()` — same
+       result, without a blur pass per particle per frame. */
+    background: radial-gradient(
+      circle,
+      var(--color-acento) 0%,
+      color-mix(in srgb, var(--color-acento) 45%, transparent) 45%,
+      transparent 72%
+    );
+    animation: particle-drift var(--particle-duration, 45s) linear infinite;
+    animation-delay: var(--particle-delay, 0s);
+  }
+
+  .particles-paused .particle {
+    animation-play-state: paused;
   }
 
   /* ----------------------------------------------------------------
@@ -351,15 +366,6 @@
   }
 }
 
-@keyframes hero-drift {
-  from {
-    transform: scale(1.06);
-  }
-  to {
-    transform: scale(1.14) translate3d(-1.5%, -1.5%, 0);
-  }
-}
-
 @keyframes aurora-drift {
   0%,
   100% {
@@ -369,6 +375,27 @@
   50% {
     opacity: 0.85;
     transform: translate3d(-5%, 4%, 0) scale(1.15);
+  }
+}
+
+/*
+  A slow rise with a small lateral drift. It fades in and out at the ends so a
+  particle is never seen appearing or vanishing at a fixed point.
+*/
+@keyframes particle-drift {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0);
+  }
+  12% {
+    opacity: var(--particle-opacity, 0.3);
+  }
+  82% {
+    opacity: var(--particle-opacity, 0.3);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--particle-drift, 0), -180px, 0);
   }
 }
 
@@ -489,9 +516,13 @@
     global 0.01ms override would freeze them on their last keyframe — the
     hero photograph would stay zoomed in for the whole visit.
   */
-  .hero-drift,
   .aurora,
-  .soft-float {
+  .soft-float,
+  .particle {
     animation: none !important;
+  }
+
+  .particle {
+    opacity: 0;
   }
 }

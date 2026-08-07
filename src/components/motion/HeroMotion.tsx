@@ -7,11 +7,11 @@ import dynamic from 'next/dynamic'
  * after hydration. This keeps the animation library out of the critical path —
  * the static hero image is what the LCP measurement sees.
  */
-const SparkBackdrop = dynamic(
-  () => import('./SparkBackdrop').then((mod) => mod.SparkBackdrop),
+const HeroBackdrop = dynamic(
+  () => import('./HeroBackdrop').then((mod) => mod.HeroBackdrop),
   { ssr: false },
 )
 
 export function HeroMotion() {
-  return <SparkBackdrop />
+  return <HeroBackdrop />
 }

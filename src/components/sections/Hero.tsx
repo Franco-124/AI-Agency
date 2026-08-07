@@ -16,12 +16,7 @@ export function Hero() {
 
   return (
     <section id={sectionIds.hero} className="relative isolate overflow-hidden">
-      {/*
-        Static hero image: LCP element and the reduced-motion fallback.
-        Deliberately not animated — the spark layer is aligned to the diagonal
-        painted in this image, and any drift here would slide the line out from
-        under the sparks.
-      */}
+      {/* Static hero image: LCP element and the reduced-motion fallback. */}
       <Image
         src="/images/01-hero-bg-abstracto.webp"
         alt={t('imageAlt')}
@@ -46,10 +41,9 @@ export function Hero() {
       />
 
       {/*
-        The sparks travel along the diagonal that is already in the photograph,
-        so this layer has to cover exactly the same box the image does — it is
-        cropped identically from the inside. It sits behind all copy, so the
-        headline is never crossed by anything that could hurt legibility.
+        Ambient layer: the drawn diagonal plus a slow particle field. It sits
+        behind all copy and nothing in it moves fast enough to compete with the
+        headline for attention.
       */}
       <div className="pointer-events-none absolute inset-0 -z-10">
         <HeroMotion />
