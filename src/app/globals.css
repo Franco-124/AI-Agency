@@ -177,6 +177,83 @@
       0 6px 18px -6px color-mix(in srgb, var(--color-acento) 55%, transparent);
   }
 
+  /* ----------------------------------------------------------------
+     Wordmark. The letters are painted with a gradient whose highlight
+     crosses them once every cycle — a lit surface rather than flat
+     text. It stays selectable, real text: only the fill is replaced.
+     ---------------------------------------------------------------- */
+  .wordmark {
+    /* Resting colour, and the fallback wherever `background-clip: text` is
+       unavailable — the wordmark must never render as invisible text. */
+    color: var(--text-primary);
+    transition: filter 320ms var(--ease-entrance);
+  }
+
+  @supports (background-clip: text) or (-webkit-background-clip: text) {
+    .wordmark {
+      /* 300% wide so the highlight band can sit fully outside the glyphs at
+         rest; only its horizontal offset moves. */
+      background-image: linear-gradient(
+        100deg,
+        var(--text-primary) 0%,
+        var(--text-primary) 38%,
+        color-mix(in srgb, var(--color-acento) 45%, var(--color-neutro-claro)) 50%,
+        var(--text-primary) 62%,
+        var(--text-primary) 100%
+      );
+      background-size: 300% 100%;
+      background-position: 100% 0;
+      background-repeat: no-repeat;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: wordmark-sheen 7s var(--ease-entrance) infinite;
+    }
+  }
+
+  /* The "AI" half rests quiet and lights up with the accent on hover. */
+  .wordmark-suffix {
+    color: var(--text-muted);
+    -webkit-text-fill-color: var(--text-muted);
+    transition:
+      color 260ms var(--ease-entrance),
+      -webkit-text-fill-color 260ms var(--ease-entrance);
+  }
+
+  .group:hover .wordmark-suffix {
+    color: var(--color-acento);
+    -webkit-text-fill-color: var(--color-acento);
+  }
+
+  .group:hover .wordmark {
+    filter: drop-shadow(
+      0 0 0.625rem color-mix(in srgb, var(--color-acento) 38%, transparent)
+    );
+  }
+
+  /* Accent haze behind the spark. Absolute and pointer-transparent, so it is
+     atmosphere only: it never affects layout or hit testing. */
+  .mark-halo {
+    position: absolute;
+    inset: -40%;
+    border-radius: 9999px;
+    pointer-events: none;
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, var(--color-acento) 60%, transparent) 0%,
+      transparent 68%
+    );
+    opacity: 0.35;
+    /* Transform only in the keyframes: opacity is left to hover, which an
+       animated opacity would otherwise always win over. */
+    animation: mark-pulse 4.5s ease-in-out infinite;
+    transition: opacity 320ms var(--ease-entrance);
+  }
+
+  .group:hover .mark-halo {
+    opacity: 0.7;
+  }
+
   /* Hairline separators reused across sections instead of heavy shadows. */
   .hairline-top {
     border-top: 1px solid var(--surface-border);
@@ -399,6 +476,30 @@
   }
 }
 
+/*
+  Most of the cycle is deliberately still — the highlight only travels over the
+  last 40%, so the mark shines periodically instead of shimmering constantly.
+*/
+@keyframes wordmark-sheen {
+  0%,
+  60% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: 0% 0;
+  }
+}
+
+@keyframes mark-pulse {
+  0%,
+  100% {
+    transform: scale(0.9);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
 @keyframes soft-float {
   0%,
   100% {
@@ -518,8 +619,15 @@
   */
   .aurora,
   .soft-float,
-  .particle {
+  .particle,
+  .wordmark,
+  .mark-halo {
     animation: none !important;
+  }
+
+  /* Left at its resting offset, where the gradient reads as the flat ink colour. */
+  .wordmark {
+    background-position: 100% 0;
   }
 
   .particle {

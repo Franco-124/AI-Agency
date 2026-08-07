@@ -2,6 +2,7 @@ import { Link } from '@/i18n/navigation'
 import { cn } from '@/lib/utils'
 
 import { NumiMark } from './NumiMark'
+import { Wordmark } from './Wordmark'
 
 type LogoProps = {
   className?: string
@@ -15,10 +16,11 @@ export function Logo({ className, label }: LogoProps) {
       href="/"
       className={cn('group inline-flex items-center gap-2.5 rounded-sm', className)}
     >
-      <NumiMark className="h-7 w-7 text-[var(--color-acento)] transition-transform duration-200 group-hover:rotate-12" />
-      <span className="text-[0.9375rem] font-semibold tracking-[0.14em] text-ink uppercase">
-        Numi<span className="text-ink-faint"> AI</span>
+      <span className="relative inline-flex h-7 w-7 shrink-0 items-center justify-center">
+        <span aria-hidden className="mark-halo" />
+        <NumiMark className="relative h-7 w-7 text-[var(--color-acento)] transition-transform duration-300 group-hover:rotate-[18deg]" />
       </span>
+      <Wordmark />
       {/* Visible text stays the accessible name; this only adds the destination. */}
       <span className="sr-only">{label}</span>
     </Link>

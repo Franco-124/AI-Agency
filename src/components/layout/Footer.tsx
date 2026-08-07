@@ -2,6 +2,7 @@ import { Mail, MapPin, MessageCircle } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
 import { NumiMark } from '@/components/brand/NumiMark'
+import { Wordmark } from '@/components/brand/Wordmark'
 import { Link } from '@/i18n/navigation'
 import { sectionIds, siteConfig, whatsappUrl } from '@/lib/site'
 
@@ -28,10 +29,11 @@ export function Footer() {
         <div className="grid gap-12 md:grid-cols-[1.5fr_1fr_1fr]">
           <div className="max-w-sm">
             <div className="flex items-center gap-2.5">
-              <NumiMark className="h-6 w-6 text-[var(--color-acento)]" />
-              <span className="text-[0.9375rem] font-semibold uppercase tracking-[0.14em]">
-                Numi<span className="text-ink-faint"> AI</span>
+              <span className="relative inline-flex h-6 w-6 shrink-0 items-center justify-center">
+                <span aria-hidden className="mark-halo" />
+                <NumiMark className="relative h-6 w-6 text-[var(--color-acento)]" />
               </span>
+              <Wordmark />
             </div>
             <p className="mt-5 text-sm leading-relaxed text-ink-muted">{t('tagline')}</p>
           </div>
