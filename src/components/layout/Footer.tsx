@@ -1,0 +1,102 @@
+import { Mail, MapPin, MessageCircle } from 'lucide-react'
+import { useTranslations } from 'next-intl'
+
+import { NumiMark } from '@/components/brand/NumiMark'
+import { Link } from '@/i18n/navigation'
+import { sectionIds, siteConfig, whatsappUrl } from '@/lib/site'
+
+// Rooted at "/" rather than bare hashes so the links also work from the
+// privacy page, where none of these sections exist.
+const footerNav = [
+  { key: 'services', href: `/#${sectionIds.services}` },
+  { key: 'packages', href: `/#${sectionIds.packages}` },
+  { key: 'process', href: `/#${sectionIds.process}` },
+  { key: 'faq', href: `/#${sectionIds.faq}` },
+  { key: 'about', href: `/#${sectionIds.about}` },
+] as const
+
+export function Footer() {
+  const t = useTranslations('footer')
+  const tNav = useTranslations('nav')
+  const tPrivacy = useTranslations('privacy')
+  const tWhatsapp = useTranslations('whatsapp')
+  const year = new Date().getFullYear()
+
+  return (
+    <footer className="border-t border-hairline bg-[var(--color-primario)]">
+      <div className="mx-auto max-w-[80rem] px-5 py-16 sm:px-8 lg:py-20">
+        <div className="grid gap-12 md:grid-cols-[1.5fr_1fr_1fr]">
+          <div className="max-w-sm">
+            <div className="flex items-center gap-2.5">
+              <NumiMark className="h-6 w-6 text-[var(--color-acento)]" />
+              <span className="text-[0.9375rem] font-semibold uppercase tracking-[0.14em]">
+                Numi<span className="text-ink-faint"> AI</span>
+              </span>
+            </div>
+            <p className="mt-5 text-sm leading-relaxed text-ink-muted">{t('tagline')}</p>
+          </div>
+
+          <nav aria-label={t('navLabel')}>
+            <h2 className="type-eyebrow">{t('navLabel')}</h2>
+            <ul className="mt-5 flex flex-col gap-3">
+              {footerNav.map((item) => (
+                <li key={item.key}>
+                  <Link
+                    href={item.href}
+                    className="text-sm text-ink-muted transition-colors duration-200 hover:text-ink"
+                  >
+                    {tNav(item.key)}
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <Link
+                  href="/privacidad"
+                  className="text-sm text-ink-muted transition-colors duration-200 hover:text-ink"
+                >
+                  {tPrivacy('linkLabel')}
+                </Link>
+              </li>
+            </ul>
+          </nav>
+
+          <div>
+            <h2 className="type-eyebrow">{t('contactLabel')}</h2>
+            <ul className="mt-5 flex flex-col gap-3 text-sm text-ink-muted">
+              <li>
+                <a
+                  href={`${whatsappUrl}?text=${encodeURIComponent(tWhatsapp('prefill'))}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 transition-colors duration-200 hover:text-ink"
+                >
+                  <MessageCircle className="h-4 w-4 text-[var(--color-acento)]" aria-hidden />
+                  WhatsApp
+                </a>
+              </li>
+              <li>
+                <a
+                  href={`mailto:${siteConfig.email}`}
+                  className="inline-flex items-center gap-2 transition-colors duration-200 hover:text-ink"
+                >
+                  <Mail className="h-4 w-4 text-[var(--color-acento)]" aria-hidden />
+                  {siteConfig.email}
+                </a>
+              </li>
+              <li className="inline-flex items-center gap-2">
+                <MapPin className="h-4 w-4 text-[var(--color-acento)]" aria-hidden />
+                {t('location')}
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-14 border-t border-hairline pt-7">
+          <p className="text-xs text-ink-faint">
+            © {year} {t('rights')}
+          </p>
+        </div>
+      </div>
+    </footer>
+  )
+}

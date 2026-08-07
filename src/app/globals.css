@@ -1,0 +1,259 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   Numi AI — Design tokens ("Naranja Ignición" palette)
+   Every component consumes these tokens. No loose hex codes allowed.
+   ------------------------------------------------------------------ */
+:root {
+  --color-primario: #141a1f;
+  --color-secundario: #2b3238;
+  --color-acento: #ff5c1a;
+  --color-neutro-oscuro: #0a0d10;
+  --color-neutro-claro: #f6f4f0;
+
+  /* Derived surfaces, kept as tokens so they stay auditable. */
+  --surface-base: var(--color-neutro-oscuro);
+  --surface-raised: var(--color-primario);
+  --surface-border: color-mix(in srgb, var(--color-secundario) 70%, transparent);
+  --surface-border-strong: var(--color-secundario);
+
+  --text-primary: var(--color-neutro-claro);
+  --text-secondary: color-mix(in srgb, var(--color-neutro-claro) 72%, transparent);
+  --text-muted: color-mix(in srgb, var(--color-neutro-claro) 52%, transparent);
+
+  --accent-soft: color-mix(in srgb, var(--color-acento) 14%, transparent);
+  --accent-hairline: color-mix(in srgb, var(--color-acento) 38%, transparent);
+
+  --header-height: 4.5rem;
+}
+
+@theme inline {
+  --color-primario: var(--color-primario);
+  --color-secundario: var(--color-secundario);
+  --color-acento: var(--color-acento);
+  --color-neutro-oscuro: var(--color-neutro-oscuro);
+  --color-neutro-claro: var(--color-neutro-claro);
+
+  --color-surface: var(--surface-base);
+  --color-surface-raised: var(--surface-raised);
+  --color-hairline: var(--surface-border);
+  --color-hairline-strong: var(--surface-border-strong);
+
+  --color-ink: var(--text-primary);
+  --color-ink-muted: var(--text-secondary);
+  --color-ink-faint: var(--text-muted);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --radius-lg: 0.625rem;
+  --radius-xl: 0.875rem;
+  --radius-2xl: 1.25rem;
+}
+
+@layer base {
+  * {
+    border-color: var(--surface-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--header-height) + 1.5rem);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--surface-base);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv11", "ss01";
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: var(--color-acento);
+    color: var(--color-neutro-oscuro);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-acento);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  h1 {
+    /* No `balance` here: re-balancing on webfont swap can reflow the LCP
+       element's line boxes. The headline's width is capped in markup instead. */
+    letter-spacing: -0.025em;
+  }
+
+  h2,
+  h3 {
+    text-wrap: balance;
+    letter-spacing: -0.025em;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@layer components {
+  /* Fluid display scale — keeps the copy verbatim without breaking layout. */
+  .type-display {
+    font-size: clamp(2.5rem, 1.6rem + 4.2vw, 5.25rem);
+    line-height: 0.98;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+  }
+
+  .type-section-title {
+    font-size: clamp(1.875rem, 1.35rem + 2.2vw, 3.25rem);
+    line-height: 1.04;
+    font-weight: 700;
+    letter-spacing: -0.032em;
+  }
+
+  .type-lead {
+    font-size: clamp(1.0625rem, 0.98rem + 0.5vw, 1.375rem);
+    line-height: 1.55;
+    color: var(--text-secondary);
+  }
+
+  .type-eyebrow {
+    font-size: 0.75rem;
+    line-height: 1;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* ----------------------------------------------------------------
+     Button surface treatment. The sweep is the brand spark crossing the
+     control — one 620ms pass on hover, never a permanent glow.
+     ---------------------------------------------------------------- */
+  .btn-sweep {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .btn-sweep::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    transform: translateX(-110%) skewX(-18deg);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--color-neutro-claro) 34%, transparent),
+      transparent
+    );
+    transition: transform 620ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+
+  .btn-sweep:hover::before,
+  .btn-sweep:focus-visible::before {
+    transform: translateX(110%) skewX(-18deg);
+  }
+
+  /* Hairline highlight along the top edge — reads as a lit surface without shadow. */
+  .btn-lit {
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--color-neutro-claro) 30%, transparent),
+      0 1px 2px color-mix(in srgb, var(--color-neutro-oscuro) 60%, transparent);
+  }
+
+  .btn-lit:hover {
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--color-neutro-claro) 42%, transparent),
+      0 6px 18px -6px color-mix(in srgb, var(--color-acento) 55%, transparent);
+  }
+
+  /* Hairline separators reused across sections instead of heavy shadows. */
+  .hairline-top {
+    border-top: 1px solid var(--surface-border);
+  }
+
+  .accent-rule {
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      var(--color-acento),
+      color-mix(in srgb, var(--color-acento) 12%, transparent) 55%,
+      transparent
+    );
+  }
+}
+
+@keyframes greeting-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes badge-breath {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+}
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+@layer utilities {
+  .grain {
+    position: relative;
+  }
+
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.16;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

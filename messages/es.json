@@ -1,0 +1,301 @@
+{
+  "metadata": {
+    "title": "Numi AI — Agencia de IA para pymes en Colombia",
+    "description": "Numi AI atiende a tus clientes al instante, todo el día, para que tu equipo deje de perder tiempo y tu negocio deje de perder ventas.",
+    "ogImageAlt": "Numi AI — automatización con inteligencia artificial para negocios en Colombia"
+  },
+  "nav": {
+    "skipToContent": "Saltar al contenido",
+    "mainNav": "Navegación principal",
+    "home": "Inicio",
+    "services": "Servicios",
+    "packages": "Paquetes",
+    "process": "Proceso",
+    "faq": "Preguntas frecuentes",
+    "about": "Sobre nosotros",
+    "openMenu": "Abrir menú de navegación",
+    "closeMenu": "Cerrar menú de navegación",
+    "languageLabel": "Idioma",
+    "spanish": "Español",
+    "english": "Inglés"
+  },
+  "hero": {
+    "eyebrow": "Agencia de IA para pymes en Colombia",
+    "title": "Cada cliente que espera es dinero que se va.",
+    "subtitle": "Numi AI atiende a tus clientes al instante, todo el día, para que tu equipo deje de perder tiempo y tu negocio deje de perder ventas.",
+    "cta": "Agenda una llamada estratégica",
+    "imageAlt": "Trazo de luz naranja cruzando en diagonal un fondo oscuro, símbolo de la chispa de Numi AI",
+    "indicators": {
+      "one": "Respuesta en segundos, no en horas",
+      "two": "Disponible 24/7, todos los días",
+      "three": "Sin aumentar tu nómina"
+    },
+    "chat": {
+      "ariaLabel": "Ejemplo de conversación atendida por Numi AI",
+      "name": "Numi AI",
+      "status": "En línea",
+      "messages": {
+        "one": "Hola, ¿tienen cita disponible mañana?",
+        "two": "Claro, tengo disponible a las 10:00am o 3:00pm. ¿Cuál prefieres?",
+        "three": "A las 3:00pm está perfecto",
+        "four": "Listo, quedas agendado para mañana 3:00pm. Te llega la confirmación por WhatsApp."
+      },
+      "meta": "Confirmado en 4 segundos"
+    }
+  },
+  "whatsapp": {
+    "label": "Escríbenos",
+    "ariaLabel": "Escríbenos por WhatsApp",
+    "prefill": "Hola, quiero saber más sobre Numi AI",
+    "greeting": "¿Tienes preguntas sobre cómo funciona? Escríbenos directo por WhatsApp.",
+    "close": "Cerrar mensaje"
+  },
+  "contrast": {
+    "beforeTitle": "Antes",
+    "afterTitle": "Con Numi AI",
+    "before": {
+      "one": "Los mensajes de WhatsApp se acumulan y las respuestas llegan tarde.",
+      "two": "Las citas se agendan a mano y algunas se pierden.",
+      "three": "El seguimiento a un cliente potencial depende de que alguien se acuerde de hacerlo.",
+      "four": "Cada tarea repetitiva le quita tiempo a lo que realmente hace crecer tu negocio."
+    },
+    "after": {
+      "one": "Cada mensaje se responde al instante, a cualquier hora.",
+      "two": "Las citas se agendan solas y quedan confirmadas automáticamente.",
+      "three": "Ningún cliente potencial se enfría: el seguimiento se hace solo.",
+      "four": "Tu equipo se enfoca en lo que hace crecer el negocio, no en tareas repetitivas."
+    },
+    "closing": "Cada mensaje sin responder es una venta que se enfría. Cada cita que se olvida es un cliente que no vuelve."
+  },
+  "differentiation": {
+    "title": "Empezamos por tu operación, no por la tecnología",
+    "body": "Antes de automatizar nada, entendemos cómo funciona tu negocio hoy. Identificamos dónde se pierde tiempo y dinero, y construimos un sistema hecho a la medida de tu operación — no una solución genérica."
+  },
+  "niches": {
+    "title": "Hecho para negocios como el tuyo",
+    "items": {
+      "one": "Clínicas estéticas",
+      "two": "Inmobiliarias",
+      "three": "Veterinarias",
+      "four": "Talleres automotrices",
+      "five": "Gimnasios"
+    },
+    "closing": "Si tu negocio depende de responder rápido y agendar bien, esto es para ti."
+  },
+  "services": {
+    "title": "Cómo trabajamos con tu negocio",
+    "items": {
+      "one": {
+        "title": "Atención automática por WhatsApp",
+        "body": "Tus clientes reciben respuesta al instante, a cualquier hora, sin que nadie tenga que estar pendiente del teléfono."
+      },
+      "two": {
+        "title": "Agenda de citas automática",
+        "body": "Los clientes agendan solos. Tu equipo deja de perder tiempo confirmando horarios."
+      },
+      "three": {
+        "title": "Seguimiento automático a clientes potenciales",
+        "body": "Ningún contacto se enfría. El sistema hace seguimiento aunque nadie se acuerde."
+      },
+      "four": {
+        "title": "Sitios web hechos para convertir",
+        "body": "Un sitio que no solo se ve bien. Que agenda citas y responde preguntas por ti."
+      },
+      "five": {
+        "title": "Organización de la información de tus clientes",
+        "body": "Toda la información de tus clientes en un solo lugar, sin hojas de cálculo sueltas."
+      }
+    }
+  },
+  "benefits": {
+    "title": "Qué gana tu negocio",
+    "columnBenefit": "Beneficio",
+    "columnMeaning": "Qué significa",
+    "items": {
+      "one": { "benefit": "Más tiempo", "meaning": "Tu equipo deja de hacer tareas repetitivas." },
+      "two": { "benefit": "Mejor atención al cliente", "meaning": "Cada cliente recibe respuesta al instante." },
+      "three": { "benefit": "Menos costos operativos", "meaning": "Automatizas sin contratar más personal." },
+      "four": { "benefit": "Crecimiento sostenido", "meaning": "Más clientes atendidos, sin más esfuerzo." }
+    }
+  },
+  "results": {
+    "title": "Resultados reales",
+    "figureValue": "+40%",
+    "figureRest": "más capacidad de atención al cliente, sin contratar personal nuevo.",
+    "quote": "Antes perdíamos consultas de apartamentos porque no alcanzábamos a responder a tiempo. Con el asistente, cada mensaje se atiende al instante y solo llegan a nosotros los interesados listos para agendar.",
+    "attribution": "— Casas y Espacios Inmobiliaria, Medellín",
+    "imageAlt": "Textura de líneas horizontales oscuras atravesada por una línea naranja"
+  },
+  "why": {
+    "title": "Por qué las empresas eligen Numi AI",
+    "pillars": {
+      "one": {
+        "title": "Resultados, no tecnología",
+        "body": "No vendemos software por vender software — medimos el impacto real en tu operación."
+      },
+      "two": {
+        "title": "Hecho a tu medida",
+        "body": "Diseñamos cada sistema para tu negocio específico, no una plantilla genérica que reciclamos entre clientes."
+      },
+      "three": {
+        "title": "Acompañamiento continuo",
+        "body": "Seguimos contigo después de la entrega, no solo durante el proyecto."
+      }
+    }
+  },
+  "packages": {
+    "eyebrow": "Paquetes",
+    "title": "Elige cómo empezar",
+    "lead": "Tres formas de empezar, según el tamaño de tu operación.",
+    "badge": "Más elegido",
+    "cta": "Quiero este paquete",
+    "one": {
+      "name": "Presencia Digital + Agente Esencial",
+      "audience": "Para negocios que están empezando a digitalizarse.",
+      "features": {
+        "one": "Sitio web de hasta 5 páginas",
+        "two": "Agente que responde horarios, precios y agenda citas simples por WhatsApp",
+        "three": "Notificación automática cuando llega un cliente nuevo"
+      },
+      "price": "Desde COP $1.500.000",
+      "maintenance": "Mantenimiento desde $200.000/mes",
+      "delivery": "Entrega en 2 semanas"
+    },
+    "two": {
+      "name": "Automatización + Atención Full",
+      "audience": "Para negocios con volumen real de consultas.",
+      "features": {
+        "one": "Sitio web de hasta 8 páginas",
+        "two": "Agente que agenda citas, responde preguntas más complejas y deriva a una persona cuando lo necesita",
+        "three": "Recordatorios automáticos, seguimiento a clientes potenciales y reporte semanal"
+      },
+      "price": "Desde COP $3.000.000",
+      "maintenance": "Mantenimiento desde $450.000/mes",
+      "delivery": "Entrega en 3 a 4 semanas"
+    },
+    "three": {
+      "name": "Growth Partner",
+      "audience": "Para negocios con varias sedes o una operación más grande.",
+      "features": {
+        "one": "Sitio web completo de hasta 15 páginas",
+        "two": "Agente disponible en WhatsApp, Instagram y tu sitio web",
+        "three": "Automatización completa del proceso de atención y seguimiento",
+        "four": "Sesión estratégica mensual con tu equipo"
+      },
+      "price": "Desde COP $6.000.000",
+      "maintenance": "Mantenimiento desde $900.000/mes",
+      "delivery": "Entrega en 4 a 6 semanas"
+    }
+  },
+  "process": {
+    "title": "Cómo empezamos",
+    "steps": {
+      "one": { "title": "Diagnóstico", "body": "Conversamos sobre tu negocio y detectamos dónde automatizar genera más impacto." },
+      "two": { "title": "Propuesta", "body": "Te mostramos exactamente qué se automatiza, cómo funciona y qué esperar." },
+      "three": { "title": "Implementación", "body": "Construimos el sistema y lo dejamos funcionando en tu negocio." },
+      "four": { "title": "Acompañamiento", "body": "Damos seguimiento mensual para que todo siga funcionando bien." }
+    }
+  },
+  "faq": {
+    "title": "Preguntas frecuentes",
+    "items": {
+      "one": { "question": "¿Necesito saber de tecnología para usar esto?", "answer": "No. Nosotros nos encargamos de todo. Tú solo ves los resultados." },
+      "two": { "question": "¿Cuánto tiempo toma implementarlo?", "answer": "Depende del alcance, pero la mayoría de negocios ven resultados en pocas semanas." },
+      "three": { "question": "¿Esto reemplaza a mi equipo?", "answer": "No. Libera a tu equipo de tareas repetitivas para que se enfoque en lo que más importa." },
+      "four": { "question": "¿Qué pasa si necesito ayuda después de la entrega?", "answer": "Incluimos acompañamiento continuo. No te dejamos solo." },
+      "five": { "question": "¿Funciona para mi tipo de negocio?", "answer": "Trabajamos con negocios que dependen de responder rápido y agendar bien. Si ese es tu caso, probablemente sí." }
+    }
+  },
+  "about": {
+    "title": "Sobre nosotros",
+    "body": "Somos Numi AI: un equipo de cinco ingenieros de software especializado en llevar automatización con inteligencia artificial a pequeñas y medianas empresas en Colombia. Trabajamos con negocios que dependen de responder rápido y agendar bien — clínicas estéticas, inmobiliarias, veterinarias, talleres automotrices y gimnasios — diseñando cada sistema a la medida de su operación real, no una plantilla genérica.",
+    "teamLabel": "Equipo",
+    "team": {
+      "one": "Anthony Gonzales",
+      "two": "Juan Pablo Ruiz",
+      "three": "Johan Steven Franco",
+      "four": "Edgar Agudelo",
+      "five": "Miguel Ángel Pérez"
+    },
+    "locationLabel": "Ubicación",
+    "location": "Medellín, Colombia.",
+    "missionLabel": "Misión",
+    "mission": "Ayudar a negocios a operar mejor, eliminando las tareas repetitivas con inteligencia artificial aplicada a su realidad, no a una plantilla genérica.",
+    "visionLabel": "Visión",
+    "vision": "Ser el socio tecnológico de referencia para pequeñas y medianas empresas en Colombia, reconocido por resultados reales, no por promesas.",
+    "imageAlt": "Fondo oscuro con textura sutil que acompaña la presentación del equipo de Numi AI"
+  },
+  "finalCta": {
+    "title": "Tu negocio puede responder solo. Empecemos.",
+    "body": "Completa el formulario y uno de nuestros socios te contacta en menos de 24 horas para agendar tu llamada estratégica de 15 minutos — encaje o no en uno de los tres paquetes.",
+    "button": "Agenda tu llamada estratégica",
+    "imageAlt": "Banner oscuro con un trazo naranja que invita a agendar una llamada con Numi AI"
+  },
+  "leadForm": {
+    "title": "Agenda tu llamada",
+    "name": "Nombre",
+    "business": "Nombre de tu negocio",
+    "industry": "¿A qué se dedica tu negocio?",
+    "whatsapp": "WhatsApp",
+    "email": "Correo electrónico",
+    "message": "Cuéntanos qué necesitas",
+    "messagePlaceholder": "Cuéntanos cómo funciona tu negocio hoy y qué te gustaría automatizar",
+    "submit": "Agenda tu llamada estratégica",
+    "note": "Te contactaremos por WhatsApp o correo para coordinar el horario que mejor te funcione."
+  },
+  "form": {
+    "success": "Listo. Te contactaremos en menos de 24 horas.",
+    "error": "Algo salió mal. Intenta de nuevo o escríbenos directamente por WhatsApp.",
+    "empty": "Todavía no hay actividad. En cuanto tu sistema empiece a funcionar, la verás aquí.",
+    "loading": "Un momento, estamos procesando tu solicitud.",
+    "required": "Este campo es obligatorio.",
+    "invalidEmail": "Ingresa un correo electrónico válido.",
+    "invalidWhatsapp": "Ingresa un número de WhatsApp válido.",
+    "tooShort": "Cuéntanos un poco más.",
+    "tooLong": "El texto es demasiado largo.",
+    "sending": "Enviando…",
+    "errorsTitle": "Revisa los campos marcados."
+  },
+  "buttons": {
+    "schedule": "Agenda tu llamada",
+    "talkToExpert": "Hablar con un experto",
+    "seeHowItWorks": "Ver cómo funciona"
+  },
+  "privacy": {
+    "linkLabel": "Política de privacidad",
+    "title": "Política de privacidad",
+    "metaDescription": "Cómo Numi AI recolecta, usa y protege los datos personales que recibe a través de su formulario de contacto.",
+    "intro": "Numi AI recolecta datos personales únicamente a través del formulario de contacto de este sitio. Esta política explica qué datos recibimos, para qué los usamos y cómo puedes pedir su eliminación, en cumplimiento de la Ley 1581 de 2012 de Colombia.",
+    "dataTitle": "Qué datos recolectamos",
+    "dataIntro": "Solo los datos que tú escribes en el formulario:",
+    "data": {
+      "one": "Nombre",
+      "two": "Nombre de tu negocio",
+      "three": "A qué se dedica tu negocio",
+      "four": "Número de WhatsApp",
+      "five": "Correo electrónico",
+      "six": "La descripción de lo que necesitas automatizar"
+    },
+    "useTitle": "Para qué los usamos",
+    "useIntro": "Con dos fines, y ninguno más:",
+    "use": {
+      "one": "Contactarte para agendar y sostener la llamada estratégica que solicitaste.",
+      "two": "Evaluar tu caso y preparar una propuesta ajustada a tu operación."
+    },
+    "sharingTitle": "Con quién los compartimos",
+    "sharing": "Con nadie. No vendemos, cedemos ni compartimos tus datos con terceros, y no los usamos para publicidad ni para construir perfiles.",
+    "retentionTitle": "Cuánto tiempo los conservamos",
+    "retention": "Conservamos los datos mientras exista una conversación comercial activa contigo. Si nos pides eliminarlos, lo hacemos.",
+    "rightsTitle": "Tus derechos y cómo ejercerlos",
+    "rights": "Puedes pedir en cualquier momento que te digamos qué datos tuyos tenemos, que los corrijamos o que los eliminemos por completo. Respondemos dentro de los plazos que fija la ley.",
+    "rightsContact": "Para solicitudes de eliminación de datos, escríbenos a",
+    "updated": "Última actualización: agosto de 2026."
+  },
+  "footer": {
+    "tagline": "Agencia de inteligencia artificial para pequeñas y medianas empresas en Colombia.",
+    "navLabel": "Navegación",
+    "contactLabel": "Contacto",
+    "location": "Medellín, Colombia",
+    "rights": "Numi AI. Todos los derechos reservados."
+  }
+}
