@@ -64,6 +64,9 @@ export async function generateMetadata({
       index: true,
       follow: true,
     },
+    ...(process.env.GOOGLE_SITE_VERIFICATION
+      ? { verification: { google: process.env.GOOGLE_SITE_VERIFICATION } }
+      : {}),
   }
 }
 
