@@ -12,13 +12,21 @@ const EASE = [0.22, 0.61, 0.36, 1] as const
 /**
  * The four turns land in sequence rather than all at once: it reads as a live
  * conversation being answered instantly, which is the actual claim of the page.
+ *
+ * The gaps are deliberately tight (the whole exchange resolves in ~2s). A slower
+ * cadence contradicts the claim and, worse, is still mid-animation by the time a
+ * visitor has scrolled past the hero.
  */
 const messages = [
-  { key: 'one', from: 'client', delay: 0.8 },
-  { key: 'two', from: 'numi', delay: 1.5 },
-  { key: 'three', from: 'client', delay: 2.3 },
-  { key: 'four', from: 'numi', delay: 3.0 },
+  { key: 'one', from: 'client', delay: 0.45 },
+  { key: 'two', from: 'numi', delay: 0.85 },
+  { key: 'three', from: 'client', delay: 1.3 },
+  { key: 'four', from: 'numi', delay: 1.7 },
 ] as const
+
+/** Card frame first, then the turns inside it. */
+const CARD_DELAY = 0.25
+const META_DELAY = 2.05
 
 /**
  * Illustrative WhatsApp exchange shown beside the hero copy: it fills the right
@@ -42,7 +50,7 @@ export function HeroChatCard() {
   return (
     <LazyMotionProvider>
       <m.aside
-        {...enter(0.6)}
+        {...enter(CARD_DELAY)}
         aria-label={t('ariaLabel')}
         className="ml-auto w-full max-w-[20rem] rounded-2xl border border-hairline-strong bg-[var(--color-primario)] p-4"
       >
@@ -79,7 +87,7 @@ export function HeroChatCard() {
           ))}
         </ol>
 
-        <m.p {...enter(3.4)} className="mt-3 text-right text-[11px] text-ink-faint">
+        <m.p {...enter(META_DELAY)} className="mt-3 text-right text-[11px] text-ink-faint">
           {t('meta')}
         </m.p>
       </m.aside>

@@ -12,25 +12,62 @@ import { cn } from '@/lib/utils'
 import { LocaleSwitcher } from './LocaleSwitcher'
 
 const navItems = [
-  { key: 'services', href: `#${sectionIds.services}` },
-  { key: 'packages', href: `#${sectionIds.packages}` },
-  { key: 'process', href: `#${sectionIds.process}` },
-  { key: 'faq', href: `#${sectionIds.faq}` },
-  { key: 'about', href: `#${sectionIds.about}` },
+  { key: 'services', id: sectionIds.services },
+  { key: 'packages', id: sectionIds.packages },
+  { key: 'process', id: sectionIds.process },
+  { key: 'faq', id: sectionIds.faq },
+  { key: 'about', id: sectionIds.about },
 ] as const
+
+/** Distance below the header at which a section counts as the current one. */
+const ACTIVE_OFFSET = 140
 
 export function Header() {
   const t = useTranslations('nav')
   const tHero = useTranslations('hero')
   const [isScrolled, setIsScrolled] = useState(false)
+  const [activeId, setActiveId] = useState<string | null>(null)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const menuId = useId()
 
+  /*
+   * One rAF-throttled listener drives both the header surface and the current
+   * section, instead of a listener per concern each doing its own layout read.
+   */
   useEffect(() => {
-    const onScroll = () => setIsScrolled(window.scrollY > 16)
-    onScroll()
+    let frame = 0
+
+    const update = () => {
+      frame = 0
+      setIsScrolled(window.scrollY > 16)
+
+      // Last section whose top has crossed the header wins; null above them all.
+      let current: string | null = null
+
+      for (const item of navItems) {
+        const element = document.getElementById(item.id)
+        if (element && element.getBoundingClientRect().top <= ACTIVE_OFFSET) {
+          current = item.id
+        }
+      }
+
+      setActiveId(current)
+    }
+
+    const onScroll = () => {
+      if (frame) return
+      frame = requestAnimationFrame(update)
+    }
+
+    update()
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    window.addEventListener('resize', onScroll, { passive: true })
+
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+      if (frame) cancelAnimationFrame(frame)
+    }
   }, [])
 
   // Lock body scroll and allow Escape to close while the mobile panel is open.
@@ -72,16 +109,32 @@ export function Header() {
 
         <nav aria-label={t('mainNav')} className="hidden lg:block">
           <ul className="flex items-center gap-1">
-            {navItems.map((item) => (
-              <li key={item.key}>
-                <a
-                  href={item.href}
-                  className="rounded-md px-3 py-2 text-sm text-ink-muted transition-colors duration-200 hover:text-ink"
-                >
-                  {t(item.key)}
-                </a>
-              </li>
-            ))}
+            {navItems.map((item) => {
+              const isActive = activeId === item.id
+
+              return (
+                <li key={item.key}>
+                  <a
+                    href={`#${item.id}`}
+                    aria-current={isActive ? 'location' : undefined}
+                    className={cn(
+                      'relative rounded-md px-3 py-2 text-sm transition-colors duration-200',
+                      isActive ? 'text-ink' : 'text-ink-muted hover:text-ink',
+                    )}
+                  >
+                    {t(item.key)}
+                    {/* Marks where the visitor is without moving anything. */}
+                    <span
+                      aria-hidden
+                      className={cn(
+                        'absolute inset-x-3 bottom-1 h-px origin-left bg-[var(--color-acento)] transition-transform duration-300 ease-out',
+                        isActive ? 'scale-x-100' : 'scale-x-0',
+                      )}
+                    />
+                  </a>
+                </li>
+              )
+            })}
           </ul>
         </nav>
 
@@ -109,17 +162,37 @@ export function Header() {
         </div>
       </div>
 
+      {/*
+        The panel slides open by animating its grid track from 0fr to 1fr, which
+        the `hidden` attribute cannot do. It stays in the DOM either way, so
+        `inert` is what removes the collapsed links from tab order and from
+        assistive technology.
+      */}
       <div
-        id={menuId}
-        hidden={!isMenuOpen}
-        className="border-t border-hairline bg-[var(--color-neutro-oscuro)] lg:hidden"
+        className={cn(
+          'grid overflow-hidden border-t transition-[grid-template-rows,border-color] duration-300 ease-out lg:hidden',
+          isMenuOpen
+            ? 'grid-rows-[1fr] border-hairline'
+            : 'grid-rows-[0fr] border-transparent',
+          isScrolled || isMenuOpen
+            ? 'bg-[var(--color-neutro-oscuro)]'
+            : 'bg-transparent',
+        )}
       >
-        <nav aria-label={t('mainNav')} className="px-5 pb-8 pt-6 sm:px-8">
+        <nav
+          id={menuId}
+          aria-label={t('mainNav')}
+          inert={!isMenuOpen}
+          className={cn(
+            'overflow-hidden px-5 pb-8 pt-6 transition-opacity duration-200 sm:px-8',
+            isMenuOpen ? 'opacity-100 delay-100' : 'opacity-0',
+          )}
+        >
           <ul className="flex flex-col gap-1">
             {navItems.map((item) => (
               <li key={item.key}>
                 <a
-                  href={item.href}
+                  href={`#${item.id}`}
                   onClick={() => setIsMenuOpen(false)}
                   className="flex min-h-11 items-center rounded-lg px-3 text-lg text-ink-muted transition-colors duration-200 hover:text-ink"
                 >

@@ -1,6 +1,7 @@
 'use client'
 
-import { motion, useReducedMotion } from 'motion/react'
+import { motion, useInView, useReducedMotion } from 'motion/react'
+import { useRef } from 'react'
 
 const BEAM_START = { x: -40, y: 260 }
 const BEAM_END = { x: 1480, y: 40 }
@@ -14,6 +15,14 @@ const BEAM_END = { x: 1480, y: 40 }
  */
 export function SparkBackdrop() {
   const prefersReducedMotion = useReducedMotion()
+  const ref = useRef<SVGSVGElement>(null)
+  /*
+   * The spark loops for as long as it is on screen. Left ungated it would keep
+   * compositing a new frame every 16ms for the whole visit while the visitor
+   * reads a section ten screens further down — pure battery cost for something
+   * nobody can see.
+   */
+  const isInView = useInView(ref, { amount: 0.05 })
 
   if (prefersReducedMotion) {
     return null
@@ -21,6 +30,7 @@ export function SparkBackdrop() {
 
   return (
     <svg
+      ref={ref}
       viewBox="0 0 1440 300"
       preserveAspectRatio="xMidYMax slice"
       aria-hidden="true"
@@ -54,19 +64,27 @@ export function SparkBackdrop() {
 
       <motion.g
         initial={{ x: BEAM_START.x, y: BEAM_START.y, opacity: 0 }}
-        animate={{
-          x: [BEAM_START.x, BEAM_END.x],
-          y: [BEAM_START.y, BEAM_END.y],
-          opacity: [0, 1, 1, 0],
-        }}
-        transition={{
-          duration: 6.5,
-          times: [0, 0.12, 0.88, 1],
-          ease: 'linear',
-          repeat: Infinity,
-          repeatDelay: 2.5,
-          delay: 1.2,
-        }}
+        animate={
+          isInView
+            ? {
+                x: [BEAM_START.x, BEAM_END.x],
+                y: [BEAM_START.y, BEAM_END.y],
+                opacity: [0, 1, 1, 0],
+              }
+            : { opacity: 0 }
+        }
+        transition={
+          isInView
+            ? {
+                duration: 6.5,
+                times: [0, 0.12, 0.88, 1],
+                ease: 'linear',
+                repeat: Infinity,
+                repeatDelay: 2.5,
+                delay: 1.2,
+              }
+            : { duration: 0.3 }
+        }
       >
         <circle r={40} fill="url(#numi-spark-halo)" />
         <circle r={2.5} fill="var(--color-neutro-claro)" />

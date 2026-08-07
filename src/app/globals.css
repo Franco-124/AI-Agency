@@ -25,6 +25,10 @@
   --accent-hairline: color-mix(in srgb, var(--color-acento) 38%, transparent);
 
   --header-height: 4.5rem;
+
+  /* One easing curve and one duration for every entrance on the page. */
+  --ease-entrance: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --duration-entrance: 500ms;
 }
 
 @theme inline {
@@ -187,6 +191,76 @@
       transparent
     );
   }
+
+  /* ----------------------------------------------------------------
+     Scroll entrances. The attribute is written by `useScrollTrigger`
+     right before paint; elements it never touches (server render, no
+     JavaScript, reduced motion, above the fold) carry no attribute and
+     therefore no transition at all — zero cost and never hidden.
+     ---------------------------------------------------------------- */
+  /*
+    The doubled attribute buys one extra specificity point so a `transition-*`
+    utility landing on the same element (a card that also animates its border on
+    hover) can never silently cancel the entrance. Revealed elements are kept
+    layout-only for that reason — visuals belong to a child.
+  */
+  [data-reveal][data-reveal] {
+    transition:
+      opacity var(--duration-entrance) var(--ease-entrance),
+      transform var(--duration-entrance) var(--ease-entrance);
+    transition-delay: var(--reveal-delay, 0s);
+  }
+
+  [data-reveal='pending'][data-reveal] {
+    opacity: 0;
+    transform: translateY(12px);
+    /* Dropped automatically on the `in` state — no lingering GPU layer. */
+    will-change: opacity, transform;
+  }
+
+  /* ----------------------------------------------------------------
+     Process timeline. The rail lights up node by node as the connector
+     between them fills, driven entirely by transition-delay so no
+     JavaScript runs per frame.
+     ---------------------------------------------------------------- */
+  /*
+    Every rail piece rests in its *finished* state, and only the `pending`
+    attribute pulls it back to the start. Without JavaScript the timeline is
+    therefore drawn complete rather than left half-lit.
+  */
+  [data-rail] .rail-node {
+    transition: background-color 300ms var(--ease-entrance);
+    transition-delay: var(--rail-delay, 0s);
+  }
+
+  [data-rail='pending'] .rail-node {
+    background-color: var(--color-secundario);
+  }
+
+  .rail-fill {
+    transform-origin: left;
+  }
+
+  [data-rail] .rail-fill {
+    transition: transform var(--rail-segment, 300ms) ease-out;
+    transition-delay: var(--rail-delay, 0s);
+  }
+
+  [data-rail='pending'] .rail-fill {
+    transform: scaleX(0);
+  }
+
+  [data-rail] .rail-step {
+    transition:
+      opacity 400ms var(--ease-entrance),
+      transform 400ms var(--ease-entrance);
+    transition-delay: var(--rail-delay, 0s);
+  }
+
+  [data-rail='pending'] .rail-step {
+    opacity: 0;
+    transform: translateY(12px);
+  }
 }
 
 @keyframes greeting-in {
@@ -210,21 +284,27 @@
   }
 }
 
+/* The answer fades as it grows, so the copy is never legible at half height. */
 @keyframes accordion-down {
   from {
     height: 0;
+    opacity: 0;
   }
   to {
     height: var(--radix-accordion-content-height);
+    opacity: 1;
   }
 }
 
+/* Exits faster than it enters — the closing panel is not the thing being read. */
 @keyframes accordion-up {
   from {
     height: var(--radix-accordion-content-height);
+    opacity: 1;
   }
   to {
     height: 0;
+    opacity: 0;
   }
 }
 
@@ -255,5 +335,24 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  /*
+    `useScrollTrigger` already skips hiding under reduced motion, so these
+    states should never be reachable. Kept as a hard guarantee: a stale
+    attribute must never leave content invisible when motion is off.
+  */
+  [data-reveal='pending'][data-reveal],
+  [data-rail='pending'] .rail-step {
+    opacity: 1;
+    transform: none;
+  }
+
+  [data-rail='pending'] .rail-fill {
+    transform: scaleX(1);
+  }
+
+  [data-rail='pending'] .rail-node {
+    background-color: var(--color-acento);
   }
 }

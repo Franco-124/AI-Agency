@@ -1,13 +1,12 @@
 'use client'
 
 import { FileText, LifeBuoy, Rocket, Search, type LucideIcon } from 'lucide-react'
-import { m, useInView, useReducedMotion } from 'motion/react'
 import { useTranslations } from 'next-intl'
-import { useRef } from 'react'
+import type { CSSProperties } from 'react'
 
 import { Section, SectionHeading } from '@/components/layout/Section'
-import { LazyMotionProvider } from '@/components/motion/LazyMotionProvider'
 import { Reveal } from '@/components/motion/Reveal'
+import { useScrollTrigger } from '@/components/motion/useScrollTrigger'
 import { sectionIds } from '@/lib/site'
 
 const steps: ReadonlyArray<{ key: string; Icon: LucideIcon }> = [
@@ -20,18 +19,34 @@ const steps: ReadonlyArray<{ key: string; Icon: LucideIcon }> = [
 /** The whole line takes 1.2s; each node lights up as the line reaches it. */
 const LINE_DURATION = 1.2
 const SEGMENT_DURATION = LINE_DURATION / (steps.length - 1)
-const nodeDelay = (index: number) => index * SEGMENT_DURATION
+
+/**
+ * One custom property per element drives both its delay and, for connectors,
+ * its own duration — so the line reaches every node exactly when that node
+ * lights up regardless of the grid gutter. See `[data-rail]` in `globals.css`.
+ */
+const railVars = (index: number) =>
+  ({
+    '--rail-delay': `${index * SEGMENT_DURATION}s`,
+    '--rail-segment': `${SEGMENT_DURATION}s`,
+  }) as CSSProperties
+
+/** Rests lit; `[data-rail='pending']` is what dims it back to the resting grey. */
+const NODE_CLASSES =
+  'rail-node block h-3 w-3 rounded-full bg-[var(--color-acento)] ring-4 ring-[var(--color-neutro-oscuro)]'
 
 export function Process() {
   const t = useTranslations('process')
-  const prefersReducedMotion = useReducedMotion()
-  const railRef = useRef<HTMLDivElement>(null)
-  const isInView = useInView(railRef, { once: true, margin: '-100px' })
 
-  const isActive = prefersReducedMotion || isInView
-
-  const nodeClasses =
-    'block h-3 w-3 rounded-full ring-4 ring-[var(--color-neutro-oscuro)]'
+  /*
+    `playOnLoad` because this is an in-place effect rather than an entrance: if
+    the timeline is already on screen it should draw itself straight away rather
+    than wait for a scroll that may never come.
+  */
+  const { ref, state } = useScrollTrigger<HTMLDivElement>({
+    rootMargin: '0px 0px -100px 0px',
+    playOnLoad: true,
+  })
 
   return (
     <Section id={sectionIds.process} labelledBy="proceso-titulo">
@@ -40,56 +55,26 @@ export function Process() {
       </Reveal>
 
       {/*
-        The timeline is drawn in CSS/SVG-free markup rather than shipped as an
-        image, so it stays sharp, follows the design tokens and can animate.
+        The timeline is drawn in markup rather than shipped as an image, so it
+        stays sharp, follows the design tokens and animates from CSS alone — no
+        animation runtime is loaded for this section.
       */}
-      <LazyMotionProvider>
-      <div ref={railRef} className="mt-16">
-        {/*
-          Horizontal rail — desktop. One connector segment per gap, each drawn
-          with its own delay, so the line reaches every node exactly when that
-          node lights up regardless of the grid gutter.
-        */}
-        <ul
-          aria-hidden
-          className="mb-8 hidden grid-cols-4 gap-x-8 lg:grid"
-        >
+      <div ref={ref} data-rail={state} className="mt-16">
+        {/* Horizontal rail — desktop. One connector segment per gap. */}
+        <ul aria-hidden className="mb-8 hidden grid-cols-4 gap-x-8 lg:grid">
           {steps.map((step, index) => {
             const isLast = index === steps.length - 1
 
             return (
               <li key={step.key} className="flex items-center">
-                <m.span
-                  initial={
-                    prefersReducedMotion
-                      ? false
-                      : { backgroundColor: 'var(--color-secundario)' }
-                  }
-                  animate={
-                    isActive
-                      ? { backgroundColor: 'var(--color-acento)' }
-                      : undefined
-                  }
-                  transition={{
-                    duration: 0.3,
-                    delay: prefersReducedMotion ? 0 : nodeDelay(index),
-                  }}
-                  className={`${nodeClasses} shrink-0 bg-[var(--color-secundario)]`}
-                />
+                <span style={railVars(index)} className={`${NODE_CLASSES} shrink-0`} />
 
                 {!isLast ? (
                   <span className="relative -mr-8 h-px flex-1">
                     <span className="absolute inset-0 bg-[var(--surface-border)]" />
-                    <m.span
-                      initial={prefersReducedMotion ? false : { scaleX: 0 }}
-                      animate={isActive ? { scaleX: 1 } : undefined}
-                      transition={{
-                        duration: SEGMENT_DURATION,
-                        delay: prefersReducedMotion ? 0 : nodeDelay(index),
-                        ease: 'easeOut',
-                      }}
-                      style={{ transformOrigin: 'left' }}
-                      className="absolute inset-0 bg-[var(--color-acento)]"
+                    <span
+                      style={railVars(index)}
+                      className="rail-fill absolute inset-0 bg-[var(--color-acento)]"
                     />
                   </span>
                 ) : null}
@@ -103,37 +88,14 @@ export function Process() {
             const isLast = index === steps.length - 1
 
             return (
-              <m.li
+              <li
                 key={key}
-                initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
-                animate={isActive ? { opacity: 1, y: 0 } : undefined}
-                transition={{
-                  duration: 0.4,
-                  delay: prefersReducedMotion ? 0 : nodeDelay(index),
-                  ease: [0.22, 0.61, 0.36, 1],
-                }}
-                className="relative flex gap-5 lg:block lg:gap-0"
+                style={railVars(index)}
+                className="rail-step relative flex gap-5 lg:block lg:gap-0"
               >
                 {/* Vertical rail — mobile and tablet. */}
                 <div className="relative flex shrink-0 flex-col items-center lg:hidden">
-                  <m.span
-                    aria-hidden
-                    initial={
-                      prefersReducedMotion
-                        ? false
-                        : { backgroundColor: 'var(--color-secundario)' }
-                    }
-                    animate={
-                      isActive
-                        ? { backgroundColor: 'var(--color-acento)' }
-                        : undefined
-                    }
-                    transition={{
-                      duration: 0.3,
-                      delay: prefersReducedMotion ? 0 : nodeDelay(index),
-                    }}
-                    className={`${nodeClasses} mt-1.5 bg-[var(--color-secundario)]`}
-                  />
+                  <span aria-hidden className={`${NODE_CLASSES} mt-1.5`} />
                   {!isLast ? (
                     <span
                       aria-hidden
@@ -159,12 +121,11 @@ export function Process() {
                     {t(`steps.${key}.body`)}
                   </p>
                 </div>
-              </m.li>
+              </li>
             )
           })}
         </ol>
       </div>
-      </LazyMotionProvider>
     </Section>
   )
 }
