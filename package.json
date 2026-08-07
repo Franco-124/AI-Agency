@@ -3,14 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "predev": "node scripts/generate-en-messages.mjs",
+    "predev": "node scripts/check-messages.mjs",
     "dev": "next dev --turbopack",
-    "prebuild": "node scripts/generate-en-messages.mjs",
+    "prebuild": "node scripts/check-messages.mjs",
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "i18n:en": "node scripts/generate-en-messages.mjs"
+    "i18n:check": "node scripts/check-messages.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.7.1",

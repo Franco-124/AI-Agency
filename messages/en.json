@@ -1,340 +1,301 @@
 {
   "metadata": {
-    "title": "[PENDING EN TRANSLATION] Numi AI — Agencia de IA para pymes en Colombia",
-    "description": "[PENDING EN TRANSLATION] Numi AI atiende a tus clientes al instante, todo el día, para que tu equipo deje de perder tiempo y tu negocio deje de perder ventas.",
-    "ogImageAlt": "[PENDING EN TRANSLATION] Numi AI — automatización con inteligencia artificial para negocios en Colombia"
+    "title": "Numi AI — AI agency for small businesses in Colombia",
+    "description": "Numi AI answers your customers instantly, around the clock, so your team stops losing time and your business stops losing sales.",
+    "ogImageAlt": "Numi AI — artificial intelligence automation for businesses in Colombia"
   },
   "nav": {
-    "skipToContent": "[PENDING EN TRANSLATION] Saltar al contenido",
-    "mainNav": "[PENDING EN TRANSLATION] Navegación principal",
-    "home": "[PENDING EN TRANSLATION] Inicio",
-    "services": "[PENDING EN TRANSLATION] Servicios",
-    "packages": "[PENDING EN TRANSLATION] Paquetes",
-    "process": "[PENDING EN TRANSLATION] Proceso",
-    "faq": "[PENDING EN TRANSLATION] Preguntas frecuentes",
-    "about": "[PENDING EN TRANSLATION] Sobre nosotros",
-    "openMenu": "[PENDING EN TRANSLATION] Abrir menú de navegación",
-    "closeMenu": "[PENDING EN TRANSLATION] Cerrar menú de navegación",
-    "languageLabel": "[PENDING EN TRANSLATION] Idioma",
-    "spanish": "[PENDING EN TRANSLATION] Español",
-    "english": "[PENDING EN TRANSLATION] Inglés"
+    "skipToContent": "Skip to content",
+    "mainNav": "Main navigation",
+    "home": "Home",
+    "services": "Services",
+    "packages": "Packages",
+    "process": "Process",
+    "faq": "FAQ",
+    "about": "About us",
+    "openMenu": "Open navigation menu",
+    "closeMenu": "Close navigation menu",
+    "languageLabel": "Language",
+    "spanish": "Spanish",
+    "english": "English"
   },
   "hero": {
-    "eyebrow": "[PENDING EN TRANSLATION] Agencia de IA para pymes en Colombia",
-    "title": "[PENDING EN TRANSLATION] Cada cliente que espera es dinero que se va.",
-    "subtitle": "[PENDING EN TRANSLATION] Numi AI atiende a tus clientes al instante, todo el día, para que tu equipo deje de perder tiempo y tu negocio deje de perder ventas.",
-    "cta": "[PENDING EN TRANSLATION] Agenda una llamada estratégica",
-    "imageAlt": "[PENDING EN TRANSLATION] Trazo de luz naranja cruzando en diagonal un fondo oscuro, símbolo de la chispa de Numi AI",
+    "eyebrow": "AI agency for small businesses in Colombia",
+    "title": "Every customer left waiting is money walking away.",
+    "subtitle": "Numi AI answers your customers instantly, around the clock, so your team stops losing time and your business stops losing sales.",
+    "cta": "Book a strategy call",
+    "imageAlt": "A streak of orange light crossing a dark background diagonally, the mark of the Numi AI spark",
     "indicators": {
-      "one": "[PENDING EN TRANSLATION] Respuesta en segundos, no en horas",
-      "two": "[PENDING EN TRANSLATION] Disponible 24/7, todos los días",
-      "three": "[PENDING EN TRANSLATION] Sin aumentar tu nómina"
+      "one": "Answers in seconds, not hours",
+      "two": "Available 24/7, every day",
+      "three": "Without growing your payroll"
     },
     "chat": {
-      "ariaLabel": "[PENDING EN TRANSLATION] Ejemplo de conversación atendida por Numi AI",
-      "name": "[PENDING EN TRANSLATION] Numi AI",
-      "status": "[PENDING EN TRANSLATION] En línea",
+      "ariaLabel": "Example of a conversation handled by Numi AI",
+      "name": "Numi AI",
+      "status": "Online",
       "messages": {
-        "one": "[PENDING EN TRANSLATION] Hola, ¿tienen cita disponible mañana?",
-        "two": "[PENDING EN TRANSLATION] Claro, tengo disponible a las 10:00am o 3:00pm. ¿Cuál prefieres?",
-        "three": "[PENDING EN TRANSLATION] A las 3:00pm está perfecto",
-        "four": "[PENDING EN TRANSLATION] Listo, quedas agendado para mañana 3:00pm. Te llega la confirmación por WhatsApp."
+        "one": "Hi, do you have any appointments available tomorrow?",
+        "two": "Of course, I have 10:00am or 3:00pm open. Which works better?",
+        "three": "3:00pm is perfect",
+        "four": "Done, you're booked for tomorrow at 3:00pm. Your confirmation is on its way via WhatsApp."
       },
-      "meta": "[PENDING EN TRANSLATION] Confirmado en 4 segundos"
+      "meta": "Confirmed in 4 seconds"
     }
   },
   "whatsapp": {
-    "label": "[PENDING EN TRANSLATION] Escríbenos",
-    "ariaLabel": "[PENDING EN TRANSLATION] Escríbenos por WhatsApp",
-    "prefill": "[PENDING EN TRANSLATION] Hola, quiero saber más sobre Numi AI",
-    "greeting": "[PENDING EN TRANSLATION] ¿Tienes preguntas sobre cómo funciona? Escríbenos directo por WhatsApp.",
-    "close": "[PENDING EN TRANSLATION] Cerrar mensaje"
+    "label": "Message us",
+    "ariaLabel": "Message us on WhatsApp",
+    "prefill": "Hi, I'd like to know more about Numi AI",
+    "greeting": "Questions about how it works? Message us directly on WhatsApp.",
+    "close": "Close message"
   },
   "contrast": {
-    "beforeTitle": "[PENDING EN TRANSLATION] Antes",
-    "afterTitle": "[PENDING EN TRANSLATION] Con Numi AI",
+    "beforeTitle": "Before",
+    "afterTitle": "With Numi AI",
     "before": {
-      "one": "[PENDING EN TRANSLATION] Los mensajes de WhatsApp se acumulan y las respuestas llegan tarde.",
-      "two": "[PENDING EN TRANSLATION] Las citas se agendan a mano y algunas se pierden.",
-      "three": "[PENDING EN TRANSLATION] El seguimiento a un cliente potencial depende de que alguien se acuerde de hacerlo.",
-      "four": "[PENDING EN TRANSLATION] Cada tarea repetitiva le quita tiempo a lo que realmente hace crecer tu negocio."
+      "one": "WhatsApp messages pile up and replies arrive late.",
+      "two": "Appointments are booked by hand, and some slip through.",
+      "three": "Following up with a lead depends on someone remembering to do it.",
+      "four": "Every repetitive task takes time away from what actually grows your business."
     },
     "after": {
-      "one": "[PENDING EN TRANSLATION] Cada mensaje se responde al instante, a cualquier hora.",
-      "two": "[PENDING EN TRANSLATION] Las citas se agendan solas y quedan confirmadas automáticamente.",
-      "three": "[PENDING EN TRANSLATION] Ningún cliente potencial se enfría: el seguimiento se hace solo.",
-      "four": "[PENDING EN TRANSLATION] Tu equipo se enfoca en lo que hace crecer el negocio, no en tareas repetitivas."
+      "one": "Every message is answered instantly, at any hour.",
+      "two": "Appointments book themselves and are confirmed automatically.",
+      "three": "No lead goes cold: the follow-up happens on its own.",
+      "four": "Your team focuses on what grows the business, not on repetitive tasks."
     },
-    "closing": "[PENDING EN TRANSLATION] Cada mensaje sin responder es una venta que se enfría. Cada cita que se olvida es un cliente que no vuelve."
+    "closing": "Every unanswered message is a sale going cold. Every forgotten appointment is a customer who doesn't come back."
   },
   "differentiation": {
-    "title": "[PENDING EN TRANSLATION] Empezamos por tu operación, no por la tecnología",
-    "body": "[PENDING EN TRANSLATION] Antes de automatizar nada, entendemos cómo funciona tu negocio hoy. Identificamos dónde se pierde tiempo y dinero, y construimos un sistema hecho a la medida de tu operación — no una solución genérica."
+    "title": "We start with your operation, not with the technology",
+    "body": "Before automating anything, we learn how your business works today. We pinpoint where time and money are being lost, and we build a system shaped around your operation — not a generic solution."
   },
   "niches": {
-    "title": "[PENDING EN TRANSLATION] Hecho para negocios como el tuyo",
+    "title": "Built for businesses like yours",
     "items": {
-      "one": "[PENDING EN TRANSLATION] Clínicas estéticas",
-      "two": "[PENDING EN TRANSLATION] Inmobiliarias",
-      "three": "[PENDING EN TRANSLATION] Veterinarias",
-      "four": "[PENDING EN TRANSLATION] Talleres automotrices",
-      "five": "[PENDING EN TRANSLATION] Gimnasios"
+      "one": "Aesthetic clinics",
+      "two": "Real estate agencies",
+      "three": "Veterinary clinics",
+      "four": "Auto repair shops",
+      "five": "Gyms"
     },
-    "closing": "[PENDING EN TRANSLATION] Si tu negocio depende de responder rápido y agendar bien, esto es para ti."
+    "closing": "If your business depends on replying fast and booking well, this is for you."
   },
   "services": {
-    "title": "[PENDING EN TRANSLATION] Cómo trabajamos con tu negocio",
+    "title": "How we work with your business",
     "items": {
       "one": {
-        "title": "[PENDING EN TRANSLATION] Atención automática por WhatsApp",
-        "body": "[PENDING EN TRANSLATION] Tus clientes reciben respuesta al instante, a cualquier hora, sin que nadie tenga que estar pendiente del teléfono."
+        "title": "Automated WhatsApp support",
+        "body": "Your customers get an answer instantly, at any hour, without anyone having to watch the phone."
       },
       "two": {
-        "title": "[PENDING EN TRANSLATION] Agenda de citas automática",
-        "body": "[PENDING EN TRANSLATION] Los clientes agendan solos. Tu equipo deja de perder tiempo confirmando horarios."
+        "title": "Automated appointment booking",
+        "body": "Customers book on their own. Your team stops losing time confirming times."
       },
       "three": {
-        "title": "[PENDING EN TRANSLATION] Seguimiento automático a clientes potenciales",
-        "body": "[PENDING EN TRANSLATION] Ningún contacto se enfría. El sistema hace seguimiento aunque nadie se acuerde."
+        "title": "Automated lead follow-up",
+        "body": "No contact goes cold. The system follows up even when nobody remembers to."
       },
       "four": {
-        "title": "[PENDING EN TRANSLATION] Sitios web hechos para convertir",
-        "body": "[PENDING EN TRANSLATION] Un sitio que no solo se ve bien. Que agenda citas y responde preguntas por ti."
+        "title": "Websites built to convert",
+        "body": "A site that doesn't just look good. One that books appointments and answers questions for you."
       },
       "five": {
-        "title": "[PENDING EN TRANSLATION] Organización de la información de tus clientes",
-        "body": "[PENDING EN TRANSLATION] Toda la información de tus clientes en un solo lugar, sin hojas de cálculo sueltas."
+        "title": "Your customer information, organized",
+        "body": "All of your customer information in one place, with no spreadsheets scattered around."
       }
     }
   },
   "benefits": {
-    "title": "[PENDING EN TRANSLATION] Qué gana tu negocio",
-    "columnBenefit": "[PENDING EN TRANSLATION] Beneficio",
-    "columnMeaning": "[PENDING EN TRANSLATION] Qué significa",
+    "title": "What your business gains",
+    "columnBenefit": "Benefit",
+    "columnMeaning": "What it means",
     "items": {
-      "one": {
-        "benefit": "[PENDING EN TRANSLATION] Más tiempo",
-        "meaning": "[PENDING EN TRANSLATION] Tu equipo deja de hacer tareas repetitivas."
-      },
-      "two": {
-        "benefit": "[PENDING EN TRANSLATION] Mejor atención al cliente",
-        "meaning": "[PENDING EN TRANSLATION] Cada cliente recibe respuesta al instante."
-      },
-      "three": {
-        "benefit": "[PENDING EN TRANSLATION] Menos costos operativos",
-        "meaning": "[PENDING EN TRANSLATION] Automatizas sin contratar más personal."
-      },
-      "four": {
-        "benefit": "[PENDING EN TRANSLATION] Crecimiento sostenido",
-        "meaning": "[PENDING EN TRANSLATION] Más clientes atendidos, sin más esfuerzo."
-      }
+      "one": { "benefit": "More time", "meaning": "Your team stops doing repetitive tasks." },
+      "two": { "benefit": "Better customer service", "meaning": "Every customer gets an answer instantly." },
+      "three": { "benefit": "Lower operating costs", "meaning": "You automate without hiring more staff." },
+      "four": { "benefit": "Sustained growth", "meaning": "More customers served, with no extra effort." }
     }
   },
   "results": {
-    "title": "[PENDING EN TRANSLATION] Resultados reales",
-    "figureValue": "[PENDING EN TRANSLATION] +40%",
-    "figureRest": "[PENDING EN TRANSLATION] más capacidad de atención al cliente, sin contratar personal nuevo.",
-    "quote": "[PENDING EN TRANSLATION] Antes perdíamos consultas de apartamentos porque no alcanzábamos a responder a tiempo. Con el asistente, cada mensaje se atiende al instante y solo llegan a nosotros los interesados listos para agendar.",
-    "attribution": "[PENDING EN TRANSLATION] — Casas y Espacios Inmobiliaria, Medellín",
-    "imageAlt": "[PENDING EN TRANSLATION] Textura de líneas horizontales oscuras atravesada por una línea naranja"
+    "title": "Real results",
+    "figureValue": "+40%",
+    "figureRest": "more customer service capacity, without hiring new staff.",
+    "quote": "We used to lose apartment enquiries because we couldn't reply in time. With the assistant, every message is handled instantly and only the people ready to book reach us.",
+    "attribution": "— Casas y Espacios Inmobiliaria, Medellín",
+    "imageAlt": "A texture of dark horizontal lines crossed by a single orange line"
   },
   "why": {
-    "title": "[PENDING EN TRANSLATION] Por qué las empresas eligen Numi AI",
+    "title": "Why companies choose Numi AI",
     "pillars": {
       "one": {
-        "title": "[PENDING EN TRANSLATION] Resultados, no tecnología",
-        "body": "[PENDING EN TRANSLATION] No vendemos software por vender software — medimos el impacto real en tu operación."
+        "title": "Results, not technology",
+        "body": "We don't sell software for the sake of selling software — we measure the real impact on your operation."
       },
       "two": {
-        "title": "[PENDING EN TRANSLATION] Hecho a tu medida",
-        "body": "[PENDING EN TRANSLATION] Diseñamos cada sistema para tu negocio específico, no una plantilla genérica que reciclamos entre clientes."
+        "title": "Built for you",
+        "body": "We design every system for your specific business, not from a generic template recycled between clients."
       },
       "three": {
-        "title": "[PENDING EN TRANSLATION] Acompañamiento continuo",
-        "body": "[PENDING EN TRANSLATION] Seguimos contigo después de la entrega, no solo durante el proyecto."
+        "title": "Ongoing support",
+        "body": "We stay with you after delivery, not only during the project."
       }
     }
   },
   "packages": {
-    "eyebrow": "[PENDING EN TRANSLATION] Paquetes",
-    "title": "[PENDING EN TRANSLATION] Elige cómo empezar",
-    "lead": "[PENDING EN TRANSLATION] Tres formas de empezar, según el tamaño de tu operación.",
-    "badge": "[PENDING EN TRANSLATION] Más elegido",
-    "cta": "[PENDING EN TRANSLATION] Quiero este paquete",
+    "eyebrow": "Packages",
+    "title": "Choose how to start",
+    "lead": "Three ways to start, depending on the size of your operation.",
+    "badge": "Most chosen",
+    "cta": "I want this package",
     "one": {
-      "name": "[PENDING EN TRANSLATION] Presencia Digital + Agente Esencial",
-      "audience": "[PENDING EN TRANSLATION] Para negocios que están empezando a digitalizarse.",
+      "name": "Digital Presence + Essential Agent",
+      "audience": "For businesses taking their first steps into digital.",
       "features": {
-        "one": "[PENDING EN TRANSLATION] Sitio web de hasta 5 páginas",
-        "two": "[PENDING EN TRANSLATION] Agente que responde horarios, precios y agenda citas simples por WhatsApp",
-        "three": "[PENDING EN TRANSLATION] Notificación automática cuando llega un cliente nuevo"
+        "one": "Website of up to 5 pages",
+        "two": "An agent that answers hours and prices and books simple appointments over WhatsApp",
+        "three": "Automatic notification whenever a new customer comes in"
       },
-      "price": "[PENDING EN TRANSLATION] Desde COP $1.500.000",
-      "maintenance": "[PENDING EN TRANSLATION] Mantenimiento desde $200.000/mes",
-      "delivery": "[PENDING EN TRANSLATION] Entrega en 2 semanas"
+      "price": "From COP $1,500,000",
+      "maintenance": "Maintenance from COP $200,000/month",
+      "delivery": "Delivered in 2 weeks"
     },
     "two": {
-      "name": "[PENDING EN TRANSLATION] Automatización + Atención Full",
-      "audience": "[PENDING EN TRANSLATION] Para negocios con volumen real de consultas.",
+      "name": "Automation + Full Support",
+      "audience": "For businesses with real enquiry volume.",
       "features": {
-        "one": "[PENDING EN TRANSLATION] Sitio web de hasta 8 páginas",
-        "two": "[PENDING EN TRANSLATION] Agente que agenda citas, responde preguntas más complejas y deriva a una persona cuando lo necesita",
-        "three": "[PENDING EN TRANSLATION] Recordatorios automáticos, seguimiento a clientes potenciales y reporte semanal"
+        "one": "Website of up to 8 pages",
+        "two": "An agent that books appointments, answers more complex questions and hands over to a person when needed",
+        "three": "Automatic reminders, lead follow-up and a weekly report"
       },
-      "price": "[PENDING EN TRANSLATION] Desde COP $3.000.000",
-      "maintenance": "[PENDING EN TRANSLATION] Mantenimiento desde $450.000/mes",
-      "delivery": "[PENDING EN TRANSLATION] Entrega en 3 a 4 semanas"
+      "price": "From COP $3,000,000",
+      "maintenance": "Maintenance from COP $450,000/month",
+      "delivery": "Delivered in 3 to 4 weeks"
     },
     "three": {
-      "name": "[PENDING EN TRANSLATION] Growth Partner",
-      "audience": "[PENDING EN TRANSLATION] Para negocios con varias sedes o una operación más grande.",
+      "name": "Growth Partner",
+      "audience": "For businesses with several locations or a larger operation.",
       "features": {
-        "one": "[PENDING EN TRANSLATION] Sitio web completo de hasta 15 páginas",
-        "two": "[PENDING EN TRANSLATION] Agente disponible en WhatsApp, Instagram y tu sitio web",
-        "three": "[PENDING EN TRANSLATION] Automatización completa del proceso de atención y seguimiento",
-        "four": "[PENDING EN TRANSLATION] Sesión estratégica mensual con tu equipo"
+        "one": "Full website of up to 15 pages",
+        "two": "An agent available on WhatsApp, Instagram and your website",
+        "three": "Full automation of the support and follow-up process",
+        "four": "Monthly strategy session with your team"
       },
-      "price": "[PENDING EN TRANSLATION] Desde COP $6.000.000",
-      "maintenance": "[PENDING EN TRANSLATION] Mantenimiento desde $900.000/mes",
-      "delivery": "[PENDING EN TRANSLATION] Entrega en 4 a 6 semanas"
+      "price": "From COP $6,000,000",
+      "maintenance": "Maintenance from COP $900,000/month",
+      "delivery": "Delivered in 4 to 6 weeks"
     }
   },
   "process": {
-    "title": "[PENDING EN TRANSLATION] Cómo empezamos",
+    "title": "How we start",
     "steps": {
-      "one": {
-        "title": "[PENDING EN TRANSLATION] Diagnóstico",
-        "body": "[PENDING EN TRANSLATION] Conversamos sobre tu negocio y detectamos dónde automatizar genera más impacto."
-      },
-      "two": {
-        "title": "[PENDING EN TRANSLATION] Propuesta",
-        "body": "[PENDING EN TRANSLATION] Te mostramos exactamente qué se automatiza, cómo funciona y qué esperar."
-      },
-      "three": {
-        "title": "[PENDING EN TRANSLATION] Implementación",
-        "body": "[PENDING EN TRANSLATION] Construimos el sistema y lo dejamos funcionando en tu negocio."
-      },
-      "four": {
-        "title": "[PENDING EN TRANSLATION] Acompañamiento",
-        "body": "[PENDING EN TRANSLATION] Damos seguimiento mensual para que todo siga funcionando bien."
-      }
+      "one": { "title": "Diagnosis", "body": "We talk through your business and find where automation creates the most impact." },
+      "two": { "title": "Proposal", "body": "We show you exactly what gets automated, how it works and what to expect." },
+      "three": { "title": "Implementation", "body": "We build the system and leave it running inside your business." },
+      "four": { "title": "Support", "body": "We follow up every month so everything keeps working well." }
     }
   },
   "faq": {
-    "title": "[PENDING EN TRANSLATION] Preguntas frecuentes",
+    "title": "Frequently asked questions",
     "items": {
-      "one": {
-        "question": "[PENDING EN TRANSLATION] ¿Necesito saber de tecnología para usar esto?",
-        "answer": "[PENDING EN TRANSLATION] No. Nosotros nos encargamos de todo. Tú solo ves los resultados."
-      },
-      "two": {
-        "question": "[PENDING EN TRANSLATION] ¿Cuánto tiempo toma implementarlo?",
-        "answer": "[PENDING EN TRANSLATION] Depende del alcance, pero la mayoría de negocios ven resultados en pocas semanas."
-      },
-      "three": {
-        "question": "[PENDING EN TRANSLATION] ¿Esto reemplaza a mi equipo?",
-        "answer": "[PENDING EN TRANSLATION] No. Libera a tu equipo de tareas repetitivas para que se enfoque en lo que más importa."
-      },
-      "four": {
-        "question": "[PENDING EN TRANSLATION] ¿Qué pasa si necesito ayuda después de la entrega?",
-        "answer": "[PENDING EN TRANSLATION] Incluimos acompañamiento continuo. No te dejamos solo."
-      },
-      "five": {
-        "question": "[PENDING EN TRANSLATION] ¿Funciona para mi tipo de negocio?",
-        "answer": "[PENDING EN TRANSLATION] Trabajamos con negocios que dependen de responder rápido y agendar bien. Si ese es tu caso, probablemente sí."
-      }
+      "one": { "question": "Do I need to be technical to use this?", "answer": "No. We handle everything. You just see the results." },
+      "two": { "question": "How long does it take to implement?", "answer": "It depends on the scope, but most businesses see results within a few weeks." },
+      "three": { "question": "Does this replace my team?", "answer": "No. It frees your team from repetitive tasks so they can focus on what matters most." },
+      "four": { "question": "What if I need help after delivery?", "answer": "Ongoing support is included. We don't leave you on your own." },
+      "five": { "question": "Does it work for my kind of business?", "answer": "We work with businesses that depend on replying fast and booking well. If that's your case, most likely yes." }
     }
   },
   "about": {
-    "title": "[PENDING EN TRANSLATION] Sobre nosotros",
-    "body": "[PENDING EN TRANSLATION] Somos Numi AI: un equipo de cinco ingenieros de software especializado en llevar automatización con inteligencia artificial a pequeñas y medianas empresas en Colombia. Trabajamos con negocios que dependen de responder rápido y agendar bien — clínicas estéticas, inmobiliarias, veterinarias, talleres automotrices y gimnasios — diseñando cada sistema a la medida de su operación real, no una plantilla genérica.",
-    "teamLabel": "[PENDING EN TRANSLATION] Equipo",
+    "title": "About us",
+    "body": "We are Numi AI: a team of five software engineers specialized in bringing artificial intelligence automation to small and medium-sized businesses in Colombia. We work with businesses that depend on replying fast and booking well — aesthetic clinics, real estate agencies, veterinary clinics, auto repair shops and gyms — designing every system around their real operation, never from a generic template.",
+    "teamLabel": "Team",
     "team": {
-      "one": "[PENDING EN TRANSLATION] Anthony Gonzales",
-      "two": "[PENDING EN TRANSLATION] Juan Pablo Ruiz",
-      "three": "[PENDING EN TRANSLATION] Johan Steven Franco",
-      "four": "[PENDING EN TRANSLATION] Edgar Agudelo",
-      "five": "[PENDING EN TRANSLATION] Miguel Ángel Pérez"
+      "one": "Anthony Gonzales",
+      "two": "Juan Pablo Ruiz",
+      "three": "Johan Steven Franco",
+      "four": "Edgar Agudelo",
+      "five": "Miguel Ángel Pérez"
     },
-    "locationLabel": "[PENDING EN TRANSLATION] Ubicación",
-    "location": "[PENDING EN TRANSLATION] Medellín, Colombia.",
-    "missionLabel": "[PENDING EN TRANSLATION] Misión",
-    "mission": "[PENDING EN TRANSLATION] Ayudar a negocios a operar mejor, eliminando las tareas repetitivas con inteligencia artificial aplicada a su realidad, no a una plantilla genérica.",
-    "visionLabel": "[PENDING EN TRANSLATION] Visión",
-    "vision": "[PENDING EN TRANSLATION] Ser el socio tecnológico de referencia para pequeñas y medianas empresas en Colombia, reconocido por resultados reales, no por promesas.",
-    "imageAlt": "[PENDING EN TRANSLATION] Fondo oscuro con textura sutil que acompaña la presentación del equipo de Numi AI"
+    "locationLabel": "Location",
+    "location": "Medellín, Colombia.",
+    "missionLabel": "Mission",
+    "mission": "To help businesses operate better by removing repetitive tasks with artificial intelligence applied to their reality, not to a generic template.",
+    "visionLabel": "Vision",
+    "vision": "To be the technology partner of reference for small and medium-sized businesses in Colombia, known for real results rather than promises.",
+    "imageAlt": "A dark background with a subtle texture accompanying the introduction of the Numi AI team"
   },
   "finalCta": {
-    "title": "[PENDING EN TRANSLATION] Tu negocio puede responder solo. Empecemos.",
-    "body": "[PENDING EN TRANSLATION] Completa el formulario y uno de nuestros socios te contacta en menos de 24 horas para agendar tu llamada estratégica de 15 minutos — encaje o no en uno de los tres paquetes.",
-    "button": "[PENDING EN TRANSLATION] Agenda tu llamada estratégica",
-    "imageAlt": "[PENDING EN TRANSLATION] Banner oscuro con un trazo naranja que invita a agendar una llamada con Numi AI"
+    "title": "Your business can answer on its own. Let's start.",
+    "body": "Fill in the form and one of our partners will contact you within 24 hours to schedule your 15-minute strategy call — whether or not your case fits one of the three packages.",
+    "button": "Book your strategy call",
+    "imageAlt": "A dark banner with an orange streak inviting you to book a call with Numi AI"
   },
   "leadForm": {
-    "title": "[PENDING EN TRANSLATION] Agenda tu llamada",
-    "name": "[PENDING EN TRANSLATION] Nombre",
-    "business": "[PENDING EN TRANSLATION] Nombre de tu negocio",
-    "industry": "[PENDING EN TRANSLATION] ¿A qué se dedica tu negocio?",
-    "whatsapp": "[PENDING EN TRANSLATION] WhatsApp",
-    "email": "[PENDING EN TRANSLATION] Correo electrónico",
-    "message": "[PENDING EN TRANSLATION] Cuéntanos qué necesitas",
-    "messagePlaceholder": "[PENDING EN TRANSLATION] Cuéntanos cómo funciona tu negocio hoy y qué te gustaría automatizar",
-    "submit": "[PENDING EN TRANSLATION] Agenda tu llamada estratégica",
-    "note": "[PENDING EN TRANSLATION] Te contactaremos por WhatsApp o correo para coordinar el horario que mejor te funcione."
+    "title": "Book your call",
+    "name": "Name",
+    "business": "Your business name",
+    "industry": "What does your business do?",
+    "whatsapp": "WhatsApp",
+    "email": "Email address",
+    "message": "Tell us what you need",
+    "messagePlaceholder": "Tell us how your business works today and what you'd like to automate",
+    "submit": "Book your strategy call",
+    "note": "We'll reach out on WhatsApp or by email to arrange a time that works best for you."
   },
   "form": {
-    "success": "[PENDING EN TRANSLATION] Listo. Te contactaremos en menos de 24 horas.",
-    "error": "[PENDING EN TRANSLATION] Algo salió mal. Intenta de nuevo o escríbenos directamente por WhatsApp.",
-    "empty": "[PENDING EN TRANSLATION] Todavía no hay actividad. En cuanto tu sistema empiece a funcionar, la verás aquí.",
-    "loading": "[PENDING EN TRANSLATION] Un momento, estamos procesando tu solicitud.",
-    "required": "[PENDING EN TRANSLATION] Este campo es obligatorio.",
-    "invalidEmail": "[PENDING EN TRANSLATION] Ingresa un correo electrónico válido.",
-    "invalidWhatsapp": "[PENDING EN TRANSLATION] Ingresa un número de WhatsApp válido.",
-    "tooShort": "[PENDING EN TRANSLATION] Cuéntanos un poco más.",
-    "tooLong": "[PENDING EN TRANSLATION] El texto es demasiado largo.",
-    "sending": "[PENDING EN TRANSLATION] Enviando…",
-    "errorsTitle": "[PENDING EN TRANSLATION] Revisa los campos marcados."
+    "success": "Done. We'll contact you within 24 hours.",
+    "error": "Something went wrong. Try again or message us directly on WhatsApp.",
+    "empty": "No activity yet. As soon as your system starts running, you'll see it here.",
+    "loading": "One moment, we're processing your request.",
+    "required": "This field is required.",
+    "invalidEmail": "Enter a valid email address.",
+    "invalidWhatsapp": "Enter a valid WhatsApp number.",
+    "tooShort": "Tell us a little more.",
+    "tooLong": "This text is too long.",
+    "sending": "Sending…",
+    "errorsTitle": "Please review the highlighted fields."
   },
   "buttons": {
-    "schedule": "[PENDING EN TRANSLATION] Agenda tu llamada",
-    "talkToExpert": "[PENDING EN TRANSLATION] Hablar con un experto",
-    "seeHowItWorks": "[PENDING EN TRANSLATION] Ver cómo funciona"
+    "schedule": "Book your call",
+    "talkToExpert": "Talk to an expert",
+    "seeHowItWorks": "See how it works"
   },
   "privacy": {
-    "linkLabel": "[PENDING EN TRANSLATION] Política de privacidad",
-    "title": "[PENDING EN TRANSLATION] Política de privacidad",
-    "metaDescription": "[PENDING EN TRANSLATION] Cómo Numi AI recolecta, usa y protege los datos personales que recibe a través de su formulario de contacto.",
-    "intro": "[PENDING EN TRANSLATION] Numi AI recolecta datos personales únicamente a través del formulario de contacto de este sitio. Esta política explica qué datos recibimos, para qué los usamos y cómo puedes pedir su eliminación, en cumplimiento de la Ley 1581 de 2012 de Colombia.",
-    "dataTitle": "[PENDING EN TRANSLATION] Qué datos recolectamos",
-    "dataIntro": "[PENDING EN TRANSLATION] Solo los datos que tú escribes en el formulario:",
+    "linkLabel": "Privacy policy",
+    "title": "Privacy policy",
+    "metaDescription": "How Numi AI collects, uses and protects the personal data it receives through its contact form.",
+    "intro": "Numi AI collects personal data solely through the contact form on this site. This policy explains what data we receive, what we use it for and how you can request its deletion, in compliance with Colombia's Law 1581 of 2012.",
+    "dataTitle": "What data we collect",
+    "dataIntro": "Only the data you type into the form:",
     "data": {
-      "one": "[PENDING EN TRANSLATION] Nombre",
-      "two": "[PENDING EN TRANSLATION] Nombre de tu negocio",
-      "three": "[PENDING EN TRANSLATION] A qué se dedica tu negocio",
-      "four": "[PENDING EN TRANSLATION] Número de WhatsApp",
-      "five": "[PENDING EN TRANSLATION] Correo electrónico",
-      "six": "[PENDING EN TRANSLATION] La descripción de lo que necesitas automatizar"
+      "one": "Name",
+      "two": "Your business name",
+      "three": "What your business does",
+      "four": "WhatsApp number",
+      "five": "Email address",
+      "six": "The description of what you need to automate"
     },
-    "useTitle": "[PENDING EN TRANSLATION] Para qué los usamos",
-    "useIntro": "[PENDING EN TRANSLATION] Con dos fines, y ninguno más:",
+    "useTitle": "What we use it for",
+    "useIntro": "For two purposes, and no others:",
     "use": {
-      "one": "[PENDING EN TRANSLATION] Contactarte para agendar y sostener la llamada estratégica que solicitaste.",
-      "two": "[PENDING EN TRANSLATION] Evaluar tu caso y preparar una propuesta ajustada a tu operación."
+      "one": "To contact you in order to schedule and hold the strategy call you requested.",
+      "two": "To assess your case and prepare a proposal suited to your operation."
     },
-    "sharingTitle": "[PENDING EN TRANSLATION] Con quién los compartimos",
-    "sharing": "[PENDING EN TRANSLATION] Con nadie. No vendemos, cedemos ni compartimos tus datos con terceros, y no los usamos para publicidad ni para construir perfiles.",
-    "retentionTitle": "[PENDING EN TRANSLATION] Cuánto tiempo los conservamos",
-    "retention": "[PENDING EN TRANSLATION] Conservamos los datos mientras exista una conversación comercial activa contigo. Si nos pides eliminarlos, lo hacemos.",
-    "rightsTitle": "[PENDING EN TRANSLATION] Tus derechos y cómo ejercerlos",
-    "rights": "[PENDING EN TRANSLATION] Puedes pedir en cualquier momento que te digamos qué datos tuyos tenemos, que los corrijamos o que los eliminemos por completo. Respondemos dentro de los plazos que fija la ley.",
-    "rightsContact": "[PENDING EN TRANSLATION] Para solicitudes de eliminación de datos, escríbenos a",
-    "updated": "[PENDING EN TRANSLATION] Última actualización: agosto de 2026."
+    "sharingTitle": "Who we share it with",
+    "sharing": "Nobody. We do not sell, transfer or share your data with third parties, and we do not use it for advertising or to build profiles.",
+    "retentionTitle": "How long we keep it",
+    "retention": "We keep your data for as long as there is an active commercial conversation with you. If you ask us to delete it, we do.",
+    "rightsTitle": "Your rights and how to exercise them",
+    "rights": "You may ask us at any time to tell you what data of yours we hold, to correct it, or to delete it entirely. We respond within the timeframes set by law.",
+    "rightsContact": "For data deletion requests, write to us at",
+    "updated": "Last updated: August 2026."
   },
   "footer": {
-    "tagline": "[PENDING EN TRANSLATION] Agencia de inteligencia artificial para pequeñas y medianas empresas en Colombia.",
-    "navLabel": "[PENDING EN TRANSLATION] Navegación",
-    "contactLabel": "[PENDING EN TRANSLATION] Contacto",
-    "location": "[PENDING EN TRANSLATION] Medellín, Colombia",
-    "rights": "[PENDING EN TRANSLATION] Numi AI. Todos los derechos reservados."
+    "tagline": "Artificial intelligence agency for small and medium-sized businesses in Colombia.",
+    "navLabel": "Navigation",
+    "contactLabel": "Contact",
+    "location": "Medellín, Colombia",
+    "rights": "Numi AI. All rights reserved."
   }
 }
