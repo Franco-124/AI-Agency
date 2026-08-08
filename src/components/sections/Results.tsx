@@ -63,9 +63,15 @@ export function Results() {
                 <p>&ldquo;{t('quote')}&rdquo;</p>
               </blockquote>
 
-              {/* TODO: agregar el logo del cliente cuando entregue el archivo oficial */}
-              <figcaption className="mt-8 border-t border-hairline pt-7 text-sm text-ink-muted">
-                {t('attribution')}
+              <figcaption className="mt-8 flex items-center gap-4 border-t border-hairline pt-7 text-sm text-ink-muted">
+                <Image
+                  src="/images/logo-casas-y-espacios.webp"
+                  alt={t('clientLogoAlt')}
+                  width={112}
+                  height={56}
+                  className="h-9 w-auto object-contain opacity-90"
+                />
+                <span>{t('attribution')}</span>
               </figcaption>
             </figure>
           </Reveal>
