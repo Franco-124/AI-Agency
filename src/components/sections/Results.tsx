@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 
+import { AnsweredMark } from '@/components/brand/AnsweredMark'
 import { CountUp } from '@/components/motion/CountUp'
 import { Reveal } from '@/components/motion/Reveal'
 import { sectionIds } from '@/lib/site'
@@ -33,8 +34,8 @@ export function Results() {
 
       <div className="mx-auto max-w-[80rem] px-5 sm:px-8">
         <Reveal>
-          <p className="type-eyebrow inline-flex items-center gap-2.5">
-            <span aria-hidden className="rule-draw h-px w-8 bg-[var(--color-acento)]" />
+          <p className="type-eyebrow inline-flex items-center gap-2.5 text-[var(--color-acento)]">
+            <AnsweredMark className="h-4 w-4" />
             {t('title')}
           </p>
         </Reveal>
@@ -44,21 +45,29 @@ export function Results() {
             {/*
               The only figure on the site. It is the documented result of a real
               client engagement — no additional statistics without evidence.
+              Set in the display face so the number reads as a claim rather than
+              a UI label.
             */}
             <h2
               id="resultados-titulo"
-              className="text-balance text-3xl font-bold leading-[1.1] tracking-[-0.035em] sm:text-4xl lg:text-[3.25rem]"
+              className="type-figure text-balance text-3xl leading-[1.1] sm:text-4xl lg:text-[3.25rem]"
             >
               <CountUp
                 value={t('figureValue')}
                 className="text-[var(--color-acento)]"
               />{' '}
-              {t('figureRest')}
+              <span className="font-sans text-[0.55em] font-medium leading-snug tracking-[-0.01em] text-ink">
+                {t('figureRest')}
+              </span>
             </h2>
           </Reveal>
 
           <Reveal delay={0.1} className="lg:col-span-6">
-            <figure className="rounded-xl border border-hairline bg-[color-mix(in_srgb,var(--color-primario)_88%,transparent)] p-7 sm:p-9">
+            {/*
+              Styled as the same "before" bubble shape as the hero's client
+              messages — a real testimonial is, literally, an answered message.
+            */}
+            <figure className="rounded-2xl rounded-tl-md border border-hairline bg-[var(--color-secundario)] p-7 sm:p-9">
               <blockquote className="text-[0.9375rem] leading-relaxed text-ink sm:text-base">
                 <p>&ldquo;{t('quote')}&rdquo;</p>
               </blockquote>

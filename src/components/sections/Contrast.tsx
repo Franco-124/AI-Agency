@@ -1,6 +1,6 @@
 import { useTranslations } from 'next-intl'
 
-import { NumiMark } from '@/components/brand/NumiMark'
+import { AnsweredMark } from '@/components/brand/AnsweredMark'
 import { Section } from '@/components/layout/Section'
 import { Reveal } from '@/components/motion/Reveal'
 import { sectionIds } from '@/lib/site'
@@ -46,8 +46,8 @@ function Column({ title, items, variant }: ColumnProps) {
         {items.map((item) => (
           <li key={item} className="flex gap-4">
             {isAfter ? (
-              <NumiMark
-                className="mt-1 h-4 w-4 shrink-0 text-[var(--color-acento)]"
+              <AnsweredMark
+                className="mt-0.5 h-[1.125rem] w-[1.125rem] shrink-0 text-[var(--color-acento)]"
               />
             ) : (
               <span

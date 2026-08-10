@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
 import { notFound } from 'next/navigation'
 import { GeistSans } from 'geist/font/sans'
+import { Fraunces } from 'next/font/google'
 import { NextIntlClientProvider } from 'next-intl'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 
@@ -75,6 +76,19 @@ export const viewport = {
   colorScheme: 'dark',
 }
 
+/**
+ * The display face, used only for the hero headline, section titles and the
+ * numeric hero figures — never for body copy, cards or UI. Its soft optical
+ * sizing and low-contrast strokes are what carry the "made for you" register
+ * that a grotesque sans (used everywhere else) cannot.
+ */
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  display: 'swap',
+  axes: ['opsz', 'SOFT'],
+  variable: '--font-fraunces',
+})
+
 export default async function LocaleLayout({
   children,
   params,
@@ -88,9 +102,9 @@ export default async function LocaleLayout({
   setRequestLocale(locale)
 
   return (
-    // A single webfont keeps the critical path short: Geist Sans covers both
-    // the display and the numeric micro-labels (via tabular-nums).
-    <html lang={locale} className={GeistSans.variable}>
+    // Geist Sans stays the body/UI face; Fraunces is the second, deliberately
+    // restricted display face (see the token contract in globals.css).
+    <html lang={locale} className={`${GeistSans.variable} ${fraunces.variable}`}>
       <body className="min-h-dvh bg-surface text-ink antialiased">
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
       </body>

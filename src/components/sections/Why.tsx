@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl'
 import { Section, SectionHeading } from '@/components/layout/Section'
 import { Reveal } from '@/components/motion/Reveal'
 import { sectionIds } from '@/lib/site'
+import { cn } from '@/lib/utils'
 
 const pillars: ReadonlyArray<{ key: string; Icon: LucideIcon }> = [
   { key: 'one', Icon: TrendingUp },
@@ -11,6 +12,12 @@ const pillars: ReadonlyArray<{ key: string; Icon: LucideIcon }> = [
   { key: 'three', Icon: Handshake },
 ]
 
+/**
+ * Three reasons to choose Numi AI, not three features of the product — so
+ * unlike "Cómo trabajamos con tu negocio" (a card grid of things it *does*),
+ * these read as an editorial masthead spread: hairline-divided columns with
+ * no card chrome, closer to a manifesto than a feature list.
+ */
 export function Why() {
   const t = useTranslations('why')
 
@@ -20,27 +27,27 @@ export function Why() {
         <SectionHeading id="por-que-titulo" title={t('title')} />
       </Reveal>
 
-      {/* Same icon-in-a-box card language as "Cómo trabajamos con tu negocio". */}
-      <ul className="mt-14 grid gap-5 md:grid-cols-3">
+      <ul className="mt-16 grid divide-y divide-hairline sm:grid-cols-3 sm:divide-x sm:divide-y-0">
         {pillars.map(({ key, Icon }, index) => (
-          <Reveal as="li" key={key} delay={index * 0.06}>
-            <div className="group relative flex h-full flex-col rounded-xl border border-hairline bg-[var(--color-primario)] p-7 transition-colors duration-200 hover:border-hairline-strong">
-              <span
-                aria-hidden
-                className="accent-rule absolute inset-x-7 top-0 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
-              />
-
-              <span className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-hairline bg-[var(--color-neutro-oscuro)] text-[var(--color-acento)]">
-                <Icon className="h-5 w-5" strokeWidth={1.75} aria-hidden />
-              </span>
-
-              <h3 className="mt-7 text-lg font-semibold leading-snug tracking-[-0.02em]">
-                {t(`pillars.${key}.title`)}
-              </h3>
-              <p className="mt-3 text-[0.9375rem] leading-relaxed text-ink-muted">
-                {t(`pillars.${key}.body`)}
-              </p>
-            </div>
+          <Reveal
+            as="li"
+            key={key}
+            delay={index * 0.06}
+            className={cn(
+              'flex flex-col gap-4 py-8 sm:px-8 sm:py-0 first:sm:pl-0 last:sm:pr-0',
+            )}
+          >
+            <Icon
+              className="h-6 w-6 text-[var(--color-acento)]"
+              strokeWidth={1.5}
+              aria-hidden
+            />
+            <h3 className="type-section-title text-2xl sm:text-[1.75rem]">
+              {t(`pillars.${key}.title`)}
+            </h3>
+            <p className="max-w-[26ch] text-[0.9375rem] leading-relaxed text-ink-muted">
+              {t(`pillars.${key}.body`)}
+            </p>
           </Reveal>
         ))}
       </ul>

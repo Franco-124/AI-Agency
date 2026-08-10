@@ -60,13 +60,6 @@ export function Services() {
               <p className="mt-3 max-w-prose text-[0.9375rem] leading-relaxed text-ink-muted">
                 {t(`items.${key}.body`)}
               </p>
-
-              <span
-                aria-hidden
-                className="mt-auto pt-8 text-xs tabular-nums tracking-[0.14em] text-ink-faint"
-              >
-                {String(index + 1).padStart(2, '0')}
-              </span>
             </div>
           </Reveal>
         ))}

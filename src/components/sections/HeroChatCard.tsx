@@ -1,6 +1,6 @@
 'use client'
 
-import { MessageCircle } from 'lucide-react'
+import { Clock, MessageCircle } from 'lucide-react'
 import { m, useReducedMotion } from 'motion/react'
 import { useTranslations } from 'next-intl'
 
@@ -10,23 +10,30 @@ import { cn } from '@/lib/utils'
 const EASE = [0.22, 0.61, 0.36, 1] as const
 
 /**
- * The four turns land in sequence rather than all at once: it reads as a live
- * conversation being answered instantly, which is the actual claim of the page.
- *
- * The gaps are deliberately tight (the whole exchange resolves in ~2s). A slower
- * cadence contradicts the claim and, worse, is still mid-animation by the time a
- * visitor has scrolled past the hero.
+ * Four turns plus one interruption: the first reply is held back long enough
+ * for an unanswered "ghost" bubble to sit in its place before being replaced —
+ * the hero's whole claim (an unanswered message costs money; Numi answers
+ * instantly) shown once, literally, instead of stated only in copy.
  */
 const messages = [
-  { key: 'one', from: 'client', delay: 0.45 },
-  { key: 'two', from: 'numi', delay: 0.85 },
-  { key: 'three', from: 'client', delay: 1.3 },
-  { key: 'four', from: 'numi', delay: 1.7 },
+  { key: 'one', from: 'client', delay: 0.4 },
+  { key: 'two', from: 'numi', delay: 1.05 },
+  { key: 'three', from: 'client', delay: 1.5 },
+  { key: 'four', from: 'numi', delay: 1.9 },
 ] as const
 
-/** Card frame first, then the turns inside it. */
-const CARD_DELAY = 0.25
-const META_DELAY = 2.05
+const CARD_DELAY = 0.2
+const PENDING_DELAY = 0.65
+const PENDING_DURATION = 0.55
+const META_DELAY = 2.25
+
+const bubbleClasses = (from: 'client' | 'numi') =>
+  cn(
+    'max-w-[85%] rounded-xl px-3 py-2 text-sm text-[var(--color-neutro-claro)]',
+    from === 'client'
+      ? 'rounded-tl-sm bg-[var(--color-secundario)]'
+      : 'ml-auto rounded-tr-sm border border-[var(--accent-hairline)] bg-[var(--accent-soft)]',
+  )
 
 /**
  * Illustrative WhatsApp exchange shown beside the hero copy: it fills the right
@@ -71,20 +78,46 @@ export function HeroChatCard() {
         </header>
 
         <ol className="flex flex-col gap-2">
-          {messages.map(({ key, from, delay }) => (
-            <m.li
-              key={key}
-              {...enter(delay)}
-              className={cn(
-                'max-w-[85%] rounded-xl px-3 py-2 text-sm text-[var(--color-neutro-claro)]',
-                from === 'client'
-                  ? 'rounded-tl-sm bg-[var(--color-secundario)]'
-                  : 'ml-auto rounded-tr-sm border border-[var(--accent-hairline)] bg-[var(--accent-soft)]',
-              )}
-            >
-              {t(`messages.${key}`)}
-            </m.li>
-          ))}
+          {messages.map(({ key, from, delay }) => {
+            if (key !== 'two') {
+              return (
+                <m.li key={key} {...enter(delay)} className={bubbleClasses(from)}>
+                  {t(`messages.${key}`)}
+                </m.li>
+              )
+            }
+
+            /*
+              The first reply's slot doubles as the stage for the ghost bubble:
+              stacked in the same box via `relative`/`absolute` so the ghost's
+              fade-out never reserves layout space once it is gone.
+            */
+            return (
+              <li key={key} className="relative">
+                <m.div {...enter(delay)} className={bubbleClasses(from)}>
+                  {t(`messages.${key}`)}
+                </m.div>
+
+                {!prefersReducedMotion ? (
+                  <m.div
+                    aria-hidden
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: [0, 1, 1, 0] }}
+                    transition={{
+                      delay: PENDING_DELAY,
+                      duration: PENDING_DURATION,
+                      times: [0, 0.3, 0.7, 1],
+                      ease: EASE,
+                    }}
+                    className="absolute right-0 top-0 flex items-center gap-1.5 rounded-xl rounded-tr-sm border border-dashed border-[var(--surface-border-strong)] bg-[var(--color-primario)] px-3 py-2 text-sm text-ink-faint"
+                  >
+                    <Clock className="h-3.5 w-3.5 shrink-0" strokeWidth={1.75} />
+                    {t('pending')}
+                  </m.div>
+                ) : null}
+              </li>
+            )
+          })}
         </ol>
 
         <m.p {...enter(META_DELAY)} className="mt-3 text-right text-[11px] text-ink-faint">

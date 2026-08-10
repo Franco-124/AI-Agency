@@ -24,7 +24,7 @@
     "title": "Cada cliente que espera es dinero que se va.",
     "subtitle": "Numi AI atiende a tus clientes al instante, todo el día, para que tu equipo deje de perder tiempo y tu negocio deje de perder ventas.",
     "cta": "Agenda una llamada estratégica",
-    "imageAlt": "Trazo de luz naranja cruzando en diagonal un fondo oscuro, símbolo de la chispa de Numi AI",
+    "imageAlt": "Fondo oscuro con una textura sutil",
     "indicators": {
       "one": "Respuesta en segundos, no en horas",
       "two": "Disponible 24/7, todos los días",
@@ -40,6 +40,7 @@
         "three": "A las 3:00pm está perfecto",
         "four": "Listo, quedas agendado para mañana 3:00pm. Te llega la confirmación por WhatsApp."
       },
+      "pending": "Sin responder…",
       "meta": "Confirmado en 4 segundos"
     }
   },
@@ -79,6 +80,13 @@
       "three": "Veterinarias",
       "four": "Talleres automotrices",
       "five": "Gimnasios"
+    },
+    "hooks": {
+      "one": "Agenda tu botox o láser antes de que el lead se enfríe en el chat.",
+      "two": "Cada consulta de apartamento se responde antes de que miren otra opción.",
+      "three": "Urgencias y citas de vacunación no se pierden entre mensajes.",
+      "four": "La cotización sale al instante, no cuando alguien revisa el chat.",
+      "five": "Consultas de planes y clases se agendan solas, hasta a las 11pm."
     },
     "closing": "Si tu negocio depende de responder rápido y agendar bien, esto es para ti."
   },

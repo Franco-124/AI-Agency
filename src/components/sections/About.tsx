@@ -53,27 +53,31 @@ export function About() {
           <p className="type-lead mt-7">{t('body')}</p>
         </Reveal>
 
-        <ul className="mt-14 grid gap-5 md:grid-cols-3">
+        {/*
+          A colophon block, not a third set of icon cards: each fact is a
+          plain label/value row separated by a hairline, the way a masthead
+          lists its details — deliberately flatter than "Why" (hairline
+          columns) and "Services" (icon cards) so no two sections in a row
+          share a container language.
+        */}
+        <dl className="mt-14 divide-y divide-hairline border-y border-hairline">
           {facts.map(({ label, value, Icon }, index) => (
-            <Reveal as="li" key={label} delay={0.08 + index * 0.06}>
-              <div className="group relative flex h-full flex-col rounded-xl border border-hairline bg-[color-mix(in_srgb,var(--color-primario)_92%,transparent)] p-7 transition-colors duration-200 hover:border-hairline-strong">
-                <span
-                  aria-hidden
-                  className="accent-rule absolute inset-x-7 top-0 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
-                />
-
-                <span className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-hairline bg-[var(--color-neutro-oscuro)] text-[var(--color-acento)]">
-                  <Icon className="h-5 w-5" strokeWidth={1.75} aria-hidden />
-                </span>
-
-                <h3 className="type-eyebrow mt-7">{label}</h3>
-                <p className="mt-4 text-[0.9375rem] leading-relaxed text-ink sm:text-base">
-                  {value}
-                </p>
-              </div>
+            <Reveal
+              as="div"
+              key={label}
+              delay={0.08 + index * 0.06}
+              className="grid gap-3 py-6 sm:grid-cols-[10rem_1fr] sm:items-baseline sm:gap-8"
+            >
+              <dt className="flex items-center gap-2.5 text-ink-faint">
+                <Icon className="h-4 w-4 shrink-0 text-[var(--color-acento)]" strokeWidth={1.75} aria-hidden />
+                <span className="type-eyebrow">{label}</span>
+              </dt>
+              <dd className="text-[0.9375rem] leading-relaxed text-ink sm:text-base">
+                {value}
+              </dd>
             </Reveal>
           ))}
-        </ul>
+        </dl>
 
         {/* The five names fill one strip instead of trailing off under the copy. */}
         <Reveal delay={0.26} className="mt-5">

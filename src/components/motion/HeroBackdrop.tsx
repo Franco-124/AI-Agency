@@ -1,21 +1,17 @@
 'use client'
 
-import { motion, useInView, useReducedMotion } from 'motion/react'
+import { useInView, useReducedMotion } from 'motion/react'
 import { useRef, type CSSProperties } from 'react'
 
 import { cn } from '@/lib/utils'
 
 /**
- * Ambient hero motion.
- *
- * Two deliberate constraints: nothing here loops fast enough to pull the eye
- * away from the headline, and nothing crosses the copy. The beam draws itself
- * once on load and then stays put; the particles drift slowly enough to read as
- * atmosphere rather than as something happening.
+ * Ambient hero motion: a slow particle field only. An earlier version also
+ * drew a diagonal orange "beam" across the hero — dropped because it was pure
+ * abstraction with no relationship to WhatsApp, agendas or any of the five
+ * verticals; the hero's actual argument now lives in the chat card beside the
+ * copy. What remains here must never loop fast enough to compete with it.
  */
-
-const BEAM_START = { x: -40, y: 260 }
-const BEAM_END = { x: 1480, y: 40 }
 
 type Particle = {
   /** Percentages of the hero box. */
@@ -72,35 +68,6 @@ export function HeroBackdrop() {
 
   return (
     <div ref={ref} aria-hidden className="absolute inset-0 overflow-hidden">
-      {/* The orange diagonal across the bottom band. It draws itself once and
-          then holds — a one-shot entrance, not a loop competing for attention. */}
-      <svg
-        viewBox="0 0 1440 300"
-        preserveAspectRatio="xMidYMax slice"
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-[32%] w-full"
-      >
-        <defs>
-          <linearGradient id="numi-beam" x1="0" y1="1" x2="1" y2="0">
-            <stop offset="0%" stopColor="var(--color-acento)" stopOpacity="0" />
-            <stop offset="40%" stopColor="var(--color-acento)" stopOpacity="0.55" />
-            <stop offset="65%" stopColor="var(--color-acento)" stopOpacity="0.55" />
-            <stop offset="100%" stopColor="var(--color-acento)" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-
-        <motion.line
-          x1={BEAM_START.x}
-          y1={BEAM_START.y}
-          x2={BEAM_END.x}
-          y2={BEAM_END.y}
-          stroke="url(#numi-beam)"
-          strokeWidth={1.5}
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: 1 }}
-          transition={{ duration: 1.6, ease: [0.22, 0.61, 0.36, 1] }}
-        />
-      </svg>
-
       <div
         className={cn(
           'pointer-events-none absolute inset-0',

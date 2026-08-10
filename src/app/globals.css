@@ -49,6 +49,11 @@
 
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  /* Display face. Restricted by rule to the hero headline, section titles and
+     the two numeric "hero figures" (the results stat and package prices) — see
+     `.type-display`, `.type-section-title` and `.type-figure` below. Every
+     other heading, label and piece of UI stays on `--font-sans`. */
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
 
   --radius-lg: 0.625rem;
   --radius-xl: 0.875rem;
@@ -104,19 +109,35 @@
 }
 
 @layer components {
-  /* Fluid display scale — keeps the copy verbatim without breaking layout. */
+  /*
+    Fluid display scale — keeps the copy verbatim without breaking layout.
+    Set on the display face (Fraunces): a soft, warm serif carries the
+    letterforms at this size far better than the sans, so tracking is loosened
+    from the old grotesque values (-0.04em was tuned for Geist, not a serif).
+  */
   .type-display {
+    font-family: var(--font-display);
     font-size: clamp(2.5rem, 1.6rem + 4.2vw, 5.25rem);
     line-height: 0.98;
-    font-weight: 700;
-    letter-spacing: -0.04em;
+    font-weight: 560;
+    letter-spacing: -0.012em;
   }
 
   .type-section-title {
+    font-family: var(--font-display);
     font-size: clamp(1.875rem, 1.35rem + 2.2vw, 3.25rem);
-    line-height: 1.04;
-    font-weight: 700;
-    letter-spacing: -0.032em;
+    line-height: 1.06;
+    font-weight: 520;
+    letter-spacing: -0.008em;
+  }
+
+  /* The two "hero figures" on the page: the results stat and the package
+     prices. Same face as the headlines, so a number reads as a claim rather
+     than a UI label — never used for anything counted or tabular. */
+  .type-figure {
+    font-family: var(--font-display);
+    font-weight: 560;
+    letter-spacing: -0.01em;
   }
 
   .type-lead {

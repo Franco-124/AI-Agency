@@ -16,9 +16,14 @@ export function Hero() {
 
   return (
     <section id={sectionIds.hero} className="relative isolate overflow-hidden">
-      {/* Static hero image: LCP element and the reduced-motion fallback. */}
+      {/*
+        Static hero image: LCP element and the reduced-motion fallback. Kept as
+        the shared site texture rather than the old abstract "beam" artwork —
+        the argument now lives in the WhatsApp thread beside the copy, so the
+        background only needs to be an honest surface, not a stand-in symbol.
+      */}
       <Image
-        src="/images/01-hero-bg-abstracto.webp"
+        src="/images/10-textura-base-sitio.webp"
         alt={t('imageAlt')}
         fill
         priority
@@ -31,13 +36,14 @@ export function Hero() {
       />
 
       {/*
-        Accent haze breathing behind the headline. Sized in vmin so it scales
-        with the viewport instead of overflowing on small screens, and clipped
-        by the section's own `overflow-hidden`.
+        Ambient haze behind the headline, toned from the secondary surface
+        rather than the accent: the CTA and the hero's one lit chat bubble
+        already carry the accent in this viewport, so the atmosphere stays
+        neutral instead of adding a third simultaneous orange.
       */}
       <div
         aria-hidden
-        className="aurora pointer-events-none absolute left-[-18%] top-[12%] -z-10 h-[70vmin] w-[70vmin] rounded-full blur-3xl [background:radial-gradient(circle,color-mix(in_srgb,var(--color-acento)_22%,transparent)_0%,transparent_70%)] sm:left-[-8%] lg:left-[38%] lg:top-[16%]"
+        className="aurora pointer-events-none absolute left-[-18%] top-[12%] -z-10 h-[70vmin] w-[70vmin] rounded-full blur-3xl [background:radial-gradient(circle,color-mix(in_srgb,var(--color-secundario)_48%,transparent)_0%,transparent_70%)] sm:left-[-8%] lg:left-[38%] lg:top-[16%]"
       />
 
       {/*
@@ -63,7 +69,7 @@ export function Hero() {
           >
             <span
               aria-hidden
-              className="rule-grow h-px w-8 bg-[var(--color-acento)]"
+              className="rule-grow h-px w-8 bg-[var(--surface-border-strong)]"
               style={{ '--hero-delay': '0.25s' } as CSSProperties}
             />
             {t('eyebrow')}

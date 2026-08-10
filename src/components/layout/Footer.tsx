@@ -72,7 +72,7 @@ export function Footer() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 transition-colors duration-200 hover:text-ink"
                 >
-                  <MessageCircle className="h-4 w-4 text-[var(--color-acento)]" aria-hidden />
+                  <MessageCircle className="h-4 w-4 text-ink-faint" aria-hidden />
                   WhatsApp
                 </a>
               </li>
@@ -81,12 +81,12 @@ export function Footer() {
                   href={`mailto:${siteConfig.email}`}
                   className="inline-flex items-center gap-2 transition-colors duration-200 hover:text-ink"
                 >
-                  <Mail className="h-4 w-4 text-[var(--color-acento)]" aria-hidden />
+                  <Mail className="h-4 w-4 text-ink-faint" aria-hidden />
                   {siteConfig.email}
                 </a>
               </li>
               <li className="inline-flex items-center gap-2">
-                <MapPin className="h-4 w-4 text-[var(--color-acento)]" aria-hidden />
+                <MapPin className="h-4 w-4 text-ink-faint" aria-hidden />
                 {t('location')}
               </li>
             </ul>

@@ -11,14 +11,7 @@ import { useTranslations } from 'next-intl'
 import { Section, SectionHeading } from '@/components/layout/Section'
 import { Reveal } from '@/components/motion/Reveal'
 import { sectionIds } from '@/lib/site'
-
-/** Shared so all five cards are byte-identical in their resting state. */
-const CARD_CLASSES =
-  'group flex h-full flex-col items-center gap-3 rounded-xl border border-hairline-strong bg-[var(--color-primario)] p-6 text-center transition-[border-color,transform] duration-150 ease-out hover:border-[var(--color-acento)] motion-safe:hover:-translate-y-1'
-const ICON_CLASSES =
-  'text-[var(--color-neutro-claro)] transition-colors duration-150 group-hover:text-[var(--color-acento)]'
-const LABEL_CLASSES =
-  'text-sm font-medium leading-snug text-[var(--color-neutro-claro)]'
+import { cn } from '@/lib/utils'
 
 const niches: ReadonlyArray<{ key: string; Icon: LucideIcon }> = [
   { key: 'one', Icon: Stethoscope },
@@ -28,6 +21,14 @@ const niches: ReadonlyArray<{ key: string; Icon: LucideIcon }> = [
   { key: 'five', Icon: Dumbbell },
 ]
 
+/**
+ * Five verticals as a strip of index cards, each with its own one-line hook —
+ * "hecho para negocios como el tuyo" only holds up if a workshop owner and a
+ * vet see a different sentence, not the same icon-in-a-box reused five times
+ * with a swapped glyph. The dashed top edge reads as a ticket stub rather than
+ * the bordered squares used for "Cómo trabajamos", so the two sections never
+ * share a container language back to back.
+ */
 export function Niches() {
   const t = useTranslations('niches')
 
@@ -37,17 +38,24 @@ export function Niches() {
         <SectionHeading id="nichos-titulo" title={t('title')} />
       </Reveal>
 
-      {/*
-        The cards reveal through the same shared observer as every other block
-        on the page — an animation library here would buy nothing over the CSS
-        transition and would cost a second motion runtime on scroll.
-      */}
-      <ul className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+      <ul className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         {niches.map(({ key, Icon }, index) => (
-          <Reveal as="li" key={key} delay={index * 0.05}>
-            <div className={CARD_CLASSES}>
-              <Icon size={28} strokeWidth={1.5} aria-hidden="true" className={ICON_CLASSES} />
-              <span className={LABEL_CLASSES}>{t(`items.${key}`)}</span>
+          <Reveal as="li" key={key} delay={index * 0.05} className="h-full">
+            <div
+              className={cn(
+                'flex h-full flex-col gap-3 border-t-2 border-dashed border-[var(--surface-border-strong)] p-5',
+                index % 2 === 0
+                  ? 'bg-[color-mix(in_srgb,var(--color-primario)_55%,transparent)]'
+                  : 'bg-transparent',
+              )}
+            >
+              <Icon size={22} strokeWidth={1.5} aria-hidden="true" className="text-[var(--color-acento)]" />
+              <span className="text-sm font-semibold leading-snug text-[var(--color-neutro-claro)]">
+                {t(`items.${key}`)}
+              </span>
+              <p className="text-[0.8125rem] leading-relaxed text-ink-muted">
+                {t(`hooks.${key}`)}
+              </p>
             </div>
           </Reveal>
         ))}
