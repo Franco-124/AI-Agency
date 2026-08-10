@@ -359,8 +359,8 @@
     background: radial-gradient(
       circle,
       var(--color-acento) 0%,
-      color-mix(in srgb, var(--color-acento) 45%, transparent) 45%,
-      transparent 72%
+      color-mix(in srgb, var(--color-acento) 55%, transparent) 50%,
+      transparent 78%
     );
     animation: particle-drift var(--particle-duration, 45s) linear infinite;
     animation-delay: var(--particle-delay, 0s);

@@ -1,11 +1,12 @@
 'use client'
 
 import { Menu, X } from 'lucide-react'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { useEffect, useId, useState } from 'react'
 
 import { Logo } from '@/components/brand/Logo'
 import { Button } from '@/components/ui/button'
+import { usePathname } from '@/i18n/navigation'
 import { sectionIds } from '@/lib/site'
 import { cn } from '@/lib/utils'
 
@@ -25,10 +26,20 @@ const ACTIVE_OFFSET = 140
 export function Header() {
   const t = useTranslations('nav')
   const tHero = useTranslations('hero')
+  const locale = useLocale()
+  const pathname = usePathname()
   const [isScrolled, setIsScrolled] = useState(false)
   const [activeId, setActiveId] = useState<string | null>(null)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const menuId = useId()
+
+  /*
+   * Section anchors only exist on the home page. Elsewhere (e.g. /privacidad)
+   * a bare `#id` is a same-page fragment that goes nowhere, so it must resolve
+   * to a real navigation back to the home page first.
+   */
+  const isHome = pathname === '/'
+  const sectionHref = (id: string) => (isHome ? `#${id}` : `/${locale}#${id}`)
 
   /*
    * One rAF-throttled listener drives both the header surface and the current
@@ -115,7 +126,7 @@ export function Header() {
               return (
                 <li key={item.key}>
                   <a
-                    href={`#${item.id}`}
+                    href={sectionHref(item.id)}
                     aria-current={isActive ? 'location' : undefined}
                     className={cn(
                       'relative rounded-md px-3 py-2 text-sm transition-colors duration-200',
@@ -142,7 +153,7 @@ export function Header() {
           <LocaleSwitcher label={t('languageLabel')} className="hidden sm:inline-flex" />
 
           <Button asChild size="sm" className="hidden md:inline-flex">
-            <a href={`#${sectionIds.finalCta}`}>{tHero('cta')}</a>
+            <a href={sectionHref(sectionIds.finalCta)}>{tHero('cta')}</a>
           </Button>
 
           <button
@@ -192,7 +203,7 @@ export function Header() {
             {navItems.map((item) => (
               <li key={item.key}>
                 <a
-                  href={`#${item.id}`}
+                  href={sectionHref(item.id)}
                   onClick={() => setIsMenuOpen(false)}
                   className="flex min-h-11 items-center rounded-lg px-3 text-lg text-ink-muted transition-colors duration-200 hover:text-ink"
                 >
@@ -204,7 +215,7 @@ export function Header() {
 
           <div className="mt-7 flex flex-col gap-4">
             <Button asChild size="lg" block>
-              <a href={`#${sectionIds.finalCta}`} onClick={() => setIsMenuOpen(false)}>
+              <a href={sectionHref(sectionIds.finalCta)} onClick={() => setIsMenuOpen(false)}>
                 {tHero('cta')}
               </a>
             </Button>

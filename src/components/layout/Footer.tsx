@@ -40,12 +40,16 @@ export function Footer() {
 
           <nav aria-label={t('navLabel')}>
             <h2 className="type-eyebrow">{t('navLabel')}</h2>
+            {/* `-my-2 py-2` grows the tap target to ~44px tall without
+                changing the visual `gap-3` rhythm between links — the
+                painted padding is cancelled out by the matching negative
+                margin, only the hit area grows. */}
             <ul className="mt-5 flex flex-col gap-3">
               {footerNav.map((item) => (
                 <li key={item.key}>
                   <Link
                     href={item.href}
-                    className="text-sm text-ink-muted transition-colors duration-200 hover:text-ink"
+                    className="-my-2 block py-2 text-sm text-ink-muted transition-colors duration-200 hover:text-ink"
                   >
                     {tNav(item.key)}
                   </Link>
@@ -54,7 +58,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/privacidad"
-                  className="text-sm text-ink-muted transition-colors duration-200 hover:text-ink"
+                  className="-my-2 block py-2 text-sm text-ink-muted transition-colors duration-200 hover:text-ink"
                 >
                   {tPrivacy('linkLabel')}
                 </Link>
@@ -70,7 +74,7 @@ export function Footer() {
                   href={`${whatsappUrl}?text=${encodeURIComponent(tWhatsapp('prefill'))}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 transition-colors duration-200 hover:text-ink"
+                  className="-my-2 inline-flex items-center gap-2 py-2 transition-colors duration-200 hover:text-ink"
                 >
                   <MessageCircle className="h-4 w-4 text-ink-faint" aria-hidden />
                   WhatsApp
@@ -79,7 +83,7 @@ export function Footer() {
               <li>
                 <a
                   href={`mailto:${siteConfig.email}`}
-                  className="inline-flex items-center gap-2 transition-colors duration-200 hover:text-ink"
+                  className="-my-2 inline-flex items-center gap-2 py-2 transition-colors duration-200 hover:text-ink"
                 >
                   <Mail className="h-4 w-4 text-ink-faint" aria-hidden />
                   {siteConfig.email}
