@@ -4,10 +4,16 @@
  * interested in" picker and the message field — the visitor already told us,
  * no need to type it again.
  *
- * Session storage, same mechanism as `package-interest.ts`: the CTAs stay
- * plain `#agenda` anchors, no navigation or extra render path.
+ * The landing is a single page: the form is already mounted by the time the
+ * visitor clicks a CTA further up, so session storage alone is not enough —
+ * nothing re-reads it after mount. `rememberAdvisoryInterest` also dispatches
+ * a same-tab custom event so the mounted form can react immediately, on any
+ * device (this has nothing to do with hover/touch, just click timing).
+ * Session storage stays as the fallback for the case where the form has not
+ * mounted yet.
  */
 const STORAGE_KEY = 'numi:advisory-interest'
+export const ADVISORY_INTEREST_EVENT = 'numi:advisory-interest'
 
 export const advisoryInterestKeys = ['diagnostic', 'training'] as const
 
@@ -20,8 +26,10 @@ export function rememberAdvisoryInterest(key: AdvisoryInterestKey): void {
   try {
     window.sessionStorage.setItem(STORAGE_KEY, key)
   } catch {
-    // Private mode or a blocked storage API — the pre-fill is optional UX.
+    // Private mode or a blocked storage API — the event below still carries it.
   }
+
+  window.dispatchEvent(new CustomEvent<AdvisoryInterestKey>(ADVISORY_INTEREST_EVENT, { detail: key }))
 }
 
 export function readAdvisoryInterest(): AdvisoryInterestKey | undefined {

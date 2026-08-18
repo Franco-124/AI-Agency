@@ -6,7 +6,12 @@ import { useEffect, useId, useState } from 'react'
 import { useForm, useWatch, type RegisterOptions } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
-import { forgetAdvisoryInterest, readAdvisoryInterest } from '@/lib/advisory-interest'
+import {
+  ADVISORY_INTEREST_EVENT,
+  forgetAdvisoryInterest,
+  readAdvisoryInterest,
+  type AdvisoryInterestKey,
+} from '@/lib/advisory-interest'
 import type { ApiResponse } from '@/lib/api'
 import { forgetPackageInterest, readPackageInterest } from '@/lib/package-interest'
 import { cn } from '@/lib/utils'
@@ -102,14 +107,33 @@ export function LeadForm() {
    * told us which one they want by clicking its CTA, so there is nothing left
    * to type. The three packages deliberately do not do this: "no fit" is a
    * real answer there, and a package name alone is not a useful message.
+   *
+   * The landing is a single page, so this form is already mounted by the time
+   * the visitor clicks a card CTA further up — reading session storage once on
+   * mount would only catch a visitor who arrives with it already set. A
+   * same-tab custom event covers the actual case: click happens after mount,
+   * on any device, no hover or navigation involved.
    */
   useEffect(() => {
-    const key = readAdvisoryInterest()
-    if (!key) return
+    const applyAdvisoryInterest = (key: AdvisoryInterestKey) => {
+      setValue('interest', key, { shouldValidate: true })
+      setValue('message', tFields(`messagePrefill.${key}`), { shouldValidate: true })
+    }
 
-    setValue('interest', key)
-    setValue('message', tFields(`messagePrefill.${key}`))
-    forgetAdvisoryInterest()
+    const stored = readAdvisoryInterest()
+    if (stored) {
+      applyAdvisoryInterest(stored)
+      forgetAdvisoryInterest()
+    }
+
+    const onAdvisoryInterest = (event: Event) => {
+      const key = (event as CustomEvent<AdvisoryInterestKey>).detail
+      applyAdvisoryInterest(key)
+      forgetAdvisoryInterest()
+    }
+
+    window.addEventListener(ADVISORY_INTEREST_EVENT, onAdvisoryInterest)
+    return () => window.removeEventListener(ADVISORY_INTEREST_EVENT, onAdvisoryInterest)
   }, [setValue, tFields])
 
   /*
