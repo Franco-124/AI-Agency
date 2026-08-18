@@ -10,6 +10,7 @@
     "home": "Inicio",
     "services": "Servicios",
     "packages": "Paquetes",
+    "advisory": "Asesoría",
     "process": "Proceso",
     "faq": "Preguntas frecuentes",
     "about": "Sobre nosotros",
@@ -198,7 +199,42 @@
       },
       "price": "Desde COP $6.000.000",
       "maintenance": "Mantenimiento desde $900.000/mes",
-      "delivery": "Entrega en 4 a 6 semanas"
+      "delivery": "Entrega en 4 a 6 semanas",
+      "crossSell": "La sesión estratégica mensual incluida puede evolucionar hacia un Programa de Capacitación para tu equipo."
+    }
+  },
+  "advisory": {
+    "eyebrow": "Asesoría y Capacitación",
+    "title": "Dos formas de empezar, sin construir un sistema completo.",
+    "lead": "Para negocios que primero quieren saber qué conviene, o que su equipo aprenda a hacerlo.",
+    "diagnostic": {
+      "name": "Diagnóstico de Automatización",
+      "subtitle": "Antes de invertir, sepan qué vale la pena automatizar y qué no.",
+      "features": {
+        "one": "1 a 2 sesiones de trabajo con tu equipo para entender cómo opera tu negocio hoy",
+        "two": "Mapeo de tus procesos actuales, identificando dónde automatizar genera impacto real",
+        "three": "Entregable escrito con las oportunidades priorizadas y una recomendación clara"
+      },
+      "price": "Desde COP $700.000 · 1–2 sesiones",
+      "note": "Si contratas alguno de los tres paquetes dentro de los 30 días siguientes, el valor del diagnóstico se descuenta del proyecto.",
+      "cta": "Quiero el diagnóstico"
+    },
+    "training": {
+      "name": "Capacitación en Productividad con IA",
+      "subtitle": "Que tu equipo use IA para automatizar su propio trabajo, no solo hablar de IA.",
+      "features": {
+        "one": "Programa de 4 sesiones prácticas, no una charla teórica",
+        "two": "Cada participante aplica IA a una tarea real de su día a día",
+        "three": "Herramientas y prompts pensados para el contexto de tu negocio",
+        "four": "Seguimiento entre sesiones para resolver dudas y ajustar el enfoque",
+        "five": "Entregable con los flujos de trabajo que tu equipo puede seguir usando solo"
+      },
+      "price": "Desde COP $2.500.000 · Programa de 4 sesiones",
+      "cta": "Quiero la capacitación"
+    },
+    "differentiation": {
+      "title": "Cómo se diferencia de un curso genérico",
+      "body": "No es un curso genérico sobre IA: cada sesión parte de las tareas reales de tu equipo, así que lo que aprenden lo aplican esa misma semana en su propio trabajo, no en un caso de estudio ajeno a tu negocio."
     }
   },
   "process": {
@@ -217,7 +253,10 @@
       "two": { "question": "¿Cuánto tiempo toma implementarlo?", "answer": "Depende del alcance, pero la mayoría de negocios ven resultados en pocas semanas." },
       "three": { "question": "¿Esto reemplaza a mi equipo?", "answer": "No. Libera a tu equipo de tareas repetitivas para que se enfoque en lo que más importa." },
       "four": { "question": "¿Qué pasa si necesito ayuda después de la entrega?", "answer": "Incluimos acompañamiento continuo. No te dejamos solo." },
-      "five": { "question": "¿Funciona para mi tipo de negocio?", "answer": "Trabajamos con negocios que dependen de responder rápido y agendar bien. Si ese es tu caso, probablemente sí." }
+      "five": { "question": "¿Funciona para mi tipo de negocio?", "answer": "Trabajamos con negocios que dependen de responder rápido y agendar bien. Si ese es tu caso, probablemente sí." },
+      "six": { "question": "¿El diagnóstico reemplaza la llamada estratégica gratuita de 15 minutos?", "answer": "No. La llamada gratuita es para conocernos y ver si encajamos. El diagnóstico es un análisis más profundo, con entregable escrito, sobre qué automatizar y qué no en tu negocio específico." },
+      "seven": { "question": "¿Necesito contratar un agente de IA para tomar la capacitación?", "answer": "No. Funciona como servicio independiente. Muchos negocios la usan como primer paso antes de decidir si automatizar algo." },
+      "eight": { "question": "¿Puedo contratar los dos servicios juntos?", "answer": "Sí. De hecho, el diagnóstico suele ser el primer paso natural antes de la capacitación o de cualquiera de los tres paquetes." }
     }
   },
   "about": {
@@ -254,10 +293,22 @@
     "industryOptionOther": "Otro",
     "industryOther": "Cuéntanos a qué se dedica",
     "industryOtherPlaceholder": "Por ejemplo: consultorio odontológico, escuela de idiomas…",
+    "interest": "¿Qué te interesa?",
+    "interestPlaceholder": "Selecciona una opción",
+    "interestOptions": {
+      "automation": "Automatización (uno de los 3 paquetes)",
+      "diagnostic": "Diagnóstico de Automatización",
+      "training": "Capacitación en Productividad con IA",
+      "unsure": "Aún no estoy seguro"
+    },
     "whatsapp": "WhatsApp",
     "email": "Correo electrónico",
     "message": "Cuéntanos qué necesitas",
     "messagePlaceholder": "Cuéntanos cómo funciona tu negocio hoy y qué te gustaría automatizar",
+    "messagePrefill": {
+      "diagnostic": "Quiero el Diagnóstico de Automatización para saber qué le conviene automatizar a mi negocio.",
+      "training": "Quiero la Capacitación en Productividad con IA para que mi equipo aprenda a usarla."
+    },
     "submit": "Agenda tu llamada estratégica",
     "again": "Enviar otra consulta",
     "note": "Te contactaremos por WhatsApp o correo para coordinar el horario que mejor te funcione."

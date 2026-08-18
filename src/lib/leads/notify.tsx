@@ -19,6 +19,7 @@ const toEmailProps = (lead: Lead): NewLeadEmailProps => ({
   name: lead.name,
   business: lead.business,
   industry: lead.industry,
+  interest: lead.interest,
   whatsapp: lead.whatsapp,
   email: lead.email,
   message: lead.message,

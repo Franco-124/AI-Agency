@@ -11,10 +11,14 @@ const WHATSAPP_PATTERN = /^[+()\d][\d\s()+-]{6,19}$/
 const requiredText = (max: number) =>
   z.string().trim().min(1, 'required').max(max, 'tooLong')
 
+/** Mirrors the "¿Qué te interesa?" picker options in `LeadForm`. */
+export const interestKeys = ['automation', 'diagnostic', 'training', 'unsure'] as const
+
 export const leadSchema = z.object({
   name: requiredText(120),
   business: requiredText(160),
   industry: requiredText(160),
+  interest: z.enum(interestKeys, 'required'),
   whatsapp: z
     .string()
     .trim()

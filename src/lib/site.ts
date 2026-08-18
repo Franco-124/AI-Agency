@@ -26,6 +26,7 @@ export const sectionIds = {
   results: 'resultados',
   why: 'por-que-numi',
   packages: 'paquetes',
+  advisory: 'asesoria',
   process: 'proceso',
   faq: 'preguntas-frecuentes',
   about: 'sobre-nosotros',

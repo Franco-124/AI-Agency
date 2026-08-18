@@ -6,6 +6,7 @@ import { Header } from '@/components/layout/Header'
 import { ScrollProgress } from '@/components/layout/ScrollProgress'
 import { WhatsAppFab } from '@/components/layout/WhatsAppFab'
 import { About } from '@/components/sections/About'
+import { Advisory } from '@/components/sections/Advisory'
 import { Benefits } from '@/components/sections/Benefits'
 import { Contrast } from '@/components/sections/Contrast'
 import { Differentiation } from '@/components/sections/Differentiation'
@@ -59,6 +60,7 @@ export default async function HomePage({ params }: PageProps) {
         <Results />
         <Why />
         <Packages />
+        <Advisory />
         <Process />
         <Faq />
         <About />

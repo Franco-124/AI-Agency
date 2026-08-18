@@ -2,10 +2,11 @@
 
 import { CheckCircle2, ChevronDown, Loader2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import { useId, useState } from 'react'
+import { useEffect, useId, useState } from 'react'
 import { useForm, useWatch, type RegisterOptions } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
+import { forgetAdvisoryInterest, readAdvisoryInterest } from '@/lib/advisory-interest'
 import type { ApiResponse } from '@/lib/api'
 import { forgetPackageInterest, readPackageInterest } from '@/lib/package-interest'
 import { cn } from '@/lib/utils'
@@ -25,6 +26,7 @@ type FormValues = {
   business: string
   industryChoice: string
   industryOther: string
+  interest: string
   whatsapp: string
   email: string
   message: string
@@ -35,6 +37,7 @@ type LeadPayload = {
   name: string
   business: string
   industry: string
+  interest: string
   whatsapp: string
   email: string
   message: string
@@ -43,6 +46,9 @@ type LeadPayload = {
 
 /** Kept in sync with the niches section — the picker offers what the page sells. */
 const nicheKeys = ['one', 'two', 'three', 'four', 'five'] as const
+
+/** Mirrors `interestKeys` in `src/lib/schemas.ts`. */
+const interestKeys = ['automation', 'diagnostic', 'training', 'unsure'] as const
 
 const OTHER = 'other'
 
@@ -88,8 +94,23 @@ export function LeadForm() {
     formState: { errors },
   } = useForm<FormValues>({
     mode: 'onBlur',
-    defaultValues: { industryChoice: '', industryOther: '' },
+    defaultValues: { industryChoice: '', industryOther: '', interest: '' },
   })
+
+  /*
+   * Only the two Advisory offers pre-fill the message — the visitor already
+   * told us which one they want by clicking its CTA, so there is nothing left
+   * to type. The three packages deliberately do not do this: "no fit" is a
+   * real answer there, and a package name alone is not a useful message.
+   */
+  useEffect(() => {
+    const key = readAdvisoryInterest()
+    if (!key) return
+
+    setValue('interest', key)
+    setValue('message', tFields(`messagePrefill.${key}`))
+    forgetAdvisoryInterest()
+  }, [setValue, tFields])
 
   /*
    * `useWatch` rather than `watch()`: the latter subscribes while rendering,
@@ -131,6 +152,7 @@ export function LeadForm() {
       name: values.name,
       business: values.business,
       industry: industryValue(values),
+      interest: values.interest,
       whatsapp: values.whatsapp,
       email: values.email,
       message: values.message,
@@ -358,6 +380,43 @@ export function LeadForm() {
           )}
         </Field>
       </div>
+
+      {/* Segments the lead before it reaches the CRM, so it lands already
+          classified instead of needing to be triaged after the fact. */}
+      <Field
+        id={`${prefix}-interest`}
+        label={tFields('interest')}
+        error={messageFor(errors.interest?.message)}
+      >
+        {(props) => (
+          <div className="relative">
+            <select
+              {...props}
+              {...register('interest', { required: 'required' })}
+              defaultValue=""
+              className={cn(
+                props.className,
+                'cursor-pointer appearance-none pr-11',
+                '[&>option]:bg-[var(--color-neutro-oscuro)] [&>option]:text-ink',
+              )}
+            >
+              <option value="" disabled>
+                {tFields('interestPlaceholder')}
+              </option>
+              {interestKeys.map((key) => (
+                <option key={key} value={key}>
+                  {tFields(`interestOptions.${key}`)}
+                </option>
+              ))}
+            </select>
+
+            <ChevronDown
+              aria-hidden
+              className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-faint"
+            />
+          </div>
+        )}
+      </Field>
 
       <Field
         id={`${prefix}-message`}

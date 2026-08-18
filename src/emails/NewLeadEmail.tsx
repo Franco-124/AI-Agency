@@ -21,6 +21,7 @@ export type NewLeadEmailProps = {
   name: string
   business: string
   industry: string
+  interest: string
   whatsapp: string
   email: string
   message: string
@@ -55,10 +56,18 @@ const value = {
 const toWhatsAppUrl = (whatsapp: string) =>
   `https://wa.me/${whatsapp.replace(/\D/g, '')}`
 
+const interestLabels: Record<string, string> = {
+  automation: 'Automatización (uno de los 3 paquetes)',
+  diagnostic: 'Diagnóstico de Automatización',
+  training: 'Capacitación en Productividad con IA',
+  unsure: 'Aún no está seguro',
+}
+
 export function NewLeadEmail({
   name,
   business,
   industry,
+  interest,
   whatsapp,
   email,
   message,
@@ -125,15 +134,27 @@ export function NewLeadEmail({
                   {industry}
                 </Text>
               </Column>
-              {packageInterest ? (
-                <Column>
-                  <Text style={label}>Paquete de interés</Text>
-                  <Text style={{ ...value, color: colors.accent, fontSize: '14px' }}>
-                    {packageInterest}
-                  </Text>
-                </Column>
-              ) : null}
+              <Column>
+                <Text style={label}>Qué le interesa</Text>
+                <Text style={{ ...value, color: colors.accent, fontSize: '14px' }}>
+                  {interestLabels[interest] ?? interest}
+                </Text>
+              </Column>
             </Row>
+
+            {packageInterest ? (
+              <>
+                <Hr style={{ borderColor: colors.secondary, margin: '16px 0' }} />
+                <Row>
+                  <Column>
+                    <Text style={label}>Paquete de interés</Text>
+                    <Text style={{ ...value, color: colors.accent, fontSize: '14px' }}>
+                      {packageInterest}
+                    </Text>
+                  </Column>
+                </Row>
+              </>
+            ) : null}
 
             <Hr style={{ borderColor: colors.secondary, margin: '16px 0' }} />
 

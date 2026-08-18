@@ -73,6 +73,14 @@ export function Packages() {
                   ))}
                 </ul>
 
+                {/* Aclaratoria, no un feature más — por eso vive fuera de la
+                    lista de bullets, sin ícono de check. */}
+                {key === 'three' ? (
+                  <p className="mt-3 text-[0.8125rem] leading-relaxed text-ink-faint">
+                    {t('three.crossSell')}
+                  </p>
+                ) : null}
+
                 <div className="mt-auto pt-10">
                   <p className="type-figure text-2xl text-[var(--color-acento)] sm:text-[1.75rem]">
                     {t(`${key}.price`)}

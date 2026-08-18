@@ -10,6 +10,7 @@
     "home": "Home",
     "services": "Services",
     "packages": "Packages",
+    "advisory": "Advisory",
     "process": "Process",
     "faq": "FAQ",
     "about": "About us",
@@ -198,7 +199,42 @@
       },
       "price": "From COP $6,000,000",
       "maintenance": "Maintenance from COP $900,000/month",
-      "delivery": "Delivered in 4 to 6 weeks"
+      "delivery": "Delivered in 4 to 6 weeks",
+      "crossSell": "The monthly strategy session included can grow into a full Training Program for your team."
+    }
+  },
+  "advisory": {
+    "eyebrow": "Advisory and Training",
+    "title": "Two ways to start, without building a full system.",
+    "lead": "For businesses that first want to know what's worth it, or want their team to learn how to do it themselves.",
+    "diagnostic": {
+      "name": "Automation Diagnostic",
+      "subtitle": "Before you invest, know what's worth automating and what isn't.",
+      "features": {
+        "one": "1 to 2 working sessions with your team to understand how your business runs today",
+        "two": "Mapping of your current processes, spotting where automation creates real impact",
+        "three": "A written deliverable with prioritized opportunities and a clear recommendation"
+      },
+      "price": "From COP $700,000 · 1–2 sessions",
+      "note": "If you hire one of the three packages within the following 30 days, the diagnostic's cost is deducted from the project.",
+      "cta": "I want the diagnostic"
+    },
+    "training": {
+      "name": "AI Productivity Training",
+      "subtitle": "Get your team using AI to automate their own work, not just talking about AI.",
+      "features": {
+        "one": "A 4-session hands-on program, not a theory lecture",
+        "two": "Each participant applies AI to a real task from their day-to-day work",
+        "three": "Tools and prompts built for your business's specific context",
+        "four": "Follow-up between sessions to answer questions and adjust the approach",
+        "five": "A deliverable with the workflows your team can keep using on their own"
+      },
+      "price": "From COP $2,500,000 · 4-session program",
+      "cta": "I want the training"
+    },
+    "differentiation": {
+      "title": "How this differs from a generic course",
+      "body": "This isn't a generic course about AI: every session starts from your team's real tasks, so what they learn gets applied that same week to their own work, not to a case study unrelated to your business."
     }
   },
   "process": {
@@ -217,7 +253,10 @@
       "two": { "question": "How long does it take to implement?", "answer": "It depends on the scope, but most businesses see results within a few weeks." },
       "three": { "question": "Does this replace my team?", "answer": "No. It frees your team from repetitive tasks so they can focus on what matters most." },
       "four": { "question": "What if I need help after delivery?", "answer": "Ongoing support is included. We don't leave you on your own." },
-      "five": { "question": "Does it work for my kind of business?", "answer": "We work with businesses that depend on replying fast and booking well. If that's your case, most likely yes." }
+      "five": { "question": "Does it work for my kind of business?", "answer": "We work with businesses that depend on replying fast and booking well. If that's your case, most likely yes." },
+      "six": { "question": "Does the diagnostic replace the free 15-minute strategy call?", "answer": "No. The free call is for us to get to know each other and see if we're a fit. The diagnostic is a deeper analysis, with a written deliverable, on what to automate and what not to in your specific business." },
+      "seven": { "question": "Do I need to hire an AI agent to take the training?", "answer": "No. It works as a standalone service. Many businesses use it as a first step before deciding whether to automate anything." },
+      "eight": { "question": "Can I hire both services together?", "answer": "Yes. In fact, the diagnostic is usually the natural first step before the training or before any of the three packages." }
     }
   },
   "about": {
@@ -254,10 +293,22 @@
     "industryOptionOther": "Other",
     "industryOther": "Tell us what it does",
     "industryOtherPlaceholder": "For example: dental practice, language school…",
+    "interest": "What are you interested in?",
+    "interestPlaceholder": "Select an option",
+    "interestOptions": {
+      "automation": "Automation (one of the 3 packages)",
+      "diagnostic": "Automation Diagnostic",
+      "training": "AI Productivity Training",
+      "unsure": "Not sure yet"
+    },
     "whatsapp": "WhatsApp",
     "email": "Email address",
     "message": "Tell us what you need",
     "messagePlaceholder": "Tell us how your business works today and what you'd like to automate",
+    "messagePrefill": {
+      "diagnostic": "I want the Automation Diagnostic to find out what's worth automating in my business.",
+      "training": "I want the AI Productivity Training so my team can learn to use it."
+    },
     "submit": "Book your strategy call",
     "again": "Send another message",
     "note": "We'll reach out on WhatsApp or by email to arrange a time that works best for you."

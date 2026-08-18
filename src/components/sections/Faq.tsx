@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/accordion'
 import { sectionIds } from '@/lib/site'
 
-const faqKeys = ['one', 'two', 'three', 'four', 'five'] as const
+const faqKeys = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight'] as const
 
 export function Faq() {
   const t = useTranslations('faq')

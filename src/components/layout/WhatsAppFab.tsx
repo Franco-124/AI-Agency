@@ -1,10 +1,24 @@
 'use client'
 
-import { MessageCircle, X } from 'lucide-react'
+import { X } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 
 import { whatsappUrl } from '@/lib/site'
+
+/**
+ * Official WhatsApp glyph. Not in lucide (icon-only, no brand marks), so it
+ * ships as a plain inline SVG rather than pulling in a whole icon-brand
+ * package for one mark.
+ */
+function WhatsAppIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden className={className}>
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+      <path d="M12.001 2C6.478 2 2 6.478 2 12c0 1.98.573 3.827 1.563 5.383L2 22l4.735-1.539A9.953 9.953 0 0 0 12.001 22C17.523 22 22 17.522 22 12S17.523 2 12.001 2zm0 18.13a8.12 8.12 0 0 1-4.14-1.135l-.297-.176-3.07.998.996-3.07-.187-.309A8.13 8.13 0 1 1 20.13 12a8.14 8.14 0 0 1-8.129 8.13z" />
+    </svg>
+  )
+}
 
 const DISMISSED_KEY = 'numi:whatsapp-greeting-dismissed'
 const GREETING_DELAY = 4000
@@ -24,9 +38,8 @@ const markDismissed = () => {
 /**
  * Persistent WhatsApp entry point.
  *
- * The button carries a visible label on desktop and collapses to the icon on
- * mobile. The link is pre-filled so the chat opens with a first message already
- * written — the visitor never lands on an empty thread.
+ * A dark, icon-only circle — the orange icon is the only accent, so it reads
+ * as a quiet utility button rather than competing with the hero CTA.
  *
  * A greeting bubble appears once per session and is suppressed for the rest of
  * the session as soon as it is dismissed or the button is used.
@@ -102,10 +115,9 @@ export function WhatsAppFab() {
         rel="noopener noreferrer"
         aria-label={t('ariaLabel')}
         onClick={dismissGreeting}
-        className="inline-flex h-14 items-center justify-center gap-2 rounded-full bg-[var(--color-acento)] px-4 font-medium text-[var(--color-neutro-oscuro)] transition-[transform,filter] duration-200 ease-out motion-safe:hover:-translate-y-0.5 sm:px-5 hover:brightness-110"
+        className="inline-flex h-14 w-14 items-center justify-center rounded-full border-[0.5px] border-[#3d434a] bg-[var(--color-primario)] text-[var(--color-acento)] transition-transform duration-200 ease-out motion-safe:hover:-translate-y-0.5"
       >
-        <MessageCircle className="h-5 w-5 shrink-0" strokeWidth={2} aria-hidden />
-        <span className="hidden text-sm sm:inline">{t('label')}</span>
+        <WhatsAppIcon className="h-6 w-6 shrink-0" />
       </a>
     </div>
   )

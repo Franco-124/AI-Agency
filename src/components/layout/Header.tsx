@@ -1,11 +1,10 @@
 'use client'
 
-import { Menu, X } from 'lucide-react'
+import { ArrowRight, Menu, X } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
 import { useEffect, useId, useState } from 'react'
 
 import { Logo } from '@/components/brand/Logo'
-import { Button } from '@/components/ui/button'
 import { usePathname } from '@/i18n/navigation'
 import { sectionIds } from '@/lib/site'
 import { cn } from '@/lib/utils'
@@ -15,6 +14,7 @@ import { LocaleSwitcher } from './LocaleSwitcher'
 const navItems = [
   { key: 'services', id: sectionIds.services },
   { key: 'packages', id: sectionIds.packages },
+  { key: 'advisory', id: sectionIds.advisory },
   { key: 'process', id: sectionIds.process },
   { key: 'faq', id: sectionIds.faq },
   { key: 'about', id: sectionIds.about },
@@ -152,9 +152,21 @@ export function Header() {
         <div className="flex items-center gap-2.5">
           <LocaleSwitcher label={t('languageLabel')} className="hidden sm:inline-flex" />
 
-          <Button asChild size="sm" className="hidden md:inline-flex">
-            <a href={sectionHref(sectionIds.finalCta)}>{tHero('cta')}</a>
-          </Button>
+          {/*
+            Deliberately no button chrome: the toggle and the hero CTA are the
+            two accents that need to stand out on this screen, so the nav CTA
+            reads as a plain link — only the arrow carries the orange.
+          */}
+          <a
+            href={sectionHref(sectionIds.finalCta)}
+            className="group hidden min-h-11 items-center gap-1.5 px-2 text-sm font-medium text-ink md:inline-flex"
+          >
+            {tHero('cta')}
+            <ArrowRight
+              aria-hidden
+              className="h-4 w-4 shrink-0 text-[var(--color-acento)] transition-transform duration-150 ease-out group-hover:translate-x-1"
+            />
+          </a>
 
           <button
             type="button"
@@ -214,11 +226,17 @@ export function Header() {
           </ul>
 
           <div className="mt-7 flex flex-col gap-4">
-            <Button asChild size="lg" block>
-              <a href={sectionHref(sectionIds.finalCta)} onClick={() => setIsMenuOpen(false)}>
-                {tHero('cta')}
-              </a>
-            </Button>
+            <a
+              href={sectionHref(sectionIds.finalCta)}
+              onClick={() => setIsMenuOpen(false)}
+              className="group flex min-h-11 items-center gap-1.5 rounded-lg px-3 text-lg text-ink"
+            >
+              {tHero('cta')}
+              <ArrowRight
+                aria-hidden
+                className="h-5 w-5 shrink-0 text-[var(--color-acento)] transition-transform duration-150 ease-out group-hover:translate-x-1"
+              />
+            </a>
             <LocaleSwitcher label={t('languageLabel')} className="self-start sm:hidden" />
           </div>
         </nav>
