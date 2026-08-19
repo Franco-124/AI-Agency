@@ -35,6 +35,16 @@ export function PackagesJsonLd({ locale, items }: PackagesJsonLdProps) {
         '@type': 'Country',
         name: siteConfig.region,
       },
+      itemOffered: {
+        '@type': 'Service',
+        name,
+        description,
+        provider: { '@id': `${siteConfig.url}/#organization` },
+        areaServed: {
+          '@type': 'Country',
+          name: siteConfig.region,
+        },
+      },
     })),
   }
 

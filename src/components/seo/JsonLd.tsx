@@ -18,11 +18,12 @@ type JsonLdProps = {
 export function JsonLd({ locale, name, description, services, review }: JsonLdProps) {
   const data = {
     '@context': 'https://schema.org',
-    '@type': 'ProfessionalService',
+    '@type': ['Organization', 'ProfessionalService'],
     '@id': `${siteConfig.url}/#organization`,
     name,
     description,
     url: `${siteConfig.url}/${locale}`,
+    logo: `${siteConfig.url}/images/numi-mark.png`,
     image: `${siteConfig.url}${siteConfig.ogImage}`,
     email: siteConfig.email,
     telephone: `+${siteConfig.whatsapp}`,
@@ -36,6 +37,16 @@ export function JsonLd({ locale, name, description, services, review }: JsonLdPr
       addressLocality: siteConfig.city,
       addressCountry: siteConfig.country,
     },
+    contactPoint: [
+      {
+        '@type': 'ContactPoint',
+        contactType: 'customer service',
+        telephone: `+${siteConfig.whatsapp}`,
+        email: siteConfig.email,
+        areaServed: siteConfig.country,
+        availableLanguage: ['es', 'en'],
+      },
+    ],
     knowsAbout: services,
     review: {
       '@type': 'Review',
