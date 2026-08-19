@@ -10,9 +10,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion'
-import { sectionIds } from '@/lib/site'
-
-const faqKeys = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight'] as const
+import { faqKeys, sectionIds } from '@/lib/site'
 
 export function Faq() {
   const t = useTranslations('faq')

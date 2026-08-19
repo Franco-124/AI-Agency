@@ -1,0 +1,44 @@
+# Numi AI
+
+> Numi AI is an AI agency for small and medium businesses (pymes) in Colombia. It builds AI agents/assistants that answer customers instantly, 24/7, so business teams stop losing time and stop losing sales.
+
+Numi AI is based in Medellín, Colombia, and serves businesses across Colombia. It focuses on service-based, appointment-driven niches: aesthetic clinics, real estate agencies, veterinary clinics, auto repair shops, and gyms.
+
+- Website: https://www.numinet.co
+- Languages: Spanish (default, `/es`), English (`/en`)
+- Contact email: atencionnumi@gmail.com
+- WhatsApp: https://wa.me/573135820975
+
+## Pages
+
+- [Home (ES)](https://www.numinet.co/es): Full landing page — value proposition, niches served, services, benefits, results, packages/pricing, advisory & training, process, FAQ, about.
+- [Home (EN)](https://www.numinet.co/en): English version of the landing page.
+- [Privacy Policy (ES)](https://www.numinet.co/es/privacidad)
+- [Privacy Policy (EN)](https://www.numinet.co/en/privacidad)
+
+## What Numi AI does
+
+Numi AI designs and deploys AI-powered customer service agents (chat and WhatsApp) that:
+- Respond to customer inquiries instantly, at any hour, without human staff needing to be online.
+- Qualify leads and book appointments automatically.
+- Reduce the sales and time lost from slow or missed manual responses.
+
+## Pricing (packages, COP, prices "from")
+
+1. **Presencia Digital + Agente Esencial** — from COP $1,500,000, maintenance from $200,000/month, delivered in 2 weeks. For businesses starting to digitalize: website up to 5 pages, a WhatsApp agent for hours/prices/simple bookings, new-customer notifications.
+2. **Automatización + Atención Full** (most chosen) — from COP $3,000,000, maintenance from $450,000/month, delivered in 3–4 weeks. For businesses with real inquiry volume: website up to 8 pages, an agent that books appointments, answers complex questions, and hands off to a human when needed, plus reminders/follow-up/weekly reports.
+3. **Growth Partner** — from COP $6,000,000, maintenance from $900,000/month, delivered in 4–6 weeks. For multi-location or larger operations: website up to 15 pages, an agent across WhatsApp/Instagram/website, full follow-up automation, and a monthly strategy session.
+
+A custom proposal is available for businesses that don't fit any package.
+
+## Documented result
+
+A real client, Casas y Espacios Inmobiliaria (Medellín), reports +40% more customer-service capacity without hiring new staff: "Antes perdíamos consultas de apartamentos porque no alcanzábamos a responder a tiempo. Con el asistente, cada mensaje se atiende al instante y solo llegan a nosotros los interesados listos para agendar."
+
+Structured data (JSON-LD `ProfessionalService`, `FAQPage`, and an `OfferCatalog` with the packages above) is embedded on the home page for machine-readable business details, pricing, and frequently asked questions — prefer parsing that over scraping the rendered page.
+
+## Notes for AI agents and crawlers
+
+- All page content is server-rendered; no JavaScript execution is required to read the text.
+- The FAQ section on the home page answers the most common buyer questions (setup complexity, implementation time, whether it replaces staff, etc.) and is also available as `FAQPage` structured data.
+- Do not use the contact email or WhatsApp number for anything other than legitimate business inquiries about Numi AI's services.

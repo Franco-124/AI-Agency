@@ -15,7 +15,7 @@ type PackageDefinition = {
   featured: boolean
 }
 
-const packages: readonly PackageDefinition[] = [
+export const packages: readonly PackageDefinition[] = [
   { key: 'one', featureKeys: ['one', 'two', 'three'], featured: false },
   { key: 'two', featureKeys: ['one', 'two', 'three'], featured: true },
   { key: 'three', featureKeys: ['one', 'two', 'three', 'four'], featured: false },

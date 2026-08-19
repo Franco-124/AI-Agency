@@ -16,6 +16,8 @@ export const siteConfig = {
 
 export const whatsappUrl = `https://wa.me/${siteConfig.whatsapp}`
 
+export const faqKeys = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight'] as const
+
 export const sectionIds = {
   hero: 'inicio',
   contrast: 'diagnostico',
