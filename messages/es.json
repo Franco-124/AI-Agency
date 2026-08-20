@@ -203,6 +203,20 @@
       "crossSell": "La sesión estratégica mensual incluida puede evolucionar hacia un Programa de Capacitación para tu equipo."
     }
   },
+  "savingsCalculator": {
+    "title": "Calcula tu ahorro estimado",
+    "lead": "Ingresa dos datos y mira cuánto podrías ahorrar automatizando tareas repetitivas.",
+    "salarioLabel": "Salario promedio mensual (COP)",
+    "salarioPlaceholder": "Ej: 1.800.000",
+    "horasLabel": "Horas al mes en tareas repetitivas",
+    "horasPlaceholder": "Ej: 40",
+    "monthlyLabel": "Ahorro mensual estimado",
+    "yearlyLabel": "Ahorro anual estimado",
+    "paybackLine": "Con este ahorro, el Paquete Automatización + Atención Full se paga solo en aproximadamente {months} meses.",
+    "paybackEmpty": "Ingresa tus datos para ver en cuánto tiempo se paga solo.",
+    "disclaimer": "Estimación basada en rangos conservadores del sector. El ahorro real depende de tu operación.",
+    "cta": "Agenda tu llamada estratégica"
+  },
   "advisory": {
     "eyebrow": "Asesoría y Capacitación",
     "title": "Dos formas de empezar, sin construir un sistema completo.",

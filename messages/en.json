@@ -203,6 +203,20 @@
       "crossSell": "The monthly strategy session included can grow into a full Training Program for your team."
     }
   },
+  "savingsCalculator": {
+    "title": "Estimate your savings",
+    "lead": "Enter two numbers and see how much you could save by automating repetitive tasks.",
+    "salarioLabel": "Average monthly salary (COP)",
+    "salarioPlaceholder": "E.g. 1,800,000",
+    "horasLabel": "Monthly hours on repetitive tasks",
+    "horasPlaceholder": "E.g. 40",
+    "monthlyLabel": "Estimated monthly savings",
+    "yearlyLabel": "Estimated yearly savings",
+    "paybackLine": "At this rate, the Automation + Full Support package pays for itself in about {months} months.",
+    "paybackEmpty": "Enter your numbers to see the payback period.",
+    "disclaimer": "Estimate based on conservative industry ranges. Actual savings depend on your operation.",
+    "cta": "Book your strategy call"
+  },
   "advisory": {
     "eyebrow": "Advisory and Training",
     "title": "Two ways to start, without building a full system.",

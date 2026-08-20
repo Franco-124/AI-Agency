@@ -3,6 +3,7 @@ import { useTranslations } from 'next-intl'
 
 import { Section, SectionHeading } from '@/components/layout/Section'
 import { Reveal } from '@/components/motion/Reveal'
+import { CalculadoraAhorro } from '@/components/sections/CalculadoraAhorro'
 import { PackageCtaLink } from '@/components/sections/PackageCtaLink'
 import { Button } from '@/components/ui/button'
 import type { PackageKey } from '@/lib/package-interest'
@@ -136,6 +137,10 @@ export function Packages() {
             </Button>
           </div>
         </div>
+      </Reveal>
+
+      <Reveal delay={0.32} className="mt-6">
+        <CalculadoraAhorro />
       </Reveal>
     </Section>
   )
