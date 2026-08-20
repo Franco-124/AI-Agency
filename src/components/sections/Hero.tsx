@@ -34,6 +34,16 @@ export function Hero() {
         aria-hidden
         className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,var(--color-neutro-oscuro)_0%,color-mix(in_srgb,var(--color-neutro-oscuro)_82%,transparent)_55%,transparent_100%)]"
       />
+      {/*
+        Banded vignette over the network canvas: heavier at the top and
+        bottom edges (where the header sits and where the section meets the
+        next one) and near-clear through the middle, so the animated nodes
+        stay visible without ever competing with the headline's contrast.
+      */}
+      <div
+        aria-hidden
+        className="absolute inset-0 -z-10 bg-[linear-gradient(to_bottom,color-mix(in_srgb,var(--color-neutro-oscuro)_85%,transparent)_0%,transparent_22%,transparent_68%,color-mix(in_srgb,var(--color-neutro-oscuro)_70%,transparent)_100%)]"
+      />
 
       {/*
         Ambient haze behind the headline, toned from the secondary surface

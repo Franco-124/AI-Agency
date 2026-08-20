@@ -59,7 +59,7 @@ export function HeroChatCard() {
       <m.aside
         {...enter(CARD_DELAY)}
         aria-label={t('ariaLabel')}
-        className="ml-auto w-full max-w-[20rem] rounded-2xl border border-hairline-strong bg-[var(--color-primario)] p-4"
+        className="ml-auto w-full max-w-[20rem] rounded-2xl border border-hairline-strong bg-[color-mix(in_srgb,var(--color-primario)_82%,transparent)] p-4 shadow-[0_24px_60px_-24px_rgba(0,0,0,0.55)] backdrop-blur-md"
       >
         <header className="mb-3 flex items-center gap-2.5 border-b border-hairline pb-3">
           <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--accent-soft)]">
