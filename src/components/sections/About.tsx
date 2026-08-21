@@ -29,7 +29,7 @@ export function About() {
       className="grain relative isolate scroll-mt-24 overflow-hidden border-y border-hairline py-24 lg:py-32"
     >
       <Image
-        src="/images/07-fondo-sobre-nosotros.webp"
+        src="/images/12-about-new.webp"
         alt={t('imageAlt')}
         fill
         sizes="100vw"

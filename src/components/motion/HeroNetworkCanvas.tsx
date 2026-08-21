@@ -21,6 +21,8 @@ type Node = {
   vx: number
   vy: number
   radius: number
+  /** Per-node parallax weight — nearer "layer" nodes drift more under pointer. */
+  depth: number
 }
 
 type Pulse = {
@@ -30,10 +32,14 @@ type Pulse = {
   speed: number
 }
 
-const NODE_COUNT = 16
-const MAX_LINK_DISTANCE = 0.34
-const MAX_PULSES = 5
-const PULSE_SPAWN_CHANCE = 0.02
+const NODE_COUNT = 24
+const MAX_LINK_DISTANCE = 0.3
+const MAX_PULSES = 7
+const PULSE_SPAWN_CHANCE = 0.025
+/** Fraction of the wrapper size the field can shift toward the pointer. */
+const PARALLAX_STRENGTH = 0.02
+/** How quickly the parallax offset eases toward its target each frame. */
+const PARALLAX_EASE = 0.06
 
 /*
  * A tiny deterministic PRNG (mulberry32) instead of Math.random: the layout
@@ -56,14 +62,50 @@ function readColor(el: HTMLElement, token: string, fallback: string) {
   return value || fallback
 }
 
-function withAlpha(hex: string, alpha: number) {
+/** Parses a `#rrggbb` hex string once, up front — never per frame. */
+function hexToRgb(hex: string): readonly [number, number, number] {
   const match = /^#([0-9a-f]{6})$/i.exec(hex)
-  if (!match) return hex
+  if (!match) return [255, 255, 255]
   const int = Number.parseInt(match[1], 16)
-  const r = (int >> 16) & 255
-  const g = (int >> 8) & 255
-  const b = int & 255
+  return [(int >> 16) & 255, (int >> 8) & 255, int & 255]
+}
+
+function rgba([r, g, b]: readonly [number, number, number], alpha: number) {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`
+}
+
+/**
+ * Pre-renders a pulse's radial glow (outer haze + inner core) onto an
+ * offscreen canvas once, so `draw()` only ever calls `drawImage` per pulse
+ * instead of building two `CanvasGradient`s per pulse, per frame — the
+ * costliest operation in this component at up to `MAX_PULSES` concurrent.
+ */
+function createGlowSprite(accentRgb: readonly [number, number, number]) {
+  const size = 44
+  const sprite = document.createElement('canvas')
+  sprite.width = size
+  sprite.height = size
+  const sctx = sprite.getContext('2d')
+  if (!sctx) return sprite
+
+  const center = size / 2
+  const outer = sctx.createRadialGradient(center, center, 0, center, center, 22)
+  outer.addColorStop(0, rgba(accentRgb, 0.32))
+  outer.addColorStop(1, rgba(accentRgb, 0))
+  sctx.fillStyle = outer
+  sctx.beginPath()
+  sctx.arc(center, center, 22, 0, Math.PI * 2)
+  sctx.fill()
+
+  const inner = sctx.createRadialGradient(center, center, 0, center, center, 11)
+  inner.addColorStop(0, rgba(accentRgb, 0.9))
+  inner.addColorStop(1, rgba(accentRgb, 0))
+  sctx.fillStyle = inner
+  sctx.beginPath()
+  sctx.arc(center, center, 11, 0, Math.PI * 2)
+  sctx.fill()
+
+  return sprite
 }
 
 export function HeroNetworkCanvas() {
@@ -83,9 +125,11 @@ export function HeroNetworkCanvas() {
     if (!ctx) return
 
     const rng = createRng(1337)
-    const accent = readColor(wrapper, '--color-acento', '#ff5c1a')
-    const lineColor = readColor(wrapper, '--color-secundario', '#2b3238')
-    const nodeColor = readColor(wrapper, '--color-neutro-claro', '#f6f4f0')
+    const accentRgb = hexToRgb(readColor(wrapper, '--color-acento', '#9333ea'))
+    const lineRgb = hexToRgb(readColor(wrapper, '--color-secundario', '#322b3d'))
+    const nodeRgb = hexToRgb(readColor(wrapper, '--color-neutro-claro', '#f5f3f8'))
+    const glowSprite = createGlowSprite(accentRgb)
+    const glowSize = glowSprite.width
 
     let width = 0
     let height = 0
@@ -102,8 +146,35 @@ export function HeroNetworkCanvas() {
         vx: (rng() - 0.5) * 0.00014,
         vy: (rng() - 0.5) * 0.00014,
         radius: 1.6 + rng() * 1.8,
+        depth: 0.4 + rng() * 0.6,
       }))
       pulses = []
+    }
+
+    // Pointer parallax: target set on move, eased toward every frame so the
+    // field settles smoothly instead of snapping to the cursor.
+    let pointerTargetX = 0
+    let pointerTargetY = 0
+    let parallaxX = 0
+    let parallaxY = 0
+
+    // Listens on the window rather than the wrapper: the wrapper's ancestor
+    // carries `pointer-events-none` (the layer must never intercept clicks
+    // meant for the headline/CTA), so a listener on it would never fire.
+    // Coordinates are clamped to [-1, 1] so pointer positions outside the
+    // hero box still settle the field instead of pinning it at an edge.
+    const handlePointerMove = (event: PointerEvent) => {
+      const rect = wrapper.getBoundingClientRect()
+      if (rect.width === 0 || rect.height === 0) return
+      const rawX = ((event.clientX - rect.left) / rect.width - 0.5) * 2
+      const rawY = ((event.clientY - rect.top) / rect.height - 0.5) * 2
+      pointerTargetX = Math.max(-1, Math.min(1, rawX))
+      pointerTargetY = Math.max(-1, Math.min(1, rawY))
+    }
+
+    const handlePointerLeaveWindow = () => {
+      pointerTargetX = 0
+      pointerTargetY = 0
     }
 
     const resize = () => {
@@ -142,6 +213,9 @@ export function HeroNetworkCanvas() {
       }
       buildLinks()
 
+      parallaxX += (pointerTargetX - parallaxX) * PARALLAX_EASE
+      parallaxY += (pointerTargetY - parallaxY) * PARALLAX_EASE
+
       if (pulses.length < MAX_PULSES && rng() < PULSE_SPAWN_CHANCE && links.length > 0) {
         const [from, to] = links[Math.floor(rng() * links.length)]
         pulses.push({ from, to, progress: 0, speed: 0.006 + rng() * 0.006 })
@@ -150,48 +224,57 @@ export function HeroNetworkCanvas() {
       for (const pulse of pulses) pulse.progress += pulse.speed
     }
 
+    // Projects a node's normalised position to canvas pixels, offset by the
+    // eased pointer parallax scaled to that node's depth — nodes with more
+    // depth (closer "layer") drift further, giving the field real dimension
+    // instead of moving as one flat plane.
+    const project = (node: Node) => {
+      const offsetX = parallaxX * PARALLAX_STRENGTH * node.depth * width
+      const offsetY = parallaxY * PARALLAX_STRENGTH * node.depth * height
+      return [node.x * width + offsetX, node.y * height + offsetY] as const
+    }
+
     const draw = () => {
       ctx.clearRect(0, 0, width, height)
 
       ctx.lineWidth = 1
       for (const [i, j, distance] of links) {
-        const a = nodes[i]
-        const b = nodes[j]
+        const [ax, ay] = project(nodes[i])
+        const [bx, by] = project(nodes[j])
         const fade = 1 - distance / MAX_LINK_DISTANCE
-        ctx.strokeStyle = withAlpha(lineColor, fade * 0.5)
+        ctx.strokeStyle = rgba(lineRgb, fade * 0.5)
         ctx.beginPath()
-        ctx.moveTo(a.x * width, a.y * height)
-        ctx.lineTo(b.x * width, b.y * height)
+        ctx.moveTo(ax, ay)
+        ctx.lineTo(bx, by)
         ctx.stroke()
       }
 
+      ctx.fillStyle = rgba(nodeRgb, 0.55)
       for (const node of nodes) {
+        const [nx, ny] = project(node)
         ctx.beginPath()
-        ctx.fillStyle = withAlpha(nodeColor, 0.55)
-        ctx.arc(node.x * width, node.y * height, node.radius, 0, Math.PI * 2)
+        ctx.arc(nx, ny, node.radius, 0, Math.PI * 2)
         ctx.fill()
       }
 
       for (const pulse of pulses) {
         const a = nodes[pulse.from]
         const b = nodes[pulse.to]
-        const x = a.x + (b.x - a.x) * pulse.progress
-        const y = a.y + (b.y - a.y) * pulse.progress
-        const px = x * width
-        const py = y * height
+        const [ax, ay] = project(a)
+        const [bx, by] = project(b)
+        const px = ax + (bx - ax) * pulse.progress
+        const py = ay + (by - ay) * pulse.progress
         const fade = pulse.progress < 0.5 ? pulse.progress * 2 : (1 - pulse.progress) * 2
 
-        const glow = ctx.createRadialGradient(px, py, 0, px, py, 10)
-        glow.addColorStop(0, withAlpha(accent, 0.85 * fade))
-        glow.addColorStop(1, withAlpha(accent, 0))
-        ctx.fillStyle = glow
-        ctx.beginPath()
-        ctx.arc(px, py, 10, 0, Math.PI * 2)
-        ctx.fill()
+        // Pre-rendered sprite stamped via drawImage — no CanvasGradient is
+        // built here, so this stays cheap even with several pulses at once.
+        ctx.globalAlpha = fade
+        ctx.drawImage(glowSprite, px - glowSize / 2, py - glowSize / 2)
+        ctx.globalAlpha = 1
 
         ctx.beginPath()
-        ctx.fillStyle = withAlpha(accent, fade)
-        ctx.arc(px, py, 2.2, 0, Math.PI * 2)
+        ctx.fillStyle = rgba(nodeRgb, fade)
+        ctx.arc(px, py, 2.4, 0, Math.PI * 2)
         ctx.fill()
       }
     }
@@ -224,11 +307,16 @@ export function HeroNetworkCanvas() {
     })
     resizeObserver.observe(wrapper)
 
+    window.addEventListener('pointermove', handlePointerMove, { passive: true })
+    window.addEventListener('pointerleave', handlePointerLeaveWindow)
+
     if (isInView) start()
 
     return () => {
       stop()
       resizeObserver.disconnect()
+      window.removeEventListener('pointermove', handlePointerMove)
+      window.removeEventListener('pointerleave', handlePointerLeaveWindow)
     }
   }, [prefersReducedMotion, isInView])
 

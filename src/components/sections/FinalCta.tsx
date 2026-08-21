@@ -16,7 +16,7 @@ export function FinalCta() {
       className="relative isolate scroll-mt-24 overflow-hidden border-t border-hairline py-24 lg:py-32"
     >
       <Image
-        src="/images/08-cta-final-banner.webp"
+        src="/images/15-cta-new.webp"
         alt={t('imageAlt')}
         fill
         sizes="100vw"

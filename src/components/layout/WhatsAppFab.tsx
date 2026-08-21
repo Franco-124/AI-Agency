@@ -115,7 +115,7 @@ export function WhatsAppFab() {
         rel="noopener noreferrer"
         aria-label={t('ariaLabel')}
         onClick={dismissGreeting}
-        className="inline-flex h-14 w-14 items-center justify-center rounded-full border-[0.5px] border-[#3d434a] bg-[var(--color-primario)] text-[var(--color-acento)] transition-transform duration-200 ease-out motion-safe:hover:-translate-y-0.5"
+        className="inline-flex h-14 w-14 items-center justify-center rounded-full border-[0.5px] border-[var(--color-secundario)] bg-[var(--color-primario)] text-[var(--color-acento)] transition-transform duration-200 ease-out motion-safe:hover:-translate-y-0.5"
       >
         <WhatsAppIcon className="h-6 w-6 shrink-0" />
       </a>

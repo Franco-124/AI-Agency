@@ -23,7 +23,7 @@ export function Hero() {
         background only needs to be an honest surface, not a stand-in symbol.
       */}
       <Image
-        src="/images/10-textura-base-sitio.webp"
+        src="/images/16-hero-original.webp"
         alt={t('imageAlt')}
         fill
         priority

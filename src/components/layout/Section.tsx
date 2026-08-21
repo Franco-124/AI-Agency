@@ -22,6 +22,8 @@ type SectionProps = {
   /** Labelled by the section heading id, for landmark accessibility. */
   labelledBy?: string
   surface?: Surface
+  /** Overrides the shared texture image when `surface="texture"`. */
+  backgroundSrc?: string
 }
 
 const surfaceClasses: Record<Surface, string> = {
@@ -37,6 +39,7 @@ export function Section({
   divided = true,
   labelledBy,
   surface = 'base',
+  backgroundSrc = '/images/10-textura-base-sitio.webp',
 }: SectionProps) {
   return (
     <section
@@ -51,7 +54,7 @@ export function Section({
     >
       {surface === 'texture' ? (
         <Image
-          src="/images/10-textura-base-sitio.webp"
+          src={backgroundSrc}
           alt=""
           aria-hidden
           fill

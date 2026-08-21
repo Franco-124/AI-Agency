@@ -33,7 +33,13 @@ export function Niches() {
   const t = useTranslations('niches')
 
   return (
-    <Section id={sectionIds.niches} labelledBy="nichos-titulo" divided={false}>
+    <Section
+      id={sectionIds.niches}
+      labelledBy="nichos-titulo"
+      divided={false}
+      surface="texture"
+      backgroundSrc="/images/14-niches-new.webp"
+    >
       <Reveal>
         <SectionHeading id="nichos-titulo" title={t('title')} />
       </Reveal>

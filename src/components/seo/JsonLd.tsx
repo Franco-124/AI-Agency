@@ -1,4 +1,4 @@
-import { siteConfig } from '@/lib/site'
+import { siteConfig, whatsappUrl } from '@/lib/site'
 
 type ReviewData = {
   body: string
@@ -23,10 +23,12 @@ export function JsonLd({ locale, name, description, services, review }: JsonLdPr
     name,
     description,
     url: `${siteConfig.url}/${locale}`,
-    logo: `${siteConfig.url}/images/numi-mark.png`,
+    logo: `${siteConfig.url}${siteConfig.logo}`,
     image: `${siteConfig.url}${siteConfig.ogImage}`,
     email: siteConfig.email,
-    telephone: `+${siteConfig.whatsapp}`,
+    // WhatsApp only, not a voice line — listed as `sameAs`, never as
+    // `telephone`, so an answer engine never tells someone to call it.
+    sameAs: [whatsappUrl],
     inLanguage: locale,
     areaServed: {
       '@type': 'Country',
@@ -41,8 +43,8 @@ export function JsonLd({ locale, name, description, services, review }: JsonLdPr
       {
         '@type': 'ContactPoint',
         contactType: 'customer service',
-        telephone: `+${siteConfig.whatsapp}`,
         email: siteConfig.email,
+        url: whatsappUrl,
         areaServed: siteConfig.country,
         availableLanguage: ['es', 'en'],
       },

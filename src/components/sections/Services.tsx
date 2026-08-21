@@ -25,7 +25,12 @@ export function Services() {
   const t = useTranslations('services')
 
   return (
-    <Section id={sectionIds.services} labelledBy="servicios-titulo" surface="raised">
+    <Section
+      id={sectionIds.services}
+      labelledBy="servicios-titulo"
+      surface="texture"
+      backgroundSrc="/images/13-services-new.webp"
+    >
       <Reveal>
         <SectionHeading id="servicios-titulo" title={t('title')} />
       </Reveal>

@@ -31,11 +31,11 @@ export type NewLeadEmailProps = {
 /* Mirrors the landing's palette. Email clients ignore CSS variables, so the
    values are inlined here rather than imported from globals.css. */
 const colors = {
-  primary: '#141A1F',
-  secondary: '#2B3238',
-  accent: '#FF5C1A',
-  darkNeutral: '#0A0D10',
-  lightNeutral: '#F6F4F0',
+  primary: '#1A1420',
+  secondary: '#322B3D',
+  accent: '#9333EA',
+  darkNeutral: '#0D0A11',
+  lightNeutral: '#F5F3F8',
 } as const
 
 const label = {

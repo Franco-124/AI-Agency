@@ -18,7 +18,7 @@ export function PackagesJsonLd({ locale, items }: PackagesJsonLdProps) {
   const data = {
     '@context': 'https://schema.org',
     '@type': 'OfferCatalog',
-    name: 'Numi AI — packages',
+    name: `${siteConfig.name} — ${sectionIds.packages}`,
     itemListElement: items.map(({ name, description, price }) => ({
       '@type': 'Offer',
       name,

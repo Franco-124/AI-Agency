@@ -12,6 +12,7 @@ export const siteConfig = {
   city: 'Medellín',
   // JPEG rather than WebP: broadest compatibility across social crawlers.
   ogImage: '/images/03-og-social-preview.jpg',
+  logo: '/images/numi-mark.png',
 } as const
 
 export const whatsappUrl = `https://wa.me/${siteConfig.whatsapp}`

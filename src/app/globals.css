@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------
-   Numi AI — Design tokens ("Naranja Ignición" palette)
+   Numi AI — Design tokens ("Violeta Autoridad" palette)
    Every component consumes these tokens. No loose hex codes allowed.
    ------------------------------------------------------------------ */
 :root {
-  --color-primario: #141a1f;
-  --color-secundario: #2b3238;
-  --color-acento: #ff5c1a;
-  --color-neutro-oscuro: #0a0d10;
-  --color-neutro-claro: #f6f4f0;
+  --color-primario: #1a1420;
+  --color-secundario: #322b3d;
+  --color-acento: #9333ea;
+  --color-neutro-oscuro: #0d0a11;
+  --color-neutro-claro: #f5f3f8;
 
   /* Derived surfaces, kept as tokens so they stay auditable. */
   --surface-base: var(--color-neutro-oscuro);

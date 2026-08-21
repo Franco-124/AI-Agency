@@ -31,6 +31,10 @@ Numi AI designs and deploys AI-powered customer service agents (chat and WhatsAp
 
 A custom proposal is available for businesses that don't fit any package.
 
+## Savings calculator
+
+The packages section includes a client-side savings estimator: a visitor enters an average monthly staff salary and the monthly hours spent on repetitive tasks, and the tool estimates the monthly/annual savings and how many months it would take the "Automatización + Atención Full" package to pay for itself. The calculation runs entirely in the browser — no data is submitted or stored.
+
 ## Documented result
 
 A real client, Casas y Espacios Inmobiliaria (Medellín), reports +40% more customer-service capacity without hiring new staff: "Antes perdíamos consultas de apartamentos porque no alcanzábamos a responder a tiempo. Con el asistente, cada mensaje se atiende al instante y solo llegan a nosotros los interesados listos para agendar."

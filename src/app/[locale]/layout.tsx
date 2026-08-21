@@ -6,7 +6,7 @@ import { Fraunces } from 'next/font/google'
 import { NextIntlClientProvider } from 'next-intl'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 
-import { isLocale, locales, type Locale } from '@/i18n/routing'
+import { defaultLocale, isLocale, locales, type Locale } from '@/i18n/routing'
 import { siteConfig } from '@/lib/site'
 
 import '../globals.css'
@@ -35,9 +35,10 @@ export async function generateMetadata({
     applicationName: siteConfig.name,
     alternates: {
       canonical: `/${safeLocale}`,
-      languages: Object.fromEntries(
-        locales.map((item) => [item, `/${item}`]),
-      ),
+      languages: {
+        ...Object.fromEntries(locales.map((item) => [item, `/${item}`])),
+        'x-default': `/${defaultLocale}`,
+      },
     },
     openGraph: {
       type: 'website',
@@ -72,7 +73,7 @@ export async function generateMetadata({
 }
 
 export const viewport = {
-  themeColor: '#0A0D10',
+  themeColor: '#0D0A11',
   colorScheme: 'dark',
 }
 
