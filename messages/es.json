@@ -125,10 +125,12 @@
       "whatsapp": "WhatsApp Business",
       "instagram": "Instagram",
       "messenger": "Facebook Messenger",
+      "googleBusiness": "Perfil de Negocio",
       "googleCalendar": "Google Calendar",
       "googleMaps": "Google Maps",
       "googleSheets": "Google Sheets",
-      "website": "Sitio web"
+      "mercadoPago": "Mercado Pago",
+      "gmail": "Correo electrónico"
     }
   },
   "benefits": {

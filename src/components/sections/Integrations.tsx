@@ -1,4 +1,3 @@
-import { Globe } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import type { SVGProps } from 'react'
 
@@ -9,9 +8,7 @@ import { sectionIds } from '@/lib/site'
 /**
  * Official brand marks, unmodified: original colour, no accent-palette
  * recolouring, no glass treatment. Paths sourced from simple-icons
- * (upstream: Meta and Google brand resource centers). `Globe` is the only
- * exception — the website is Numi AI's own channel, not a third-party
- * integration, so it stays a plain icon rather than borrowing a brand mark.
+ * (upstream: Meta, Google, and Mercado Pago brand resources).
  */
 function WhatsAppMark(props: SVGProps<SVGSVGElement>) {
   return (
@@ -62,42 +59,83 @@ function GoogleSheetsMark(props: SVGProps<SVGSVGElement>) {
 }
 
 /**
- * `Mark` renders the official brand SVG; `Icon` is the `Globe` fallback for
- * the one channel that is not a third-party integration (the site itself).
+ * Google Business Profile has no dedicated mark in simple-icons (the brand
+ * source used throughout this file) — this is the plain Google "G", the
+ * closest verified official mark available, standing in for the profile
+ * product until an exact asset is supplied.
  */
+function GoogleMark(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="#4285F4" {...props}>
+      <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z" />
+    </svg>
+  )
+}
+
+function MercadoPagoMark(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="#00B1EA" {...props}>
+      <path d="M11.115 16.479a.93.927 0 0 1-.939-.886c-.002-.042-.006-.155-.103-.155-.04 0-.074.023-.113.059-.112.103-.254.206-.46.206a.816.814 0 0 1-.305-.066c-.535-.214-.542-.578-.521-.725.006-.038.007-.08-.02-.11l-.032-.03h-.034c-.027 0-.055.012-.093.039a.788.786 0 0 1-.454.16.7.699 0 0 1-.253-.05c-.708-.27-.65-.928-.617-1.126.005-.041-.005-.072-.03-.092l-.05-.04-.047.043a.728.726 0 0 1-.505.203.73.728 0 0 1-.732-.725c0-.4.328-.722.732-.722.364 0 .675.27.721.63l.026.195.11-.165c.01-.018.307-.46.852-.46.102 0 .21.016.316.05.434.13.508.52.519.68.008.094.075.1.09.1.037 0 .064-.024.083-.045a.746.744 0 0 1 .54-.225c.128 0 .263.03.402.09.69.293.379 1.158.374 1.167-.058.144-.061.207-.005.244l.027.013h.02c.03 0 .07-.014.134-.035.093-.032.235-.08.367-.08a.944.942 0 0 1 .94.93.936.934 0 0 1-.94.928zm7.302-4.171c-1.138-.98-3.768-3.24-4.481-3.77-.406-.302-.685-.462-.928-.533a1.559 1.554 0 0 0-.456-.07c-.182 0-.376.032-.58.095-.46.145-.918.505-1.362.854l-.023.018c-.414.324-.84.66-1.164.73a1.986 1.98 0 0 1-.43.049c-.362 0-.687-.104-.81-.258-.02-.025-.007-.066.04-.125l.008-.008 1-1.067c.783-.774 1.525-1.506 3.23-1.545h.085c1.062 0 2.12.469 2.24.524a7.03 7.03 0 0 0 3.056.724c1.076 0 2.188-.263 3.354-.795a9.135 9.11 0 0 0-.405-.317c-1.025.44-2.003.66-2.946.66-.962 0-1.925-.229-2.858-.68-.05-.022-1.22-.567-2.44-.57-.032 0-.065 0-.096.002-1.434.033-2.24.536-2.782.976-.528.013-.982.138-1.388.25-.361.1-.673.186-.979.185-.125 0-.35-.01-.37-.012-.35-.01-2.115-.437-3.518-.962-.143.1-.28.203-.415.31 1.466.593 3.25 1.053 3.812 1.089.157.01.323.027.491.027.372 0 .744-.103 1.104-.203.213-.059.446-.123.692-.17l-.196.194-1.017 1.087c-.08.08-.254.294-.14.557a.705.703 0 0 0 .268.292c.243.162.677.27 1.08.271.152 0 .297-.015.43-.044.427-.095.874-.448 1.349-.82.377-.296.913-.672 1.323-.782a1.494 1.49 0 0 1 .37-.05.611.61 0 0 1 .095.005c.27.034.533.125 1.003.472.835.62 4.531 3.815 4.566 3.846.002.002.238.203.22.537-.007.186-.11.352-.294.466a.902.9 0 0 1-.484.15.804.802 0 0 1-.428-.124c-.014-.01-1.28-1.157-1.746-1.543-.074-.06-.146-.115-.22-.115a.122.122 0 0 0-.096.045c-.073.09.01.212.105.294l1.48 1.47c.002 0 .184.17.204.395.012.244-.106.447-.35.606a.957.955 0 0 1-.526.171.766.764 0 0 1-.42-.127l-.214-.206a21.035 20.978 0 0 0-1.08-1.009c-.072-.058-.148-.112-.221-.112a.127.127 0 0 0-.094.038c-.033.037-.056.103.028.212a.698.696 0 0 0 .075.083l1.078 1.198c.01.01.222.26.024.511l-.038.048a1.18 1.178 0 0 1-.1.096c-.184.15-.43.164-.527.164a.8.798 0 0 1-.147-.012c-.106-.018-.178-.048-.212-.089l-.013-.013c-.06-.06-.602-.609-1.054-.98-.059-.05-.133-.11-.21-.11a.128.128 0 0 0-.096.042c-.09.096.044.24.1.293l.92 1.003a.204.204 0 0 1-.033.062c-.033.044-.144.155-.479.196a.91.907 0 0 1-.122.007c-.345 0-.712-.164-.902-.264a1.343 1.34 0 0 0 .13-.576 1.368 1.365 0 0 0-1.42-1.357c.024-.342-.025-.99-.697-1.274a1.455 1.452 0 0 0-.575-.125c-.146 0-.287.025-.42.075a1.153 1.15 0 0 0-.671-.564 1.52 1.515 0 0 0-.494-.085c-.28 0-.537.08-.767.242a1.168 1.165 0 0 0-.903-.43 1.173 1.17 0 0 0-.82.335c-.287-.217-1.425-.93-4.467-1.613a17.39 17.344 0 0 1-.692-.189 4.822 4.82 0 0 0-.077.494l.67.157c3.108.682 4.136 1.391 4.309 1.525a1.145 1.142 0 0 0-.09.442 1.16 1.158 0 0 0 1.378 1.132c.096.467.406.821.879 1.003a1.165 1.162 0 0 0 .415.08c.09 0 .179-.012.266-.034.086.22.282.493.722.668a1.233 1.23 0 0 0 .457.094c.122 0 .241-.022.355-.063a1.373 1.37 0 0 0 1.269.841c.37.002.726-.147.985-.41.221.121.688.341 1.163.341.06 0 .118-.002.175-.01.47-.059.689-.24.789-.382a.571.57 0 0 0 .048-.078c.11.032.234.058.373.058.255 0 .501-.086.75-.265.244-.174.418-.424.444-.637v-.01c.083.017.167.026.251.026.265 0 .527-.082.773-.242.48-.31.562-.715.554-.98a1.28 1.279 0 0 0 .978-.194 1.04 1.04 0 0 0 .502-.808 1.088 1.085 0 0 0-.16-.653c.804-.342 2.636-1.003 4.795-1.483a4.734 4.721 0 0 0-.067-.492 27.742 27.667 0 0 0-5.049 1.62zm5.123-.763c0 4.027-5.166 7.293-11.537 7.293-6.372 0-11.538-3.266-11.538-7.293 0-4.028 5.165-7.293 11.539-7.293 6.371 0 11.537 3.265 11.537 7.293zm.46.004c0-4.272-5.374-7.755-12-7.755S.002 7.277.002 11.55L0 12.004c0 4.533 4.695 8.203 11.999 8.203 7.347 0 12-3.67 12-8.204z" />
+    </svg>
+  )
+}
+
+function GmailMark(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="#EA4335" {...props}>
+      <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z" />
+    </svg>
+  )
+}
+
 type BrandChannel = {
   key: string
   Mark: (props: SVGProps<SVGSVGElement>) => React.JSX.Element
-  Icon?: never
 }
 
-type IconChannel = {
-  key: string
-  Mark?: never
-  Icon: typeof Globe
-}
-
-const channels: ReadonlyArray<BrandChannel | IconChannel> = [
+const channels: ReadonlyArray<BrandChannel> = [
   { key: 'whatsapp', Mark: WhatsAppMark },
   { key: 'instagram', Mark: InstagramMark },
   { key: 'messenger', Mark: MessengerMark },
+  { key: 'googleBusiness', Mark: GoogleMark },
   { key: 'googleCalendar', Mark: GoogleCalendarMark },
   { key: 'googleMaps', Mark: GoogleMapsMark },
   { key: 'googleSheets', Mark: GoogleSheetsMark },
-  { key: 'website', Icon: Globe },
+  { key: 'mercadoPago', Mark: MercadoPagoMark },
+  { key: 'gmail', Mark: GmailMark },
 ]
+
+/** One logo + label pair, repeated twice per track for a seamless loop. */
+function ChannelMark({ channel, t }: { channel: BrandChannel; t: ReturnType<typeof useTranslations> }) {
+  return (
+    <li className="flex min-w-0 shrink-0 flex-col items-center gap-3 px-6 text-center sm:px-8">
+      <span className="flex h-10 w-10 shrink-0 items-center justify-center">
+        <channel.Mark className="h-8 w-8 shrink-0" aria-hidden />
+      </span>
+      <span className="min-w-0 whitespace-nowrap text-sm text-[var(--text-secondary)]">
+        {t(`channels.${channel.key}`)}
+      </span>
+    </li>
+  )
+}
 
 /**
  * Trust bar: the channels Numi AI connects to, shown with unmodified brand
  * marks — never recoloured to the accent palette, never given the glass
  * button treatment. A light strip between "how we work" and "what changes",
  * not another heavy content block.
+ *
+ * The row scrolls right-to-left on an infinite loop: the track is the
+ * channel list rendered twice back to back, animated left by exactly one
+ * copy's width, then snapped back — invisible to the eye since the second
+ * copy is already sitting where the first one started. Pure CSS (no JS per
+ * frame); paused outright under reduced motion via the shared media query.
  */
 export function Integrations() {
   const t = useTranslations('integrations')
 
   return (
-    <Section id={sectionIds.integrations} labelledBy="integraciones-titulo" className="py-16 lg:py-20">
+    <Section id={sectionIds.integrations} labelledBy="integraciones-titulo" className="overflow-hidden py-16 lg:py-20">
       <Reveal>
         <SectionHeading
           id="integraciones-titulo"
@@ -106,31 +144,22 @@ export function Integrations() {
         />
       </Reveal>
 
-      <ul className="mt-12 grid min-w-0 grid-cols-3 gap-x-3 gap-y-8 sm:mt-14 sm:gap-x-6 md:grid-cols-4 lg:grid-cols-7 lg:gap-8">
-        {channels.map((channel, index) => (
-          <Reveal
-            as="li"
-            key={channel.key}
-            delay={index * 0.04}
-            className="flex min-w-0 flex-col items-center gap-3 text-center"
-          >
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center">
-              {channel.Mark ? (
-                <channel.Mark className="h-8 w-8 shrink-0" aria-hidden />
-              ) : (
-                <channel.Icon
-                  className="h-8 w-8 shrink-0 text-[var(--text-secondary)]"
-                  strokeWidth={1.5}
-                  aria-hidden
-                />
-              )}
-            </span>
-            <span className="min-w-0 break-words text-sm text-[var(--text-secondary)]">
-              {t(`channels.${channel.key}`)}
-            </span>
-          </Reveal>
-        ))}
-      </ul>
+      {/* Edges fade to the section background instead of cutting hard, so the
+          loop reads as an endless ribbon rather than a bounded strip. */}
+      <div className="marquee-fade relative mt-12 sm:mt-14">
+        <div className="marquee-track flex w-max">
+          <ul className="flex w-max shrink-0 items-start">
+            {channels.map((channel) => (
+              <ChannelMark key={`a-${channel.key}`} channel={channel} t={t} />
+            ))}
+          </ul>
+          <ul aria-hidden className="flex w-max shrink-0 items-start">
+            {channels.map((channel) => (
+              <ChannelMark key={`b-${channel.key}`} channel={channel} t={t} />
+            ))}
+          </ul>
+        </div>
+      </div>
     </Section>
   )
 }

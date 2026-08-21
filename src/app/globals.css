@@ -377,6 +377,45 @@
   }
 
   /* ----------------------------------------------------------------
+     Integrations trust bar — infinite right-to-left marquee. The track
+     is the channel list rendered twice; animating exactly -50% (one
+     copy's width) and looping is invisible because the second copy is
+     already in the first one's starting position when it snaps back.
+     A CSS mask fades both edges into the section background instead of
+     a hard clip, so the ribbon reads as endless rather than a bounded
+     strip with a visible seam.
+     ---------------------------------------------------------------- */
+  .marquee-fade {
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 8%,
+      black 92%,
+      transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 8%,
+      black 92%,
+      transparent 100%
+    );
+  }
+
+  .marquee-track {
+    animation: marquee-scroll 32s linear infinite;
+  }
+
+  @keyframes marquee-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* ----------------------------------------------------------------
      Hero load sequence. Driven by CSS keyframes rather than the scroll
      trigger: the hero is above the fold by definition, so there is
      nothing to observe and no reason to ship JavaScript for it.
@@ -700,7 +739,8 @@
   .soft-float,
   .particle,
   .wordmark,
-  .mark-halo {
+  .mark-halo,
+  .marquee-track {
     animation: none !important;
   }
 
