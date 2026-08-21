@@ -19,12 +19,12 @@ import {
  */
 export type NewLeadEmailProps = {
   name: string
-  business: string
+  business?: string
   industry: string
   interest: string
   whatsapp: string
   email: string
-  message: string
+  message?: string
   packageInterest?: string
 }
 
@@ -76,7 +76,7 @@ export function NewLeadEmail({
   return (
     <Html lang="es">
       <Head />
-      <Preview>{`Nuevo lead: ${business}`}</Preview>
+      <Preview>{`Nuevo lead: ${business ?? name}`}</Preview>
       <Body
         style={{
           backgroundColor: colors.darkNeutral,
@@ -121,7 +121,7 @@ export function NewLeadEmail({
               </Column>
               <Column>
                 <Text style={label}>Negocio</Text>
-                <Text style={value}>{business}</Text>
+                <Text style={value}>{business ?? 'No indicado'}</Text>
               </Column>
             </Row>
 
@@ -181,7 +181,7 @@ export function NewLeadEmail({
                 whiteSpace: 'pre-wrap',
               }}
             >
-              {message}
+              {message ?? 'No dejó un mensaje adicional.'}
             </Text>
           </Section>
 

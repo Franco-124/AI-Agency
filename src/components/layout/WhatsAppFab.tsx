@@ -4,6 +4,8 @@ import { X } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 
+import { readAdvisoryInterest } from '@/lib/advisory-interest'
+import { readPackageInterest } from '@/lib/package-interest'
 import { whatsappUrl } from '@/lib/site'
 
 /**
@@ -46,9 +48,27 @@ const markDismissed = () => {
  */
 export function WhatsAppFab() {
   const t = useTranslations('whatsapp')
+  const tPackages = useTranslations('packages')
+  const tAdvisory = useTranslations('advisory')
   const [showGreeting, setShowGreeting] = useState(false)
 
-  const href = `${whatsappUrl}?text=${encodeURIComponent(t('prefill'))}`
+  /*
+   * The lead form pre-fills its message from the same package/advisory click,
+   * so a visitor who reaches for WhatsApp instead should not lose that context
+   * either — otherwise the team gets a generic "tell me more" with no signal
+   * of what the visitor already decided.
+   */
+  const interestPrefill = (): string | undefined => {
+    const packageKey = readPackageInterest()
+    if (packageKey) return t('prefillPackage', { package: tPackages(`${packageKey}.name`) })
+
+    const advisoryKey = readAdvisoryInterest()
+    if (advisoryKey) return t('prefillAdvisory', { offer: tAdvisory(`${advisoryKey}.name`) })
+
+    return undefined
+  }
+
+  const href = `${whatsappUrl}?text=${encodeURIComponent(interestPrefill() ?? t('prefill'))}`
 
   useEffect(() => {
     if (sessionStorage.getItem(DISMISSED_KEY)) return

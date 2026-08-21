@@ -12,22 +12,6 @@ const HeroBackdrop = dynamic(
   { ssr: false },
 )
 
-/*
- * The network canvas carries the hero's actual motion argument (a message
- * reaching an answer instantly); the particle field above it stays as a
- * quieter sparkle layer for depth. Both mount independently so a slow chunk
- * for one never blocks the other.
- */
-const HeroNetworkCanvas = dynamic(
-  () => import('./HeroNetworkCanvas').then((mod) => mod.HeroNetworkCanvas),
-  { ssr: false },
-)
-
 export function HeroMotion() {
-  return (
-    <>
-      <HeroNetworkCanvas />
-      <HeroBackdrop />
-    </>
-  )
+  return <HeroBackdrop />
 }

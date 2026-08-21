@@ -15,13 +15,21 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        // Accent on dark: text is the dark neutral, never pure white (AA contrast).
-        primary: [
+        // Frosted-glass CTA: translucent accent fill + backdrop blur + a thin
+        // light-catching border, for navigation/action CTAs (never form
+        // controls — those use `solid`/`solid-outline` so a bare fill never
+        // depends on backdrop-filter support to stay legible).
+        primary: ['btn-glass btn-glass-primary', 'active:scale-[0.98]'].join(' '),
+        outline: ['btn-glass btn-glass-outline', 'active:scale-[0.98]'].join(' '),
+        // Pre-glass solid treatment, kept for form controls: a fill that
+        // never relies on backdrop-filter, so it stays legible with nothing
+        // behind it to blur.
+        solid: [
           'btn-sweep btn-lit',
           'bg-[var(--color-acento)] text-[var(--color-neutro-oscuro)]',
           'hover:bg-[color-mix(in_srgb,var(--color-acento)_92%,white)]',
         ].join(' '),
-        outline: [
+        'solid-outline': [
           'btn-sweep border border-hairline-strong bg-transparent text-ink',
           'hover:border-[var(--accent-hairline)] hover:bg-[var(--accent-soft)] hover:text-[var(--color-acento)]',
         ].join(' '),

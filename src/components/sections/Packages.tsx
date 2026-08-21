@@ -103,12 +103,21 @@ export function Packages() {
       </Reveal>
 
       {/*
+        Right under the price panel — the ROI argument lands while the prices
+        are still the freshest thing the visitor has seen, ahead of the "no
+        fit" escape hatch below.
+      */}
+      <Reveal delay={0.2} className="mt-6">
+        <CalculadoraAhorro />
+      </Reveal>
+
+      {/*
         Escape hatch for the visitor who does not fit any package. It sits right
         under the panel — the moment the mismatch is felt — and routes into the
         same single form as every other CTA, so there is still only one place to
         describe a case.
       */}
-      <Reveal delay={0.24} className="mt-6">
+      <Reveal delay={0.28} className="mt-6">
         <div className="group relative overflow-hidden rounded-2xl border border-hairline bg-[color-mix(in_srgb,var(--color-primario)_88%,transparent)] p-7 transition-[border-color,transform] duration-200 ease-out hover:border-[var(--accent-hairline)] motion-safe:hover:-translate-y-0.5 sm:p-9">
           {/* Draws itself across the top edge on hover — the brand spark, once. */}
           <span
@@ -137,10 +146,6 @@ export function Packages() {
             </Button>
           </div>
         </div>
-      </Reveal>
-
-      <Reveal delay={0.32} className="mt-6">
-        <CalculadoraAhorro />
       </Reveal>
     </Section>
   )

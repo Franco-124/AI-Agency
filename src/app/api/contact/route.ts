@@ -78,7 +78,7 @@ export async function POST(request: Request) {
   // Structured, non-identifying log so deliverability can be monitored without
   // leaking the lead's personal data into the platform logs.
   console.info('[lead] received', {
-    messageLength: lead.message.length,
+    messageLength: lead.message?.length ?? 0,
     hasPackageInterest: Boolean(lead.packageInterest),
     receivedAt,
   })

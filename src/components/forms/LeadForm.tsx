@@ -40,12 +40,12 @@ type FormValues = {
 /** Mirrors `leadSchema`, which is the trust boundary for these fields. */
 type LeadPayload = {
   name: string
-  business: string
+  business?: string
   industry: string
   interest: string
   whatsapp: string
   email: string
-  message: string
+  message?: string
   packageInterest?: string
 }
 
@@ -70,6 +70,11 @@ const requiredText = (max: number): RegisterOptions<FormValues> => ({
   required: 'required',
   setValueAs: (value: string) => value?.trim() ?? '',
   validate: (value) => (String(value).trim().length > 0 ? true : 'required'),
+  maxLength: { value: max, message: 'tooLong' },
+})
+
+const optionalText = (max: number): RegisterOptions<FormValues> => ({
+  setValueAs: (value: string) => value?.trim() ?? '',
   maxLength: { value: max, message: 'tooLong' },
 })
 
@@ -174,12 +179,12 @@ export function LeadForm() {
 
     const payload: LeadPayload = {
       name: values.name,
-      business: values.business,
+      business: values.business || undefined,
       industry: industryValue(values),
       interest: values.interest,
       whatsapp: values.whatsapp,
       email: values.email,
-      message: values.message,
+      message: values.message || undefined,
       packageInterest: packageInterestLabel(),
     }
 
@@ -237,7 +242,7 @@ export function LeadForm() {
                 cleared on submit, so this only puts the form back on screen. */}
             <Button
               type="button"
-              variant="outline"
+              variant="solid-outline"
               size="sm"
               className="mt-5"
               onClick={() => setStatus('idle')}
@@ -276,7 +281,7 @@ export function LeadForm() {
 
         <Field
           id={`${prefix}-business`}
-          label={tFields('business')}
+          label={tFields('businessOptional')}
           error={messageFor(errors.business?.message)}
         >
           {(props) => (
@@ -284,7 +289,7 @@ export function LeadForm() {
               type="text"
               autoComplete="organization"
               {...props}
-              {...register('business', requiredText(160))}
+              {...register('business', optionalText(160))}
             />
           )}
         </Field>
@@ -444,25 +449,40 @@ export function LeadForm() {
 
       <Field
         id={`${prefix}-message`}
-        label={tFields('message')}
+        label={tFields('messageOptional')}
         error={messageFor(errors.message?.message)}
       >
         {(props) => (
-          <textarea
-            rows={5}
-            placeholder={tFields('messagePlaceholder')}
-            {...props}
-            {...register('message', {
-              required: 'required',
-              minLength: { value: 10, message: 'tooShort' },
-              maxLength: { value: 4000, message: 'tooLong' },
-            })}
-          />
+          <>
+            <textarea
+              rows={5}
+              placeholder={tFields('messagePlaceholder')}
+              {...props}
+              aria-describedby={[props['aria-describedby'], `${props.id}-hint`].filter(Boolean).join(' ')}
+              {...register('message', {
+                setValueAs: (value: string) => value?.trim() ?? '',
+                validate: (value) =>
+                  String(value).trim().length === 0 || String(value).trim().length >= 10
+                    ? true
+                    : 'tooShort',
+                maxLength: { value: 4000, message: 'tooLong' },
+              })}
+            />
+            <p id={`${props.id}-hint`} className="text-xs text-ink-faint">
+              {tFields('messageHint')}
+            </p>
+          </>
         )}
       </Field>
 
       <div className="mt-2 flex flex-col gap-4">
-        <Button type="submit" size="lg" block disabled={status === 'submitting'}>
+        <Button
+          type="submit"
+          variant="solid"
+          size="lg"
+          block
+          disabled={status === 'submitting'}
+        >
           {status === 'submitting' ? (
             <>
               <Loader2 aria-hidden className="h-4 w-4 animate-spin" />

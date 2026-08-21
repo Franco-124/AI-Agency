@@ -46,17 +46,6 @@ export function Hero() {
       />
 
       {/*
-        Ambient haze behind the headline, toned from the secondary surface
-        rather than the accent: the CTA and the hero's one lit chat bubble
-        already carry the accent in this viewport, so the atmosphere stays
-        neutral instead of adding a third simultaneous orange.
-      */}
-      <div
-        aria-hidden
-        className="aurora pointer-events-none absolute left-[-18%] top-[12%] -z-10 h-[70vmin] w-[70vmin] rounded-full blur-3xl [background:radial-gradient(circle,color-mix(in_srgb,var(--color-secundario)_48%,transparent)_0%,transparent_70%)] sm:left-[-8%] lg:left-[38%] lg:top-[16%]"
-      />
-
-      {/*
         Ambient layer: the drawn diagonal plus a slow particle field. It sits
         behind all copy and nothing in it moves fast enough to compete with the
         headline for attention.

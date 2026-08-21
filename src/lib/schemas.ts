@@ -16,7 +16,12 @@ export const interestKeys = ['automation', 'diagnostic', 'training', 'unsure'] a
 
 export const leadSchema = z.object({
   name: requiredText(120),
-  business: requiredText(160),
+  business: z
+    .string()
+    .trim()
+    .max(160, 'tooLong')
+    .optional()
+    .transform((value) => value || undefined),
   industry: requiredText(160),
   interest: z.enum(interestKeys, 'required'),
   whatsapp: z
@@ -26,7 +31,12 @@ export const leadSchema = z.object({
     .max(24, 'tooLong')
     .regex(WHATSAPP_PATTERN, 'invalidWhatsapp'),
   email: z.string().trim().min(1, 'required').max(180).pipe(z.email('invalidEmail')),
-  message: z.string().trim().min(10, 'tooShort').max(4000, 'tooLong'),
+  message: z
+    .string()
+    .trim()
+    .max(4000, 'tooLong')
+    .optional()
+    .transform((value) => value || undefined),
   /**
    * Set only when the visitor reached the form from a specific package card.
    * Empty strings are normalised away so the column stays null instead of ''.

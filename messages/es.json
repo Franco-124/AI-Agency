@@ -49,6 +49,8 @@
     "label": "Escríbenos",
     "ariaLabel": "Escríbenos por WhatsApp",
     "prefill": "Hola, quiero saber más sobre Numi AI",
+    "prefillPackage": "Hola, me interesa el {package}. Quiero más información.",
+    "prefillAdvisory": "Hola, me interesa el {offer}. Quiero más información.",
     "greeting": "¿Tienes preguntas sobre cómo funciona? Escríbenos directo por WhatsApp.",
     "close": "Cerrar mensaje"
   },
@@ -302,6 +304,7 @@
     "title": "Agenda tu llamada",
     "name": "Nombre",
     "business": "Nombre de tu negocio",
+    "businessOptional": "Nombre de tu negocio (opcional)",
     "industry": "¿A qué se dedica tu negocio?",
     "industryPlaceholder": "Selecciona una opción",
     "industryOptionOther": "Otro",
@@ -318,7 +321,9 @@
     "whatsapp": "WhatsApp",
     "email": "Correo electrónico",
     "message": "Cuéntanos qué necesitas",
+    "messageOptional": "Cuéntanos qué necesitas (opcional)",
     "messagePlaceholder": "Cuéntanos cómo funciona tu negocio hoy y qué te gustaría automatizar",
+    "messageHint": "Mínimo 10 caracteres.",
     "messagePrefill": {
       "diagnostic": "Quiero el Diagnóstico de Automatización para saber qué le conviene automatizar a mi negocio.",
       "training": "Quiero la Capacitación en Productividad con IA para que mi equipo aprenda a usarla."

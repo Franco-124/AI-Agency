@@ -45,7 +45,7 @@ export async function notifyTeamOfLead(lead: Lead): Promise<void> {
     from: requiredEnv('LEAD_FROM_EMAIL'),
     to: requiredEnv('NOTIFICATION_EMAIL'),
     replyTo: lead.email,
-    subject: `Nuevo lead: ${lead.business}`,
+    subject: `Nuevo lead: ${lead.business ?? lead.name}`,
     html,
     text,
   })
