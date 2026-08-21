@@ -37,12 +37,23 @@
       "status": "En línea",
       "messages": {
         "one": "Hola, ¿tienen cita disponible mañana?",
-        "two": "Claro, tengo disponible a las 10:00am o 3:00pm. ¿Cuál prefieres?",
+        "two": "¡Claro! Tenemos disponibilidad a las 10:00am o 3:00pm. ¿Cuál prefieres?",
         "three": "A las 3:00pm está perfecto",
-        "four": "Listo, quedas agendado para mañana 3:00pm. Te llega la confirmación por WhatsApp."
+        "four": "Listo, quedas agendado para mañana 3:00pm. Te llega la confirmación por WhatsApp.",
+        "five": "¿Necesito llevar algo?",
+        "six": "Solo tu documento de identidad. Si necesitas reprogramar, escríbeme cuando quieras.",
+        "seven": "Perfecto, gracias",
+        "eight": "Con gusto. Nos vemos mañana."
       },
-      "pending": "Sin responder…",
-      "meta": "Confirmado en 4 segundos"
+      "meta": "Conversación en tiempo real",
+      "timeOne": "10:32 a.m.",
+      "timeTwo": "10:32 a.m.",
+      "timeThree": "10:33 a.m.",
+      "timeFour": "10:33 a.m.",
+      "timeFive": "10:34 a.m.",
+      "timeSix": "10:34 a.m.",
+      "timeSeven": "10:35 a.m.",
+      "timeEight": "10:35 a.m."
     }
   },
   "whatsapp": {
@@ -138,10 +149,22 @@
     "columnBenefit": "Beneficio",
     "columnMeaning": "Qué significa",
     "items": {
-      "one": { "benefit": "Más tiempo", "meaning": "Tu equipo deja de hacer tareas repetitivas." },
-      "two": { "benefit": "Mejor atención al cliente", "meaning": "Cada cliente recibe respuesta al instante." },
-      "three": { "benefit": "Menos costos operativos", "meaning": "Automatizas sin contratar más personal." },
-      "four": { "benefit": "Crecimiento sostenido", "meaning": "Más clientes atendidos, sin más esfuerzo." }
+      "one": {
+        "benefit": "Más tiempo",
+        "meaning": "Tu equipo deja de hacer tareas repetitivas."
+      },
+      "two": {
+        "benefit": "Mejor atención al cliente",
+        "meaning": "Cada cliente recibe respuesta al instante."
+      },
+      "three": {
+        "benefit": "Menos costos operativos",
+        "meaning": "Automatizas sin contratar más personal."
+      },
+      "four": {
+        "benefit": "Crecimiento sostenido",
+        "meaning": "Más clientes atendidos, sin más esfuerzo."
+      }
     }
   },
   "results": {
@@ -271,23 +294,59 @@
   "process": {
     "title": "Cómo empezamos",
     "steps": {
-      "one": { "title": "Diagnóstico", "body": "Conversamos sobre tu negocio y detectamos dónde automatizar genera más impacto." },
-      "two": { "title": "Propuesta", "body": "Te mostramos exactamente qué se automatiza, cómo funciona y qué esperar." },
-      "three": { "title": "Implementación", "body": "Construimos el sistema y lo dejamos funcionando en tu negocio." },
-      "four": { "title": "Acompañamiento", "body": "Damos seguimiento mensual para que todo siga funcionando bien." }
+      "one": {
+        "title": "Diagnóstico",
+        "body": "Conversamos sobre tu negocio y detectamos dónde automatizar genera más impacto."
+      },
+      "two": {
+        "title": "Propuesta",
+        "body": "Te mostramos exactamente qué se automatiza, cómo funciona y qué esperar."
+      },
+      "three": {
+        "title": "Implementación",
+        "body": "Construimos el sistema y lo dejamos funcionando en tu negocio."
+      },
+      "four": {
+        "title": "Acompañamiento",
+        "body": "Damos seguimiento mensual para que todo siga funcionando bien."
+      }
     }
   },
   "faq": {
     "title": "Preguntas frecuentes",
     "items": {
-      "one": { "question": "¿Necesito saber de tecnología para usar esto?", "answer": "No. Nosotros nos encargamos de todo. Tú solo ves los resultados." },
-      "two": { "question": "¿Cuánto tiempo toma implementarlo?", "answer": "Depende del alcance, pero la mayoría de negocios ven resultados en pocas semanas." },
-      "three": { "question": "¿Esto reemplaza a mi equipo?", "answer": "No. Libera a tu equipo de tareas repetitivas para que se enfoque en lo que más importa." },
-      "four": { "question": "¿Qué pasa si necesito ayuda después de la entrega?", "answer": "Incluimos acompañamiento continuo. No te dejamos solo." },
-      "five": { "question": "¿Funciona para mi tipo de negocio?", "answer": "Trabajamos con negocios que dependen de responder rápido y agendar bien. Si ese es tu caso, probablemente sí." },
-      "six": { "question": "¿El diagnóstico reemplaza la llamada estratégica gratuita de 15 minutos?", "answer": "No. La llamada gratuita es para conocernos y ver si encajamos. El diagnóstico es un análisis más profundo, con entregable escrito, sobre qué automatizar y qué no en tu negocio específico." },
-      "seven": { "question": "¿Necesito contratar un agente de IA para tomar la capacitación?", "answer": "No. Funciona como servicio independiente. Muchos negocios la usan como primer paso antes de decidir si automatizar algo." },
-      "eight": { "question": "¿Puedo contratar los dos servicios juntos?", "answer": "Sí. De hecho, el diagnóstico suele ser el primer paso natural antes de la capacitación o de cualquiera de los tres paquetes." }
+      "one": {
+        "question": "¿Necesito saber de tecnología para usar esto?",
+        "answer": "No. Nosotros nos encargamos de todo. Tú solo ves los resultados."
+      },
+      "two": {
+        "question": "¿Cuánto tiempo toma implementarlo?",
+        "answer": "Depende del alcance, pero la mayoría de negocios ven resultados en pocas semanas."
+      },
+      "three": {
+        "question": "¿Esto reemplaza a mi equipo?",
+        "answer": "No. Libera a tu equipo de tareas repetitivas para que se enfoque en lo que más importa."
+      },
+      "four": {
+        "question": "¿Qué pasa si necesito ayuda después de la entrega?",
+        "answer": "Incluimos acompañamiento continuo. No te dejamos solo."
+      },
+      "five": {
+        "question": "¿Funciona para mi tipo de negocio?",
+        "answer": "Trabajamos con negocios que dependen de responder rápido y agendar bien. Si ese es tu caso, probablemente sí."
+      },
+      "six": {
+        "question": "¿El diagnóstico reemplaza la llamada estratégica gratuita de 15 minutos?",
+        "answer": "No. La llamada gratuita es para conocernos y ver si encajamos. El diagnóstico es un análisis más profundo, con entregable escrito, sobre qué automatizar y qué no en tu negocio específico."
+      },
+      "seven": {
+        "question": "¿Necesito contratar un agente de IA para tomar la capacitación?",
+        "answer": "No. Funciona como servicio independiente. Muchos negocios la usan como primer paso antes de decidir si automatizar algo."
+      },
+      "eight": {
+        "question": "¿Puedo contratar los dos servicios juntos?",
+        "answer": "Sí. De hecho, el diagnóstico suele ser el primer paso natural antes de la capacitación o de cualquiera de los tres paquetes."
+      }
     }
   },
   "about": {

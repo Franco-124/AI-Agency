@@ -37,12 +37,23 @@
       "status": "Online",
       "messages": {
         "one": "Hi, do you have any appointments available tomorrow?",
-        "two": "Of course, I have 10:00am or 3:00pm open. Which works better?",
+        "two": "Of course! We have openings at 10:00am or 3:00pm. Which works better?",
         "three": "3:00pm is perfect",
-        "four": "Done, you're booked for tomorrow at 3:00pm. Your confirmation is on its way via WhatsApp."
+        "four": "Done, you're booked for tomorrow at 3:00pm. Your confirmation is on its way via WhatsApp.",
+        "five": "Do I need to bring anything?",
+        "six": "Just your ID. If you need to reschedule, just message me anytime.",
+        "seven": "Perfect, thank you",
+        "eight": "You're welcome. See you tomorrow."
       },
-      "pending": "Not answered yet…",
-      "meta": "Confirmed in 4 seconds"
+      "meta": "Real-time conversation",
+      "timeOne": "10:32 AM",
+      "timeTwo": "10:32 AM",
+      "timeThree": "10:33 AM",
+      "timeFour": "10:33 AM",
+      "timeFive": "10:34 AM",
+      "timeSix": "10:34 AM",
+      "timeSeven": "10:35 AM",
+      "timeEight": "10:35 AM"
     }
   },
   "whatsapp": {
@@ -138,10 +149,22 @@
     "columnBenefit": "Benefit",
     "columnMeaning": "What it means",
     "items": {
-      "one": { "benefit": "More time", "meaning": "Your team stops doing repetitive tasks." },
-      "two": { "benefit": "Better customer service", "meaning": "Every customer gets an answer instantly." },
-      "three": { "benefit": "Lower operating costs", "meaning": "You automate without hiring more staff." },
-      "four": { "benefit": "Sustained growth", "meaning": "More customers served, with no extra effort." }
+      "one": {
+        "benefit": "More time",
+        "meaning": "Your team stops doing repetitive tasks."
+      },
+      "two": {
+        "benefit": "Better customer service",
+        "meaning": "Every customer gets an answer instantly."
+      },
+      "three": {
+        "benefit": "Lower operating costs",
+        "meaning": "You automate without hiring more staff."
+      },
+      "four": {
+        "benefit": "Sustained growth",
+        "meaning": "More customers served, with no extra effort."
+      }
     }
   },
   "results": {
@@ -271,23 +294,59 @@
   "process": {
     "title": "How we start",
     "steps": {
-      "one": { "title": "Diagnosis", "body": "We talk through your business and find where automation creates the most impact." },
-      "two": { "title": "Proposal", "body": "We show you exactly what gets automated, how it works and what to expect." },
-      "three": { "title": "Implementation", "body": "We build the system and leave it running inside your business." },
-      "four": { "title": "Support", "body": "We follow up every month so everything keeps working well." }
+      "one": {
+        "title": "Diagnosis",
+        "body": "We talk through your business and find where automation creates the most impact."
+      },
+      "two": {
+        "title": "Proposal",
+        "body": "We show you exactly what gets automated, how it works and what to expect."
+      },
+      "three": {
+        "title": "Implementation",
+        "body": "We build the system and leave it running inside your business."
+      },
+      "four": {
+        "title": "Support",
+        "body": "We follow up every month so everything keeps working well."
+      }
     }
   },
   "faq": {
     "title": "Frequently asked questions",
     "items": {
-      "one": { "question": "Do I need to be technical to use this?", "answer": "No. We handle everything. You just see the results." },
-      "two": { "question": "How long does it take to implement?", "answer": "It depends on the scope, but most businesses see results within a few weeks." },
-      "three": { "question": "Does this replace my team?", "answer": "No. It frees your team from repetitive tasks so they can focus on what matters most." },
-      "four": { "question": "What if I need help after delivery?", "answer": "Ongoing support is included. We don't leave you on your own." },
-      "five": { "question": "Does it work for my kind of business?", "answer": "We work with businesses that depend on replying fast and booking well. If that's your case, most likely yes." },
-      "six": { "question": "Does the diagnostic replace the free 15-minute strategy call?", "answer": "No. The free call is for us to get to know each other and see if we're a fit. The diagnostic is a deeper analysis, with a written deliverable, on what to automate and what not to in your specific business." },
-      "seven": { "question": "Do I need to hire an AI agent to take the training?", "answer": "No. It works as a standalone service. Many businesses use it as a first step before deciding whether to automate anything." },
-      "eight": { "question": "Can I hire both services together?", "answer": "Yes. In fact, the diagnostic is usually the natural first step before the training or before any of the three packages." }
+      "one": {
+        "question": "Do I need to be technical to use this?",
+        "answer": "No. We handle everything. You just see the results."
+      },
+      "two": {
+        "question": "How long does it take to implement?",
+        "answer": "It depends on the scope, but most businesses see results within a few weeks."
+      },
+      "three": {
+        "question": "Does this replace my team?",
+        "answer": "No. It frees your team from repetitive tasks so they can focus on what matters most."
+      },
+      "four": {
+        "question": "What if I need help after delivery?",
+        "answer": "Ongoing support is included. We don't leave you on your own."
+      },
+      "five": {
+        "question": "Does it work for my kind of business?",
+        "answer": "We work with businesses that depend on replying fast and booking well. If that's your case, most likely yes."
+      },
+      "six": {
+        "question": "Does the diagnostic replace the free 15-minute strategy call?",
+        "answer": "No. The free call is for us to get to know each other and see if we're a fit. The diagnostic is a deeper analysis, with a written deliverable, on what to automate and what not to in your specific business."
+      },
+      "seven": {
+        "question": "Do I need to hire an AI agent to take the training?",
+        "answer": "No. It works as a standalone service. Many businesses use it as a first step before deciding whether to automate anything."
+      },
+      "eight": {
+        "question": "Can I hire both services together?",
+        "answer": "Yes. In fact, the diagnostic is usually the natural first step before the training or before any of the three packages."
+      }
     }
   },
   "about": {
