@@ -25,6 +25,7 @@ export const sectionIds = {
   differentiation: 'enfoque',
   niches: 'nichos',
   services: 'servicios',
+  integrations: 'integraciones',
   benefits: 'beneficios',
   results: 'resultados',
   why: 'por-que-numi',

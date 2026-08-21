@@ -13,6 +13,7 @@ import { Differentiation } from '@/components/sections/Differentiation'
 import { Faq } from '@/components/sections/Faq'
 import { FinalCta } from '@/components/sections/FinalCta'
 import { Hero } from '@/components/sections/Hero'
+import { Integrations } from '@/components/sections/Integrations'
 import { Niches } from '@/components/sections/Niches'
 import { Packages, packages as packageDefinitions } from '@/components/sections/Packages'
 import { Process } from '@/components/sections/Process'
@@ -83,6 +84,7 @@ export default async function HomePage({ params }: PageProps) {
         <Differentiation />
         <Niches />
         <Services />
+        <Integrations />
         <Benefits />
         <Results />
         <Why />

@@ -28,15 +28,15 @@ export function FinalCta() {
       />
 
       <div className="mx-auto max-w-[80rem] px-5 sm:px-8">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
-          <Reveal className="lg:col-span-5 lg:self-center">
+        <div className="grid min-w-0 gap-12 lg:grid-cols-12 lg:gap-16">
+          <Reveal className="min-w-0 lg:col-span-5 lg:self-center">
             <h2 id="cta-final-titulo" className="type-section-title">
               {t('title')}
             </h2>
             <p className="type-lead mt-7 max-w-md">{t('body')}</p>
           </Reveal>
 
-          <Reveal delay={0.1} className="lg:col-span-6 lg:col-start-7">
+          <Reveal delay={0.1} className="min-w-0 lg:col-span-6 lg:col-start-7">
             {/* The landing's single contact form — covers booking a call and
                 describing a case that does not match a package. */}
             <div className="rounded-2xl border border-hairline bg-[color-mix(in_srgb,var(--color-primario)_94%,transparent)] p-6 sm:p-9">

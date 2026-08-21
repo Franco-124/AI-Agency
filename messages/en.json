@@ -118,6 +118,19 @@
       }
     }
   },
+  "integrations": {
+    "title": "Works with what you already use",
+    "lead": "No new tools to learn. We connect to what your business already runs on.",
+    "channels": {
+      "whatsapp": "WhatsApp Business",
+      "instagram": "Instagram",
+      "messenger": "Facebook Messenger",
+      "googleCalendar": "Google Calendar",
+      "googleMaps": "Google Maps",
+      "googleSheets": "Google Sheets",
+      "website": "Website"
+    }
+  },
   "benefits": {
     "title": "What your business gains",
     "columnBenefit": "Benefit",

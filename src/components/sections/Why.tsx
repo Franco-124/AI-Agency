@@ -27,14 +27,14 @@ export function Why() {
         <SectionHeading id="por-que-titulo" title={t('title')} />
       </Reveal>
 
-      <ul className="mt-16 grid divide-y divide-hairline sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+      <ul className="mt-16 grid min-w-0 divide-y divide-hairline sm:grid-cols-3 sm:divide-x sm:divide-y-0">
         {pillars.map(({ key, Icon }, index) => (
           <Reveal
             as="li"
             key={key}
             delay={index * 0.06}
             className={cn(
-              'flex flex-col gap-4 py-8 sm:px-8 sm:py-0 first:sm:pl-0 last:sm:pr-0',
+              'min-w-0 flex flex-col gap-4 py-8 sm:px-8 sm:py-0 first:sm:pl-0 last:sm:pr-0',
             )}
           >
             <Icon
@@ -42,7 +42,7 @@ export function Why() {
               strokeWidth={1.5}
               aria-hidden
             />
-            <h3 className="type-section-title text-2xl sm:text-[1.75rem]">
+            <h3 className="type-section-title min-w-0 break-words text-2xl sm:text-[1.75rem]">
               {t(`pillars.${key}.title`)}
             </h3>
             <p className="max-w-[26ch] text-[0.9375rem] leading-relaxed text-ink-muted">

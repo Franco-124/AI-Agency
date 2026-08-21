@@ -118,6 +118,19 @@
       }
     }
   },
+  "integrations": {
+    "title": "Se integra con lo que ya usas",
+    "lead": "No tienes que cambiar de herramientas. Nosotros nos conectamos a las que ya tiene tu negocio.",
+    "channels": {
+      "whatsapp": "WhatsApp Business",
+      "instagram": "Instagram",
+      "messenger": "Facebook Messenger",
+      "googleCalendar": "Google Calendar",
+      "googleMaps": "Google Maps",
+      "googleSheets": "Google Sheets",
+      "website": "Sitio web"
+    }
+  },
   "benefits": {
     "title": "Qué gana tu negocio",
     "columnBenefit": "Beneficio",

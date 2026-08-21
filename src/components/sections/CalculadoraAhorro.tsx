@@ -103,7 +103,7 @@ export function CalculadoraAhorro() {
       {/* Visible on purpose — not fine print. Covers both results above. */}
       <p className="mt-6 text-[0.8125rem] leading-relaxed text-ink-faint">{t('disclaimer')}</p>
 
-      <Button asChild size="lg" variant="outline" className="mt-7">
+      <Button asChild size="lg" variant="outline" block className="mt-7 sm:w-auto">
         <a href={`#${sectionIds.finalCta}`}>
           {t('cta')}
           <ArrowRight

@@ -61,7 +61,7 @@ export function Hero() {
           instead of meeting the whole hero at once. Delays are declared per
           element with `--hero-delay`; the animation itself is one shared class.
         */}
-        <div className="lg:col-span-7">
+        <div className="min-w-0 lg:col-span-7">
           <p
             className="hero-rise type-eyebrow inline-flex items-center gap-2.5"
             style={{ '--hero-delay': '0.05s' } as CSSProperties}
@@ -75,7 +75,7 @@ export function Hero() {
           </p>
 
           <h1
-            className="hero-rise type-display mt-7 max-w-[16ch]"
+            className="hero-rise type-display mt-7 max-w-full sm:max-w-[16ch]"
             style={{ '--hero-delay': '0.12s' } as CSSProperties}
           >
             {t('title')}
