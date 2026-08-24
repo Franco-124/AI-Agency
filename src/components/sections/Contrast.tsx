@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 
 import { AnsweredMark } from '@/components/brand/AnsweredMark'
@@ -20,12 +21,35 @@ function Column({ title, items, variant }: ColumnProps) {
   return (
     <div
       className={cn(
-        'relative flex h-full flex-col rounded-xl border p-7 sm:p-9',
+        'relative flex h-full flex-col overflow-hidden rounded-xl border p-7 sm:p-9',
         isAfter
           ? 'border-hairline-strong bg-[var(--color-primario)]'
           : 'border-hairline bg-transparent',
       )}
     >
+      {!isAfter ? (
+        <>
+          {/*
+            A real, cluttered desk of paper files — the manual backlog the
+            "before" column describes in words. Sits behind the column at low
+            opacity with a near-opaque scrim on top, so it reads as texture
+            and mood rather than a competing photo.
+          */}
+          <Image
+            src="/images/15-contrast-before-desk.webp"
+            alt=""
+            aria-hidden
+            fill
+            sizes="(min-width: 1024px) 40vw, 100vw"
+            className="-z-10 object-cover object-center opacity-25 grayscale"
+          />
+          <div
+            aria-hidden
+            className="absolute inset-0 -z-10 bg-[color-mix(in_srgb,var(--color-neutro-oscuro)_78%,transparent)]"
+          />
+        </>
+      ) : null}
+
       {isAfter ? (
         <span
           aria-hidden
