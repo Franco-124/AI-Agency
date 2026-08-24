@@ -21,15 +21,15 @@
     "english": "English"
   },
   "hero": {
-    "eyebrow": "AI agency for small businesses in Colombia",
+    "eyebrow": "Web design, automation, and AI agents for small businesses in Colombia",
     "title": "Every customer left waiting is money walking away.",
-    "subtitle": "Numi AI answers your customers instantly, around the clock, so your team stops losing time and your business stops losing sales.",
+    "subtitle": "Numi AI designs your website, automates your processes, and builds AI agents that answer your customers instantly, around the clock, so your team stops losing time and your business stops losing sales.",
     "cta": "Book a strategy call",
     "imageAlt": "A dark background with a subtle texture",
     "indicators": {
-      "one": "Answers in seconds, not hours",
-      "two": "Available 24/7, every day",
-      "three": "Without growing your payroll"
+      "one": "Custom websites built for your business",
+      "two": "AI agents available around the clock",
+      "three": "Automation without growing your payroll"
     },
     "chat": {
       "ariaLabel": "Example of a conversation handled by Numi AI",

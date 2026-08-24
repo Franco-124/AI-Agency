@@ -21,15 +21,15 @@
     "english": "Inglés"
   },
   "hero": {
-    "eyebrow": "Agencia de IA para pymes en Colombia",
+    "eyebrow": "Diseño web, automatización y agentes de IA para pymes en Colombia",
     "title": "Cada cliente que espera es dinero que se va.",
-    "subtitle": "Numi AI atiende a tus clientes al instante, todo el día, para que tu equipo deje de perder tiempo y tu negocio deje de perder ventas.",
+    "subtitle": "Numi AI diseña tu sitio web, automatiza tus procesos y crea agentes de IA que atienden a tus clientes al instante, todo el día, para que tu equipo deje de perder tiempo y tu negocio deje de perder ventas.",
     "cta": "Agenda una llamada estratégica",
     "imageAlt": "Fondo oscuro con una textura sutil",
     "indicators": {
-      "one": "Respuesta en segundos, no en horas",
-      "two": "Disponible 24/7, todos los días",
-      "three": "Sin aumentar tu nómina"
+      "one": "Sitios web a medida para tu negocio",
+      "two": "Agentes de IA disponibles todo el día",
+      "three": "Automatización sin aumentar tu nómina"
     },
     "chat": {
       "ariaLabel": "Ejemplo de conversación atendida por Numi AI",
