@@ -5,7 +5,7 @@
 export const siteConfig = {
   name: 'Numi AI',
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.numinet.co',
-  whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '573135820975',
+  whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '573127676549',
   email: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? 'atencionnumi@gmail.com',
   country: 'CO',
   region: 'Colombia',
