@@ -1,7 +1,9 @@
 'use client'
 
+import { Check, ChevronDown } from 'lucide-react'
 import { useLocale } from 'next-intl'
-import { useTransition } from 'react'
+import { CO, US } from 'country-flag-icons/react/3x2'
+import { useEffect, useRef, useState, useTransition } from 'react'
 
 import { usePathname, useRouter } from '@/i18n/navigation'
 import { locales, type Locale } from '@/i18n/routing'
@@ -12,11 +14,20 @@ type LocaleSwitcherProps = {
   className?: string
 }
 
+const localeMeta: Record<Locale, { name: string; Flag: typeof CO }> = {
+  es: { name: 'Español', Flag: CO },
+  en: { name: 'English', Flag: US },
+}
+
 export function LocaleSwitcher({ label, className }: LocaleSwitcherProps) {
   const active = useLocale() as Locale
   const pathname = usePathname()
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
+  const [isOpen, setIsOpen] = useState(false)
+  const rootRef = useRef<HTMLDivElement>(null)
+
+  const ActiveFlag = localeMeta[active].Flag
 
   /*
    * Switching language must not move the visitor: they are re-reading the page
@@ -34,6 +45,7 @@ export function LocaleSwitcher({ label, className }: LocaleSwitcherProps) {
    * `/en` and lose the section the visitor was reading.
    */
   const switchTo = (locale: Locale) => {
+    setIsOpen(false)
     if (locale === active) return
 
     const { hash } = window.location
@@ -43,33 +55,92 @@ export function LocaleSwitcher({ label, className }: LocaleSwitcherProps) {
     })
   }
 
+  // Close on outside click and on Escape.
+  useEffect(() => {
+    if (!isOpen) return
+
+    const onPointerDown = (event: PointerEvent) => {
+      if (!rootRef.current?.contains(event.target as Node)) setIsOpen(false)
+    }
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsOpen(false)
+    }
+
+    document.addEventListener('pointerdown', onPointerDown)
+    document.addEventListener('keydown', onKeyDown)
+
+    return () => {
+      document.removeEventListener('pointerdown', onPointerDown)
+      document.removeEventListener('keydown', onKeyDown)
+    }
+  }, [isOpen])
+
   return (
-    <div
-      role="group"
-      aria-label={label}
-      className={cn(
-        'inline-flex items-center rounded-lg border border-hairline p-0.5',
-        isPending && 'opacity-60',
-        className,
-      )}
-    >
-      {locales.map((locale) => (
-        <button
-          key={locale}
-          type="button"
-          lang={locale}
-          aria-current={locale === active ? 'true' : undefined}
-          onClick={() => switchTo(locale)}
+    <div ref={rootRef} className={cn('relative', className)}>
+      <button
+        type="button"
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
+        aria-label={label}
+        onClick={() => setIsOpen((open) => !open)}
+        className={cn(
+          'inline-flex items-center gap-2 rounded-lg border border-hairline px-2.5 py-1.5 text-xs font-medium text-ink transition-colors duration-200 hover:border-hairline-strong',
+          isPending && 'opacity-60',
+        )}
+      >
+        <ActiveFlag
+          aria-hidden
+          className="h-3.5 w-5 shrink-0 rounded-[2px] object-cover"
+        />
+        <span className="uppercase tracking-widest">{active}</span>
+        <ChevronDown
+          aria-hidden
           className={cn(
-            'rounded-[0.4rem] px-2.5 py-1.5 text-xs font-medium uppercase tracking-widest transition-colors duration-200',
-            locale === active
-              ? 'bg-[var(--color-acento)] text-[var(--color-neutro-oscuro)]'
-              : 'text-ink-faint hover:text-ink',
+            'h-3.5 w-3.5 shrink-0 text-ink-faint transition-transform duration-200',
+            isOpen && 'rotate-180',
           )}
-        >
-          {locale}
-        </button>
-      ))}
+        />
+      </button>
+
+      <ul
+        role="listbox"
+        aria-label={label}
+        className={cn(
+          'absolute right-0 top-[calc(100%+0.5rem)] z-10 min-w-[9.5rem] origin-top-right overflow-hidden rounded-lg border border-hairline bg-[var(--color-neutro-oscuro)] shadow-lg transition-all duration-150 ease-out',
+          isOpen
+            ? 'pointer-events-auto scale-100 opacity-100'
+            : 'pointer-events-none scale-95 opacity-0',
+        )}
+      >
+        {locales.map((locale) => {
+          const { name, Flag } = localeMeta[locale]
+          const isActive = locale === active
+
+          return (
+            <li key={locale}>
+              <button
+                type="button"
+                role="option"
+                aria-selected={isActive}
+                lang={locale}
+                onClick={() => switchTo(locale)}
+                className={cn(
+                  'flex w-full items-center gap-2.5 px-3 py-2 text-sm transition-colors duration-150',
+                  isActive
+                    ? 'bg-[var(--color-acento)]/10 text-ink'
+                    : 'text-ink-muted hover:bg-white/5 hover:text-ink',
+                )}
+              >
+                <Flag aria-hidden className="h-3.5 w-5 shrink-0 rounded-[2px] object-cover" />
+                <span className="flex-1 text-left">{name}</span>
+                {isActive && (
+                  <Check aria-hidden className="h-3.5 w-3.5 shrink-0 text-[var(--color-acento)]" />
+                )}
+              </button>
+            </li>
+          )
+        })}
+      </ul>
     </div>
   )
 }
