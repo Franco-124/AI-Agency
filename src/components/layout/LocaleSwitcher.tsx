@@ -84,7 +84,7 @@ export function LocaleSwitcher({ label, className }: LocaleSwitcherProps) {
         aria-label={label}
         onClick={() => setIsOpen((open) => !open)}
         className={cn(
-          'inline-flex items-center gap-2 rounded-lg border border-hairline px-2.5 py-1.5 text-xs font-medium text-ink transition-colors duration-200 hover:border-hairline-strong',
+          'inline-flex min-h-11 items-center gap-2 rounded-lg border border-hairline px-3 py-2 text-xs font-medium text-ink transition-colors duration-200 hover:border-hairline-strong',
           isPending && 'opacity-60',
         )}
       >
@@ -106,7 +106,7 @@ export function LocaleSwitcher({ label, className }: LocaleSwitcherProps) {
         role="listbox"
         aria-label={label}
         className={cn(
-          'absolute right-0 top-[calc(100%+0.5rem)] z-10 min-w-[9.5rem] origin-top-right overflow-hidden rounded-lg border border-hairline bg-[var(--color-neutro-oscuro)] shadow-lg transition-all duration-150 ease-out',
+          'absolute inset-x-0 top-[calc(100%+0.5rem)] z-10 origin-top overflow-hidden rounded-lg border border-hairline bg-[var(--color-neutro-oscuro)] shadow-lg transition-all duration-150 ease-out sm:inset-x-auto sm:right-0 sm:min-w-[9.5rem]',
           isOpen
             ? 'pointer-events-auto scale-100 opacity-100'
             : 'pointer-events-none scale-95 opacity-0',
@@ -125,14 +125,14 @@ export function LocaleSwitcher({ label, className }: LocaleSwitcherProps) {
                 lang={locale}
                 onClick={() => switchTo(locale)}
                 className={cn(
-                  'flex w-full items-center gap-2.5 px-3 py-2 text-sm transition-colors duration-150',
+                  'flex min-h-11 w-full items-center gap-2.5 px-3 py-2.5 text-sm transition-colors duration-150',
                   isActive
                     ? 'bg-[var(--color-acento)]/10 text-ink'
                     : 'text-ink-muted hover:bg-white/5 hover:text-ink',
                 )}
               >
                 <Flag aria-hidden className="h-3.5 w-5 shrink-0 rounded-[2px] object-cover" />
-                <span className="flex-1 text-left">{name}</span>
+                <span className="flex-1 whitespace-nowrap text-left">{name}</span>
                 {isActive && (
                   <Check aria-hidden className="h-3.5 w-3.5 shrink-0 text-[var(--color-acento)]" />
                 )}
