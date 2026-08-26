@@ -237,7 +237,11 @@ export function Header() {
                 className="h-5 w-5 shrink-0 text-[var(--color-acento)] transition-transform duration-150 ease-out group-hover:translate-x-1"
               />
             </a>
-            <LocaleSwitcher label={t('languageLabel')} className="w-full sm:hidden" />
+            <LocaleSwitcher
+              label={t('languageLabel')}
+              variant="inline"
+              className="w-full sm:hidden"
+            />
           </div>
         </nav>
       </div>
