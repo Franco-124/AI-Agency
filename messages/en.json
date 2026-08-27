@@ -107,6 +107,10 @@
   "services": {
     "title": "How we work with your business",
     "items": {
+      "zero": {
+        "title": "A personalized diagnosis of your business",
+        "body": "Before automating anything, we review how you work today and tell you what is worth solving first."
+      },
       "one": {
         "title": "Automated WhatsApp support",
         "body": "Your customers get an answer instantly, at any hour, without anyone having to watch the phone."
@@ -127,6 +131,12 @@
         "title": "Your customer information, organized",
         "body": "All of your customer information in one place, with no spreadsheets scattered around."
       }
+    },
+    "carousel": {
+      "previous": "Previous service",
+      "next": "Next service",
+      "goTo": "Service {index} of {total}",
+      "region": "Numi AI services"
     }
   },
   "integrations": {

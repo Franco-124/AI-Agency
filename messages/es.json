@@ -107,6 +107,10 @@
   "services": {
     "title": "Cómo trabajamos con tu negocio",
     "items": {
+      "zero": {
+        "title": "Diagnóstico personalizado de tu negocio",
+        "body": "Antes de automatizar nada, revisamos cómo trabajas hoy y te decimos qué conviene resolver primero."
+      },
       "one": {
         "title": "Atención automática por WhatsApp",
         "body": "Tus clientes reciben respuesta al instante, a cualquier hora, sin que nadie tenga que estar pendiente del teléfono."
@@ -127,6 +131,12 @@
         "title": "Organización de la información de tus clientes",
         "body": "Toda la información de tus clientes en un solo lugar, sin hojas de cálculo sueltas."
       }
+    },
+    "carousel": {
+      "previous": "Servicio anterior",
+      "next": "Servicio siguiente",
+      "goTo": "Servicio {index} de {total}",
+      "region": "Servicios de Numi AI"
     }
   },
   "integrations": {

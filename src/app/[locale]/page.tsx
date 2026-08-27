@@ -80,10 +80,10 @@ export default async function HomePage({ params }: PageProps) {
 
       <main id="contenido">
         <Hero />
+        <Services />
         <Contrast />
         <Differentiation />
         <Niches />
-        <Services />
         <Integrations />
         <Benefits />
         <Results />

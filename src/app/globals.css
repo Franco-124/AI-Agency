@@ -351,6 +351,38 @@
     border-top: 1px solid var(--surface-border);
   }
 
+  /* ----------------------------------------------------------------
+     Services carousel track. A real horizontally scrollable list, so
+     touch momentum, trackpad gestures and keyboard scrolling all come
+     from the platform. The scrollbar is hidden because the dots and
+     arrows already carry the affordance, and `scroll-padding` keeps a
+     snapped card aligned to the section gutter even though the track
+     itself bleeds past it on small screens.
+     ---------------------------------------------------------------- */
+  .services-track {
+    scroll-padding-left: 1.25rem;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    /* Stops a horizontal swipe from chaining into the page/browser history. */
+    overscroll-behavior-x: contain;
+  }
+
+  .services-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (min-width: 640px) {
+    .services-track {
+      scroll-padding-left: 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .services-track {
+      scroll-padding-left: 0;
+    }
+  }
+
   .accent-rule {
     height: 1px;
     background: linear-gradient(
@@ -762,5 +794,11 @@
 
   .particle {
     opacity: 0;
+  }
+
+  /* The carousel still jumps to the requested slide — it just does not glide
+     there. `scrollTo({behavior:'smooth'})` honours this automatically. */
+  .services-track {
+    scroll-behavior: auto;
   }
 }
