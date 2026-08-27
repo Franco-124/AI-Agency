@@ -17,6 +17,17 @@ export const siteConfig = {
 
 export const whatsappUrl = `https://wa.me/${siteConfig.whatsapp}`
 
+/**
+ * The agency's own profiles. Order is the order they render in the footer,
+ * and the same list feeds `sameAs` in the Organization JSON-LD — one place to
+ * edit when a profile is added, so the page and the structured data cannot
+ * drift apart.
+ */
+export const socialLinks = [
+  { key: 'instagram', label: 'Instagram', href: 'https://www.instagram.com/num_iai/' },
+  { key: 'linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/company/numi-ai' },
+] as const
+
 export const faqKeys = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight'] as const
 
 export const sectionIds = {

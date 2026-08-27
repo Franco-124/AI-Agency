@@ -1,4 +1,4 @@
-import { siteConfig, whatsappUrl } from '@/lib/site'
+import { siteConfig, socialLinks, whatsappUrl } from '@/lib/site'
 
 type ReviewData = {
   body: string
@@ -28,7 +28,9 @@ export function JsonLd({ locale, name, description, services, review }: JsonLdPr
     email: siteConfig.email,
     // WhatsApp only, not a voice line — listed as `sameAs`, never as
     // `telephone`, so an answer engine never tells someone to call it.
-    sameAs: [whatsappUrl],
+    // The agency's own profiles join it here so search engines can tie the
+    // site and the social accounts to one entity.
+    sameAs: [whatsappUrl, ...socialLinks.map((link) => link.href)],
     inLanguage: locale,
     areaServed: {
       '@type': 'Country',

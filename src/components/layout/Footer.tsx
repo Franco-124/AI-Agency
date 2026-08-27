@@ -3,8 +3,14 @@ import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 
 import { Wordmark } from '@/components/brand/Wordmark'
+import { InstagramGlyph, LinkedInGlyph } from '@/components/brand/SocialMarks'
 import { Link } from '@/i18n/navigation'
-import { sectionIds, siteConfig, whatsappUrl } from '@/lib/site'
+import { sectionIds, siteConfig, socialLinks, whatsappUrl } from '@/lib/site'
+
+const socialGlyphs = {
+  instagram: InstagramGlyph,
+  linkedin: LinkedInGlyph,
+} as const
 
 // Rooted at "/" rather than bare hashes so the links also work from the
 // privacy page, where none of these sections exist.
@@ -43,6 +49,29 @@ export function Footer() {
               <Wordmark />
             </div>
             <p className="mt-5 text-sm leading-relaxed text-ink-muted">{t('tagline')}</p>
+
+            {/* `-ml-2.5` pulls the row back to the text's optical left edge:
+                each link carries its own padding to reach a 44px tap target,
+                which would otherwise indent the first glyph. */}
+            <ul aria-label={t('socialLabel')} className="-ml-2.5 mt-6 flex items-center gap-1">
+              {socialLinks.map(({ key, label, href }) => {
+                const Glyph = socialGlyphs[key]
+
+                return (
+                  <li key={key}>
+                    <a
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={label}
+                      className="inline-flex h-11 w-11 items-center justify-center rounded-md text-ink-muted transition-colors duration-200 hover:text-ink"
+                    >
+                      <Glyph className="h-[1.125rem] w-[1.125rem]" aria-hidden />
+                    </a>
+                  </li>
+                )
+              })}
+            </ul>
           </div>
 
           <nav aria-label={t('navLabel')}>

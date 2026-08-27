@@ -18,7 +18,7 @@ const niches: ReadonlyArray<{ key: string; Icon: LucideIcon; photo: string }> = 
   { key: 'one', Icon: Stethoscope, photo: '/images/16-niche-clinic.webp' },
   { key: 'two', Icon: Home, photo: '/images/17-niche-realestate.webp' },
   { key: 'three', Icon: PawPrint, photo: '/images/18-niche-vet.webp' },
-  { key: 'four', Icon: Smile, photo: '/images/29-niche-dental.webp' },
+  { key: 'four', Icon: Smile, photo: '/images/niche-dental-operatory.webp' },
   { key: 'five', Icon: Dumbbell, photo: '/images/20-niche-gym.webp' },
 ]
 
