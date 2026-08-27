@@ -37,6 +37,8 @@ export type ServiceSlide = {
   visual: string
   title: string
   body: string
+  /** Accessible name for the slide and its dot, already localised. */
+  label: string
 }
 
 type ServicesCarouselProps = {
@@ -44,8 +46,6 @@ type ServicesCarouselProps = {
   labels: {
     previous: string
     next: string
-    /** Templated with `{index}` / `{total}`, e.g. "Servicio {index} de {total}". */
-    goTo: string
     region: string
   }
 }
@@ -139,9 +139,6 @@ export function ServicesCarousel({ slides, labels }: ServicesCarouselProps) {
 
   const dots = useMemo(() => Array.from({ length: total }, (_, i) => i), [total])
 
-  const fill = (template: string, index: number) =>
-    template.replace('{index}', String(index + 1)).replace('{total}', String(total))
-
   return (
     <div
       role="group"
@@ -163,14 +160,14 @@ export function ServicesCarousel({ slides, labels }: ServicesCarouselProps) {
           'sm:-mx-8 sm:px-8 lg:mx-0 lg:px-0',
         )}
       >
-        {slides.map(({ key, visual, title, body }, index) => {
+        {slides.map(({ key, visual, title, body, label }, index) => {
           const Icon = icons[key]
 
           return (
             <li
               key={key}
               aria-roledescription="slide"
-              aria-label={fill(labels.goTo, index)}
+              aria-label={label}
               className={cn(
                 'shrink-0 snap-start',
                 'w-[78%] sm:w-[calc((100%-1rem)/2)]',
@@ -280,7 +277,7 @@ export function ServicesCarousel({ slides, labels }: ServicesCarouselProps) {
             key={index}
             type="button"
             onClick={() => scrollToIndex(index)}
-            aria-label={fill(labels.goTo, index)}
+            aria-label={slides[index]?.label}
             aria-current={index === active ? 'true' : undefined}
             className="group inline-flex h-11 w-6 items-center justify-center"
           >

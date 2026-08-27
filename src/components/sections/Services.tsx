@@ -35,16 +35,24 @@ export function Services() {
           thin client island with no translation payload of its own. */}
       <Reveal delay={0.08}>
         <ServicesCarousel
-          slides={services.map(({ key, visual }) => ({
+          slides={services.map(({ key, visual }, index) => ({
             key,
             visual,
             title: t(`items.${key}.title`),
             body: t(`items.${key}.body`),
+            /*
+              Formatted here rather than shipped as a template: `goTo` carries
+              ICU placeholders, so next-intl resolves it — applying the locale's
+              own number rules — instead of the client string-replacing it.
+            */
+            label: t('carousel.goTo', {
+              index: index + 1,
+              total: services.length,
+            }),
           }))}
           labels={{
             previous: t('carousel.previous'),
             next: t('carousel.next'),
-            goTo: t('carousel.goTo'),
             region: t('carousel.region'),
           }}
         />
