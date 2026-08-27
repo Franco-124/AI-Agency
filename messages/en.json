@@ -65,27 +65,6 @@
     "greeting": "Questions about how it works? Message us directly on WhatsApp.",
     "close": "Close message"
   },
-  "contrast": {
-    "beforeTitle": "Before",
-    "afterTitle": "With Numi AI",
-    "before": {
-      "one": "WhatsApp messages pile up and replies arrive late.",
-      "two": "Appointments are booked by hand, and some slip through.",
-      "three": "Following up with a lead depends on someone remembering to do it.",
-      "four": "Every repetitive task takes time away from what actually grows your business."
-    },
-    "after": {
-      "one": "Every message is answered instantly, at any hour.",
-      "two": "Appointments book themselves and are confirmed automatically.",
-      "three": "No lead goes cold: the follow-up happens on its own.",
-      "four": "Your team focuses on what grows the business, not on repetitive tasks."
-    },
-    "closing": "Every unanswered message is a sale going cold. Every forgotten appointment is a customer who doesn't come back."
-  },
-  "differentiation": {
-    "title": "We start with your operation, not with the technology",
-    "body": "Before automating anything, we learn how your business works today. We pinpoint where time and money are being lost, and we build a system shaped around your operation — not a generic solution."
-  },
   "niches": {
     "title": "Built for businesses like yours",
     "items": {
@@ -362,14 +341,6 @@
   "about": {
     "title": "About us",
     "body": "We are Numi AI: a team of five software engineers specialized in bringing artificial intelligence automation to small and medium-sized businesses in Colombia. We work with businesses that depend on replying fast and booking well — aesthetic clinics, real estate agencies, veterinary clinics, auto repair shops and gyms — designing every system around their real operation, never from a generic template.",
-    "teamLabel": "Team",
-    "team": {
-      "one": "Anthony Gonzales Velasquez",
-      "two": "Juan Pablo Ruiz",
-      "three": "Johan Steven Franco",
-      "four": "Edgar Eduardo Agudelo",
-      "five": "Miguel Ángel Pérez"
-    },
     "locationLabel": "Location",
     "location": "Medellín, Colombia.",
     "missionLabel": "Mission",

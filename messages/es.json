@@ -65,27 +65,6 @@
     "greeting": "¿Tienes preguntas sobre cómo funciona? Escríbenos directo por WhatsApp.",
     "close": "Cerrar mensaje"
   },
-  "contrast": {
-    "beforeTitle": "Antes",
-    "afterTitle": "Con Numi AI",
-    "before": {
-      "one": "Los mensajes de WhatsApp se acumulan y las respuestas llegan tarde.",
-      "two": "Las citas se agendan a mano y algunas se pierden.",
-      "three": "El seguimiento a un cliente potencial depende de que alguien se acuerde de hacerlo.",
-      "four": "Cada tarea repetitiva le quita tiempo a lo que realmente hace crecer tu negocio."
-    },
-    "after": {
-      "one": "Cada mensaje se responde al instante, a cualquier hora.",
-      "two": "Las citas se agendan solas y quedan confirmadas automáticamente.",
-      "three": "Ningún cliente potencial se enfría: el seguimiento se hace solo.",
-      "four": "Tu equipo se enfoca en lo que hace crecer el negocio, no en tareas repetitivas."
-    },
-    "closing": "Cada mensaje sin responder es una venta que se enfría. Cada cita que se olvida es un cliente que no vuelve."
-  },
-  "differentiation": {
-    "title": "Empezamos por tu operación, no por la tecnología",
-    "body": "Antes de automatizar nada, entendemos cómo funciona tu negocio hoy. Identificamos dónde se pierde tiempo y dinero, y construimos un sistema hecho a la medida de tu operación — no una solución genérica."
-  },
   "niches": {
     "title": "Hecho para negocios como el tuyo",
     "items": {
@@ -362,14 +341,6 @@
   "about": {
     "title": "Sobre nosotros",
     "body": "Somos Numi AI: un equipo de cinco ingenieros de software especializado en llevar automatización con inteligencia artificial a pequeñas y medianas empresas en Colombia. Trabajamos con negocios que dependen de responder rápido y agendar bien — clínicas estéticas, inmobiliarias, veterinarias, talleres automotrices y gimnasios — diseñando cada sistema a la medida de su operación real, no una plantilla genérica.",
-    "teamLabel": "Equipo",
-    "team": {
-      "one": "Anthony Gonzales Velasquez",
-      "two": "Juan Pablo Ruiz",
-      "three": "Johan Steven Franco",
-      "four": "Edgar Eduardo Agudelo",
-      "five": "Miguel Ángel Pérez"
-    },
     "locationLabel": "Ubicación",
     "location": "Medellín, Colombia.",
     "missionLabel": "Misión",

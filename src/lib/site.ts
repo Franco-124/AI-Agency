@@ -21,8 +21,6 @@ export const faqKeys = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', '
 
 export const sectionIds = {
   hero: 'inicio',
-  contrast: 'diagnostico',
-  differentiation: 'enfoque',
   niches: 'nichos',
   services: 'servicios',
   integrations: 'integraciones',

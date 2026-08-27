@@ -8,8 +8,6 @@ import { WhatsAppFab } from '@/components/layout/WhatsAppFab'
 import { About } from '@/components/sections/About'
 import { Advisory } from '@/components/sections/Advisory'
 import { Benefits } from '@/components/sections/Benefits'
-import { Contrast } from '@/components/sections/Contrast'
-import { Differentiation } from '@/components/sections/Differentiation'
 import { Faq } from '@/components/sections/Faq'
 import { FinalCta } from '@/components/sections/FinalCta'
 import { Hero } from '@/components/sections/Hero'
@@ -81,8 +79,6 @@ export default async function HomePage({ params }: PageProps) {
       <main id="contenido">
         <Hero />
         <Services />
-        <Contrast />
-        <Differentiation />
         <Niches />
         <Integrations />
         <Benefits />

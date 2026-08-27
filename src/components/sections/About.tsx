@@ -5,8 +5,6 @@ import { useTranslations } from 'next-intl'
 import { Reveal } from '@/components/motion/Reveal'
 import { sectionIds } from '@/lib/site'
 
-const teamKeys = ['one', 'two', 'three', 'four', 'five'] as const
-
 export function About() {
   const t = useTranslations('about')
 
@@ -78,26 +76,6 @@ export function About() {
             </Reveal>
           ))}
         </dl>
-
-        {/* The five names fill one strip instead of trailing off under the copy. */}
-        <Reveal delay={0.26} className="mt-5">
-          <div className="rounded-xl border border-hairline bg-[color-mix(in_srgb,var(--color-primario)_92%,transparent)] p-7">
-            <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-10">
-              <h3 className="type-eyebrow shrink-0">{t('teamLabel')}</h3>
-
-              <ul className="flex flex-wrap gap-2">
-                {teamKeys.map((key) => (
-                  <li
-                    key={key}
-                    className="rounded-full border border-hairline bg-[var(--color-neutro-oscuro)] px-4 py-2 text-sm text-ink-muted"
-                  >
-                    {t(`team.${key}`)}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </Reveal>
       </div>
     </section>
   )
