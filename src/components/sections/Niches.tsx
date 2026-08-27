@@ -48,7 +48,7 @@ export function Niches() {
         <SectionHeading id="nichos-titulo" title={t('title')} />
       </Reveal>
 
-      <ul className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+      <ul className="mt-10 grid gap-3 sm:mt-14 sm:grid-cols-2 sm:gap-4 lg:grid-cols-5">
         {niches.map(({ key, Icon, photo }, index) => (
           <Reveal as="li" key={key} delay={index * 0.05} className="h-full">
             <div
@@ -56,8 +56,16 @@ export function Niches() {
                 'group relative flex h-full flex-col justify-end overflow-hidden rounded-xl',
                 /* 5:6 rather than a taller portrait: the source photographs
                    are square, so this crops the least while still giving the
-                   copy a stable block to sit in. */
-                'aspect-[5/6] ring-1 ring-inset ring-hairline',
+                   copy a stable block to sit in.
+
+                   That ratio only holds once the grid has columns. On a phone
+                   the grid is a single column, so a portrait card runs the
+                   full viewport width — roughly 470px tall each, and five of
+                   them turn this section into a wall of scrolling. Below `sm`
+                   the card goes landscape instead, which keeps the photograph
+                   readable at about half the height. */
+                'aspect-[16/10] sm:aspect-[5/6]',
+                'ring-1 ring-inset ring-hairline',
                 'transition-[transform,box-shadow] duration-300 ease-[var(--ease-entrance)]',
                 'hover:-translate-y-1.5 hover:shadow-[0_28px_70px_-40px_rgba(0,0,0,0.95)]',
               )}
@@ -76,6 +84,8 @@ export function Niches() {
                 aria-hidden
                 fill
                 sizes="(min-width: 1024px) 20vw, (min-width: 640px) 50vw, 100vw"
+                /* Landscape on phones, portrait from `sm` up — see the aspect
+                   ratio on the card wrapper. */
                 className={cn(
                   '-z-10 object-cover object-center',
                   'saturate-[0.75] brightness-[0.72] contrast-[1.05]',
@@ -95,7 +105,7 @@ export function Niches() {
                   top so the subject of the photograph stays readable. */}
               <div
                 aria-hidden
-                className="absolute inset-0 -z-10 bg-[linear-gradient(to_top,var(--color-neutro-oscuro)_4%,color-mix(in_srgb,var(--color-neutro-oscuro)_88%,transparent)_34%,color-mix(in_srgb,var(--color-neutro-oscuro)_20%,transparent)_72%,transparent_100%)]"
+                className="absolute inset-0 -z-10 bg-[linear-gradient(to_top,var(--color-neutro-oscuro)_6%,color-mix(in_srgb,var(--color-neutro-oscuro)_88%,transparent)_52%,color-mix(in_srgb,var(--color-neutro-oscuro)_28%,transparent)_82%,transparent_100%)] sm:bg-[linear-gradient(to_top,var(--color-neutro-oscuro)_4%,color-mix(in_srgb,var(--color-neutro-oscuro)_88%,transparent)_34%,color-mix(in_srgb,var(--color-neutro-oscuro)_20%,transparent)_72%,transparent_100%)]"
               />
 
               {/* Accent hairline on hover, matching the services deck. */}
@@ -104,7 +114,7 @@ export function Niches() {
                 className="pointer-events-none absolute inset-0 rounded-xl opacity-0 ring-1 ring-inset ring-[var(--accent-hairline)] transition-opacity duration-300 group-hover:opacity-100"
               />
 
-              <div className="relative flex flex-col gap-2 p-5">
+              <div className="relative flex flex-col gap-1.5 p-4 sm:gap-2 sm:p-5">
                 <Icon
                   size={20}
                   strokeWidth={1.5}

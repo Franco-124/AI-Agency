@@ -1,8 +1,8 @@
 'use client'
 
-import { ArrowRight, Menu, X } from 'lucide-react'
+import { ArrowRight, ChevronDown, Menu, X } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
-import { useEffect, useId, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 
 import { Logo } from '@/components/brand/Logo'
 import { usePathname } from '@/i18n/navigation'
@@ -11,14 +11,31 @@ import { cn } from '@/lib/utils'
 
 import { LocaleSwitcher } from './LocaleSwitcher'
 
+/*
+ * "Servicios" and "Asesoría" are the same errand — what Numi sells — so they
+ * collapse into one first-level entry with a menu, which keeps the top level
+ * at five items. `children` is what marks an entry as a menu; the flat items
+ * render as plain links.
+ */
 const navItems = [
-  { key: 'services', id: sectionIds.services },
+  {
+    key: 'servicesMenu',
+    id: sectionIds.services,
+    children: [
+      { key: 'servicesOverview', descriptionKey: 'servicesOverviewDesc', id: sectionIds.services },
+      { key: 'advisory', descriptionKey: 'advisoryDesc', id: sectionIds.advisory },
+    ],
+  },
   { key: 'packages', id: sectionIds.packages },
-  { key: 'advisory', id: sectionIds.advisory },
   { key: 'process', id: sectionIds.process },
   { key: 'faq', id: sectionIds.faq },
   { key: 'about', id: sectionIds.about },
 ] as const
+
+/** Every section id the nav can highlight, menu children included. */
+const trackedSections = navItems.flatMap((item) =>
+  'children' in item ? item.children.map((child) => child.id) : [item.id],
+)
 
 /** Distance below the header at which a section counts as the current one. */
 const ACTIVE_OFFSET = 140
@@ -31,7 +48,10 @@ export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [activeId, setActiveId] = useState<string | null>(null)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const menuId = useId()
+  const dropdownId = useId()
+  const navRef = useRef<HTMLElement>(null)
 
   /*
    * Section anchors only exist on the home page. Elsewhere (e.g. /privacidad)
@@ -55,10 +75,10 @@ export function Header() {
       // Last section whose top has crossed the header wins; null above them all.
       let current: string | null = null
 
-      for (const item of navItems) {
-        const element = document.getElementById(item.id)
+      for (const id of trackedSections) {
+        const element = document.getElementById(id)
         if (element && element.getBoundingClientRect().top <= ACTIVE_OFFSET) {
-          current = item.id
+          current = id
         }
       }
 
@@ -80,6 +100,35 @@ export function Header() {
       if (frame) cancelAnimationFrame(frame)
     }
   }, [])
+
+  /*
+   * The dropdown closes on Escape and on any pointer landing outside the nav.
+   * Escape also returns focus to the trigger, so keyboard users are not
+   * dropped back at the top of the document.
+   */
+  useEffect(() => {
+    if (!openDropdown) return
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return
+      setOpenDropdown(null)
+      navRef.current
+        ?.querySelector<HTMLButtonElement>(`[data-dropdown-trigger="${openDropdown}"]`)
+        ?.focus()
+    }
+
+    const onPointerDown = (event: PointerEvent) => {
+      if (!navRef.current?.contains(event.target as Node)) setOpenDropdown(null)
+    }
+
+    window.addEventListener('keydown', onKeyDown)
+    window.addEventListener('pointerdown', onPointerDown)
+
+    return () => {
+      window.removeEventListener('keydown', onKeyDown)
+      window.removeEventListener('pointerdown', onPointerDown)
+    }
+  }, [openDropdown])
 
   // Lock body scroll and allow Escape to close while the mobile panel is open.
   useEffect(() => {
@@ -118,31 +167,108 @@ export function Header() {
       <div className="mx-auto flex h-[var(--header-height)] max-w-[80rem] items-center justify-between gap-6 px-5 sm:px-8">
         <Logo label={t('home')} />
 
-        <nav aria-label={t('mainNav')} className="hidden lg:block">
+        <nav ref={navRef} aria-label={t('mainNav')} className="hidden lg:block">
           <ul className="flex items-center gap-1">
             {navItems.map((item) => {
-              const isActive = activeId === item.id
+              const children = 'children' in item ? item.children : null
+              // A menu counts as current when any section inside it is.
+              const isActive = children
+                ? children.some((child) => child.id === activeId)
+                : activeId === item.id
+              const isOpen = openDropdown === item.key
+
+              const underline = (
+                <span
+                  aria-hidden
+                  className={cn(
+                    'absolute inset-x-3 bottom-1 h-px origin-left bg-[var(--color-acento)] transition-transform duration-300 ease-out',
+                    isActive ? 'scale-x-100' : 'scale-x-0',
+                  )}
+                />
+              )
+
+              if (!children) {
+                return (
+                  <li key={item.key}>
+                    <a
+                      href={sectionHref(item.id)}
+                      aria-current={isActive ? 'location' : undefined}
+                      className={cn(
+                        'relative rounded-md px-3 py-2 text-sm transition-colors duration-200',
+                        isActive ? 'text-ink' : 'text-ink-muted hover:text-ink',
+                      )}
+                    >
+                      {t(item.key)}
+                      {/* Marks where the visitor is without moving anything. */}
+                      {underline}
+                    </a>
+                  </li>
+                )
+              }
 
               return (
-                <li key={item.key}>
-                  <a
-                    href={sectionHref(item.id)}
+                <li
+                  key={item.key}
+                  className="relative"
+                  onMouseEnter={() => setOpenDropdown(item.key)}
+                  onMouseLeave={() => setOpenDropdown(null)}
+                >
+                  <button
+                    type="button"
+                    data-dropdown-trigger={item.key}
+                    aria-expanded={isOpen}
+                    aria-controls={`${dropdownId}-${item.key}`}
                     aria-current={isActive ? 'location' : undefined}
+                    onClick={() => setOpenDropdown(isOpen ? null : item.key)}
                     className={cn(
-                      'relative rounded-md px-3 py-2 text-sm transition-colors duration-200',
+                      'relative flex items-center gap-1 rounded-md px-3 py-2 text-sm transition-colors duration-200',
                       isActive ? 'text-ink' : 'text-ink-muted hover:text-ink',
                     )}
                   >
                     {t(item.key)}
-                    {/* Marks where the visitor is without moving anything. */}
-                    <span
+                    <ChevronDown
                       aria-hidden
                       className={cn(
-                        'absolute inset-x-3 bottom-1 h-px origin-left bg-[var(--color-acento)] transition-transform duration-300 ease-out',
-                        isActive ? 'scale-x-100' : 'scale-x-0',
+                        'h-3.5 w-3.5 transition-transform duration-200',
+                        isOpen && 'rotate-180',
                       )}
                     />
-                  </a>
+                    {underline}
+                  </button>
+
+                  {/*
+                    Kept mounted so the open/close can transition, and made
+                    `inert` while closed so its links stay out of tab order and
+                    out of the accessibility tree.
+                  */}
+                  <div
+                    id={`${dropdownId}-${item.key}`}
+                    inert={!isOpen}
+                    className={cn(
+                      'absolute left-0 top-full w-72 pt-2 transition-all duration-200 ease-out',
+                      isOpen
+                        ? 'translate-y-0 opacity-100'
+                        : 'pointer-events-none -translate-y-1 opacity-0',
+                    )}
+                  >
+                    <ul className="overflow-hidden rounded-xl border border-hairline bg-[var(--color-primario)] p-1.5 shadow-[0_20px_45px_-12px_color-mix(in_srgb,var(--color-neutro-oscuro)_85%,transparent)]">
+                      {children.map((child) => (
+                        <li key={child.key}>
+                          <a
+                            href={sectionHref(child.id)}
+                            onClick={() => setOpenDropdown(null)}
+                            aria-current={activeId === child.id ? 'location' : undefined}
+                            className="block rounded-lg px-3 py-2.5 transition-colors duration-200 hover:bg-[color-mix(in_srgb,var(--color-neutro-claro)_6%,transparent)]"
+                          >
+                            <span className="block text-sm text-ink">{t(child.key)}</span>
+                            <span className="mt-0.5 block text-xs text-ink-faint">
+                              {t(child.descriptionKey)}
+                            </span>
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </li>
               )
             })}
@@ -211,18 +337,45 @@ export function Header() {
             isMenuOpen ? 'opacity-100 delay-100' : 'opacity-0',
           )}
         >
+          {/*
+            No dropdown on the phone: the panel has the room to list every
+            destination flat, and a nested disclosure would only add a tap
+            between the visitor and the section. The grouped entry becomes a
+            heading with its children indented under it.
+          */}
           <ul className="flex flex-col gap-1">
-            {navItems.map((item) => (
-              <li key={item.key}>
-                <a
-                  href={sectionHref(item.id)}
-                  onClick={() => setIsMenuOpen(false)}
-                  className="flex min-h-11 items-center rounded-lg px-3 text-lg text-ink-muted transition-colors duration-200 hover:text-ink"
-                >
-                  {t(item.key)}
-                </a>
-              </li>
-            ))}
+            {navItems.map((item) =>
+              'children' in item ? (
+                <li key={item.key}>
+                  <span className="flex min-h-11 items-center px-3 text-xs uppercase tracking-[0.16em] text-ink-faint">
+                    {t(item.key)}
+                  </span>
+                  <ul className="flex flex-col gap-1">
+                    {item.children.map((child) => (
+                      <li key={child.key}>
+                        <a
+                          href={sectionHref(child.id)}
+                          onClick={() => setIsMenuOpen(false)}
+                          className="flex min-h-11 items-center rounded-lg px-3 text-lg text-ink-muted transition-colors duration-200 hover:text-ink"
+                        >
+                          {t(child.key)}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              ) : (
+                <li key={item.key}>
+                  <a
+                    href={sectionHref(item.id)}
+                    onClick={() => setIsMenuOpen(false)}
+                    className="flex min-h-11 items-center rounded-lg px-3 text-lg text-ink-muted transition-colors duration-200 hover:text-ink"
+                  >
+                    {t(item.key)}
+                  </a>
+                </li>
+              ),
+            )}
           </ul>
 
           <div className="mt-7 flex flex-col gap-4">

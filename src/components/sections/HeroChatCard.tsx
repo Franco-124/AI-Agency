@@ -3,7 +3,7 @@
 import { CheckCheck, MessageCircle } from 'lucide-react'
 import { m, useReducedMotion } from 'motion/react'
 import { useTranslations } from 'next-intl'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { LazyMotionProvider } from '@/components/motion/LazyMotionProvider'
 import { cn } from '@/lib/utils'
@@ -28,15 +28,53 @@ const messages = [
   { key: 'eight', from: 'numi', time: 'timeEight', status: 'read' },
 ] as const
 
-const START_DELAY = 500
-const CLIENT_GAP = 900
-const TYPING_DURATION = 900
-const NUMI_GAP = 450
+/**
+ * The niches the card cycles through. Each key is a namespace under
+ * `hero.chat` holding its own name/status/messages, so a variant is a copy
+ * change rather than a code change. Order is the order they play.
+ */
+const niches = ['realEstate', 'clinic', 'vet'] as const
 
-/** One entry per message: how long to wait after the previous step before it appears. */
-const stepDelays = messages.map((message) =>
-  message.from === 'numi' ? TYPING_DURATION + NUMI_GAP : CLIENT_GAP,
-)
+/*
+ * Pacing. The exchange used to run on flat per-role delays, which is what made
+ * it read as a canned loop: a two-word reply took exactly as long to arrive as
+ * a three-line one, and the whole thing was over before it registered as a
+ * conversation. The timings below are derived from the message text instead,
+ * so length drives duration the way it does with a real person.
+ */
+
+const START_DELAY = 1100
+
+/** Time before a client message lands — they are reading the reply first. */
+const CLIENT_BASE = 1400
+/** Added per character of the message they are about to send. */
+const CLIENT_PER_CHAR = 28
+
+/** The agent's pause before the typing indicator appears. */
+const NUMI_THINKING = 900
+/** Floor and per-character cost of the "typing…" beat, then the send pause. */
+const TYPING_BASE = 800
+const TYPING_PER_CHAR = 22
+const NUMI_GAP = 400
+
+/** Nothing may outstay this, however long the message. */
+const MAX_TYPING = 3200
+const MAX_CLIENT_GAP = 3600
+
+/** How long a finished conversation stays on screen before the next niche. */
+const NICHE_HOLD = 6000
+/** Cross-fade at the swap. Matches the `duration-300` on the wrapper below. */
+const FADE_DURATION = 300
+
+const clamp = (value: number, max: number) => Math.min(value, max)
+
+/** How long the agent appears to spend typing a given message. */
+const typingDurationFor = (text: string) =>
+  clamp(TYPING_BASE + text.length * TYPING_PER_CHAR, MAX_TYPING)
+
+/** How long before the client's next message lands. */
+const clientDelayFor = (text: string) =>
+  clamp(CLIENT_BASE + text.length * CLIENT_PER_CHAR, MAX_CLIENT_GAP)
 
 const bubbleClasses = (from: 'client' | 'numi') =>
   cn(
@@ -74,20 +112,30 @@ const TypingBubble = () => (
 )
 
 /**
- * Illustrative WhatsApp exchange shown beside the hero copy: it fills the right
- * half with proof of what the product actually does instead of decoration.
+ * One niche's conversation, replayed from empty. Mounted under a `key` of the
+ * niche, so switching niches remounts it and the replay state resets by
+ * construction rather than by clearing it inside an effect.
  *
- * Not a functional chat — the real entry point is the floating WhatsApp button.
- * The exchange replays from scratch on every page load: no messages, then one
- * bubble at a time, auto-scrolling itself as each one lands.
+ * Only the messages vary per niche. The header always presents the agent as
+ * Numi AI: the card demonstrates what the agent does, so putting a client's
+ * name on it would read as a specific customer's private conversation.
  */
-export function HeroChatCard() {
+function ChatTranscript({
+  niche,
+  prefersReducedMotion,
+  onComplete,
+}: {
+  niche: (typeof niches)[number]
+  prefersReducedMotion: boolean
+  onComplete: () => void
+}) {
   const t = useTranslations('hero.chat')
-  const prefersReducedMotion = useReducedMotion()
+  const tNiche = useTranslations(`hero.chat.${niche}`)
   const scrollRef = useRef<HTMLOListElement>(null)
 
   const [visibleCount, setVisibleCount] = useState(prefersReducedMotion ? messages.length : 0)
   const [typing, setTyping] = useState(false)
+  const [fadingOut, setFadingOut] = useState(false)
 
   useEffect(() => {
     if (prefersReducedMotion) return
@@ -95,39 +143,76 @@ export function HeroChatCard() {
     let cancelled = false
     const timers: number[] = []
 
-    const scheduleStep = (index: number, wait: number) => {
-      timers.push(
-        window.setTimeout(() => {
-          if (cancelled) return
-
-          const message = messages[index]
-          if (message.from === 'numi') {
-            setTyping(true)
-            timers.push(
-              window.setTimeout(() => {
-                if (cancelled) return
-                setTyping(false)
-                setVisibleCount(index + 1)
-              }, TYPING_DURATION),
-            )
-          } else {
-            setVisibleCount(index + 1)
-          }
-        }, wait),
-      )
-    }
-
+    /*
+     * Every step is scheduled up front against one running clock, so a step's
+     * own duration is what pushes the next one out. `typingDurationFor` and
+     * `clientDelayFor` read the resolved copy, which is why the schedule is
+     * built here rather than hoisted to a module constant: the text differs
+     * per niche and per locale.
+     */
     let cumulative = START_DELAY
-    messages.forEach((_, index) => {
-      scheduleStep(index, cumulative)
-      cumulative += stepDelays[index]
+
+    messages.forEach((message, index) => {
+      const text = tNiche(`messages.${message.key}`)
+
+      if (message.from === 'numi') {
+        const typingDuration = typingDurationFor(text)
+        const showTypingAt = cumulative + NUMI_THINKING
+
+        timers.push(
+          window.setTimeout(() => {
+            if (!cancelled) setTyping(true)
+          }, showTypingAt),
+        )
+
+        timers.push(
+          window.setTimeout(() => {
+            if (cancelled) return
+            setTyping(false)
+            setVisibleCount(index + 1)
+          }, showTypingAt + typingDuration),
+        )
+
+        cumulative = showTypingAt + typingDuration + NUMI_GAP
+      } else {
+        // The client reads the previous reply before answering, so their delay
+        // is sized by the message they are about to send.
+        cumulative += clientDelayFor(text)
+
+        timers.push(
+          window.setTimeout(() => {
+            if (!cancelled) setVisibleCount(index + 1)
+          }, cumulative),
+        )
+      }
     })
+
+    /*
+     * Hand off to the next niche only once the conversation has finished
+     * playing. Swapping on a fixed 4-5s interval would cut the exchange off
+     * mid-reply — the card would never show a booking actually completing,
+     * which is the one thing it exists to demonstrate. The fade starts
+     * FADE_DURATION before the swap so the outgoing text is gone by the time
+     * the incoming copy mounts.
+     */
+    timers.push(
+      window.setTimeout(() => {
+        if (cancelled) return
+        setFadingOut(true)
+      }, cumulative + NICHE_HOLD),
+    )
+
+    timers.push(
+      window.setTimeout(() => {
+        if (!cancelled) onComplete()
+      }, cumulative + NICHE_HOLD + FADE_DURATION),
+    )
 
     return () => {
       cancelled = true
       timers.forEach((timer) => window.clearTimeout(timer))
     }
-  }, [prefersReducedMotion])
+  }, [prefersReducedMotion, onComplete, tNiche])
 
   // Follow the conversation as each bubble (or the typing indicator) lands.
   useEffect(() => {
@@ -139,14 +224,7 @@ export function HeroChatCard() {
   const showFooter = visibleCount >= messages.length
 
   return (
-    <LazyMotionProvider>
-      <m.aside
-        initial={prefersReducedMotion ? undefined : { opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, ease: EASE }}
-        aria-label={t('ariaLabel')}
-        className="ml-auto w-full max-w-[20rem] rounded-2xl border border-[rgba(245,243,248,0.08)] bg-[color-mix(in_srgb,var(--color-primario)_82%,transparent)] p-4 shadow-[0_20px_40px_rgba(10,5,18,0.4)] backdrop-blur-md"
-      >
+    <>
         <header className="mb-3 flex items-center gap-2.5 border-b border-hairline pb-3">
           <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--accent-soft)]">
             <MessageCircle
@@ -166,7 +244,12 @@ export function HeroChatCard() {
           </span>
         </header>
 
-        <div className="relative">
+        <div
+          className={cn(
+            'relative transition-opacity duration-300',
+            fadingOut ? 'opacity-0' : 'opacity-100',
+          )}
+        >
           <div
             aria-hidden
             className="pointer-events-none absolute inset-x-0 top-0 z-10 h-6 bg-gradient-to-b from-[color-mix(in_srgb,var(--color-primario)_82%,transparent)] to-transparent"
@@ -188,7 +271,7 @@ export function HeroChatCard() {
                   transition={{ duration: 0.35, ease: EASE }}
                 >
                   <div className={bubbleClasses(from)}>
-                    <p>{t(`messages.${key}`)}</p>
+                    <p>{tNiche(`messages.${key}`)}</p>
                     <span
                       className={cn(
                         'mt-1 flex items-center gap-1 text-[11px] text-[color-mix(in_srgb,var(--text-secondary)_75%,transparent)]',
@@ -219,6 +302,56 @@ export function HeroChatCard() {
         >
           {t('meta')}
         </m.p>
+    </>
+  )
+}
+
+/**
+ * Illustrative WhatsApp exchange shown beside the hero copy: it fills the right
+ * half with proof of what the product actually does instead of decoration.
+ *
+ * Not a functional chat — the real entry point is the floating WhatsApp button.
+ * The card cycles through one conversation per niche, each replaying from an
+ * empty panel, so a visitor from any of the three sees their own business
+ * reflected rather than a generic booking.
+ */
+export function HeroChatCard() {
+  const t = useTranslations('hero.chat')
+  const prefersReducedMotion = useReducedMotion()
+
+  /*
+   * Under reduced motion this stays at 0 for good: one conversation, shown in
+   * full, with no rotation and no cross-fade — which is the point of the
+   * preference. Everyone else cycles through all three.
+   */
+  const [nicheIndex, setNicheIndex] = useState(0)
+
+  /*
+   * Stable across renders on purpose: the transcript lists it as a dependency
+   * of the effect that schedules the whole replay, so a fresh function each
+   * render would tear the timers down and restart the conversation on every
+   * bubble. The updater form means it never needs to close over the index.
+   */
+  const advance = useCallback(() => {
+    if (prefersReducedMotion) return
+    setNicheIndex((index) => (index + 1) % niches.length)
+  }, [prefersReducedMotion])
+
+  return (
+    <LazyMotionProvider>
+      <m.aside
+        initial={prefersReducedMotion ? undefined : { opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: EASE }}
+        aria-label={t('ariaLabel')}
+        className="ml-auto w-full max-w-[20rem] rounded-2xl border border-[rgba(245,243,248,0.08)] bg-[color-mix(in_srgb,var(--color-primario)_82%,transparent)] p-4 shadow-[0_25px_60px_-12px_color-mix(in_srgb,var(--color-neutro-oscuro)_85%,transparent)] backdrop-blur-md"
+      >
+        <ChatTranscript
+          key={niches[nicheIndex]}
+          niche={niches[nicheIndex]}
+          prefersReducedMotion={Boolean(prefersReducedMotion)}
+          onComplete={advance}
+        />
       </m.aside>
     </LazyMotionProvider>
   )

@@ -18,7 +18,12 @@
     "closeMenu": "Cerrar menú de navegación",
     "languageLabel": "Idioma",
     "spanish": "Español",
-    "english": "Inglés"
+    "english": "Inglés",
+    "servicesMenu": "Servicios",
+    "servicesMenuLabel": "Abrir menú de servicios",
+    "servicesOverview": "Servicios principales",
+    "servicesOverviewDesc": "Sitios web, automatización y agentes de IA.",
+    "advisoryDesc": "Acompañamiento y diagnóstico para tu negocio."
   },
   "hero": {
     "eyebrow": "Diseño web, automatización y agentes de IA para pymes en Colombia",
@@ -26,25 +31,10 @@
     "subtitle": "Numi AI diseña tu sitio web, automatiza tus procesos y crea agentes de IA que atienden a tus clientes al instante, todo el día, para que tu equipo deje de perder tiempo y tu negocio deje de perder ventas.",
     "cta": "Agenda una llamada estratégica",
     "imageAlt": "Fondo oscuro con una textura sutil",
-    "indicators": {
-      "one": "Sitios web a medida para tu negocio",
-      "two": "Agentes de IA disponibles todo el día",
-      "three": "Automatización sin aumentar tu nómina"
-    },
     "chat": {
       "ariaLabel": "Ejemplo de conversación atendida por Numi AI",
       "name": "Numi AI",
       "status": "En línea",
-      "messages": {
-        "one": "Hola, ¿tienen cita disponible mañana?",
-        "two": "¡Claro! Tenemos disponibilidad a las 10:00am o 3:00pm. ¿Cuál prefieres?",
-        "three": "A las 3:00pm está perfecto",
-        "four": "Listo, quedas agendado para mañana 3:00pm. Te llega la confirmación por WhatsApp.",
-        "five": "¿Necesito llevar algo?",
-        "six": "Solo tu documento de identidad. Si necesitas reprogramar, escríbeme cuando quieras.",
-        "seven": "Perfecto, gracias",
-        "eight": "Con gusto. Nos vemos mañana."
-      },
       "meta": "Conversación en tiempo real",
       "timeOne": "10:32 a.m.",
       "timeTwo": "10:32 a.m.",
@@ -53,8 +43,45 @@
       "timeFive": "10:34 a.m.",
       "timeSix": "10:34 a.m.",
       "timeSeven": "10:35 a.m.",
-      "timeEight": "10:35 a.m."
-    }
+      "timeEight": "10:35 a.m.",
+      "realEstate": {
+        "messages": {
+          "one": "Hola, ¿puedo ver el apartamento de Laureles?",
+          "two": "¡Claro! Tenemos visitas mañana a las 10:00 a.m. o 3:00 p.m. ¿Cuál te sirve?",
+          "three": "A las 3:00 p.m. está perfecto",
+          "four": "Listo, agendada la visita mañana 3:00 p.m. Te llega la confirmación por WhatsApp.",
+          "five": "¿Necesito llevar algo?",
+          "six": "Solo tu documento de identidad. Si necesitas reprogramar, escríbeme cuando quieras.",
+          "seven": "Perfecto, gracias",
+          "eight": "Con gusto. Nos vemos mañana."
+        }
+      },
+      "clinic": {
+        "messages": {
+          "one": "Buenas, ¿tienen cita para valoración esta semana?",
+          "two": "¡Sí! Queda jueves 9:00 a.m. o viernes 2:00 p.m. ¿Cuál prefieres?",
+          "three": "El jueves a las 9:00 a.m.",
+          "four": "Agendada tu valoración para el jueves a las 9:00 a.m.",
+          "five": "¿Debo llevar algo?",
+          "six": "Tu documento y los exámenes previos si los tienes. Te envío el recordatorio un día antes.",
+          "seven": "Listo, muchas gracias",
+          "eight": "Con gusto. Te esperamos el jueves."
+        }
+      },
+      "vet": {
+        "messages": {
+          "one": "Hola, necesito consulta para mi perro",
+          "two": "¡Claro! Hoy tenemos a las 4:00 p.m. o mañana a las 11:00 a.m. ¿Cuál te queda mejor?",
+          "three": "Hoy a las 4:00 p.m.",
+          "four": "Listo, consulta hoy 4:00 p.m. ¿Me confirmas el nombre de tu mascota?",
+          "five": "Se llama Toby, tiene 3 años",
+          "six": "Anotado. Trae su carnet de vacunas si lo tienes a la mano.",
+          "seven": "Perfecto, allá estaré",
+          "eight": "Te esperamos. Cualquier cosa me escribes."
+        }
+      }
+    },
+    "proof": "+40% de capacidad de atención al cliente — caso real validado"
   },
   "whatsapp": {
     "label": "Escríbenos",

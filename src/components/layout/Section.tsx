@@ -46,7 +46,7 @@ export function Section({
       id={id}
       aria-labelledby={labelledBy}
       className={cn(
-        'relative isolate scroll-mt-24 py-24 lg:py-32',
+        'relative isolate scroll-mt-24 py-16 lg:py-20',
         surfaceClasses[surface],
         divided && 'border-t border-hairline',
         className,

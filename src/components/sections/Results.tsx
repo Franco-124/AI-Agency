@@ -13,7 +13,7 @@ export function Results() {
     <section
       id={sectionIds.results}
       aria-labelledby="resultados-titulo"
-      className="grain relative isolate scroll-mt-24 overflow-hidden border-y border-hairline bg-[var(--color-primario)] py-24 lg:py-32"
+      className="grain relative isolate scroll-mt-24 overflow-hidden border-y border-hairline bg-[var(--color-primario)] py-16 lg:py-20"
     >
       {/* Ruled texture with its accent line — the atmosphere of this block. */}
       <Image

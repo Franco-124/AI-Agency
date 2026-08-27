@@ -135,7 +135,7 @@ export function Integrations() {
   const t = useTranslations('integrations')
 
   return (
-    <Section id={sectionIds.integrations} labelledBy="integraciones-titulo" className="overflow-hidden py-16 lg:py-20">
+    <Section id={sectionIds.integrations} labelledBy="integraciones-titulo" className="overflow-hidden">
       <Reveal>
         <SectionHeading
           id="integraciones-titulo"

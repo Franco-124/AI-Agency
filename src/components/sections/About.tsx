@@ -24,7 +24,7 @@ export function About() {
     <section
       id={sectionIds.about}
       aria-labelledby="sobre-nosotros-titulo"
-      className="grain relative isolate scroll-mt-24 overflow-hidden border-y border-hairline py-24 lg:py-32"
+      className="grain relative isolate scroll-mt-24 overflow-hidden border-y border-hairline py-16 lg:py-20"
     >
       <Image
         src="/images/12-about-new.webp"

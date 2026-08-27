@@ -13,7 +13,7 @@ export function FinalCta() {
     <section
       id={sectionIds.finalCta}
       aria-labelledby="cta-final-titulo"
-      className="relative isolate scroll-mt-24 overflow-hidden border-t border-hairline py-24 lg:py-32"
+      className="relative isolate scroll-mt-24 overflow-hidden border-t border-hairline py-16 lg:py-20"
     >
       <Image
         src="/images/15-cta-new.webp"

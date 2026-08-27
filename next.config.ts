@@ -6,6 +6,12 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts')
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  /*
+   * The dev-only overlay badge in the bottom-left corner. It never ships in a
+   * production build; this turns it off in development too, so the hero can be
+   * reviewed without it sitting over the artwork.
+   */
+  devIndicators: false,
   images: {
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 768, 1024, 1280, 1536, 1920, 2560],

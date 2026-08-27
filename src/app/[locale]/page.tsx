@@ -77,18 +77,36 @@ export default async function HomePage({ params }: PageProps) {
       <Header />
 
       <main id="contenido">
+        {/*
+          Order follows the visitor's decision, not the product taxonomy:
+          qualify (is this for me?) → value → proof → differentiation → offer →
+          objection handling → ask.
+
+          Two moves matter most. `Results` carries the only measured outcome on
+          the page, so it now lands right after `Benefits` — the claim is
+          immediately backed by evidence instead of the proof sitting six
+          screens down where most visitors never reach it. And `Integrations`
+          drops below the offer: "it works with your tools" answers an
+          objection from someone already interested, so spending an early slot
+          on it interrupted the persuasion arc before there was anything to
+          object to.
+
+          `Advisory` stays directly after `Packages` on purpose — both are
+          priced entry points, and the lighter option reads as the fallback for
+          anyone who found the packages too big a first step.
+        */}
         <Hero />
         <Services />
         <Niches />
-        <Integrations />
         <Benefits />
         <Results />
         <Why />
         <Packages />
         <Advisory />
         <Process />
-        <Faq />
+        <Integrations />
         <About />
+        <Faq />
         <FinalCta />
       </main>
 

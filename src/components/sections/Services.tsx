@@ -26,6 +26,9 @@ export function Services() {
       labelledBy="servicios-titulo"
       surface="texture"
       backgroundSrc="/images/13-services-new.webp"
+      /* Pinned to the original rhythm: this section's spacing is deliberate
+         and is excluded from the page-wide reduction below it. */
+      className="py-24 lg:py-32"
     >
       <Reveal>
         <SectionHeading id="servicios-titulo" title={t('title')} />

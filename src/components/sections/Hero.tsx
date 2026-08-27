@@ -1,13 +1,11 @@
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, CheckCircle2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import { Fragment, type CSSProperties } from 'react'
+import type { CSSProperties } from 'react'
 
 import { HeroMotion } from '@/components/motion/HeroMotion'
 import { HeroChatCard } from '@/components/sections/HeroChatCard'
 import { Button } from '@/components/ui/button'
 import { sectionIds } from '@/lib/site'
-
-const indicatorKeys = ['one', 'two', 'three'] as const
 
 export function Hero() {
   const t = useTranslations('hero')
@@ -59,7 +57,7 @@ export function Hero() {
       */}
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-[linear-gradient(to_bottom,color-mix(in_srgb,var(--color-neutro-oscuro)_92%,transparent)_0%,color-mix(in_srgb,var(--color-neutro-oscuro)_78%,transparent)_45%,transparent_85%)] md:bg-[linear-gradient(to_right,color-mix(in_srgb,var(--color-neutro-oscuro)_97%,transparent)_0%,color-mix(in_srgb,var(--color-neutro-oscuro)_72%,transparent)_38%,color-mix(in_srgb,var(--color-neutro-oscuro)_28%,transparent)_68%,transparent_100%)]"
+        className="absolute inset-0 -z-10 bg-[linear-gradient(to_bottom,color-mix(in_srgb,var(--color-neutro-oscuro)_94%,transparent)_0%,color-mix(in_srgb,var(--color-neutro-oscuro)_86%,transparent)_45%,color-mix(in_srgb,var(--color-neutro-oscuro)_60%,transparent)_100%)] md:bg-[linear-gradient(to_right,color-mix(in_srgb,var(--color-neutro-oscuro)_98%,transparent)_0%,color-mix(in_srgb,var(--color-neutro-oscuro)_88%,transparent)_38%,color-mix(in_srgb,var(--color-neutro-oscuro)_66%,transparent)_68%,color-mix(in_srgb,var(--color-neutro-oscuro)_58%,transparent)_100%)]"
       />
       {/*
         Banded vignette: enough weight at the top and bottom edges to seat the
@@ -69,7 +67,21 @@ export function Hero() {
       */}
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-[linear-gradient(to_bottom,color-mix(in_srgb,var(--color-neutro-oscuro)_70%,transparent)_0%,transparent_20%,transparent_72%,color-mix(in_srgb,var(--color-neutro-oscuro)_55%,transparent)_100%)]"
+        className="absolute inset-0 -z-10 bg-[linear-gradient(to_bottom,color-mix(in_srgb,var(--color-neutro-oscuro)_82%,transparent)_0%,color-mix(in_srgb,var(--color-neutro-oscuro)_30%,transparent)_20%,color-mix(in_srgb,var(--color-neutro-oscuro)_30%,transparent)_72%,color-mix(in_srgb,var(--color-neutro-oscuro)_70%,transparent)_100%)]"
+      />
+
+      {/*
+        Brightness governor. The artwork's own hotspot sits high and right —
+        over empty space — which pulled the eye away from both the headline and
+        the card. This radial keeps a clear window centred on the chat column
+        (72% across, 58% down) and dims everything outside it, so the brightest
+        part of the hero ends up behind the card rather than beside it. Pure
+        `--color-neutro-oscuro` at varying alpha, so no hue is introduced and
+        the artwork cannot drift toward magenta.
+      */}
+      <div
+        aria-hidden
+        className="absolute inset-0 -z-10 bg-[radial-gradient(65%_60%_at_72%_58%,transparent_0%,color-mix(in_srgb,var(--color-neutro-oscuro)_22%,transparent)_45%,color-mix(in_srgb,var(--color-neutro-oscuro)_55%,transparent)_100%)]"
       />
 
       {/*
@@ -133,29 +145,55 @@ export function Hero() {
             </Button>
           </div>
 
-          {/* Indicator bar: one wrapping row separated by middots. */}
-          <ul
-            className="hero-rise mt-9 flex flex-wrap items-center gap-x-3 gap-y-2 text-[0.8125rem] text-[color-mix(in_srgb,var(--color-neutro-claro)_65%,transparent)]"
+          {/*
+            One measured result instead of three capability claims. The three
+            bullets that used to sit here restated what the eyebrow and the
+            subtitle already say; a single verified outcome does more work than
+            a feature list.
+
+            A pill rather than an underlined link: underlined body copy in a
+            hero reads as fine print, while the enclosed shape presents the
+            figure as a credential. The client's name is deliberately absent —
+            it belongs with the quote and attribution in #resultados, which is
+            where this scrolls to.
+          */}
+          <p
+            className="hero-rise mt-9"
             style={{ '--hero-delay': '0.42s' } as CSSProperties}
           >
-            {indicatorKeys.map((key, index) => (
-              <Fragment key={key}>
-                {index > 0 ? (
-                  <li aria-hidden className="text-[var(--color-acento)]">
-                    ·
-                  </li>
-                ) : null}
-                <li>{t(`indicators.${key}`)}</li>
-              </Fragment>
-            ))}
-          </ul>
+            <a
+              href={`#${sectionIds.results}`}
+              className="inline-flex items-center gap-2 rounded-full border border-[color-mix(in_srgb,var(--color-acento)_25%,transparent)] bg-[color-mix(in_srgb,var(--color-acento)_15%,transparent)] py-2 pl-2.5 pr-4 text-[0.8125rem] text-[color-mix(in_srgb,var(--color-neutro-claro)_80%,transparent)] no-underline transition-colors duration-200 hover:border-[color-mix(in_srgb,var(--color-acento)_45%,transparent)] hover:text-[var(--color-neutro-claro)]"
+            >
+              <CheckCircle2
+                aria-hidden
+                className="h-4 w-4 shrink-0 text-[var(--color-acento)]"
+                strokeWidth={2}
+              />
+              {t('proof')}
+            </a>
+          </p>
         </div>
 
         {/* Product proof — desktop only, so it never pushes the mobile CTA down.
             The float lives on this wrapper because the card animates its own
             entrance; stacking both on one element would fight over `transform`. */}
-        <div className="soft-float hidden lg:col-span-5 lg:block">
-          <HeroChatCard />
+        <div className="soft-float relative hidden lg:col-span-5 lg:block">
+          {/*
+            Backing panel. The card sits over the brightest part of the
+            artwork, where a border alone stopped reading as a separate
+            surface. This blurred plate is inset slightly beyond the card on
+            every side and blurs whatever is behind it, so the card lifts off
+            the image instead of dissolving into it. `ml-auto`/`max-w` mirror
+            the card's own sizing so the plate tracks it at every width.
+          */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-y-[-1.25rem] right-[-1.25rem] ml-auto w-[calc(20rem+2.5rem)] rounded-[1.75rem] border border-[color-mix(in_srgb,var(--color-neutro-claro)_6%,transparent)] bg-[color-mix(in_srgb,var(--color-neutro-oscuro)_40%,transparent)] backdrop-blur-[20px]"
+          />
+          <div className="relative">
+            <HeroChatCard />
+          </div>
         </div>
       </div>
     </section>
