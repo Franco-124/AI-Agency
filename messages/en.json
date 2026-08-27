@@ -71,14 +71,14 @@
       "one": "Aesthetic clinics",
       "two": "Real estate agencies",
       "three": "Veterinary clinics",
-      "four": "Auto repair shops",
+      "four": "Dental practices",
       "five": "Gyms"
     },
     "hooks": {
       "one": "Book the botox or laser appointment before the lead goes cold.",
       "two": "Every apartment enquiry gets answered before they look elsewhere.",
       "three": "Urgent calls and vaccination bookings never get lost between messages.",
-      "four": "Quotes go out instantly, not whenever someone checks the chat.",
+      "four": "Every cleaning or smile-design enquiry gets booked, not left on read.",
       "five": "Membership and class enquiries book themselves, even at 11pm."
     },
     "closing": "If your business depends on replying fast and booking well, this is for you."
@@ -340,7 +340,7 @@
   },
   "about": {
     "title": "About us",
-    "body": "We are Numi AI: a team of five software engineers specialized in bringing artificial intelligence automation to small and medium-sized businesses in Colombia. We work with businesses that depend on replying fast and booking well — aesthetic clinics, real estate agencies, veterinary clinics, auto repair shops and gyms — designing every system around their real operation, never from a generic template.",
+    "body": "We are Numi AI: a team of five software engineers specialized in bringing artificial intelligence automation to small and medium-sized businesses in Colombia. We work with businesses that depend on replying fast and booking well — aesthetic clinics, real estate agencies, veterinary clinics, dental practices and gyms — designing every system around their real operation, never from a generic template.",
     "locationLabel": "Location",
     "location": "Medellín, Colombia.",
     "missionLabel": "Mission",

@@ -71,14 +71,14 @@
       "one": "Clínicas estéticas",
       "two": "Inmobiliarias",
       "three": "Veterinarias",
-      "four": "Talleres automotrices",
+      "four": "Consultorios odontológicos",
       "five": "Gimnasios"
     },
     "hooks": {
       "one": "Agenda tu botox o láser antes de que el lead se enfríe en el chat.",
       "two": "Cada consulta de apartamento se responde antes de que miren otra opción.",
       "three": "Urgencias y citas de vacunación no se pierden entre mensajes.",
-      "four": "La cotización sale al instante, no cuando alguien revisa el chat.",
+      "four": "Cada consulta por una limpieza o un diseño de sonrisa queda agendada, no en visto.",
       "five": "Consultas de planes y clases se agendan solas, hasta a las 11pm."
     },
     "closing": "Si tu negocio depende de responder rápido y agendar bien, esto es para ti."
@@ -340,7 +340,7 @@
   },
   "about": {
     "title": "Sobre nosotros",
-    "body": "Somos Numi AI: un equipo de cinco ingenieros de software especializado en llevar automatización con inteligencia artificial a pequeñas y medianas empresas en Colombia. Trabajamos con negocios que dependen de responder rápido y agendar bien — clínicas estéticas, inmobiliarias, veterinarias, talleres automotrices y gimnasios — diseñando cada sistema a la medida de su operación real, no una plantilla genérica.",
+    "body": "Somos Numi AI: un equipo de cinco ingenieros de software especializado en llevar automatización con inteligencia artificial a pequeñas y medianas empresas en Colombia. Trabajamos con negocios que dependen de responder rápido y agendar bien — clínicas estéticas, inmobiliarias, veterinarias, consultorios odontológicos y gimnasios — diseñando cada sistema a la medida de su operación real, no una plantilla genérica.",
     "locationLabel": "Ubicación",
     "location": "Medellín, Colombia.",
     "missionLabel": "Misión",

@@ -2,8 +2,8 @@ import {
   Dumbbell,
   Home,
   PawPrint,
+  Smile,
   Stethoscope,
-  Wrench,
   type LucideIcon,
 } from 'lucide-react'
 import Image from 'next/image'
@@ -18,15 +18,15 @@ const niches: ReadonlyArray<{ key: string; Icon: LucideIcon; photo: string }> = 
   { key: 'one', Icon: Stethoscope, photo: '/images/16-niche-clinic.webp' },
   { key: 'two', Icon: Home, photo: '/images/17-niche-realestate.webp' },
   { key: 'three', Icon: PawPrint, photo: '/images/18-niche-vet.webp' },
-  { key: 'four', Icon: Wrench, photo: '/images/19-niche-mechanic.webp' },
+  { key: 'four', Icon: Smile, photo: '/images/29-niche-dental.webp' },
   { key: 'five', Icon: Dumbbell, photo: '/images/20-niche-gym.webp' },
 ]
 
 /**
  * Five verticals as a strip of portrait photo cards.
  *
- * "Hecho para negocios como el tuyo" only holds up if a workshop owner and a
- * vet recognise their own room, so each card is a real photograph of that
+ * "Hecho para negocios como el tuyo" only holds up if a dentist and a vet
+ * recognise their own room, so each card is a real photograph of that
  * trade shot in the site's own register — near-black ambience, violet
  * practical light — rather than the same icon-in-a-box reused five times.
  * Because the photography already matches the palette, it runs at full
