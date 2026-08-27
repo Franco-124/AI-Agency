@@ -1,5 +1,4 @@
 import { ArrowRight } from 'lucide-react'
-import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { Fragment, type CSSProperties } from 'react'
 
@@ -17,32 +16,60 @@ export function Hero() {
   return (
     <section id={sectionIds.hero} className="relative isolate overflow-hidden">
       {/*
-        Static hero image: LCP element and the reduced-motion fallback. Kept as
-        the shared site texture rather than the old abstract "beam" artwork —
-        the argument now lives in the WhatsApp thread beside the copy, so the
-        background only needs to be an honest surface, not a stand-in symbol.
+        Static hero image: LCP element and the reduced-motion fallback. A
+        violet flow that carries its light on the right half, where the chat
+        card sits — the left stays near-black under the scrim below, so the
+        headline keeps its contrast without the artwork being dimmed flat.
+
+        Art-directed rather than one source scaled to both shapes. The hero is
+        `min-h-dvh`, so on a tall phone `object-cover` on the landscape file
+        would sample a ~500px-wide strip and stretch it past 2x — visibly soft,
+        and it crops away the very light the artwork is for. The portrait file
+        is a tall window taken from the same source, framed on that light.
+
+        Plain <picture> because next/image has no media-query art direction;
+        `fetchPriority`/`decoding` reproduce what `priority` would have set,
+        and the explicit dimensions reserve the box so nothing shifts.
       */}
-      <Image
-        src="/images/16-hero-original.webp"
-        alt={t('imageAlt')}
-        fill
-        priority
-        sizes="100vw"
-        className="-z-20 object-cover object-center"
-      />
+      <picture>
+        <source
+          media="(max-width: 767px)"
+          srcSet="/images/hero-violet-flow-portrait.webp"
+          width={1080}
+          height={2160}
+        />
+        <img
+          src="/images/hero-violet-flow.webp"
+          alt={t('imageAlt')}
+          width={1920}
+          height={1080}
+          fetchPriority="high"
+          decoding="async"
+          className="absolute inset-0 -z-20 h-full w-full object-cover object-center"
+        />
+      </picture>
+      {/*
+        Reading scrim, and it has to run in a different direction per layout.
+        On desktop the copy sits in the left column, so the ramp goes left to
+        right and clears early — the headline only needs cover to about a
+        third of the width, and the artwork returns at full strength under the
+        chat card. On a phone the copy spans the full width, so a sideways
+        ramp would leave the subtitle over the bright side; there it runs top
+        to bottom instead, covering the copy block and clearing below it.
+      */}
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,var(--color-neutro-oscuro)_0%,color-mix(in_srgb,var(--color-neutro-oscuro)_82%,transparent)_55%,transparent_100%)]"
+        className="absolute inset-0 -z-10 bg-[linear-gradient(to_bottom,color-mix(in_srgb,var(--color-neutro-oscuro)_92%,transparent)_0%,color-mix(in_srgb,var(--color-neutro-oscuro)_78%,transparent)_45%,transparent_85%)] md:bg-[linear-gradient(to_right,color-mix(in_srgb,var(--color-neutro-oscuro)_97%,transparent)_0%,color-mix(in_srgb,var(--color-neutro-oscuro)_72%,transparent)_38%,color-mix(in_srgb,var(--color-neutro-oscuro)_28%,transparent)_68%,transparent_100%)]"
       />
       {/*
-        Banded vignette over the network canvas: heavier at the top and
-        bottom edges (where the header sits and where the section meets the
-        next one) and near-clear through the middle, so the animated nodes
-        stay visible without ever competing with the headline's contrast.
+        Banded vignette: enough weight at the top and bottom edges to seat the
+        header and the seam with the next section, clear through the middle.
+        Kept lighter than a full dimming pass — the artwork carries the colour
+        here, and the reading scrim above already protects the copy.
       */}
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-[linear-gradient(to_bottom,color-mix(in_srgb,var(--color-neutro-oscuro)_85%,transparent)_0%,transparent_22%,transparent_68%,color-mix(in_srgb,var(--color-neutro-oscuro)_70%,transparent)_100%)]"
+        className="absolute inset-0 -z-10 bg-[linear-gradient(to_bottom,color-mix(in_srgb,var(--color-neutro-oscuro)_70%,transparent)_0%,transparent_20%,transparent_72%,color-mix(in_srgb,var(--color-neutro-oscuro)_55%,transparent)_100%)]"
       />
 
       {/*
