@@ -125,12 +125,24 @@ export function Hero() {
         left of the figure is transparent under the mask anyway. Vertically it
         is centred on the hero below the header, matching the copy block.
 
-        No plate, no border, no corner radius: the diagram reads as part of the
-        hero backdrop rather than as a card sitting on top of it. What replaces
-        the panel is a mask — the artwork's own near-black ground (#000012-ish
-        in the corners) is close enough to `--color-neutro-oscuro` that fading
-        the edges to transparent hides the rectangle entirely, so the figure
-        dissolves into the background instead of being framed by it.
+        The figure is two stacked layers: a browser-chrome plate set back and
+        up, and the flow diagram floating in front of it — overhanging the
+        chrome on the left, the bottom and the right rather than being contained
+        by it. The frame is scenery that says "a website", the diagram is the
+        subject; nesting the diagram inside the well instead made the pair read
+        as one flat screenshot and shrank the flow to the point its own labels
+        stopped carrying.
+
+        Both files are 1536x1024. The frame is inset from the top-right of this
+        box and the diagram is scaled past it, so the overhang is produced by
+        their relative boxes rather than by cropping either file. Percentages
+        rather than fixed offsets is what keeps the two locked together at
+        every width; the pair scales as one composition would.
+
+        No plate, no border, no corner radius around either layer. Both files
+        carry the same near-black ground as the hero, so feathered edges are
+        all it takes for the rectangles to disappear — the frame dissolves into
+        the backdrop, and the diagram dissolves into the frame.
 
         Three masks intersect. The ellipse does the general softening; the
         horizontal ramp adds a longer fade on the left, where the figure meets
@@ -142,21 +154,71 @@ export function Hero() {
         out of the way of the CTAs that overlap it at narrower desktop widths.
       */}
       <div className="pointer-events-none absolute inset-y-0 left-[46%] right-0 -z-10 hidden items-center lg:flex 2xl:left-[43%] 2xl:right-[1vw]">
-        <div className="soft-float w-full [mask-composite:intersect] [mask-image:radial-gradient(82%_86%_at_52%_50%,#000_42%,transparent_100%),linear-gradient(to_right,transparent_0%,#000_22%),linear-gradient(to_bottom,transparent_0%,#000_11%,#000_89%,transparent_100%)]">
+        {/*
+          `py-[9%]` is load-bearing, not spacing. The chrome plate is offset to
+          `-top-[16%]` of the inner box, so without padding here it would sit
+          outside this masked element and the vertical ramp below would clip
+          away the toolbar — exactly the part of the frame the composition is
+          built on. The padding grows the masked box to cover both layers, and
+          the ramp's own percentages then fall on empty margin instead of on
+          the artwork.
+        */}
+        <div className="soft-float w-full py-[9%] [mask-composite:intersect] [mask-image:radial-gradient(82%_86%_at_52%_50%,#000_42%,transparent_100%),linear-gradient(to_right,transparent_0%,#000_22%),linear-gradient(to_bottom,transparent_0%,#000_6%,#000_94%,transparent_100%)]">
           {/*
-            `sizes` is capped at the widest the figure can actually get — half
-            the viewport — so the optimizer never serves a source larger than
-            it renders. No `priority`: the LCP element is the backdrop above,
-            and this sits below it in the paint order.
+            The diagram carries the box's intrinsic ratio — it is the layer in
+            flow, since it is the larger of the two and the one that must never
+            be clipped. The frame is absolutely positioned behind it, so the
+            aspect ratio is reserved by a real element and nothing shifts as
+            the second file lands.
+
+            `sizes` on each is capped near the width it actually renders at, so
+            the optimizer never serves a source larger than needed. No
+            `priority` on either: the LCP element is the backdrop above, and
+            these sit below it in the paint order.
           */}
-          <Image
-            src="/images/hero-flow-diagram.webp"
-            alt={t('flowImageAlt')}
-            width={1536}
-            height={1024}
-            sizes="(min-width: 1024px) 56vw, 0px"
-            className="h-auto w-full"
-          />
+          <div className="relative w-full">
+            {/*
+              Chrome plate, lifted well above the box and held to 82% of its
+              width, so what stays visible is the part that identifies it as a
+              browser — traffic lights, URL bar, the top of the sidebar — while
+              the diagram in front covers the empty page body below. Anything
+              less of a lift and the flow buried the toolbar; anything more and
+              the plate detached from the composition.
+
+              `-z-10` is local to this stacking context: it only orders the
+              plate behind its sibling. The wrapper's own `-z-10` is what holds
+              the whole figure behind the copy.
+
+              Feathered on all four edges. The plate is scenery: its job is to
+              suggest a browser at the edge of vision, so the fade is generous
+              and the corners never resolve into a hard rectangle.
+            */}
+            <Image
+              src="/images/hero-browser-frame.webp"
+              alt=""
+              width={1536}
+              height={1024}
+              sizes="(min-width: 1024px) 50vw, 0px"
+              aria-hidden
+              className="absolute -top-[16%] -right-[4%] -z-10 h-auto w-[82%] opacity-[0.92] [mask-composite:intersect] [mask-image:linear-gradient(to_right,transparent_0%,#000_10%,#000_95%,transparent_100%),linear-gradient(to_bottom,transparent_0%,#000_6%,#000_86%,transparent_100%)]"
+            />
+            {/*
+              The flow itself, at full size and in front. Its own ground is the
+              same near-black as the frame and the hero, so a light feather on
+              the outer edges is enough to keep it from reading as a pasted
+              rectangle — the cards inside it keep their own crisp edges, which
+              is what makes the layer look like it is floating rather than
+              composited.
+            */}
+            <Image
+              src="/images/hero-flow-diagram.webp"
+              alt={t('flowImageAlt')}
+              width={1536}
+              height={1024}
+              sizes="(min-width: 1024px) 56vw, 0px"
+              className="relative h-auto w-full [mask-composite:intersect] [mask-image:linear-gradient(to_right,transparent_0%,#000_5%,#000_96%,transparent_100%),linear-gradient(to_bottom,transparent_0%,#000_4%,#000_95%,transparent_100%)]"
+            />
+          </div>
         </div>
       </div>
 

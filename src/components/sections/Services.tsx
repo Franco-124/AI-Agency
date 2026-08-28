@@ -8,11 +8,13 @@ import { ServicesCarousel, type ServiceKey } from './ServicesCarousel'
 
 /* Icons are resolved inside the carousel — a component cannot be serialised
    across the Server -> Client boundary, so only its key travels. */
+/* The two web slides run back to back on purpose: the site is the offer, and
+   the campaign page is what turns paid traffic into a conversation on it. */
 const services: ReadonlyArray<{ key: ServiceKey; visual: string }> = [
   { key: 'zero', visual: '/images/28-services-diagnostic.webp' },
   { key: 'four', visual: '/images/23-services-website.webp' },
+  { key: 'two', visual: '/images/29-services-landing.webp' },
   { key: 'one', visual: '/images/25-services-whatsapp.webp' },
-  { key: 'two', visual: '/images/24-services-calendar.webp' },
   { key: 'three', visual: '/images/22-services-followup.webp' },
   { key: 'five', visual: '/images/27-services-database.webp' },
 ]

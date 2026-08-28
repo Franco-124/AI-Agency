@@ -3,10 +3,10 @@
 import {
   ArrowLeft,
   ArrowRight,
-  CalendarCheck,
   Database,
   Globe,
   MessageSquare,
+  MousePointerClick,
   Repeat,
   ScanSearch,
   type LucideIcon,
@@ -24,7 +24,7 @@ import { cn } from '@/lib/utils'
 const icons = {
   zero: ScanSearch,
   one: MessageSquare,
-  two: CalendarCheck,
+  two: MousePointerClick,
   three: Repeat,
   four: Globe,
   five: Database,

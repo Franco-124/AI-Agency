@@ -143,27 +143,27 @@
     "items": {
       "zero": {
         "title": "A personalized diagnosis of your business",
-        "body": "Before automating anything, we review how you work today and tell you what is worth solving first."
+        "body": "We look at where customers reach you today and where you lose them: your website, your WhatsApp, your social profiles. You walk away with a clear plan of what to fix first and what each change should return, before you spend a peso."
       },
       "one": {
         "title": "Automated WhatsApp support",
-        "body": "Your customers get an answer instantly, at any hour, without anyone having to watch the phone."
+        "body": "An assistant trained on your business answers pricing, hours and the usual questions in seconds — day, night and weekends. When a conversation gets serious, it hands the lead to you with the full context ready."
       },
       "two": {
-        "title": "Automated appointment booking",
-        "body": "Customers book on their own. Your team stops losing time confirming times."
+        "title": "Campaign pages that capture the visitor",
+        "body": "Every ad or promotion gets its own page: one clear promise, the proof behind it and a single button. The traffic you already pay for ends in a conversation instead of on a generic homepage."
       },
       "three": {
         "title": "Automated lead follow-up",
-        "body": "No contact goes cold. The system follows up even when nobody remembers to."
+        "body": "Anyone who asked and never came back gets a message at the right moment, picking the thread up where it stopped. You recover sales that go cold in the chat today, with nobody having to chase them."
       },
       "four": {
-        "title": "Websites built to convert",
-        "body": "A site that doesn't just look good. One that books appointments and answers questions for you."
+        "title": "Professional websites that turn visits into customers",
+        "body": "We design and build your full site: home, services, portfolio, FAQ and a contact form that lands straight in your WhatsApp. It loads fast, looks sharp on a phone, and every section is written so the visitor understands, trusts and writes to you."
       },
       "five": {
         "title": "Your customer information, organized",
-        "body": "All of your customer information in one place, with no spreadsheets scattered around."
+        "body": "Every conversation, contact and detail recorded in a single panel. You know where each customer came from, what they asked for and where things stand, without chasing spreadsheets."
       }
     },
     "carousel": {

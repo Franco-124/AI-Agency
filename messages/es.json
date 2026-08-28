@@ -143,27 +143,27 @@
     "items": {
       "zero": {
         "title": "Diagnóstico personalizado de tu negocio",
-        "body": "Antes de automatizar nada, revisamos cómo trabajas hoy y te decimos qué conviene resolver primero."
+        "body": "Revisamos por dónde llegan y por dónde se te pierden clientes hoy: tu web, tu WhatsApp, tus redes. Sales con un plan claro de qué corregir primero y qué esperar de cada cambio, antes de invertir un peso."
       },
       "one": {
         "title": "Atención automática por WhatsApp",
-        "body": "Tus clientes reciben respuesta al instante, a cualquier hora, sin que nadie tenga que estar pendiente del teléfono."
+        "body": "Un asistente entrenado con tu negocio responde precios, horarios y dudas frecuentes en segundos, de día, de noche y en fines de semana. Cuando la consulta es seria, te la pasa con todo el contexto listo."
       },
       "two": {
-        "title": "Agenda de citas automática",
-        "body": "Los clientes agendan solos. Tu equipo deja de perder tiempo confirmando horarios."
+        "title": "Páginas de campaña que capturan al visitante",
+        "body": "Cada anuncio o promoción recibe su propia página: una promesa clara, la prueba que la respalda y un solo botón. Así el tráfico que ya estás pagando termina en una conversación y no en un inicio genérico."
       },
       "three": {
         "title": "Seguimiento automático a clientes potenciales",
-        "body": "Ningún contacto se enfría. El sistema hace seguimiento aunque nadie se acuerde."
+        "body": "Quien preguntó y no volvió recibe un mensaje en el momento justo, retomando el hilo donde quedó. Recuperas ventas que hoy se enfrían en el chat sin que nadie tenga que perseguirlas."
       },
       "four": {
-        "title": "Sitios web hechos para convertir",
-        "body": "Un sitio que no solo se ve bien. Que agenda citas y responde preguntas por ti."
+        "title": "Sitios web profesionales que convierten visitas en clientes",
+        "body": "Diseñamos y programamos tu sitio completo: inicio, servicios, portafolio, preguntas frecuentes y un formulario que llega directo a tu WhatsApp. Carga rápido, se ve impecable en el celular y cada sección está escrita para que el visitante entienda, confíe y te escriba."
       },
       "five": {
         "title": "Organización de la información de tus clientes",
-        "body": "Toda la información de tus clientes en un solo lugar, sin hojas de cálculo sueltas."
+        "body": "Cada conversación, contacto y dato queda registrado en un solo panel. Sabes de dónde vino cada cliente, qué pidió y en qué punto quedó, sin perseguir hojas de cálculo."
       }
     },
     "carousel": {
