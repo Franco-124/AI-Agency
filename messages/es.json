@@ -26,11 +26,39 @@
     "advisoryDesc": "Acompañamiento y diagnóstico para tu negocio."
   },
   "hero": {
-    "eyebrow": "Diseño web, automatización y agentes de IA para pymes en Colombia",
-    "title": "Cada cliente que espera es dinero que se va.",
-    "subtitle": "Numi AI diseña tu sitio web, automatiza tus procesos y crea agentes de IA que atienden a tus clientes al instante, todo el día, para que tu equipo deje de perder tiempo y tu negocio deje de perder ventas.",
+    "eyebrow": "Agencia de automatización con IA para pymes en Colombia",
+    "title": {
+      "lead": "Hacemos que tu negocio atienda",
+      "highlightOne": "más",
+      "middle": ", trabaje menos y venda",
+      "highlightTwo": "mejor",
+      "tail": "."
+    },
+    "subtitle": "Implementamos agentes de IA, automatizaciones y sitios web que convierten conversaciones en citas, clientes y crecimiento.",
     "cta": "Agenda una llamada estratégica",
+    "ctaSecondary": "Ver paquetes y precios",
+    "ctaMeta": "30 min · Sin compromiso · Respuesta en el día",
+    "features": {
+      "one": {
+        "title": "Atención 24/7",
+        "detail": "por WhatsApp"
+      },
+      "two": {
+        "title": "Agenda automática",
+        "detail": "de citas"
+      },
+      "three": {
+        "title": "Seguimiento",
+        "detail": "inteligente de leads"
+      },
+      "four": {
+        "title": "Sitios web que",
+        "detail": "convierten"
+      }
+    },
+    "scrollHint": "Descubre cómo funciona",
     "imageAlt": "Fondo oscuro con una textura sutil",
+    "flowImageAlt": "Diagrama del flujo de Numi AI: un mensaje de WhatsApp entra, el agente saluda, califica el lead, agenda la cita y hace seguimiento, con la cita confirmada y los resultados +40% de capacidad de atención, -30% de costos operativos y +25% de conversión de leads",
     "chat": {
       "ariaLabel": "Ejemplo de conversación atendida por Numi AI",
       "name": "Numi AI",
@@ -111,7 +139,7 @@
     "closing": "Si tu negocio depende de responder rápido y agendar bien, esto es para ti."
   },
   "services": {
-    "title": "Cómo trabajamos con tu negocio",
+    "title": "Todo lo que Numi AI hace por tu negocio",
     "items": {
       "zero": {
         "title": "Diagnóstico personalizado de tu negocio",

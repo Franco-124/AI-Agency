@@ -164,7 +164,10 @@ export function Header() {
         {t('skipToContent')}
       </a>
 
-      <div className="mx-auto flex h-[var(--header-height)] max-w-[80rem] items-center justify-between gap-6 px-5 sm:px-8">
+      {/* Matches the hero's `2xl` container so the logo and the hero headline
+          share a left edge on wide monitors, where the fixed 80rem cap left a
+          visible gap down the left side. */}
+      <div className="mx-auto flex h-[var(--header-height)] max-w-[80rem] items-center justify-between gap-6 px-5 sm:px-8 2xl:max-w-[132rem] 2xl:px-[clamp(5rem,7.5vw,11rem)]">
         <Logo label={t('home')} />
 
         <nav ref={navRef} aria-label={t('mainNav')} className="hidden lg:block">
