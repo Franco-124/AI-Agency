@@ -149,22 +149,13 @@
     "close": "Close message"
   },
   "niches": {
-    "title": "Built for businesses like yours",
     "items": {
       "one": "Aesthetic clinics",
       "two": "Real estate agencies",
       "three": "Veterinary clinics",
       "four": "Dental practices",
       "five": "Gyms"
-    },
-    "hooks": {
-      "one": "Book the botox or laser appointment before the lead goes cold.",
-      "two": "Every apartment enquiry gets answered before they look elsewhere.",
-      "three": "Urgent calls and vaccination bookings never get lost between messages.",
-      "four": "Every cleaning or smile-design enquiry gets booked, not left on read.",
-      "five": "Membership and class enquiries book themselves, even at 11pm."
-    },
-    "closing": "If your business depends on replying fast and booking well, this is for you."
+    }
   },
   "services": {
     "title": "Everything Numi AI does for your business",

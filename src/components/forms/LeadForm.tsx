@@ -26,7 +26,7 @@ type Status = 'idle' | 'submitting' | 'error'
 /**
  * `industry` reaches the API as a single string, exactly as before. The form
  * splits it into a picker plus an optional free-text field purely for input UX:
- * most visitors belong to one of the niches the page already lists, and typing
+ * most visitors belong to one of the verticals we already sell to, and typing
  * that out is friction.
  */
 type FormValues = {
@@ -40,7 +40,7 @@ type FormValues = {
   message: string
 }
 
-/** Kept in sync with the niches section — the picker offers what the page sells. */
+/** The verticals under the `niches` namespace — the picker offers what we sell. */
 const nicheKeys = ['one', 'two', 'three', 'four', 'five'] as const
 
 /** Mirrors `interestKeys` in `src/lib/schemas.ts`. */

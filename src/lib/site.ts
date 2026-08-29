@@ -32,7 +32,6 @@ export const faqKeys = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', '
 
 export const sectionIds = {
   hero: 'inicio',
-  niches: 'nichos',
   services: 'servicios',
   integrations: 'integraciones',
   benefits: 'beneficios',

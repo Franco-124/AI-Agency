@@ -149,22 +149,13 @@
     "close": "Cerrar mensaje"
   },
   "niches": {
-    "title": "Hecho para negocios como el tuyo",
     "items": {
       "one": "Clínicas estéticas",
       "two": "Inmobiliarias",
       "three": "Veterinarias",
       "four": "Consultorios odontológicos",
       "five": "Gimnasios"
-    },
-    "hooks": {
-      "one": "Agenda tu botox o láser antes de que el lead se enfríe en el chat.",
-      "two": "Cada consulta de apartamento se responde antes de que miren otra opción.",
-      "three": "Urgencias y citas de vacunación no se pierden entre mensajes.",
-      "four": "Cada consulta por una limpieza o un diseño de sonrisa queda agendada, no en visto.",
-      "five": "Consultas de planes y clases se agendan solas, hasta a las 11pm."
-    },
-    "closing": "Si tu negocio depende de responder rápido y agendar bien, esto es para ti."
+    }
   },
   "services": {
     "title": "Todo lo que Numi AI hace por tu negocio",

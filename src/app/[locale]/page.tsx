@@ -12,7 +12,6 @@ import { Faq } from '@/components/sections/Faq'
 import { FinalCta } from '@/components/sections/FinalCta'
 import { Hero } from '@/components/sections/Hero'
 import { Integrations } from '@/components/sections/Integrations'
-import { Niches } from '@/components/sections/Niches'
 import { Packages, packages as packageDefinitions } from '@/components/sections/Packages'
 import { Process } from '@/components/sections/Process'
 import { Results } from '@/components/sections/Results'
@@ -79,17 +78,22 @@ export default async function HomePage({ params }: PageProps) {
       <main id="contenido">
         {/*
           Order follows the visitor's decision, not the product taxonomy:
-          qualify (is this for me?) → value → proof → differentiation → offer →
+          what we do → how we start → value → proof → differentiation → offer →
           objection handling → ask.
 
-          Two moves matter most. `Results` carries the only measured outcome on
-          the page, so it now lands right after `Benefits` — the claim is
-          immediately backed by evidence instead of the proof sitting six
-          screens down where most visitors never reach it. And `Integrations`
-          drops below the offer: "it works with your tools" answers an
-          objection from someone already interested, so spending an early slot
-          on it interrupted the persuasion arc before there was anything to
-          object to.
+          `Process` takes the third slot, where the vertical strip used to sit.
+          Listing the trades we serve only restated the audience the visitor
+          already knows they belong to; "how we start" answers the question
+          they actually have after `Services` — what happens if I say yes —
+          and it does so before the page asks for anything.
+
+          `Results` carries the only measured outcome on the page, so it lands
+          right after `Benefits` — the claim is immediately backed by evidence
+          instead of the proof sitting six screens down where most visitors
+          never reach it. And `Integrations` drops below the offer: "it works
+          with your tools" answers an objection from someone already
+          interested, so spending an early slot on it interrupted the
+          persuasion arc before there was anything to object to.
 
           `Advisory` stays directly after `Packages` on purpose — both are
           priced entry points, and the lighter option reads as the fallback for
@@ -97,13 +101,12 @@ export default async function HomePage({ params }: PageProps) {
         */}
         <Hero />
         <Services />
-        <Niches />
+        <Process />
         <Benefits />
         <Results />
         <Why />
         <Packages />
         <Advisory />
-        <Process />
         <Integrations />
         <About />
         <Faq />
