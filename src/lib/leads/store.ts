@@ -2,6 +2,14 @@ import type { Lead } from '@/lib/schemas'
 import { getSupabaseAdminClient } from '@/lib/supabase'
 
 /**
+ * Stand-in for the two optional form fields that the `leads` table declares
+ * NOT NULL (`negocio`, `necesidad`). The form asks for both as optional, so a
+ * visitor who skips them would otherwise send NULL and have the whole insert
+ * rejected. Spanish to match the column names and the rest of the row.
+ */
+const NOT_PROVIDED = 'No aplica'
+
+/**
  * Persists a validated lead.
  *
  * Column names are Spanish because they mirror the `leads` table as it was
@@ -15,12 +23,12 @@ import { getSupabaseAdminClient } from '@/lib/supabase'
 export async function saveLead(lead: Lead): Promise<void> {
   const { error } = await getSupabaseAdminClient().from('leads').insert({
     nombre: lead.name,
-    negocio: lead.business,
+    negocio: lead.business ?? NOT_PROVIDED,
     dedicacion: lead.industry,
     interes: lead.interest,
     whatsapp: lead.whatsapp,
     correo: lead.email,
-    necesidad: lead.message,
+    necesidad: lead.message ?? NOT_PROVIDED,
     paquete_interes: lead.packageInterest ?? null,
   })
 

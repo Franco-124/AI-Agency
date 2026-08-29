@@ -1,5 +1,4 @@
 import {
-  ArrowRight,
   CalendarCheck,
   CalendarClock,
   ChevronDown,
@@ -13,8 +12,8 @@ import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import type { CSSProperties } from 'react'
 
+import { DemoBookingWidget } from '@/components/forms/DemoBookingWidget'
 import { HeroMotion } from '@/components/motion/HeroMotion'
-import { Button } from '@/components/ui/button'
 import { sectionIds } from '@/lib/site'
 
 /** The four capabilities in the icon row, in reading order. */
@@ -331,18 +330,11 @@ export function Hero() {
             className="hero-rise order-1 mt-7 flex flex-col gap-3 sm:order-none sm:mt-9 sm:flex-row sm:items-center"
             style={{ '--hero-delay': '0.36s' } as CSSProperties}
           >
-            <Button asChild size="lg" className="group">
-              <a href={`#${sectionIds.finalCta}`}>
-                {t('cta')}
-                <ArrowRight
-                  aria-hidden
-                  className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
-                />
-              </a>
-            </Button>
-            <Button asChild size="lg" variant="outline">
-              <a href={`#${sectionIds.packages}`}>{t('ctaSecondary')}</a>
-            </Button>
+            <DemoBookingWidget
+              ctaLabel={t('cta')}
+              secondaryLabel={t('ctaSecondary')}
+              secondaryHref={`#${sectionIds.packages}`}
+            />
           </div>
 
           {/* Answers the three objections that stop a click — how long, what it

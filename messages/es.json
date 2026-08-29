@@ -111,6 +111,34 @@
     },
     "proof": "+40% de capacidad de atención al cliente — caso real validado"
   },
+  "booking": {
+    "title": "Agenda una llamada estratégica",
+    "subtitle": "15 minutos. Sin compromiso. Te mostramos qué se puede automatizar en tu negocio.",
+    "loadingSlots": "Cargando horarios disponibles…",
+    "noSlots": "No hay horarios libres este día. Prueba otro día o escríbenos por WhatsApp.",
+    "loadError": "No pudimos cargar los horarios disponibles. Escríbenos por WhatsApp.",
+    "slotUnavailable": "Ese horario se acaba de ocupar. Elige otro más abajo.",
+    "prevDay": "Día anterior",
+    "nextDay": "Día siguiente",
+    "name": "Tu nombre",
+    "namePlaceholder": "Nombre y apellido",
+    "whatsapp": "WhatsApp",
+    "whatsappPlaceholder": "Ej: 3001234567",
+    "email": "Correo electrónico",
+    "emailPlaceholder": "tu@correo.com",
+    "confirm": "Confirmar llamada",
+    "confirming": "Agendando…",
+    "confirmedTitle": "Listo, quedó agendada tu llamada.",
+    "confirmedBody": "Te llega la confirmación y el recordatorio a tu correo.",
+    "dismiss": "Cerrar",
+    "backHome": "Volver al inicio",
+    "fallbackTitle": "Coordinamos tu llamada por WhatsApp",
+    "fallbackNoSlots": "Por ahora no tenemos horarios libres en la agenda de los próximos días.",
+    "fallbackFailed": "No pudimos confirmar el horario en la agenda en este momento.",
+    "fallbackNotified": "Ya tenemos tus datos: uno de nuestros socios te escribe por WhatsApp para coordinar el horario que mejor te funcione.",
+    "fallbackWriteUs": "Escríbenos por WhatsApp y coordinamos tu llamada en el momento.",
+    "fallbackWhatsappCta": "Escribir por WhatsApp"
+  },
   "whatsapp": {
     "label": "Escríbenos",
     "ariaLabel": "Escríbenos por WhatsApp",
@@ -439,12 +467,9 @@
       "training": "Quiero la Capacitación en Productividad con IA para que mi equipo aprenda a usarla."
     },
     "submit": "Agenda tu llamada estratégica",
-    "again": "Enviar otra consulta",
     "note": "Te contactaremos por WhatsApp o correo para coordinar el horario que mejor te funcione."
   },
   "form": {
-    "successNamed": "Gracias, {name}. Te contactaremos en menos de 24 horas.",
-    "successDetail": "Te escribiremos por WhatsApp o correo para coordinar el horario que mejor te funcione.",
     "error": "Algo salió mal. Intenta de nuevo o escríbenos directamente por WhatsApp.",
     "empty": "Todavía no hay actividad. En cuanto tu sistema empiece a funcionar, la verás aquí.",
     "loading": "Un momento, estamos procesando tu solicitud.",

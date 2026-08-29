@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server'
 
 import type { ApiResponse } from '@/lib/api'
-import { notifyTeamOfLead } from '@/lib/leads/notify'
 import { saveLead } from '@/lib/leads/store'
 import { clientKey, isRateLimited } from '@/lib/rate-limit'
 import { leadSchema } from '@/lib/schemas'
@@ -19,8 +18,9 @@ const RATE_LIMIT = { limit: 5, windowMs: 10 * 60 * 1000 }
  * Validation is re-run server side because client validation is a UX aid, not a
  * security boundary. Personal data is never echoed back in the response.
  *
- * Order matters: the lead is stored in Supabase first and only then announced
- * by email, so the team never gets notified about a lead that was not recorded.
+ * No email notification is sent — a successful submit hands the visitor
+ * straight to `BookingCalendarPanel` (see `LeadForm`), so the lead schedules
+ * their own call instead of waiting on the team to reach out.
  */
 export async function POST(request: Request) {
   if (isRateLimited(clientKey(request), RATE_LIMIT)) {
@@ -64,18 +64,16 @@ export async function POST(request: Request) {
     )
   }
 
-  try {
-    await notifyTeamOfLead(lead)
-  } catch (error) {
-    /*
-     * The lead is already safe in the database, so a failed notification is not
-     * the visitor's problem: asking them to submit again would only duplicate
-     * the row. It is logged loudly instead, for the team to catch.
-     */
-    console.error('[lead] notification failed', error)
-  }
+  /*
+   * Email notification is intentionally skipped now that a successful submit
+   * hands the visitor straight to `BookingCalendarPanel` — the lead books
+   * their own call instead of waiting for the team to reach out from an
+   * email, so that notification stopped being load-bearing. `notifyTeamOfLead`
+   * (src/lib/leads/notify.tsx) is left in place, unused from this route, in
+   * case a team-facing notification is wanted back later.
+   */
 
-  // Structured, non-identifying log so deliverability can be monitored without
+  // Structured, non-identifying log so lead volume can be monitored without
   // leaking the lead's personal data into the platform logs.
   console.info('[lead] received', {
     messageLength: lead.message?.length ?? 0,

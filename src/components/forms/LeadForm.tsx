@@ -1,11 +1,12 @@
 'use client'
 
-import { CheckCircle2, ChevronDown, Loader2 } from 'lucide-react'
+import { ChevronDown, Loader2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useEffect, useId, useState } from 'react'
 import { useForm, useWatch, type RegisterOptions } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
+import { useRouter } from '@/i18n/navigation'
 import {
   ADVISORY_INTEREST_EVENT,
   forgetAdvisoryInterest,
@@ -13,12 +14,14 @@ import {
   type AdvisoryInterestKey,
 } from '@/lib/advisory-interest'
 import type { ApiResponse } from '@/lib/api'
+import { rememberBookingHandoff } from '@/lib/booking-handoff'
 import { forgetPackageInterest, readPackageInterest } from '@/lib/package-interest'
+import type { Lead } from '@/lib/schemas'
 import { cn } from '@/lib/utils'
 
 import { Field } from './Field'
 
-type Status = 'idle' | 'submitting' | 'success' | 'error'
+type Status = 'idle' | 'submitting' | 'error'
 
 /**
  * `industry` reaches the API as a single string, exactly as before. The form
@@ -35,18 +38,6 @@ type FormValues = {
   whatsapp: string
   email: string
   message: string
-}
-
-/** Mirrors `leadSchema`, which is the trust boundary for these fields. */
-type LeadPayload = {
-  name: string
-  business?: string
-  industry: string
-  interest: string
-  whatsapp: string
-  email: string
-  message?: string
-  packageInterest?: string
 }
 
 /** Kept in sync with the niches section — the picker offers what the page sells. */
@@ -89,8 +80,7 @@ export function LeadForm() {
   const tNiches = useTranslations('niches')
   const tPackages = useTranslations('packages')
   const [status, setStatus] = useState<Status>('idle')
-  /** Kept after `reset()` so the confirmation can address the visitor by name. */
-  const [submittedName, setSubmittedName] = useState('')
+  const router = useRouter()
   const prefix = useId()
 
   const {
@@ -177,11 +167,14 @@ export function LeadForm() {
   const onSubmit = handleSubmit(async (values) => {
     setStatus('submitting')
 
-    const payload: LeadPayload = {
+    // The `interest` picker only ever offers `interestKeys` values, so the
+    // cast is safe — react-hook-form itself has no way to type a select's
+    // value narrower than `string`.
+    const payload: Lead = {
       name: values.name,
       business: values.business || undefined,
       industry: industryValue(values),
-      interest: values.interest,
+      interest: values.interest as Lead['interest'],
       whatsapp: values.whatsapp,
       email: values.email,
       message: values.message || undefined,
@@ -201,59 +194,24 @@ export function LeadForm() {
         throw new Error(result.error ?? 'request_failed')
       }
 
-      // Only the first name: the full legal name in a thank-you reads cold.
-      setSubmittedName(values.name.split(' ')[0] ?? values.name)
-      setStatus('success')
       reset()
       forgetPackageInterest()
+
+      // The lead is already saved (`saveLead`, above) — this is only handed
+      // to the calendar page so it can pre-fill the contact fields and, if
+      // the calendar turns out to have nothing open, email the team the
+      // same data instead of leaving the lead to book itself.
+      rememberBookingHandoff(payload)
+
+      // Straight to the booking panel: no intermediate confirmation screen
+      // to read, the calendar itself is the confirmation that something
+      // happened.
+      router.push('/agendar#reserva')
     } catch (error) {
       console.error('Lead submission failed:', error)
       setStatus('error')
     }
   })
-
-  if (status === 'success') {
-    return (
-      <div
-        role="status"
-        className="relative overflow-hidden rounded-xl border border-[var(--accent-hairline)] bg-[var(--accent-soft)] p-7 motion-safe:animate-[greeting-in_420ms_var(--ease-entrance)_both]"
-      >
-        {/* The brand rule draws across the top edge as the panel lands. */}
-        <span
-          aria-hidden
-          className="accent-rule absolute inset-x-0 top-0 origin-left motion-safe:animate-[rule-grow_700ms_var(--ease-entrance)_120ms_both]"
-        />
-
-        <div className="flex items-start gap-4">
-          <CheckCircle2
-            aria-hidden
-            className="mt-0.5 h-5 w-5 shrink-0 text-[var(--color-acento)] motion-safe:animate-[check-pop_520ms_var(--ease-entrance)_140ms_both]"
-          />
-          <div>
-            <p className="text-[0.9375rem] font-semibold leading-relaxed text-ink">
-              {t('successNamed', { name: submittedName })}
-            </p>
-            <p className="mt-1.5 text-[0.8125rem] leading-relaxed text-ink-muted">
-              {t('successDetail')}
-            </p>
-
-            {/* A visitor with a second, unrelated case should not have to
-                reload the page to describe it. The fields were already
-                cleared on submit, so this only puts the form back on screen. */}
-            <Button
-              type="button"
-              variant="solid-outline"
-              size="sm"
-              className="mt-5"
-              onClick={() => setStatus('idle')}
-            >
-              {tFields('again')}
-            </Button>
-          </div>
-        </div>
-      </div>
-    )
-  }
 
   return (
     <form
@@ -493,8 +451,9 @@ export function LeadForm() {
           )}
         </Button>
 
-        {/* Sets the expectation that a person follows up — there is no live
-            booking calendar behind this form. */}
+        {/* Sets the expectation that a person follows up too — a successful
+            submit also redirects to /agendar, but that is a bonus, not a
+            replacement for the team reaching out. */}
         <p className="text-[0.8125rem] leading-relaxed text-[color-mix(in_srgb,var(--color-neutro-claro)_60%,transparent)]">
           {tFields('note')}
         </p>

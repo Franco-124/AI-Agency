@@ -22,6 +22,14 @@ export function isRateLimited(
   key: string,
   { limit, windowMs }: { limit: number; windowMs: number },
 ): boolean {
+  // Never throttle local development: the in-memory window survives across
+  // every manual test submitted against the same dev server, so a handful of
+  // clicks while testing a form trips the same limiter meant for a real
+  // visitor abusing the endpoint. Production keeps the real check.
+  if (process.env.NODE_ENV !== 'production') {
+    return false
+  }
+
   const now = Date.now()
   const current = windows.get(key)
 

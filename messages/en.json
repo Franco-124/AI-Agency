@@ -111,6 +111,34 @@
     },
     "proof": "+40% customer support capacity — validated real case"
   },
+  "booking": {
+    "title": "Book a strategy call",
+    "subtitle": "15 minutes. No commitment. We'll show you what can be automated in your business.",
+    "loadingSlots": "Loading available times…",
+    "noSlots": "No open slots this day. Try another day or message us on WhatsApp.",
+    "loadError": "We couldn't load the available times. Message us on WhatsApp.",
+    "slotUnavailable": "That time was just taken. Pick another one below.",
+    "prevDay": "Previous day",
+    "nextDay": "Next day",
+    "name": "Your name",
+    "namePlaceholder": "First and last name",
+    "whatsapp": "WhatsApp",
+    "whatsappPlaceholder": "e.g. 3001234567",
+    "email": "Email address",
+    "emailPlaceholder": "you@email.com",
+    "confirm": "Confirm call",
+    "confirming": "Booking…",
+    "confirmedTitle": "Done, your call is booked.",
+    "confirmedBody": "You'll get the confirmation and reminder by email.",
+    "dismiss": "Close",
+    "backHome": "Back to home",
+    "fallbackTitle": "We'll arrange your call on WhatsApp",
+    "fallbackNoSlots": "We have no open times on the calendar over the next few days.",
+    "fallbackFailed": "We couldn't confirm that time on the calendar right now.",
+    "fallbackNotified": "We already have your details: one of our partners will message you on WhatsApp to arrange a time that works best for you.",
+    "fallbackWriteUs": "Message us on WhatsApp and we'll arrange your call right away.",
+    "fallbackWhatsappCta": "Message us on WhatsApp"
+  },
   "whatsapp": {
     "label": "Message us",
     "ariaLabel": "Message us on WhatsApp",
@@ -439,12 +467,9 @@
       "training": "I want the AI Productivity Training so my team can learn to use it."
     },
     "submit": "Book your strategy call",
-    "again": "Send another message",
     "note": "We'll reach out on WhatsApp or by email to arrange a time that works best for you."
   },
   "form": {
-    "successNamed": "Thanks, {name}. We'll get in touch within 24 hours.",
-    "successDetail": "We'll reach out on WhatsApp or by email to arrange a time that works for you.",
     "error": "Something went wrong. Try again or message us directly on WhatsApp.",
     "empty": "No activity yet. As soon as your system starts running, you'll see it here.",
     "loading": "One moment, we're processing your request.",
