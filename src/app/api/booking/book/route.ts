@@ -8,7 +8,7 @@ import { bookingRequestSchema } from '@/lib/schemas'
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
-const RATE_LIMIT = { limit: 5, windowMs: 10 * 60 * 1000 }
+const RATE_LIMIT = { bucket: 'booking:book', limit: 5, windowMs: 10 * 60 * 1000 }
 
 /**
  * Proxies the booking service's booking endpoint, for the same CORS reason

@@ -7,7 +7,7 @@ import { clientKey, isRateLimited } from '@/lib/rate-limit'
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
-const RATE_LIMIT = { limit: 30, windowMs: 10 * 60 * 1000 }
+const RATE_LIMIT = { bucket: 'booking:availability', limit: 30, windowMs: 10 * 60 * 1000 }
 const DAY_PATTERN = /^\d{4}-\d{2}-\d{2}$/
 
 /**

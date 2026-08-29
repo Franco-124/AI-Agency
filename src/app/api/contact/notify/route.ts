@@ -18,7 +18,7 @@ const notifySchema = leadSchema.extend({
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
-const RATE_LIMIT = { limit: 5, windowMs: 10 * 60 * 1000 }
+const RATE_LIMIT = { bucket: 'contact:notify', limit: 5, windowMs: 10 * 60 * 1000 }
 
 /**
  * Fallback notification for a lead that already went through `/api/contact`

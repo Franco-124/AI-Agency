@@ -20,7 +20,7 @@ function evictExpired(now: number): void {
 
 export function isRateLimited(
   key: string,
-  { limit, windowMs }: { limit: number; windowMs: number },
+  { bucket, limit, windowMs }: { bucket: string; limit: number; windowMs: number },
 ): boolean {
   // Never throttle local development: the in-memory window survives across
   // every manual test submitted against the same dev server, so a handful of
@@ -31,11 +31,15 @@ export function isRateLimited(
   }
 
   const now = Date.now()
-  const current = windows.get(key)
+  // Namespaced per bucket: without it every route shares one counter per IP, so
+  // polling a high-limit endpoint (availability) would exhaust the budget of a
+  // low-limit one (book) and reject its very first request.
+  const windowKey = `${bucket}:${key}`
+  const current = windows.get(windowKey)
 
   if (!current || current.resetAt <= now) {
     evictExpired(now)
-    windows.set(key, { count: 1, resetAt: now + windowMs })
+    windows.set(windowKey, { count: 1, resetAt: now + windowMs })
 
     return false
   }
@@ -44,7 +48,7 @@ export function isRateLimited(
     return true
   }
 
-  windows.set(key, { count: current.count + 1, resetAt: current.resetAt })
+  windows.set(windowKey, { count: current.count + 1, resetAt: current.resetAt })
 
   return false
 }

@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic'
 
 type LeadAccepted = { receivedAt: string }
 
-const RATE_LIMIT = { limit: 5, windowMs: 10 * 60 * 1000 }
+const RATE_LIMIT = { bucket: 'contact:lead', limit: 5, windowMs: 10 * 60 * 1000 }
 
 /**
  * Lead intake endpoint for the landing's single contact form.
