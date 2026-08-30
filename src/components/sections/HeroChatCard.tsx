@@ -81,7 +81,7 @@ const bubbleClasses = (from: 'client' | 'numi') =>
     'max-w-[78%] rounded-[14px] px-3.5 py-2.5 text-sm leading-normal',
     from === 'client'
       ? 'rounded-tl-[4px] border border-[rgba(245,243,248,0.12)] bg-[rgba(245,243,248,0.06)] text-[var(--text-secondary)]'
-      : 'btn-glass-primary btn-glass ml-auto rounded-tr-[4px]',
+      : 'ml-auto rounded-tr-[4px] border border-[color-mix(in_srgb,var(--color-acento)_20%,transparent)] bg-[color-mix(in_srgb,var(--color-acento)_18%,transparent)] text-[var(--color-neutro-claro)]',
   )
 
 const CheckMark = ({ status }: { status: 'delivered' | 'read' }) =>
@@ -98,7 +98,7 @@ const TypingBubble = () => (
     animate={{ opacity: 1, y: 0 }}
     exit={{ opacity: 0 }}
     transition={{ duration: 0.25, ease: EASE }}
-    className="btn-glass-primary btn-glass ml-auto flex w-fit items-center gap-1 rounded-[14px] rounded-tr-[4px] px-3.5 py-2.5"
+    className="ml-auto flex w-fit items-center gap-1 rounded-[14px] rounded-tr-[4px] border border-[color-mix(in_srgb,var(--color-acento)_20%,transparent)] bg-[color-mix(in_srgb,var(--color-acento)_18%,transparent)] px-3.5 py-2.5"
   >
     {[0, 1, 2].map((dot) => (
       <m.span

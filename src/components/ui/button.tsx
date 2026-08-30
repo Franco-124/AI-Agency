@@ -15,28 +15,25 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        // Frosted-glass CTA: translucent accent fill + backdrop blur + a thin
-        // light-catching border, for navigation/action CTAs (never form
-        // controls — those use `solid`/`solid-outline` so a bare fill never
-        // depends on backdrop-filter support to stay legible).
-        primary: ['btn-glass btn-glass-primary', 'active:scale-[0.98]'].join(' '),
-        outline: ['btn-glass btn-glass-outline', 'active:scale-[0.98]'].join(' '),
-        // Pre-glass solid treatment, kept for form controls: a fill that
-        // never relies on backdrop-filter, so it stays legible with nothing
-        // behind it to blur.
-        solid: [
-          'btn-sweep btn-lit',
-          'bg-[var(--color-acento)] text-[var(--color-neutro-oscuro)]',
-          'hover:bg-[color-mix(in_srgb,var(--color-acento)_92%,white)]',
-        ].join(' '),
+        // Primary CTA — volume gradient with top-down lighting, no glass blur.
+        // Reads as a physical, manufactured control rather than a flat panel.
+        primary: 'btn-volume',
+        // Secondary action — surface gradient with subtle depth.
+        outline: 'btn-surface',
+        // Form submit — same volume treatment as primary but standalone
+        // (no backdrop-filter dependency, stays legible anywhere).
+        solid: 'btn-volume',
+        // Tertiary action — border-only with hover fill.
         'solid-outline': [
-          'btn-sweep border border-hairline-strong bg-transparent text-ink',
+          'border border-hairline-strong bg-transparent text-ink',
           'hover:border-[var(--accent-hairline)] hover:bg-[var(--accent-soft)] hover:text-[var(--color-acento)]',
         ].join(' '),
+        // Low-emphasis — minimal treatment, used in dense UI.
         subtle: [
-          'btn-sweep border border-hairline bg-[var(--color-primario)] text-ink',
+          'border border-hairline bg-[var(--color-primario)] text-ink',
           'hover:border-hairline-strong',
         ].join(' '),
+        // No chrome — text-only, for inline actions.
         ghost: 'text-ink-muted hover:text-ink',
       },
       size: {
