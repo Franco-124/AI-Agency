@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 
 import type { ApiResponse } from '@/lib/api'
 import { saveLead } from '@/lib/leads/store'
+import { notifyTeamOfLead } from '@/lib/leads/notify'
 import { clientKey, isRateLimited } from '@/lib/rate-limit'
 import { leadSchema } from '@/lib/schemas'
 
@@ -64,14 +65,11 @@ export async function POST(request: Request) {
     )
   }
 
-  /*
-   * Email notification is intentionally skipped now that a successful submit
-   * hands the visitor straight to `BookingCalendarPanel` — the lead books
-   * their own call instead of waiting for the team to reach out from an
-   * email, so that notification stopped being load-bearing. `notifyTeamOfLead`
-   * (src/lib/leads/notify.tsx) is left in place, unused from this route, in
-   * case a team-facing notification is wanted back later.
-   */
+  try {
+    await notifyTeamOfLead(lead)
+  } catch (emailError) {
+    console.error('[lead] team notification failed', emailError)
+  }
 
   // Structured, non-identifying log so lead volume can be monitored without
   // leaking the lead's personal data into the platform logs.

@@ -47,13 +47,13 @@
   --color-ink-muted: var(--text-secondary);
   --color-ink-faint: var(--text-muted);
 
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
   /* Display face. Restricted by rule to the hero headline, section titles and
      the two numeric "hero figures" (the results stat and package prices) — see
      `.type-display`, `.type-section-title` and `.type-figure` below. Every
      other heading, label and piece of UI stays on `--font-sans`. */
-  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
 
   --radius-lg: 0.625rem;
   --radius-xl: 0.875rem;
@@ -111,9 +111,8 @@
 @layer components {
   /*
     Fluid display scale — keeps the copy verbatim without breaking layout.
-    Set on the display face (Fraunces): a soft, warm serif carries the
-    letterforms at this size far better than the sans, so tracking is loosened
-    from the old grotesque values (-0.04em was tuned for Geist, not a serif).
+    Set on the display face (Space Grotesk): a geometric grotesque carries the
+    letterforms at this size with tight tracking for a modern, technical feel.
   */
   .type-display {
     font-family: var(--font-display);

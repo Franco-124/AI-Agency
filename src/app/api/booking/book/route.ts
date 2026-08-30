@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 
 import type { ApiResponse } from '@/lib/api'
+import { notifyTeamOfBooking } from '@/lib/booking/notify'
 import { bookSlot, SlotUnavailableError, type BookingConfirmation } from '@/lib/calendar-api'
 import { clientKey, isRateLimited } from '@/lib/rate-limit'
 import { bookingRequestSchema } from '@/lib/schemas'
@@ -51,6 +52,18 @@ export async function POST(request: Request) {
       contactEmail: parsed.data.email,
       notes: parsed.data.notes,
     })
+
+    try {
+      await notifyTeamOfBooking({
+        name: parsed.data.name,
+        email: parsed.data.email,
+        phone: parsed.data.whatsapp,
+        scheduledTime: confirmation.start,
+        notes: parsed.data.notes,
+      })
+    } catch (emailError) {
+      console.error('[booking] team notification failed', emailError)
+    }
 
     return NextResponse.json<ApiResponse<BookingConfirmation>>(
       { success: true, data: confirmation },
