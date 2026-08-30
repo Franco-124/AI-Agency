@@ -174,8 +174,7 @@
       color-mix(in srgb, var(--color-acento) 100%, black 12%) 100%
     );
     border: 1px solid color-mix(in srgb, var(--color-neutro-claro) 16%, transparent);
-    color: var(--color-neutro-oscuro);
-    text-shadow: 0 1px 0 color-mix(in srgb, var(--color-neutro-claro) 12%, transparent);
+    color: var(--color-neutro-claro);
   }
 
   .btn-volume:hover {
