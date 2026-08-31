@@ -225,6 +225,80 @@
     transform: translateY(1px);
   }
 
+  /* ----------------------------------------------------------------
+     Hero desktop geometry.
+
+     `--hero-visual-w` and `--hero-visual-inset` are the single source of truth
+     for the two flanking product visuals. Three things derive from them: the
+     visuals' own placement, the section's height, and the copy column's width.
+
+     Deriving rather than guessing per breakpoint matters — with fixed steps the
+     headline collided with the artwork at one size and, at another, was squeezed
+     narrower than the 11.8em its first line needs and broke onto a fourth line.
+
+     The visuals stay subordinate to the copy: 17vw on small desktops, 21vw (capped
+     at 23rem) above, so they read as frames rather than as a second subject.
+     ---------------------------------------------------------------- */
+  .hero-frame {
+    --hero-visual-w: 0px;
+    --hero-visual-inset: 0px;
+  }
+
+  @media (width >= 64rem) {
+    .hero-frame {
+      --hero-visual-w: 17vw;
+      --hero-visual-inset: 4vw;
+    }
+  }
+
+  @media (width >= 80rem) {
+    .hero-frame {
+      --hero-visual-w: min(21vw, 23rem);
+      --hero-visual-inset: 5vw;
+    }
+  }
+
+  /* The hero owns the whole first screen: nothing of the next section may show
+     under it. `svh` rather than `dvh` on desktop because it is the *smallest*
+     viewport height, so the seam cannot peek through while browser chrome is
+     collapsing. `46rem` is a floor for short windows — below that the copy
+     would start colliding with the header, and letting the page scroll is the
+     better failure. The visuals (1.6x their own width) always fit inside this.
+
+     An earlier version sized the section to its content instead, which left a
+     dead black band under the copy; the fill now comes from the vertical
+     rhythm and the ambient light, not from shrinking the section. */
+  .hero-shell {
+    min-height: 100dvh;
+  }
+
+  @media (width >= 64rem) {
+    .hero-shell {
+      min-height: max(46rem, 100svh);
+    }
+  }
+
+  /* Copy column width. Each visual's artwork starts 4.5% in, so its inner edge
+     sits `50vw - inset - 0.955 * width` from the centre and the free span is
+     twice that. The column's own `4rem` of horizontal padding doubles as the
+     gutter, so it cancels out of the border-box max-width. `60rem` is the cap.
+
+     The phone cap lives here too rather than as a `max-w-[80rem]` utility: a
+     utility outranks the components layer, so it silently beat this rule and
+     let the copy run under the visuals at 1024. */
+  .hero-copy {
+    max-width: 80rem;
+  }
+
+  @media (width >= 64rem) {
+    .hero-copy {
+      max-width: min(
+        60rem,
+        calc(100vw - 2 * var(--hero-visual-inset) - 1.91 * var(--hero-visual-w))
+      );
+    }
+  }
+
   /* Hides the scrollbar on programmatically-scrolled panels (e.g. the hero
      chat card) without disabling scroll — the panel drives its own position. */
   .scrollbar-none {

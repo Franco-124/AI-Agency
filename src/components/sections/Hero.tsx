@@ -8,13 +8,16 @@ import {
   Users,
   type LucideIcon,
 } from 'lucide-react'
-import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import type { CSSProperties } from 'react'
 
 import { DemoBookingWidget } from '@/components/forms/DemoBookingWidget'
 import { HeroMotion } from '@/components/motion/HeroMotion'
 import { sectionIds } from '@/lib/site'
+
+import agentStepsVisual from '../../../public/images/hero-agent-steps.webp'
+import outcomeCardsVisual from '../../../public/images/hero-outcome-cards.webp'
+import { HeroSideVisual } from './HeroSideVisual'
 
 /** The four capabilities in the icon row, in reading order. */
 const heroFeatures: ReadonlyArray<{ key: string; Icon: LucideIcon }> = [
@@ -24,345 +27,203 @@ const heroFeatures: ReadonlyArray<{ key: string; Icon: LucideIcon }> = [
   { key: 'four', Icon: Globe },
 ]
 
+/*
+  Two layouts in one tree.
+
+  Below `lg` this is the original hero, unchanged: copy ranged left, the CTA
+  pulled above the feature row on phones, no side visuals.
+
+  From `lg` up it is the approved comp — copy centred between two flanking
+  product visuals. Every number in that half is measured off the comp
+  (1536 x 1024) rather than invented:
+
+    headline      cap height 36px => ~50px type, line pitch 53.5px (1.07)
+    headline box  635px wide      => breaks after "negocio" / "trabaje"
+    subtitle      ~19px, wraps inside ~590px
+    features      4 items, 36px gutters, 636px total
+    CTAs          332px + 24px gap + 233px, 58px tall
+    left visual   x 51-377,    y 197-687   (327 x 491)
+    right visual  x 1114-1467, y 192-819   (354 x 628)
+
+  The headline cap is set in `em`, not px, so the three-line break survives the
+  fluid type scale instead of only holding at one width — its first line needs
+  11.8em, and the column width in `globals.css` is derived to always clear that.
+  Desktop geometry (visual width and inset) lives there too, as custom
+  properties on the section, because the column and the visuals both read it.
+*/
+
 export function Hero() {
   const t = useTranslations('hero')
 
   return (
-    <section id={sectionIds.hero} className="relative isolate overflow-hidden">
+    <section
+      id={sectionIds.hero}
+      className="hero-frame relative isolate overflow-hidden"
+    >
       {/*
-        Static hero image: LCP element and the reduced-motion fallback. A
-        violet flow that carries its light on the right half, where the flow
-        diagram sits — the left stays near-black under the scrim below, so the
-        headline keeps its contrast without the artwork being dimmed flat.
+        Deep base, sampled off the comp's own field. The bottom 16% fades back
+        to the site token so the seam with the next section stays invisible.
 
-        Art-directed rather than one source scaled to both shapes. The hero is
-        `min-h-dvh`, so on a tall phone `object-cover` on the landscape file
-        would sample a ~500px-wide strip and stretch it past 2x — visibly soft,
-        and it crops away the very light the artwork is for. The portrait file
-        is a tall window taken from the same source, framed on that light.
-
-        Plain <picture> because next/image has no media-query art direction;
-        `fetchPriority`/`decoding` reproduce what `priority` would have set,
-        and the explicit dimensions reserve the box so nothing shifts.
-      */}
-      <picture>
-        <source
-          media="(max-width: 767px)"
-          srcSet="/images/hero-violet-flow-portrait.webp"
-          width={1080}
-          height={2160}
-        />
-        <img
-          src="/images/hero-violet-flow.webp"
-          alt={t('imageAlt')}
-          width={1920}
-          height={1080}
-          fetchPriority="high"
-          decoding="async"
-          className="absolute inset-0 -z-20 h-full w-full object-cover object-center"
-        />
-      </picture>
-      {/*
-        Reading scrim, and it has to run in a different direction per layout.
-        On desktop the copy sits in the left column, so the ramp goes left to
-        right and clears early — the headline only needs cover to about a
-        third of the width, and the artwork returns at full strength under the
-        flow diagram. On a phone the copy spans the full width, so a sideways
-        ramp would leave the subtitle over the bright side; there it runs top
-        to bottom instead, covering the copy block and clearing below it.
+        Nothing else dims the lower edge: an overlay fade was tried here and
+        removed, because the comp keeps its violet live all the way to the
+        bottom-right corner and the fade flattened exactly that.
       */}
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-[linear-gradient(to_bottom,color-mix(in_srgb,var(--color-neutro-oscuro)_94%,transparent)_0%,color-mix(in_srgb,var(--color-neutro-oscuro)_86%,transparent)_45%,color-mix(in_srgb,var(--color-neutro-oscuro)_60%,transparent)_100%)] md:bg-[linear-gradient(to_right,color-mix(in_srgb,var(--color-neutro-oscuro)_98%,transparent)_0%,color-mix(in_srgb,var(--color-neutro-oscuro)_88%,transparent)_38%,color-mix(in_srgb,var(--color-neutro-oscuro)_66%,transparent)_68%,color-mix(in_srgb,var(--color-neutro-oscuro)_58%,transparent)_100%)]"
-      />
-      {/*
-        Banded vignette: enough weight at the top and bottom edges to seat the
-        header and the seam with the next section, clear through the middle.
-        Kept lighter than a full dimming pass — the artwork carries the colour
-        here, and the reading scrim above already protects the copy.
-      */}
-      <div
-        aria-hidden
-        className="absolute inset-0 -z-10 bg-[linear-gradient(to_bottom,color-mix(in_srgb,var(--color-neutro-oscuro)_82%,transparent)_0%,color-mix(in_srgb,var(--color-neutro-oscuro)_30%,transparent)_20%,color-mix(in_srgb,var(--color-neutro-oscuro)_30%,transparent)_72%,color-mix(in_srgb,var(--color-neutro-oscuro)_70%,transparent)_100%)]"
+        className="absolute inset-0 -z-30"
+        style={{
+          background:
+            'linear-gradient(to bottom, #03040a 0%, #03040a 84%, var(--color-neutro-oscuro) 100%)',
+        }}
       />
 
       {/*
-        Brightness governor. The artwork's own hotspot sits high and right —
-        over empty space — which pulled the eye away from both the headline and
-        the figure. This radial keeps a clear window centred on the figure column
-        (72% across, 58% down) and dims everything outside it, so the brightest
-        part of the hero ends up behind the figure rather than beside it. Pure
-        `--color-neutro-oscuro` at varying alpha, so no hue is introduced and
-        the artwork cannot drift toward magenta.
+        Ambient light: one bloom low on the right plus a very wide, very faint
+        lift across the middle. Centres, radii and alphas are a least-squares
+        fit to the comp's background pixels (RMSE 4.2/255), not eyeballed — an
+        earlier hand-tuned pair leaked violet into the top corners, which the
+        comp keeps flat black.
       */}
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-[radial-gradient(65%_60%_at_72%_58%,transparent_0%,color-mix(in_srgb,var(--color-neutro-oscuro)_22%,transparent)_45%,color-mix(in_srgb,var(--color-neutro-oscuro)_55%,transparent)_100%)]"
+        className="absolute inset-0 -z-20"
+        style={{
+          background: [
+            'radial-gradient(28% 48% at 90% 74%, rgba(109,40,217,0.44) 0%, transparent 100%)',
+            'radial-gradient(72% 34% at 50% 104%, rgba(109,40,217,0.10) 0%, transparent 100%)',
+            'radial-gradient(95% 44% at 49.5% 50%, rgba(109,40,217,0.07) 0%, transparent 100%)',
+          ].join(', '),
+        }}
       />
 
-      {/*
-        Ambient layer: the drawn diagonal plus a slow particle field. It sits
-        behind all copy and nothing in it moves fast enough to compete with the
-        headline for attention.
-      */}
-      <div className="pointer-events-none absolute inset-0 -z-10">
+      {/* Slow particle field. Nothing in it moves fast enough to pull focus. */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-20">
         <HeroMotion />
       </div>
 
       {/*
-        Product proof — desktop only, so it never pushes the mobile CTA down.
-
-        Positioned against the section rather than placed in the grid: inside
-        the 5/12 column the diagram was capped at ~26rem, which rendered its
-        own labels below a legible size. Anchored here it can run from the
-        middle of the page out past the container's `max-w-[80rem]` to the
-        viewport edge, which is the width its content actually needs.
-
-        It starts a little before the halfway mark and runs to the page edge.
-        The copy column is held to 7/12 and the subtitle to 44ch on `lg`, so
-        the two never collide despite the overlap in horizontal bands — the
-        left of the figure is transparent under the mask anyway. Vertically it
-        is centred on the hero below the header, matching the copy block.
-
-        The figure is two stacked layers: a browser-chrome plate set back and
-        up, and the flow diagram floating in front of it — overhanging the
-        chrome on the left, the bottom and the right rather than being contained
-        by it. The frame is scenery that says "a website", the diagram is the
-        subject; nesting the diagram inside the well instead made the pair read
-        as one flat screenshot and shrank the flow to the point its own labels
-        stopped carrying.
-
-        Both files are 1536x1024. The frame is inset from the top-right of this
-        box and the diagram is scaled past it, so the overhang is produced by
-        their relative boxes rather than by cropping either file. Percentages
-        rather than fixed offsets is what keeps the two locked together at
-        every width; the pair scales as one composition would.
-
-        No plate, no border, no corner radius around either layer. Both files
-        carry the same near-black ground as the hero, so feathered edges are
-        all it takes for the rectangles to disappear — the frame dissolves into
-        the backdrop, and the diagram dissolves into the frame.
-
-        Three masks intersect. The ellipse does the general softening; the
-        horizontal ramp adds a longer fade on the left, where the figure meets
-        the copy column and the seam would be most visible; the vertical ramp
-        clears the top and bottom edges, which the ellipse alone left as a
-        hard horizontal line across the artwork.
-
-        `-z-10` keeps it behind the copy, and `pointer-events-none` keeps it
-        out of the way of the CTAs that overlap it at narrower desktop widths.
+        Side visuals, desktop only. Absolute so they never enter the centre
+        column's flow and never affect where the copy lands, and centred on the
+        section's midline the way the comp centres them — the left one rides
+        3rem higher, which is the offset measured off the comp.
       */}
-      <div className="pointer-events-none absolute inset-y-0 left-[46%] right-0 -z-10 hidden items-center lg:flex 2xl:left-[43%] 2xl:right-[1vw]">
-        {/*
-          `py-[9%]` is load-bearing, not spacing. The chrome plate is offset to
-          `-top-[16%]` of the inner box, so without padding here it would sit
-          outside this masked element and the vertical ramp below would clip
-          away the toolbar — exactly the part of the frame the composition is
-          built on. The padding grows the masked box to cover both layers, and
-          the ramp's own percentages then fall on empty margin instead of on
-          the artwork.
-        */}
-        <div className="soft-float w-full py-[9%] [mask-composite:intersect] [mask-image:radial-gradient(82%_86%_at_52%_50%,#000_42%,transparent_100%),linear-gradient(to_right,transparent_0%,#000_22%),linear-gradient(to_bottom,transparent_0%,#000_6%,#000_94%,transparent_100%)]">
-          {/*
-            The diagram carries the box's intrinsic ratio — it is the layer in
-            flow, since it is the larger of the two and the one that must never
-            be clipped. The frame is absolutely positioned behind it, so the
-            aspect ratio is reserved by a real element and nothing shifts as
-            the second file lands.
-
-            `sizes` on each is capped near the width it actually renders at, so
-            the optimizer never serves a source larger than needed. No
-            `priority` on either: the LCP element is the backdrop above, and
-            these sit below it in the paint order.
-          */}
-          <div className="relative w-full">
-            {/*
-              Chrome plate, lifted well above the box and held to 82% of its
-              width, so what stays visible is the part that identifies it as a
-              browser — traffic lights, URL bar, the top of the sidebar — while
-              the diagram in front covers the empty page body below. Anything
-              less of a lift and the flow buried the toolbar; anything more and
-              the plate detached from the composition.
-
-              `-z-10` is local to this stacking context: it only orders the
-              plate behind its sibling. The wrapper's own `-z-10` is what holds
-              the whole figure behind the copy.
-
-              Feathered on all four edges. The plate is scenery: its job is to
-              suggest a browser at the edge of vision, so the fade is generous
-              and the corners never resolve into a hard rectangle.
-            */}
-            <Image
-              src="/images/hero-browser-frame.webp"
-              alt=""
-              width={1536}
-              height={1024}
-              sizes="(min-width: 1024px) 50vw, 0px"
-              aria-hidden
-              className="absolute -top-[16%] -right-[4%] -z-10 h-auto w-[82%] opacity-[0.92] [mask-composite:intersect] [mask-image:linear-gradient(to_right,transparent_0%,#000_10%,#000_95%,transparent_100%),linear-gradient(to_bottom,transparent_0%,#000_6%,#000_86%,transparent_100%)]"
-            />
-            {/*
-              The flow itself, at full size and in front. Its own ground is the
-              same near-black as the frame and the hero, so a light feather on
-              the outer edges is enough to keep it from reading as a pasted
-              rectangle — the cards inside it keep their own crisp edges, which
-              is what makes the layer look like it is floating rather than
-              composited.
-            */}
-            <Image
-              src="/images/hero-flow-diagram.webp"
-              alt={t('flowImageAlt')}
-              width={1536}
-              height={1024}
-              sizes="(min-width: 1024px) 56vw, 0px"
-              className="relative h-auto w-full [mask-composite:intersect] [mask-image:linear-gradient(to_right,transparent_0%,#000_5%,#000_96%,transparent_100%),linear-gradient(to_bottom,transparent_0%,#000_4%,#000_95%,transparent_100%)]"
-            />
-          </div>
-        </div>
-      </div>
+      <HeroSideVisual
+        src={agentStepsVisual}
+        className="absolute left-[var(--hero-visual-inset)] top-1/2 z-0 hidden w-[var(--hero-visual-w)] -translate-y-[calc(50%+3rem)] lg:block"
+      />
+      <HeroSideVisual
+        src={outcomeCardsVisual}
+        floatDelay="-3.5s"
+        className="absolute right-[var(--hero-visual-inset)] top-1/2 z-0 hidden w-[var(--hero-visual-w)] -translate-y-1/2 lg:block"
+      />
 
       {/*
-        The hero keeps the site-wide `max-w-[80rem]` up to `2xl` so its copy
-        starts on the same left edge as every section below it. Past that the
-        cap is raised and the gutter switches to a percentage: on a 1920px
-        monitor the fixed container left ~345px of empty black down the left
-        side while the figure had nowhere left to grow. Widening only above
-        `2xl` buys that space back at the sizes where it is wasted, without
-        moving the alignment at the widths most people actually browse at.
+        Copy column. Top-aligned and ranged left on phones, exactly as before;
+        optically centred between the visuals from `lg` up.
+
+        Cross-axis alignment is left at the default `stretch` below `lg` on
+        purpose: `items-start` here would shrink-to-fit every child to its
+        max-content width, so the headline and eyebrow would overflow the
+        viewport instead of wrapping.
       */}
-      <div className="mx-auto grid min-h-dvh max-w-[80rem] items-center gap-14 px-5 pb-16 pt-[calc(var(--header-height)+3rem)] sm:px-8 lg:grid-cols-12 lg:gap-10 lg:pb-24 2xl:max-w-[132rem] 2xl:px-[clamp(5rem,7.5vw,11rem)]">
+      <div className="relative z-10 mx-auto hero-shell hero-copy flex w-full flex-col justify-start px-5 pb-16 pt-[calc(var(--header-height)+3rem)] sm:px-8 lg:items-center lg:justify-center lg:pb-[calc(var(--header-height)+1.5rem)] lg:pt-[calc(var(--header-height)+1.5rem)] lg:text-center">
+        <p
+          className="hero-rise type-eyebrow inline-flex items-center gap-2.5"
+          style={{ '--hero-delay': '0.05s' } as CSSProperties}
+        >
+          {/* The rule anchors a left-ranged eyebrow; centred, it would hang off it. */}
+          <span
+            aria-hidden
+            className="rule-grow h-px w-8 bg-[var(--surface-border-strong)] lg:hidden"
+            style={{ '--hero-delay': '0.25s' } as CSSProperties}
+          />
+          {t('eyebrow')}
+        </p>
+
         {/*
-          Load sequence: the block rises in reading order — eyebrow, headline,
-          subtitle, actions, indicators — so the eye is led down to the CTA
-          instead of meeting the whole hero at once. Delays are declared per
-          element with `--hero-delay`; the animation itself is one shared class.
+          Assembled from parts rather than held as one string because two words
+          carry the accent colour. Splitting it in the message file keeps the
+          copy translatable without letting HTML into it.
         */}
-        <div className="flex min-w-0 flex-col lg:col-span-7">
-          <p
-            className="hero-rise type-eyebrow inline-flex items-center gap-2.5"
-            style={{ '--hero-delay': '0.05s' } as CSSProperties}
-          >
-            <span
-              aria-hidden
-              className="rule-grow h-px w-8 bg-[var(--surface-border-strong)]"
-              style={{ '--hero-delay': '0.25s' } as CSSProperties}
-            />
-            {t('eyebrow')}
-          </p>
+        <h1
+          className="hero-rise type-display mt-5 max-w-full text-[clamp(2rem,1.4rem+3vw,3.6rem)] sm:mt-7 sm:max-w-[19ch] lg:mt-8 lg:max-w-[12.4em] lg:text-[clamp(2.8rem,3.7vw,4.5rem)] lg:leading-[1.02] lg:tracking-[-0.03em]"
+          style={{ '--hero-delay': '0.12s' } as CSSProperties}
+        >
+          {t('title.lead')}{' '}
+          <span className="text-[var(--color-acento)]">
+            {t('title.highlightOne')}
+          </span>
+          {t('title.middle')}{' '}
+          <span className="text-[var(--color-acento)]">
+            {t('title.highlightTwo')}
+          </span>
+          {t('title.tail')}
+        </h1>
 
-          {/*
-            The headline is assembled from parts rather than held as one string
-            because two words carry the accent colour. Splitting it in the
-            message file — instead of embedding markup in the translation —
-            keeps the copy translatable without letting HTML into it, and lets
-            each locale decide where its own emphasis falls.
+        <p
+          className="hero-rise type-lead mt-5 max-w-[52ch] sm:mt-7 lg:mt-7 lg:max-w-[36rem] lg:text-[clamp(1rem,0.88rem+0.3vw,1.125rem)] lg:leading-[1.6]"
+          style={{ '--hero-delay': '0.22s' } as CSSProperties}
+        >
+          {t('subtitle')}
+        </p>
 
-            The size override tunes `type-display` for this specific block
-            rather than accepting its shared clamp. The ceiling sits under the
-            token's 5.25rem so three lines still fit a laptop viewport
-            alongside the subtitle, feature row and CTAs, and the floor is
-            raised above the token's 2.25rem because the headline is the only
-            thing carrying the top of a phone screen.
-          */}
-          <h1
-            className="hero-rise type-display mt-5 max-w-full text-[clamp(2.1rem,1.5rem+3.6vw,4.05rem)] sm:mt-7 sm:max-w-[19ch] lg:max-w-[17ch] 2xl:max-w-[16ch] 2xl:text-[4.35rem]"
-            style={{ '--hero-delay': '0.12s' } as CSSProperties}
-          >
-            {t('title.lead')}{' '}
-            <span className="text-[var(--color-acento)]">
-              {t('title.highlightOne')}
-            </span>
-            {t('title.middle')}{' '}
-            <span className="text-[var(--color-acento)]">
-              {t('title.highlightTwo')}
-            </span>
-            {t('title.tail')}
-          </h1>
-
-          <p
-            className="hero-rise type-lead mt-5 max-w-[52ch] sm:mt-7 lg:max-w-[44ch] lg:text-[1.1875rem] 2xl:max-w-[46ch] 2xl:text-[1.25rem]"
-            style={{ '--hero-delay': '0.22s' } as CSSProperties}
-          >
-            {t('subtitle')}
-          </p>
-
-          {/*
-            Four capabilities as an icon row. This is the one place in the hero
-            that says what Numi actually does — the headline sells the outcome
-            and the subtitle the category, so without it a first-time visitor
-            reaches the CTA without having seen a single concrete deliverable.
-            Two columns on a phone; from `sm` up it is a flex row rather than
-            a four-column grid, so each item takes the width of its own label
-            instead of an equal quarter of the container — on a wide monitor
-            the grid pulled the four items far apart.
-
-            `order-3` drops it below the CTAs on phones. As two rows of text it
-            costs ~120px, which was enough to push both buttons past the fold
-            on a 667px-tall screen — the CTAs are the action, the features are
-            the reinforcement, so on a small screen the action goes first. DOM
-            order is unchanged, so the reading and tab order still run
-            headline, subtitle, features, CTAs.
-          */}
-          <ul
-            className="hero-rise order-3 mt-8 grid grid-cols-2 gap-x-6 gap-y-5 sm:order-none sm:flex sm:flex-wrap sm:gap-x-8 lg:gap-x-9"
-            style={{ '--hero-delay': '0.28s' } as CSSProperties}
-          >
-            {heroFeatures.map(({ key, Icon }) => (
-              <li key={key} className="flex items-start gap-2.5">
-                <Icon
-                  aria-hidden
-                  className="mt-0.5 h-[1.375rem] w-[1.375rem] shrink-0 text-[var(--color-acento)]"
-                  strokeWidth={1.6}
-                />
-                <span className="min-w-0 text-[0.8125rem] leading-snug">
-                  <span className="block font-medium text-[var(--color-neutro-claro)]">
-                    {t(`features.${key}.title`)}
-                  </span>
-                  <span className="block text-[color-mix(in_srgb,var(--color-neutro-claro)_62%,transparent)]">
-                    {t(`features.${key}.detail`)}
-                  </span>
+        {/*
+          Four capabilities as icon-plus-label, deliberately not cards: the hero
+          already carries two card-heavy visuals and a third set would read as a
+          dashboard.
+        */}
+        <ul
+          className="hero-rise order-3 mt-8 grid grid-cols-2 gap-x-6 gap-y-5 sm:order-none sm:flex sm:flex-wrap sm:gap-x-8 lg:mt-11 lg:justify-center lg:gap-x-7"
+          style={{ '--hero-delay': '0.28s' } as CSSProperties}
+        >
+          {heroFeatures.map(({ key, Icon }) => (
+            <li key={key} className="flex items-start gap-2.5 lg:items-center">
+              <Icon
+                aria-hidden
+                className="mt-0.5 h-[1.375rem] w-[1.375rem] shrink-0 text-[var(--color-acento)] lg:mt-0"
+                strokeWidth={1.6}
+              />
+              <span className="min-w-0 text-left text-[0.8125rem] leading-snug">
+                <span className="block font-medium text-[var(--color-neutro-claro)]">
+                  {t(`features.${key}.title`)}
                 </span>
-              </li>
-            ))}
-          </ul>
+                <span className="block text-[color-mix(in_srgb,var(--color-neutro-claro)_62%,transparent)]">
+                  {t(`features.${key}.detail`)}
+                </span>
+              </span>
+            </li>
+          ))}
+        </ul>
 
-          <div
-            className="hero-rise order-1 mt-7 flex flex-col gap-3 sm:order-none sm:mt-9 sm:flex-row sm:items-center"
-            style={{ '--hero-delay': '0.36s' } as CSSProperties}
-          >
-            <DemoBookingWidget
-              ctaLabel={t('cta')}
-              secondaryLabel={t('ctaSecondary')}
-              secondaryHref={`#${sectionIds.packages}`}
-            />
-          </div>
-
-          {/* Answers the three objections that stop a click — how long, what it
-              commits me to, when I hear back — right where the click happens. */}
-          <p
-            className="hero-rise order-2 mt-4 inline-flex items-center gap-2 text-[0.8125rem] sm:order-none sm:mt-5 text-[color-mix(in_srgb,var(--color-neutro-claro)_62%,transparent)]"
-            style={{ '--hero-delay': '0.42s' } as CSSProperties}
-          >
-            <CalendarCheck
-              aria-hidden
-              className="h-4 w-4 shrink-0 text-[var(--color-acento)]"
-              strokeWidth={1.6}
-            />
-            {t('ctaMeta')}
-          </p>
-
+        <div
+          className="hero-rise order-1 mt-7 flex flex-col gap-3 sm:order-none sm:mt-9 sm:flex-row sm:items-center lg:mt-12 lg:gap-6"
+          style={{ '--hero-delay': '0.36s' } as CSSProperties}
+        >
+          <DemoBookingWidget
+            ctaLabel={t('cta')}
+            secondaryLabel={t('ctaSecondary')}
+            secondaryHref={`#${sectionIds.packages}`}
+          />
         </div>
 
-        {/* The figure is not a grid child — see the absolutely positioned
-            block after this container. The copy column still declares 7/12 so
-            the headline keeps its measure and never runs under the diagram. */}
+        {/* Answers the three objections that stop a click */}
+        <p
+          className="hero-rise order-2 mt-4 inline-flex items-center gap-2 text-[0.8125rem] text-[color-mix(in_srgb,var(--color-neutro-claro)_62%,transparent)] sm:order-none sm:mt-5 lg:mt-6"
+          style={{ '--hero-delay': '0.42s' } as CSSProperties}
+        >
+          <CalendarCheck
+            aria-hidden
+            className="h-4 w-4 shrink-0 text-[var(--color-acento)]"
+            strokeWidth={1.6}
+          />
+          {t('ctaMeta')}
+        </p>
       </div>
 
       {/*
-        Scroll affordance. The hero is `min-h-dvh`, so on a laptop it fills the
-        viewport exactly and gives no edge-of-content cue that the page
-        continues — this is that cue. A real link rather than a decorative
-        chevron, so it works from the keyboard and states where it goes.
+        Scroll affordance. The hero occupies the whole first screen, so nothing
+        of the next section shows through to imply one — this is the only cue
+        that the page continues, which is why it runs at every size.
       */}
       <a
         href={`#${sectionIds.services}`}
