@@ -70,6 +70,20 @@ function formatDayLabel(isoDay: string, locale: string): string {
   }).format(date)
 }
 
+/**
+ * The backend's `label` field comes pre-formatted in 24h ("14:00"), but
+ * visitors read 12h clock times more naturally ("2pm"). Reformats from
+ * `start` (already in the tenant's timezone) instead of trusting the label.
+ */
+function formatSlotTime(isoStart: string, locale: string): string {
+  const formatted = new Intl.DateTimeFormat(locale, {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  }).format(new Date(isoStart))
+  return formatted.replace(/^(\d+):00\s?/, '$1').replace(/\s+/g, '').toLowerCase()
+}
+
 type BookingCalendarPanelProps = {
   onCancel: () => void
   /**
@@ -359,7 +373,7 @@ export function BookingCalendarPanel({
                     : 'border-hairline text-ink hover:border-[var(--accent-hairline)]',
                 )}
               >
-                {slot.label}
+                {formatSlotTime(slot.start, locale)}
               </button>
             ))}
           </div>
