@@ -24,16 +24,16 @@ export function DemoBookingWidget({
 }: DemoBookingWidgetProps) {
   return (
     <>
-      <Button asChild size="lg" className="group">
+      <Button asChild size="lg" variant="heroPrimary" className="group">
         <Link href="/agendar#reserva">
           {ctaLabel}
           <ArrowRight
             aria-hidden
-            className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
+            className="h-4 w-4 transition-transform duration-200 ease-out group-hover:translate-x-[3px]"
           />
         </Link>
       </Button>
-      <Button asChild size="lg" variant="outline">
+      <Button asChild size="lg" variant="heroSecondary">
         <a href={secondaryHref}>{secondaryLabel}</a>
       </Button>
     </>

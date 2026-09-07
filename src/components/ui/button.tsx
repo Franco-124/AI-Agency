@@ -6,8 +6,8 @@ import { cn } from '@/lib/utils'
 
 const buttonVariants = cva(
   [
-    'group/btn relative inline-flex items-center justify-center gap-2 rounded-lg',
-    'font-medium tracking-[-0.01em] whitespace-nowrap select-none',
+    'group/btn relative inline-flex items-center justify-center gap-2 rounded-[0.5rem]',
+    'font-semibold tracking-[-0.01em] whitespace-nowrap select-none',
     'transition-[transform,background-color,border-color,color,box-shadow] duration-200 ease-out',
     'disabled:pointer-events-none disabled:opacity-55',
     'motion-safe:hover:-translate-y-px active:translate-y-0',
@@ -15,13 +15,11 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        // Primary CTA — volume gradient with top-down lighting, no glass blur.
-        // Reads as a physical, manufactured control rather than a flat panel.
+        // Primary CTA — flat violet fill, restrained hairline border.
         primary: 'btn-volume',
-        // Secondary action — surface gradient with subtle depth.
+        // Secondary action — quiet dark surface, same geometry as primary.
         outline: 'btn-surface',
-        // Form submit — same volume treatment as primary but standalone
-        // (no backdrop-filter dependency, stays legible anywhere).
+        // Form submit — same flat treatment as primary.
         solid: 'btn-volume',
         // Tertiary action — border-only with hover fill.
         'solid-outline': [
@@ -35,12 +33,16 @@ const buttonVariants = cva(
         ].join(' '),
         // No chrome — text-only, for inline actions.
         ghost: 'text-ink-muted hover:text-ink',
+        // Hero-only smoked-glass pair — scoped so no other CTA on the
+        // site inherits this treatment. See .btn-hero-primary/-secondary.
+        heroPrimary: 'btn-hero-primary rounded-[0.5625rem]',
+        heroSecondary: 'btn-hero-secondary rounded-[0.5625rem]',
       },
       size: {
         // 44px minimum touch target on every interactive size.
         sm: 'h-11 px-4 text-sm',
         md: 'h-12 px-5 text-[0.9375rem]',
-        lg: 'h-14 px-7 text-base',
+        lg: 'h-[3.125rem] px-6 text-[0.9375rem]',
       },
       block: {
         true: 'w-full',
