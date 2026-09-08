@@ -159,30 +159,27 @@
   },
   "services": {
     "title": "Everything Numi AI does for your business",
+    "lead": "We build professional AI systems tailored to your business, not isolated features or generic templates.",
     "items": {
       "zero": {
         "title": "A personalized diagnosis of your business",
         "body": "We look at where customers reach you today and where you lose them: your website, your WhatsApp, your social profiles. You walk away with a clear plan of what to fix first and what each change should return, before you spend a peso."
       },
       "one": {
-        "title": "Automated WhatsApp support",
-        "body": "An assistant trained on your business answers pricing, hours and the usual questions in seconds — day, night and weekends. When a conversation gets serious, it hands the lead to you with the full context ready."
-      },
-      "two": {
-        "title": "Campaign pages that capture the visitor",
-        "body": "Every ad or promotion gets its own page: one clear promise, the proof behind it and a single button. The traffic you already pay for ends in a conversation instead of on a generic homepage."
+        "title": "AI agent for automated WhatsApp support",
+        "body": "An AI agent trained on your business answers pricing, hours and frequently asked questions in seconds — day, night and weekends. When a conversation gets serious, it hands the lead to you with the full context ready."
       },
       "three": {
         "title": "Automated lead follow-up",
-        "body": "Anyone who asked and never came back gets a message at the right moment, picking the thread up where it stopped. You recover sales that go cold in the chat today, with nobody having to chase them."
+        "body": "Your AI system sends a message at the right moment to anyone who asked and never came back, picking the thread up where it stopped. You recover sales that go cold in the chat today, with nobody having to chase them."
       },
       "four": {
         "title": "Professional websites that turn visits into customers",
-        "body": "We design and build your full site: home, services, portfolio, FAQ and a contact form that lands straight in your WhatsApp. It loads fast, looks sharp on a phone, and every section is written so the visitor understands, trusts and writes to you."
+        "body": "We design and build your full site: home, services, portfolio, FAQ and a contact form that lands straight in your WhatsApp. You can hire it on its own, or as part of an AI System if you also want your business to handle enquiries on its own. It loads fast, looks sharp on a phone, and every section is written so the visitor understands, trusts and writes to you."
       },
       "five": {
         "title": "Your customer information, organized",
-        "body": "Every conversation, contact and detail recorded in a single panel. You know where each customer came from, what they asked for and where things stand, without chasing spreadsheets."
+        "body": "Your AI system records every conversation, contact and detail in a single panel. You know where each customer came from, what they asked for and where things stand, without chasing spreadsheets."
       }
     },
     "carousel": {
@@ -261,49 +258,73 @@
     "title": "Choose how to start",
     "lead": "Three ways to start, depending on the size of your operation.",
     "badge": "Most chosen",
-    "cta": "I want this package",
     "noFit": {
       "title": "None of these fit your case?",
       "body": "Not every business fits into a package. Tell us how yours works and we'll put together a proposal shaped around your operation.",
       "cta": "Tell us about your case"
     },
+    "website": {
+      "name": "Professional Website",
+      "audience": "For businesses that need a solid digital presence before thinking about automation.",
+      "features": {
+        "one": "A site of up to 5 pages: home, services, portfolio, FAQ and contact",
+        "two": "Design and copy tailored to your business, not a generic template",
+        "three": "A contact form connected directly to your WhatsApp",
+        "four": "Optimized to load fast and look great on mobile"
+      },
+      "price": "From COP $800,000 to COP $1,500,000, depending on the amount of content",
+      "maintenance": "Optional, from COP $150,000/month",
+      "note": "Already have a website and want your business to handle enquiries on its own? An AI System solves that, not a new site.",
+      "cta": "I want my website"
+    },
+    "systems": {
+      "title": "AI Systems for your business",
+      "lead": "An agent trained on your business information, plus the automations it needs to handle enquiries and follow up without your team having to keep an eye on it. The price changes based on how complex the agent is:",
+      "items": {
+        "one": "How many channels it handles: WhatsApp only, or Instagram and chat on your website too",
+        "two": "Whether it books against your calendar's real availability, or only captures the details for your team to confirm",
+        "three": "Whether it can hand a conversation to a person with the full context, or only answer the basics",
+        "four": "How many processes it automates beyond answering: lead follow-up, reminders and reports"
+      },
+      "note": "Already have a website or landing page? We will assess with you whether it makes sense to integrate the agent directly there, based on your case."
+    },
     "one": {
-      "name": "Digital Presence + Essential Agent",
+      "name": "Essential Agent",
       "audience": "For businesses taking their first steps into digital.",
       "features": {
-        "one": "Website of up to 5 pages",
-        "two": "An agent that answers hours and prices and books simple appointments over WhatsApp",
+        "one": "A WhatsApp agent that answers hours, pricing and frequently asked questions",
+        "two": "Books simple appointments: it captures the details and your team confirms",
         "three": "Automatic notification whenever a new customer comes in"
       },
       "price": "From COP $1,500,000",
       "maintenance": "Maintenance from COP $200,000/month",
-      "delivery": "Delivered in 2 weeks"
+      "cta": "I want this system"
     },
     "two": {
-      "name": "Automation + Full Support",
-      "audience": "For businesses with real enquiry volume.",
+      "name": "Advanced Agent",
+      "audience": "For businesses with real daily enquiry volume.",
       "features": {
-        "one": "Website of up to 8 pages",
-        "two": "An agent that books appointments, answers more complex questions and hands over to a person when needed",
-        "three": "Automatic reminders, lead follow-up and a weekly report"
+        "one": "An agent that books appointments against your calendar's real availability",
+        "two": "Answers more complex questions and hands over to a person with the full context when needed",
+        "three": "Automatic follow-up for potential customers who did not reply",
+        "four": "Automatic appointment reminders and a weekly conversation report"
       },
       "price": "From COP $3,000,000",
       "maintenance": "Maintenance from COP $450,000/month",
-      "delivery": "Delivered in 3 to 4 weeks"
+      "cta": "I want this system"
     },
     "three": {
-      "name": "Growth Partner",
+      "name": "Multichannel Agent",
       "audience": "For businesses with several locations or a larger operation.",
       "features": {
-        "one": "Full website of up to 15 pages",
-        "two": "An agent available on WhatsApp, Instagram and your website",
-        "three": "Full automation of the support and follow-up process",
-        "four": "Monthly strategy session with your team"
+        "one": "Available on WhatsApp, Instagram and as chat on your current website, with the same context across all three channels",
+        "two": "Complete automation of the support, booking and follow-up process",
+        "three": "All your customer information organized in a single panel",
+        "four": "A monthly strategy session with your team"
       },
       "price": "From COP $6,000,000",
       "maintenance": "Maintenance from COP $900,000/month",
-      "delivery": "Delivered in 4 to 6 weeks",
-      "crossSell": "The monthly strategy session included can grow into a full Training Program for your team."
+      "cta": "I want this system"
     }
   },
   "savingsCalculator": {

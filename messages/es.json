@@ -159,30 +159,27 @@
   },
   "services": {
     "title": "Todo lo que Numi AI hace por tu negocio",
+    "lead": "Construimos sistemas de IA profesionales, hechos a la medida de tu negocio, no funciones sueltas ni plantillas genéricas.",
     "items": {
       "zero": {
         "title": "Diagnóstico personalizado de tu negocio",
         "body": "Revisamos por dónde llegan y por dónde se te pierden clientes hoy: tu web, tu WhatsApp, tus redes. Sales con un plan claro de qué corregir primero y qué esperar de cada cambio, antes de invertir un peso."
       },
       "one": {
-        "title": "Atención automática por WhatsApp",
-        "body": "Un asistente entrenado con tu negocio responde precios, horarios y dudas frecuentes en segundos, de día, de noche y en fines de semana. Cuando la consulta es seria, te la pasa con todo el contexto listo."
-      },
-      "two": {
-        "title": "Páginas de campaña que capturan al visitante",
-        "body": "Cada anuncio o promoción recibe su propia página: una promesa clara, la prueba que la respalda y un solo botón. Así el tráfico que ya estás pagando termina en una conversación y no en un inicio genérico."
+        "title": "Agente de IA para atención automática por WhatsApp",
+        "body": "Un agente de IA entrenado con tu negocio responde precios, horarios y dudas frecuentes en segundos, de día, de noche y en fines de semana. Cuando la consulta es seria, te la pasa con todo el contexto listo."
       },
       "three": {
         "title": "Seguimiento automático a clientes potenciales",
-        "body": "Quien preguntó y no volvió recibe un mensaje en el momento justo, retomando el hilo donde quedó. Recuperas ventas que hoy se enfrían en el chat sin que nadie tenga que perseguirlas."
+        "body": "Tu sistema de IA envía un mensaje en el momento justo a quien preguntó y no volvió, retomando el hilo donde quedó. Recuperas ventas que hoy se enfrían en el chat sin que nadie tenga que perseguirlas."
       },
       "four": {
         "title": "Sitios web profesionales que convierten visitas en clientes",
-        "body": "Diseñamos y programamos tu sitio completo: inicio, servicios, portafolio, preguntas frecuentes y un formulario que llega directo a tu WhatsApp. Carga rápido, se ve impecable en el celular y cada sección está escrita para que el visitante entienda, confíe y te escriba."
+        "body": "Diseñamos y programamos tu sitio completo: inicio, servicios, portafolio, preguntas frecuentes y un formulario que llega directo a tu WhatsApp. Lo puedes contratar solo, o como parte de un Sistema de IA si además quieres que tu negocio atienda solo. Carga rápido, se ve impecable en el celular y cada sección está escrita para que el visitante entienda, confíe y te escriba."
       },
       "five": {
         "title": "Organización de la información de tus clientes",
-        "body": "Cada conversación, contacto y dato queda registrado en un solo panel. Sabes de dónde vino cada cliente, qué pidió y en qué punto quedó, sin perseguir hojas de cálculo."
+        "body": "Tu sistema de IA registra cada conversación, contacto y dato en un solo panel. Sabes de dónde vino cada cliente, qué pidió y en qué punto quedó, sin perseguir hojas de cálculo."
       }
     },
     "carousel": {
@@ -261,49 +258,73 @@
     "title": "Elige cómo empezar",
     "lead": "Tres formas de empezar, según el tamaño de tu operación.",
     "badge": "Más elegido",
-    "cta": "Quiero este paquete",
     "noFit": {
       "title": "¿Ninguno encaja con tu caso?",
       "body": "No todos los negocios entran en un paquete. Cuéntanos cómo funciona el tuyo y armamos una propuesta a la medida de tu operación.",
       "cta": "Cuéntanos tu caso"
     },
+    "website": {
+      "name": "Sitio Web Profesional",
+      "audience": "Para negocios que necesitan presencia digital sólida antes de pensar en automatización.",
+      "features": {
+        "one": "Sitio de hasta 5 páginas: inicio, servicios, portafolio, preguntas frecuentes, contacto",
+        "two": "Diseño y textos hechos a la medida de tu negocio, no una plantilla genérica",
+        "three": "Formulario de contacto conectado directo a tu WhatsApp",
+        "four": "Optimizado para cargar rápido y verse bien en celular"
+      },
+      "price": "Desde COP $800.000 hasta COP $1.500.000, según la cantidad de contenido",
+      "maintenance": "Opcional, desde $150.000/mes",
+      "note": "¿Ya tienes web y quieres que tu negocio atienda solo? Eso lo resuelve un Sistema de IA, no un sitio nuevo.",
+      "cta": "Quiero mi sitio web"
+    },
+    "systems": {
+      "title": "Sistemas de IA para tu negocio",
+      "lead": "Un agente entrenado con la información de tu negocio, más las automatizaciones que necesita para atender y dar seguimiento sin que tu equipo tenga que estar pendiente. El precio cambia según qué tan complejo es el agente:",
+      "items": {
+        "one": "Cuántos canales atiende: solo WhatsApp, o también Instagram y chat en tu sitio",
+        "two": "Si agenda contra la disponibilidad real de tu calendario, o solo capta los datos para que tu equipo confirme",
+        "three": "Si puede derivar una conversación a una persona con el contexto completo, o solo responde lo básico",
+        "four": "Cuántos procesos automatiza además de responder: seguimiento a leads, recordatorios, reportes"
+      },
+      "note": "¿Ya tienes un sitio web o landing? Evaluamos contigo si conviene integrar el agente directamente ahí, según tu caso."
+    },
     "one": {
-      "name": "Presencia Digital + Agente Esencial",
+      "name": "Agente Esencial",
       "audience": "Para negocios que están empezando a digitalizarse.",
       "features": {
-        "one": "Sitio web de hasta 5 páginas",
-        "two": "Agente que responde horarios, precios y agenda citas simples por WhatsApp",
+        "one": "Agente de WhatsApp que responde horarios, precios y preguntas frecuentes",
+        "two": "Agenda citas simples: capta los datos, tu equipo confirma",
         "three": "Notificación automática cuando llega un cliente nuevo"
       },
       "price": "Desde COP $1.500.000",
       "maintenance": "Mantenimiento desde $200.000/mes",
-      "delivery": "Entrega en 2 semanas"
+      "cta": "Quiero este sistema"
     },
     "two": {
-      "name": "Automatización + Atención Full",
-      "audience": "Para negocios con volumen real de consultas.",
+      "name": "Agente Avanzado",
+      "audience": "Para negocios con volumen real de consultas diarias.",
       "features": {
-        "one": "Sitio web de hasta 8 páginas",
-        "two": "Agente que agenda citas, responde preguntas más complejas y deriva a una persona cuando lo necesita",
-        "three": "Recordatorios automáticos, seguimiento a clientes potenciales y reporte semanal"
+        "one": "Agente que agenda citas contra la disponibilidad real de tu calendario",
+        "two": "Responde preguntas más complejas y deriva a una persona con el contexto completo cuando hace falta",
+        "three": "Seguimiento automático a clientes potenciales que no respondieron",
+        "four": "Recordatorios automáticos de citas y reporte semanal de conversaciones"
       },
       "price": "Desde COP $3.000.000",
       "maintenance": "Mantenimiento desde $450.000/mes",
-      "delivery": "Entrega en 3 a 4 semanas"
+      "cta": "Quiero este sistema"
     },
     "three": {
-      "name": "Growth Partner",
+      "name": "Agente Multicanal",
       "audience": "Para negocios con varias sedes o una operación más grande.",
       "features": {
-        "one": "Sitio web completo de hasta 15 páginas",
-        "two": "Agente disponible en WhatsApp, Instagram y tu sitio web",
-        "three": "Automatización completa del proceso de atención y seguimiento",
+        "one": "Disponible en WhatsApp, Instagram y como chat en tu sitio web actual, con el mismo contexto en los tres canales",
+        "two": "Automatización completa del proceso de atención, agenda y seguimiento",
+        "three": "Toda la información de tus clientes organizada en un solo panel",
         "four": "Sesión estratégica mensual con tu equipo"
       },
       "price": "Desde COP $6.000.000",
       "maintenance": "Mantenimiento desde $900.000/mes",
-      "delivery": "Entrega en 4 a 6 semanas",
-      "crossSell": "La sesión estratégica mensual incluida puede evolucionar hacia un Programa de Capacitación para tu equipo."
+      "cta": "Quiero este sistema"
     }
   },
   "savingsCalculator": {

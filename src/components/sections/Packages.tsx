@@ -11,24 +11,22 @@ import { sectionIds } from '@/lib/site'
 import { cn } from '@/lib/utils'
 
 type PackageDefinition = {
-  key: PackageKey
+  key: PackageKey | 'website'
   featureKeys: readonly string[]
   featured: boolean
 }
 
 export const packages: readonly PackageDefinition[] = [
+  { key: 'website', featureKeys: ['one', 'two', 'three', 'four'], featured: false },
   { key: 'one', featureKeys: ['one', 'two', 'three'], featured: false },
-  { key: 'two', featureKeys: ['one', 'two', 'three'], featured: true },
+  { key: 'two', featureKeys: ['one', 'two', 'three', 'four'], featured: true },
   { key: 'three', featureKeys: ['one', 'two', 'three', 'four'], featured: false },
 ]
 
 /**
- * Three packages, one panel. Earlier this was three isolated cards with the
- * middle one elevated, bordered and badge-pinned — the single most recognizable
- * "AI-generated SaaS pricing table" pattern there is. All three now carry equal
- * visual weight, divided by hairlines like one comparison panel; the accent is
- * spent only on the two things a buyer actually compares — the price, and which
- * one most other clients pick — never on card chrome.
+ * The standalone website offer leads, followed by the three AI systems. The
+ * cards deliberately retain their shared visual language while the explanatory
+ * copy explains how each system differs.
  */
 export function Packages() {
   const t = useTranslations('packages')
@@ -46,8 +44,8 @@ export function Packages() {
 
       <Reveal delay={0.1} className="mt-14">
         <div className="overflow-hidden rounded-2xl border border-hairline bg-[color-mix(in_srgb,var(--color-primario)_88%,transparent)]">
-          <ul className="grid divide-y divide-hairline lg:grid-cols-3 lg:divide-x lg:divide-y-0">
-            {packages.map(({ key, featureKeys, featured }) => (
+          <ul className="divide-y divide-hairline">
+            {packages.slice(0, 1).map(({ key, featureKeys, featured }) => (
               <li key={key} className="flex flex-col p-7 sm:p-9">
                 <p
                   className={cn(
@@ -74,11 +72,9 @@ export function Packages() {
                   ))}
                 </ul>
 
-                {/* Aclaratoria, no un feature más — por eso vive fuera de la
-                    lista de bullets, sin ícono de check. */}
-                {key === 'three' ? (
+                {key === 'website' ? (
                   <p className="mt-3 text-[0.8125rem] leading-relaxed text-ink-faint">
-                    {t('three.crossSell')}
+                    {t('website.note')}
                   </p>
                 ) : null}
 
@@ -87,13 +83,72 @@ export function Packages() {
                     {t(`${key}.price`)}
                   </p>
                   <p className="mt-2 text-sm text-ink-faint">{t(`${key}.maintenance`)}</p>
-                  <p className="mt-1 text-sm text-ink-faint">{t(`${key}.delivery`)}</p>
+
+                  <Button asChild block size="lg" variant="outline" className="mt-8">
+                    <a href={`#${sectionIds.finalCta}`}>{t(`${key}.cta`)}</a>
+                  </Button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="mt-10 max-w-3xl">
+          <h3 className="text-xl font-semibold leading-snug tracking-[-0.025em]">
+            {t('systems.title')}
+          </h3>
+          <p className="mt-3 text-sm leading-relaxed text-ink-faint">{t('systems.lead')}</p>
+          <ul className="mt-4 flex flex-col gap-2 text-sm leading-relaxed text-ink-muted">
+            {['one', 'two', 'three', 'four'].map((item) => (
+              <li key={item} className="flex gap-3">
+                <span aria-hidden className="text-[var(--color-acento)]">—</span>
+                <span>{t(`systems.items.${item}`)}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-4 text-sm leading-relaxed text-ink-faint">{t('systems.note')}</p>
+        </div>
+
+        <div className="mt-8 overflow-hidden rounded-2xl border border-hairline bg-[color-mix(in_srgb,var(--color-primario)_88%,transparent)]">
+          <ul className="grid divide-y divide-hairline lg:grid-cols-3 lg:divide-x lg:divide-y-0">
+            {packages.slice(1).map(({ key, featureKeys, featured }) => (
+              <li key={key} className="flex flex-col p-7 sm:p-9">
+                <p
+                  className={cn(
+                    'type-eyebrow h-4',
+                    featured ? 'text-[var(--color-acento)]' : 'opacity-0',
+                  )}
+                >
+                  {featured ? t('badge') : '—'}
+                </p>
+
+                <h3 className="mt-3 text-xl font-semibold leading-snug tracking-[-0.025em]">
+                  {t(`${key}.name`)}
+                </h3>
+                <p className="mt-3 text-sm text-ink-faint">{t(`${key}.audience`)}</p>
+
+                <ul className="mt-8 flex flex-col gap-4">
+                  {featureKeys.map((featureKey) => (
+                    <li key={featureKey} className="flex gap-3">
+                      <Check aria-hidden className="mt-0.5 h-4 w-4 shrink-0 text-ink-faint" />
+                      <span className="text-[0.9375rem] leading-relaxed text-ink-muted">
+                        {t(`${key}.features.${featureKey}`)}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="mt-auto pt-10">
+                  <p className="type-figure text-2xl text-[var(--color-acento)] sm:text-[1.75rem]">
+                    {t(`${key}.price`)}
+                  </p>
+                  <p className="mt-2 text-sm text-ink-faint">{t(`${key}.maintenance`)}</p>
 
                   <PackageCtaLink
-                    packageKey={key}
+                    packageKey={key as PackageKey}
                     variant={featured ? 'primary' : 'outline'}
                   >
-                    {t('cta')}
+                    {t(`${key}.cta`)}
                   </PackageCtaLink>
                 </div>
               </li>

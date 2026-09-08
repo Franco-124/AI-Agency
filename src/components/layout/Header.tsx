@@ -29,7 +29,6 @@ const navItems = [
   { key: 'packages', id: sectionIds.packages },
   { key: 'process', id: sectionIds.process },
   { key: 'faq', id: sectionIds.faq },
-  { key: 'about', id: sectionIds.about },
 ] as const
 
 /** Every section id the nav can highlight, menu children included. */

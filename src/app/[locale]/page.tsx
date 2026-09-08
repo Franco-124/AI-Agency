@@ -5,7 +5,6 @@ import { Footer } from '@/components/layout/Footer'
 import { Header } from '@/components/layout/Header'
 import { ScrollProgress } from '@/components/layout/ScrollProgress'
 import { WhatsAppFab } from '@/components/layout/WhatsAppFab'
-import { About } from '@/components/sections/About'
 import { Advisory } from '@/components/sections/Advisory'
 import { Benefits } from '@/components/sections/Benefits'
 import { Faq } from '@/components/sections/Faq'
@@ -108,7 +107,6 @@ export default async function HomePage({ params }: PageProps) {
         <Packages />
         <Advisory />
         <Integrations />
-        <About />
         <Faq />
         <FinalCta />
       </main>
