@@ -162,7 +162,17 @@ export function Header() {
     */
     <header
       className={cn(
-        'fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow,backdrop-filter] duration-300',
+        /*
+           `backdrop-filter` is deliberately NOT in the transition list.
+
+           Animating it makes the compositor re-run the blur over everything
+           behind the header on every frame of the 300ms transition, and it
+           fires on the first scroll — exactly when the browser is already
+           busiest. The colour and shadow still cross-fade, which is all the
+           eye reads; the blur simply switches on, and under a fading
+           background that is invisible.
+        */
+        'fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow] duration-300',
         isMenuOpen && 'bg-[var(--surface-base)]',
         !isMenuOpen &&
           isScrolled &&

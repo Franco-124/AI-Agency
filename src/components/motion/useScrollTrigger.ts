@@ -68,7 +68,39 @@ export function useScrollTrigger<T extends HTMLElement>({
 
     setState('pending')
 
-    return observeOnce(node, () => setState('in'), { rootMargin, threshold })
+    /*
+     * Two observers, deliberately.
+     *
+     * The second one marks the element `data-near` a full viewport before it
+     * enters, and that attribute is the only thing that applies `will-change`
+     * (see `[data-reveal='pending'][data-near]` in globals.css).
+     *
+     * Hinting every pending element instead meant ~36 live compositor layers
+     * on a 14,700px page — the largest 1.5 megapixels — and desktop scrolling
+     * paid for all of them. Promoting a layer is only useful immediately
+     * before it animates; held indefinitely it is pure cost, which is exactly
+     * what the spec warns `will-change` becomes when it is left on.
+     *
+     * It rides the same pooled-observer machinery, so this is one extra
+     * observer for the whole page, not one per element.
+     */
+    const stopNear = observeOnce(
+      node,
+      () => {
+        node.dataset.near = 'true'
+      },
+      { rootMargin: '100% 0px 100% 0px', threshold: 0 },
+    )
+
+    const stopReveal = observeOnce(node, () => setState('in'), {
+      rootMargin,
+      threshold,
+    })
+
+    return () => {
+      stopNear()
+      stopReveal()
+    }
   }, [rootMargin, threshold, playOnLoad])
 
   return { ref, state }

@@ -1,7 +1,7 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { cn } from '@/lib/utils'
 
@@ -16,10 +16,13 @@ const TIMINGS = {
    * sentence keeps them reading as one phrase being uncovered; the 260ms
    * before the resolution is the beat the pivot needs to land.
    */
-  lineOne: 240,
-  lineTwo: 400,
-  lineThree: 660,
-  brand: 1080,
+  lineOne: 220,
+  lineTwo: 370,
+  /* A longer gap here: lines three and four are the second claim, and the
+     pause is what keeps the two from reading as one four-line block. */
+  lineThree: 640,
+  lineFour: 790,
+  brand: 1180,
   /** How long the finished frame is allowed to sit before it leaves. */
   hold: 700,
   /** The wipe itself. */
@@ -163,20 +166,24 @@ export function IntroCurtain() {
   const t = useTranslations('intro')
   const [leaving, setLeaving] = useState(false)
   const [gone, setGone] = useState(false)
-  const timersRef = useRef<number[]>([])
 
   /*
    * Locks the page while the curtain is up. Scrolling underneath an overlay
    * the visitor cannot see past is disorienting, and a stray scroll would
    * leave them somewhere they did not choose once it lifts.
    *
-   * Both effects check the gate's verdict rather than tracking it in state.
+   * `gone` is in the dependency list, and that is load-bearing: when the
+   * curtain finishes it returns `null` but the component stays mounted, so a
+   * cleanup that only ran on unmount never ran at all and the page was left
+   * permanently unscrollable. Re-running the effect on `gone` is what
+   * releases the lock at the moment the curtain actually leaves.
+   *
+   * Both effects read the gate's verdict rather than tracking it in state.
    * The CSS already hides the curtain for a skipped visit, so there is
-   * nothing to re-render — these only need to know whether to run at all,
-   * and reading the attribute directly avoids a throwaway render.
+   * nothing to re-render — they only need to know whether to run at all.
    */
   useEffect(() => {
-    if (!isPlaying()) return
+    if (!isPlaying() || gone) return
 
     const previous = document.body.style.overflow
     document.body.style.overflow = 'hidden'
@@ -184,32 +191,48 @@ export function IntroCurtain() {
     return () => {
       document.body.style.overflow = previous
     }
-  }, [])
+  }, [gone])
 
+  /*
+   * Starts the exit: the auto-advance timer, plus every obvious way to skip.
+   *
+   * Deliberately depends on nothing but `leaving`. An earlier version also
+   * depended on it *and* scheduled the "now remove yourself" timer from
+   * inside `dismiss` — so calling `dismiss` re-ran the effect, whose cleanup
+   * cleared every timer including the one it had just set. The curtain then
+   * sat in its leaving state forever, holding the scroll lock with it. The
+   * two timers are separate concerns and now live in separate effects.
+   */
   useEffect(() => {
     if (gone || leaving || !isPlaying()) return
 
-    const dismiss = () => {
-      setLeaving(true)
-      timersRef.current.push(window.setTimeout(() => setGone(true), TIMINGS.exit))
-    }
+    const dismiss = () => setLeaving(true)
 
-    // Auto-advance, plus every obvious way to say "skip".
-    timersRef.current.push(window.setTimeout(dismiss, AUTO_DISMISS))
+    const timer = window.setTimeout(dismiss, AUTO_DISMISS)
     window.addEventListener('pointerdown', dismiss, { once: true })
     window.addEventListener('keydown', dismiss, { once: true })
     window.addEventListener('wheel', dismiss, { once: true, passive: true })
     window.addEventListener('touchstart', dismiss, { once: true, passive: true })
 
     return () => {
-      timersRef.current.forEach(window.clearTimeout)
-      timersRef.current = []
+      window.clearTimeout(timer)
       window.removeEventListener('pointerdown', dismiss)
       window.removeEventListener('keydown', dismiss)
       window.removeEventListener('wheel', dismiss)
       window.removeEventListener('touchstart', dismiss)
     }
   }, [gone, leaving])
+
+  /*
+   * Removes the curtain once the wipe has played out. Separate from the
+   * effect above so that starting the exit cannot cancel the removal.
+   */
+  useEffect(() => {
+    if (!leaving || gone) return
+
+    const timer = window.setTimeout(() => setGone(true), TIMINGS.exit)
+    return () => window.clearTimeout(timer)
+  }, [leaving, gone])
 
   if (gone) return null
 
@@ -288,9 +311,10 @@ export function IntroCurtain() {
               <Line delay={TIMINGS.lineOne}>{t('lineOne')}</Line>
               <Line delay={TIMINGS.lineTwo}>{t('lineTwo')}</Line>
               {/*
-                The resolution carries the accent. It is the half of the
-                statement the visitor is meant to leave with, and colouring it
-                is what marks the pivot the line turns on.
+                The second claim carries the accent. It is the half the
+                visitor is meant to leave with — the first says what stops
+                costing them, this says what they gain — so colour marks
+                where the statement turns.
               */}
               <Line
                 delay={TIMINGS.lineThree}
@@ -298,13 +322,25 @@ export function IntroCurtain() {
               >
                 {t('lineThree')}
               </Line>
+              <Line
+                delay={TIMINGS.lineFour}
+                className="text-[var(--accent-text)]"
+              >
+                {t('lineFour')}
+              </Line>
             </p>
 
             {/* The signature, last and smallest — the statement earns the name
                 rather than the name introducing the statement. */}
             <span className="mt-8 block sm:mt-10">
               <Line delay={TIMINGS.brand}>
-                <span className="type-eyebrow text-[var(--text-muted)]">
+                {/*
+                  Set larger than the site's `type-eyebrow` (12px): this is
+                  the brand signing the statement, and at eyebrow scale it
+                  read as a caption rather than as a name. Tracking stays
+                  wide, which is what keeps it reading as a mark.
+                */}
+                <span className="font-display text-[0.9375rem] font-semibold uppercase tracking-[0.14em] text-[var(--text-secondary)] sm:text-[1.0625rem]">
                   {t('brand')}
                 </span>
               </Line>

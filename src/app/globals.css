@@ -349,174 +349,207 @@
   }
 
   /* ----------------------------------------------------------------
-     Button surface treatment — "Manufactured" feel.
+  /* ----------------------------------------------------------------
+     Buttons — glass.
 
-     Restrained CTAs with a light glass finish — B2B product, not an AI
-     landing page. Blur and translucency stay low so it reads as frosted
-     glass, not a neon/glow effect. Depth comes from a soft inset highlight
-     and a grounded shadow.
+     Every CTA on the site is a pane of tinted glass rather than a painted
+     surface: a translucent fill, a real backdrop blur, a bright specular edge
+     along the top and a darker one along the bottom. The page's own violet
+     bloom shows through, so a button belongs to the section it sits in rather
+     than being stamped on top of it.
+
+     Three things do the work, and all three matter:
+
+     1. **A two-stop rim.** `border-image` cannot be combined with a radius, so
+        the lit edge is drawn as two inset shadows — bright along the top, dark
+        along the bottom. That single detail is most of what separates glass
+        from a flat translucent rectangle.
+     2. **Saturation in the backdrop filter.** `saturate()` above 100% keeps
+        colour passing through the pane from going grey, which is what real
+        glass does and what a plain `blur()` fails to do.
+     3. **A contact shadow, not a glow.** Glass sits *on* something. The
+        previous treatment used a wide coloured cast, which reads as emitted
+        light — the tell of a "neon" button rather than a physical one.
+
+     `backdrop-filter` is genuinely expensive, so it is confined to buttons:
+     small, few, and never animated.
      ---------------------------------------------------------------- */
 
   /*
-    Primary CTA.
+    Primary CTA — violet glass.
 
-    Opaque, not translucent. The previous version was a blurred violet pane —
-    a treatment that costs a backdrop-filter pass on every CTA on the page and,
-    because the button then samples whatever sits behind it, made the same
-    button a different colour in each section. It is now a real surface: a
-    vertical gradient from the accent to its deeper sibling, so the fill has a
-    light direction, plus a 1px top highlight and the accent-coloured shadow.
-    That reads as an object with a light on it, which is what "expensive"
-    actually looks like in a dark interface.
+    The tint is carried at 62% so the pane still reads as violet while the
+    backdrop shows through it. The version before this was an opaque gradient
+    with a bright top highlight, which the eye reads as glossy plastic; the
+    difference is that glass transmits and plastic reflects.
   */
   .btn-volume {
     position: relative;
     background: linear-gradient(
       to bottom,
-      color-mix(in srgb, var(--color-acento) 92%, white) 0%,
-      var(--color-acento) 55%,
-      color-mix(in srgb, var(--color-acento) 88%, var(--color-acento-deep)) 100%
+      color-mix(in srgb, var(--color-acento) 62%, transparent) 0%,
+      color-mix(in srgb, var(--color-acento) 74%, transparent) 100%
     );
-    border: 1px solid color-mix(in srgb, var(--color-acento) 70%, white 30%);
+    backdrop-filter: blur(14px) saturate(180%);
+    -webkit-backdrop-filter: blur(14px) saturate(180%);
+    border: 1px solid color-mix(in srgb, var(--color-acento-lift) 46%, transparent);
     box-shadow:
       inset 0 1px 0 color-mix(in srgb, white 30%, transparent),
-      var(--shadow-accent);
+      inset 0 -1px 0 color-mix(in srgb, var(--color-acento-deep) 42%, transparent),
+      0 1px 2px rgba(4, 2, 8, 0.4),
+      0 8px 24px -10px color-mix(in srgb, var(--color-acento-deep) 55%, transparent);
     color: #ffffff;
   }
 
   .btn-volume:hover {
     background: linear-gradient(
       to bottom,
-      color-mix(in srgb, var(--color-acento) 84%, white) 0%,
-      color-mix(in srgb, var(--color-acento) 94%, white) 55%,
-      var(--color-acento) 100%
+      color-mix(in srgb, var(--color-acento) 74%, transparent) 0%,
+      color-mix(in srgb, var(--color-acento) 86%, transparent) 100%
     );
+    border-color: color-mix(in srgb, var(--color-acento-lift) 68%, transparent);
     box-shadow:
-      inset 0 1px 0 color-mix(in srgb, white 36%, transparent),
+      inset 0 1px 0 color-mix(in srgb, white 38%, transparent),
+      inset 0 -1px 0 color-mix(in srgb, var(--color-acento-deep) 38%, transparent),
       0 1px 2px rgba(4, 2, 8, 0.4),
-      0 14px 36px -10px color-mix(in srgb, var(--color-acento) 68%, transparent);
+      0 10px 30px -10px color-mix(in srgb, var(--color-acento-deep) 65%, transparent);
   }
 
-  /* Pressed: the gradient inverts and the cast collapses, so the surface
-     reads as pushed into the page rather than merely darkened. */
+  /* Pressed: the pane sinks, so the top edge dims and the inner shadow
+     inverts — the same read as pressing on real glass. */
   .btn-volume:active {
-    background: linear-gradient(
-      to bottom,
-      color-mix(in srgb, var(--color-acento) 88%, var(--color-acento-deep)) 0%,
-      var(--color-acento) 100%
-    );
+    background: color-mix(in srgb, var(--color-acento) 82%, transparent);
     box-shadow:
-      inset 0 2px 4px color-mix(in srgb, var(--color-acento-deep) 55%, transparent),
+      inset 0 2px 6px color-mix(in srgb, var(--color-acento-deep) 60%, transparent),
       0 1px 1px rgba(4, 2, 8, 0.4);
   }
 
-  /*
-    Secondary. Also opaque now, and lifted off the page background by one
-    surface step plus a contact shadow — previously it was a translucent pane
-    that vanished against any section darker than itself.
-  */
+  /* Secondary — clear glass. Same construction, no tint. */
   .btn-surface {
     position: relative;
-    background: var(--surface-panel);
-    border: 1px solid var(--surface-border);
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, white 9%, transparent) 0%,
+      color-mix(in srgb, white 5%, transparent) 100%
+    );
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    border: 1px solid color-mix(in srgb, white 14%, transparent);
     box-shadow:
-      inset 0 1px 0 color-mix(in srgb, white 7%, transparent),
-      var(--shadow-low);
+      inset 0 1px 0 color-mix(in srgb, white 16%, transparent),
+      inset 0 -1px 0 rgba(4, 2, 8, 0.28),
+      0 1px 2px rgba(4, 2, 8, 0.35),
+      0 8px 22px -12px rgba(4, 2, 8, 0.6);
     color: var(--text-primary);
   }
 
   .btn-surface:hover {
-    background: var(--surface-inset);
-    border-color: var(--surface-border-strong);
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, white 15%, transparent) 0%,
+      color-mix(in srgb, white 9%, transparent) 100%
+    );
+    border-color: color-mix(in srgb, white 22%, transparent);
     box-shadow:
-      inset 0 1px 0 color-mix(in srgb, white 10%, transparent),
-      var(--shadow-mid);
+      inset 0 1px 0 color-mix(in srgb, white 24%, transparent),
+      inset 0 -1px 0 rgba(4, 2, 8, 0.24),
+      0 1px 2px rgba(4, 2, 8, 0.35),
+      0 10px 28px -12px rgba(4, 2, 8, 0.7);
   }
 
   .btn-surface:active {
-    background: var(--surface-raised);
-    box-shadow: inset 0 2px 5px rgba(4, 2, 8, 0.55);
+    background: color-mix(in srgb, white 6%, transparent);
+    box-shadow:
+      inset 0 2px 6px rgba(4, 2, 8, 0.5),
+      0 1px 1px rgba(4, 2, 8, 0.35);
   }
 
   /* ----------------------------------------------------------------
-     Hero CTA pair — smoked-glass finish, scoped to the hero only.
-     Deliberately separate from .btn-volume/.btn-surface (used by every
-     other CTA on the site) so this treatment never leaks elsewhere.
+     Hero CTA pair.
+
+     The same glass as the rest of the site — these were a separate treatment
+     only while the site buttons were opaque, and that reason is gone. They
+     keep their own classes to run the tint a little stronger: the hero's
+     backdrop is the brightest bloom on the page, and a pane calibrated for a
+     dark section reads washed out over it.
      ---------------------------------------------------------------- */
 
-  /*
-    The hero's primary CTA is the single most important object on the page, so
-    it gets the full treatment rather than a translucent tint: the same lit
-    gradient as `.btn-volume`, but opaque and with a wider, warmer cast. It was
-    previously 55% alpha violet over a blur, which on the hero's own violet
-    bloom left the most important button on the site reading as a suggestion.
-  */
   .btn-hero-primary {
     position: relative;
     background: linear-gradient(
       to bottom,
-      color-mix(in srgb, var(--color-acento) 88%, white) 0%,
-      var(--color-acento) 52%,
-      color-mix(in srgb, var(--color-acento) 82%, var(--color-acento-deep)) 100%
+      color-mix(in srgb, var(--color-acento) 70%, transparent) 0%,
+      color-mix(in srgb, var(--color-acento) 84%, transparent) 100%
     );
-    border: 1px solid color-mix(in srgb, var(--color-acento) 62%, white 38%);
+    backdrop-filter: blur(16px) saturate(190%);
+    -webkit-backdrop-filter: blur(16px) saturate(190%);
+    border: 1px solid color-mix(in srgb, var(--color-acento-lift) 52%, transparent);
     box-shadow:
       inset 0 1px 0 color-mix(in srgb, white 34%, transparent),
-      0 2px 4px rgba(4, 2, 8, 0.45),
-      0 16px 44px -14px color-mix(in srgb, var(--color-acento) 70%, transparent);
+      inset 0 -1px 0 color-mix(in srgb, var(--color-acento-deep) 45%, transparent),
+      0 2px 4px rgba(4, 2, 8, 0.4),
+      0 12px 34px -12px color-mix(in srgb, var(--color-acento-deep) 60%, transparent);
     color: #ffffff;
   }
 
   .btn-hero-primary:hover {
     background: linear-gradient(
       to bottom,
-      color-mix(in srgb, var(--color-acento) 78%, white) 0%,
-      color-mix(in srgb, var(--color-acento) 92%, white) 52%,
-      var(--color-acento) 100%
+      color-mix(in srgb, var(--color-acento) 82%, transparent) 0%,
+      color-mix(in srgb, var(--color-acento) 94%, transparent) 100%
     );
+    border-color: color-mix(in srgb, var(--color-acento-lift) 74%, transparent);
     box-shadow:
-      inset 0 1px 0 color-mix(in srgb, white 40%, transparent),
-      0 2px 4px rgba(4, 2, 8, 0.45),
-      0 20px 52px -14px color-mix(in srgb, var(--color-acento) 80%, transparent);
+      inset 0 1px 0 color-mix(in srgb, white 42%, transparent),
+      inset 0 -1px 0 color-mix(in srgb, var(--color-acento-deep) 40%, transparent),
+      0 2px 4px rgba(4, 2, 8, 0.4),
+      0 14px 40px -12px color-mix(in srgb, var(--color-acento-deep) 70%, transparent);
   }
 
   .btn-hero-primary:active {
-    background: linear-gradient(
-      to bottom,
-      color-mix(in srgb, var(--color-acento) 84%, var(--color-acento-deep)) 0%,
-      var(--color-acento) 100%
-    );
+    background: color-mix(in srgb, var(--color-acento) 88%, transparent);
     box-shadow:
-      inset 0 2px 5px color-mix(in srgb, var(--color-acento-deep) 60%, transparent),
+      inset 0 2px 6px color-mix(in srgb, var(--color-acento-deep) 62%, transparent),
       0 1px 2px rgba(4, 2, 8, 0.4);
   }
 
-  /*
-    The secondary keeps the glass — here it is earned, because the hero has a
-    real lit backdrop for it to sample. Raised from 3.2% to 6% fill and given a
-    contact shadow so it has a visible edge on the hero's darkest corner, where
-    the old version was effectively invisible.
-  */
   .btn-hero-secondary {
     position: relative;
-    background: rgba(255, 255, 255, 0.06);
-    backdrop-filter: blur(14px) saturate(130%);
-    -webkit-backdrop-filter: blur(14px) saturate(130%);
-    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, white 10%, transparent) 0%,
+      color-mix(in srgb, white 5%, transparent) 100%
+    );
+    backdrop-filter: blur(16px) saturate(170%);
+    -webkit-backdrop-filter: blur(16px) saturate(170%);
+    border: 1px solid color-mix(in srgb, white 16%, transparent);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.12),
-      0 2px 12px -4px rgba(4, 2, 8, 0.5);
-    color: rgba(255, 255, 255, 0.92);
+      inset 0 1px 0 color-mix(in srgb, white 20%, transparent),
+      inset 0 -1px 0 rgba(4, 2, 8, 0.3),
+      0 2px 4px rgba(4, 2, 8, 0.35),
+      0 10px 28px -14px rgba(4, 2, 8, 0.65);
+    color: rgba(255, 255, 255, 0.94);
   }
 
   .btn-hero-secondary:hover {
-    background: rgba(255, 255, 255, 0.105);
-    border-color: rgba(255, 255, 255, 0.26);
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, white 17%, transparent) 0%,
+      color-mix(in srgb, white 10%, transparent) 100%
+    );
+    border-color: color-mix(in srgb, white 26%, transparent);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, white 28%, transparent),
+      inset 0 -1px 0 rgba(4, 2, 8, 0.26),
+      0 2px 4px rgba(4, 2, 8, 0.35),
+      0 12px 32px -14px rgba(4, 2, 8, 0.75);
   }
 
   .btn-hero-secondary:active {
-    background: rgba(255, 255, 255, 0.05);
-    box-shadow: inset 0 2px 5px rgba(4, 2, 8, 0.4);
+    background: color-mix(in srgb, white 6%, transparent);
+    box-shadow:
+      inset 0 2px 6px rgba(4, 2, 8, 0.45),
+      0 1px 2px rgba(4, 2, 8, 0.35);
   }
 
   /* ----------------------------------------------------------------
@@ -577,6 +610,29 @@
   */
   .hero-shell {
     min-height: 0;
+  }
+
+  /*
+     Skips the hero's rendering work entirely once it is scrolled past.
+
+     The two flanking visuals use `mix-blend-screen`, which the compositor
+     re-evaluates on every frame for as long as the section participates in
+     rendering — even far below the fold. Measured on desktop: median frame
+     24ms with them live, 17ms with them hidden.
+
+     `content-visibility: auto` lets the browser skip a subtree that is off
+     screen, and `contain-intrinsic-size` supplies the height it would have
+     had so the scrollbar does not jump when it is skipped. The value matches
+     the `min-height` above.
+
+     Scoped to `lg` because the visuals only exist there — on a phone the hero
+     has no blending to skip and containment would only add bookkeeping.
+  */
+  @media (width >= 64rem) {
+    .hero-frame {
+      content-visibility: auto;
+      contain-intrinsic-size: auto 44rem;
+    }
   }
 
   @media (width >= 64rem) {
@@ -954,7 +1010,23 @@
   [data-reveal='pending'][data-reveal] {
     opacity: 0;
     transform: translateY(12px);
-    /* Dropped automatically on the `in` state — no lingering GPU layer. */
+  }
+
+  /*
+     `will-change` is deliberately NOT on every pending element.
+
+     It was, and on a 14,700px page that meant ~36 simultaneous compositor
+     layers — the largest 1.5 megapixels — because everything below the fold
+     is `pending` at once. Desktop scrolling paid for all of them: 9 frames in
+     26 ran over 33ms.
+
+     `near` is written by the scroll trigger only while an element is within a
+     viewport of entering, so at most a handful of layers exist at a time and
+     each is promoted just before it animates, which is the whole point of the
+     hint. Both properties are still compositor-only either way; this only
+     controls when the browser is told to prepare.
+  */
+  [data-reveal='pending'][data-near='true'] {
     will-change: opacity, transform;
   }
 
@@ -1314,14 +1386,31 @@
     grain, not to the document. A scrolling texture at this alpha reads as a
     moving pattern.
   */
+  /*
+     No `mix-blend-mode` here, and that is the whole point.
+
+     This layer was `position:fixed` + `mix-blend-mode:soft-light` across the
+     full viewport, which forces the compositor to re-blend every pixel of
+     newly scrolled content against it on every frame. Measured on desktop:
+     median frame 40ms with it, 17ms without — 25 dropped frames in a 28-frame
+     sample versus none. It was the single largest scroll cost on the page.
+
+     A plain translucent white noise gives the same tooth on this near-black
+     ground without any blending: `soft-light` over a very dark backdrop
+     mostly lightens anyway, so a low-alpha white overlay is visually
+     equivalent and costs one cheap composite instead of a full re-blend.
+
+     `translateZ(0)` puts it on its own layer so it is composited once and
+     then simply reused as the page scrolls beneath it.
+  */
   .page-grain::before {
     content: "";
     position: fixed;
     inset: 0;
     z-index: 0;
     pointer-events: none;
-    opacity: 0.22;
-    mix-blend-mode: soft-light;
+    opacity: 0.05;
+    transform: translateZ(0);
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
   }
 }

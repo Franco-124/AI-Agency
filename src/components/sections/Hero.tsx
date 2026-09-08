@@ -218,7 +218,14 @@ export function Hero() {
           competing for the eye. From `sm` up it becomes the standard eyebrow.
         */}
         <p
-          className="hero-rise flex max-w-[26rem] items-start gap-2.5 text-[0.75rem] font-medium leading-[1.5] text-[var(--text-muted)] sm:type-eyebrow sm:max-w-none sm:items-center"
+          /*
+            `lg:text-[0.8125rem]` nudges this up on desktop only. The shared
+            `.type-eyebrow` token stays at 12px because every section heading
+            on the page uses it and they should not all grow — but the hero's
+            is the site's positioning line, carried alone above a 40px+
+            headline, where 12px reads as fine print rather than as a label.
+          */
+          className="hero-rise flex max-w-[26rem] items-start gap-2.5 text-[0.75rem] font-medium leading-[1.5] text-[var(--text-muted)] sm:type-eyebrow sm:max-w-none sm:items-center lg:text-[0.8125rem] lg:tracking-[0.12em]"
           style={{ '--hero-delay': '0.05s' } as CSSProperties}
         >
           <span
