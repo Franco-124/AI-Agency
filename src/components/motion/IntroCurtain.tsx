@@ -17,14 +17,20 @@ const TIMINGS = {
    * before the resolution is the beat the pivot needs to land.
    */
   lineOne: 220,
-  lineTwo: 370,
+  lineTwo: 400,
   /* A longer gap here: lines three and four are the second claim, and the
      pause is what keeps the two from reading as one four-line block. */
-  lineThree: 640,
-  lineFour: 790,
-  brand: 1180,
-  /** How long the finished frame is allowed to sit before it leaves. */
-  hold: 700,
+  lineThree: 780,
+  lineFour: 960,
+  brand: 1480,
+  /*
+     How long the finished frame is allowed to sit before it leaves.
+     Deliberately the largest share of the extra second the sequence was
+     lengthened by: stretching the stagger instead would slow the arrivals
+     themselves, and a line that takes longer to appear reads as sluggish
+     rather than as deliberate, while a longer hold reads as composure.
+  */
+  hold: 1400,
   /** The wipe itself. */
   exit: 760,
 } as const

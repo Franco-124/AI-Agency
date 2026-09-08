@@ -694,7 +694,22 @@
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
-      animation: wordmark-sheen 7s var(--ease-entrance) infinite;
+      /*
+         Three passes, then it stops — it was `infinite`.
+
+         `background-clip: text` means every frame of the sheen repaints the
+         glyphs and re-clips the gradient to their outlines, and the header is
+         `position: fixed`, so that repaint kept a layer live for the entire
+         visit no matter where the visitor had scrolled to. The mark is on
+         screen the whole time; the shine only has to say the logo is lit,
+         which it has finished saying well before the visitor is past the
+         hero. Hover replays it, so the affordance survives.
+      */
+      animation: wordmark-sheen 7s var(--ease-entrance) 3;
+    }
+
+    .group:hover .wordmark {
+      animation: wordmark-sheen 2.4s var(--ease-entrance) 1;
     }
   }
 
@@ -732,8 +747,12 @@
     );
     opacity: 0.35;
     /* Transform only in the keyframes: opacity is left to hover, which an
-       animated opacity would otherwise always win over. */
-    animation: mark-pulse 4.5s ease-in-out infinite;
+       animated opacity would otherwise always win over.
+
+       Bounded for the same reason as the sheen above: this sits in a fixed
+       header, so `infinite` meant a permanently animating layer pinned over
+       the page for every frame the visitor ever scrolled. */
+    animation: mark-pulse 4.5s ease-in-out 4;
     transition: opacity 320ms var(--ease-entrance);
   }
 
@@ -902,10 +921,17 @@
     animation: intro-grid 6s ease-out both;
   }
 
+  /*
+     No `mix-blend-mode` here, unlike the page's own `.grain`. A blended
+     full-screen layer makes the compositor re-read everything painted
+     beneath it on every frame, and beneath this one sit the bloom, the grid
+     and four animating lines — the one moment on the page where that cost is
+     highest. A flat low-opacity overlay reads the same over a near-black
+     ground and composites for free.
+  */
   .intro-grain {
     pointer-events: none;
-    opacity: 0.4;
-    mix-blend-mode: soft-light;
+    opacity: 0.22;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
   }
 
@@ -1057,6 +1083,22 @@
     animation: soft-float 7s ease-in-out infinite;
   }
 
+  /*
+     Everything ambient in the hero stops once the hero is off screen.
+
+     The side visuals carry `mix-blend-screen`, which is the most expensive
+     thing on the page per frame: a blended layer forces the compositor to
+     re-read what is painted beneath it, and an infinite float meant that read
+     happened 60 times a second for the entire visit — including while the
+     visitor was ten sections further down and could not see it. The attribute
+     is written by `HeroMotion` from the observer the particle field already
+     uses, so this costs no extra observer.
+  */
+  [data-hero-motion='paused'] .soft-float,
+  [data-hero-motion='paused'] .particle {
+    animation-play-state: paused;
+  }
+
   /* ----------------------------------------------------------------
      Hero particle field. Transform and opacity only, so the whole
      field stays on the compositor. Negative delays start each particle
@@ -1075,10 +1117,6 @@
     );
     animation: particle-drift var(--particle-duration, 45s) linear infinite;
     animation-delay: var(--particle-delay, 0s);
-  }
-
-  .particles-paused .particle {
-    animation-play-state: paused;
   }
 
   /* ----------------------------------------------------------------
@@ -1184,23 +1222,23 @@
   110% rather than 100%: at 100% the tails of "p" and "g" stay visible below
   the mask as a row of fragments.
 
-  The blur clears at 55%, earlier than the travel finishes, so it reads as
-  focus being pulled rather than as a blurred element sliding into place.
+  Transform and opacity only. An earlier version also animated `filter:
+  blur(6px)` to 0 across the rise, which is not a compositor-only property:
+  every frame of every line forced a repaint of the text plus a blur pass,
+  and it ran while the hero underneath was still painting. The masked rise
+  already carries the effect on its own.
 */
 @keyframes intro-line {
   0% {
     opacity: 0;
     transform: translateY(110%);
-    filter: blur(6px);
   }
   55% {
     opacity: 1;
-    filter: blur(0);
   }
   100% {
     opacity: 1;
     transform: translateY(0);
-    filter: blur(0);
   }
 }
 

@@ -1,9 +1,9 @@
 'use client'
 
-import { useInView, useReducedMotion } from 'motion/react'
-import { useRef, type CSSProperties } from 'react'
+import { useEffect, type CSSProperties } from 'react'
 
-import { cn } from '@/lib/utils'
+import { prefersReducedMotion } from '@/lib/motion'
+import { sectionIds } from '@/lib/site'
 
 /**
  * Ambient hero motion: a slow particle field only. An earlier version also
@@ -52,28 +52,73 @@ const particles: readonly Particle[] = [
   { left: 90, top: 40, size: 5, duration: 45, delay: 38, drift: -12, opacity: 0.36 },
 ]
 
-export function HeroBackdrop() {
-  const prefersReducedMotion = useReducedMotion()
-  const ref = useRef<HTMLDivElement>(null)
-  /*
-   * Paused once the hero leaves the viewport. Left running, eighteen elements
-   * would keep the compositor busy for the whole visit while the visitor reads
-   * a section ten screens further down — battery spent on nothing anyone sees.
-   */
-  const isInView = useInView(ref, { amount: 0.05 })
+/**
+ * Pauses every ambient animation in the hero while the hero is off screen.
+ *
+ * The verdict is written as `data-hero-motion` on the hero `<section>` — this
+ * component's own ancestor — rather than on a wrapper here, because the two
+ * `mix-blend-screen` side visuals are siblings of this layer and they, not the
+ * particles, are the expensive half. A blended layer forces the compositor to
+ * re-read what is painted beneath it every frame, and `soft-float` is
+ * `infinite`, so that read went on for the whole visit while the visitor was
+ * reading a section ten screens away.
+ *
+ * Three deliberate choices:
+ *
+ * - **A raw IntersectionObserver, not `useInView`.** The hook stores the
+ *   verdict in React state, so every enter and leave re-renders the eighteen
+ *   particle spans. Nothing about them depends on it — only a CSS attribute
+ *   does — so the render is pure waste.
+ * - **Written straight to the DOM**, for the same reason.
+ * - **Not `observeOnce`**, which is one-shot by contract; this one has to keep
+ *   reporting both directions.
+ * - **Resolved by `id`, not by a ref on this component's own tree.** The gate
+ *   has to keep working when the particle field itself renders nothing —
+ *   under reduced motion this component returns `null`, so a ref would never
+ *   be attached and the side visuals would be left running. They are the
+ *   expensive half, so the gate must not depend on the cheap half existing.
+ */
+function useHeroMotionGate() {
+  useEffect(() => {
+    const section = document.getElementById(sectionIds.hero)
 
-  if (prefersReducedMotion) {
+    if (!section || typeof IntersectionObserver === 'undefined') return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        section.dataset.heroMotion = entry?.isIntersecting ? 'running' : 'paused'
+      },
+      { threshold: 0 },
+    )
+
+    observer.observe(section)
+
+    return () => {
+      observer.disconnect()
+      delete section.dataset.heroMotion
+    }
+  }, [])
+}
+
+export function HeroBackdrop() {
+  useHeroMotionGate()
+
+  /*
+   * Read straight from `matchMedia` rather than through a subscribing hook.
+   * This component is `ssr: false` and mounted after hydration, so there is no
+   * server render to keep in step, and a visitor does not flip this setting
+   * mid-visit often enough to be worth a re-render path.
+   *
+   * The gate above runs either way — see its note on why it does not hang off
+   * a ref in this tree.
+   */
+  if (prefersReducedMotion()) {
     return null
   }
 
   return (
-    <div ref={ref} aria-hidden className="absolute inset-0 overflow-hidden">
-      <div
-        className={cn(
-          'pointer-events-none absolute inset-0',
-          !isInView && 'particles-paused',
-        )}
-      >
+    <div aria-hidden className="absolute inset-0 overflow-hidden">
+      <div className="pointer-events-none absolute inset-0">
         {particles.map((particle, index) => (
           <span
             key={index}

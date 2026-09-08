@@ -37,6 +37,12 @@ const trackedSections = navItems.flatMap((item) =>
   'children' in item ? item.children.map((child) => child.id) : [item.id],
 )
 
+type TrackedSection = (typeof trackedSections)[number]
+
+/** A tracked section's top, measured relative to the document rather than the
+    viewport, so the value survives scrolling and only resize invalidates it. */
+type SectionOffset = { id: TrackedSection; top: number }
+
 /** Distance below the header at which a section counts as the current one. */
 const ACTIVE_OFFSET = 140
 
@@ -64,20 +70,43 @@ export function Header() {
   /*
    * One rAF-throttled listener drives both the header surface and the current
    * section, instead of a listener per concern each doing its own layout read.
+   *
+   * The section offsets are measured once and cached, and only re-measured on
+   * resize. The previous version called `getBoundingClientRect()` on all
+   * eleven tracked sections inside the scroll frame, which forces the browser
+   * to flush layout synchronously — on a 14,700px page that was eleven forced
+   * reflows per scroll frame, and it is the single most expensive thing that
+   * ran during a scroll. Document-relative tops do not change while scrolling,
+   * so reading them there was measuring a constant over and over.
    */
   useEffect(() => {
     let frame = 0
+    let offsets: SectionOffset[] = []
+
+    const measure = () => {
+      const scrollY = window.scrollY
+
+      offsets = trackedSections
+        .map((id) => {
+          const element = document.getElementById(id)
+          if (!element) return null
+
+          return { id, top: element.getBoundingClientRect().top + scrollY }
+        })
+        .filter((entry): entry is SectionOffset => entry !== null)
+    }
 
     const update = () => {
       frame = 0
-      setIsScrolled(window.scrollY > 16)
+
+      const scrollY = window.scrollY
+      setIsScrolled(scrollY > 16)
 
       // Last section whose top has crossed the header wins; null above them all.
       let current: string | null = null
 
-      for (const id of trackedSections) {
-        const element = document.getElementById(id)
-        if (element && element.getBoundingClientRect().top <= ACTIVE_OFFSET) {
+      for (const { id, top } of offsets) {
+        if (top - scrollY <= ACTIVE_OFFSET) {
           current = id
         }
       }
@@ -90,13 +119,40 @@ export function Header() {
       frame = requestAnimationFrame(update)
     }
 
+    /*
+     * Sections change height on resize (and as fonts and images settle), so
+     * the cache is rebuilt there rather than assumed to hold for the visit.
+     */
+    const onResize = () => {
+      measure()
+      onScroll()
+    }
+
+    measure()
     update()
+
+    /*
+     * Late-loading images and webfonts move every section below them, and a
+     * cache taken before they land would point at stale offsets for the rest
+     * of the visit. `ResizeObserver` on the document element catches exactly
+     * that without polling.
+     */
+    const resizeObserver =
+      typeof ResizeObserver === 'undefined'
+        ? null
+        : new ResizeObserver(() => {
+            measure()
+          })
+
+    resizeObserver?.observe(document.documentElement)
+
     window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', onScroll, { passive: true })
+    window.addEventListener('resize', onResize, { passive: true })
 
     return () => {
+      resizeObserver?.disconnect()
       window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', onScroll)
+      window.removeEventListener('resize', onResize)
       if (frame) cancelAnimationFrame(frame)
     }
   }, [])
@@ -171,6 +227,13 @@ export function Header() {
            busiest. The colour and shadow still cross-fade, which is all the
            eye reads; the blur simply switches on, and under a fading
            background that is invisible.
+        */
+        /*
+           No `contain: paint` here, deliberately. It would confine the bar's
+           repaints to its own box — worthwhile next to a `backdrop-filter` —
+           but the nav dropdown is positioned at `top-full` and would be
+           clipped out of existence. Containment belongs on a box nothing
+           escapes.
         */
         'fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow] duration-300',
         isMenuOpen && 'bg-[var(--surface-base)]',
