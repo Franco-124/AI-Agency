@@ -155,8 +155,10 @@ export function ServicesCarousel({ slides, labels }: ServicesCarouselProps) {
         ref={trackRef}
         tabIndex={0}
         aria-label={labels.region}
+        /* `items-start` so a long-bodied card cannot stretch its neighbours —
+           see the note on the card itself. */
         className={cn(
-          'swipe-row services-track -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-5 pb-2',
+          'swipe-row services-track -mx-5 flex items-start snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-5 pb-2',
           'sm:-mx-8 sm:px-8 lg:mx-0 lg:px-0',
         )}
       >
@@ -176,18 +178,24 @@ export function ServicesCarousel({ slides, labels }: ServicesCarouselProps) {
             >
               <article
                 /*
-                  `h-full` fills the stretched track row, so all five cards
-                  share a bottom edge.
+                  No `h-full`: each card is as tall as its own content.
 
-                  The five bodies are uneven — one runs 374 characters against
-                  roughly 200 for the rest — so that one sets the row's height.
-                  The extra height used to land *under* the paragraph: 110-131px
-                  of dead space in four of five cards. It now collects above the
-                  copy instead, via the copy block's `mt-auto` below, so no copy
-                  is cut or hidden and the space reads as air under the artwork.
+                  The five bodies are far from even — one runs 374 characters
+                  against 176-206 for the other four — so a shared height (the
+                  flex default, `stretch`) meant that single card set a 520px
+                  floor for all of them. Wherever the resulting surplus was
+                  sent it looked wrong: left under the paragraph it was 110-131px
+                  of dead space, and pushed above the copy it separated the text
+                  from the image it describes.
+
+                  The copy is fixed and none of it may be cut, so the shared
+                  height goes instead. That is the right trade for a
+                  horizontally-scrolled deck: cards are read one at a time as
+                  they are swiped past, not compared across a row, and their
+                  tops — artwork, icon, index, title — stay aligned regardless.
                 */
                 className={cn(
-                  'group relative flex h-full flex-col overflow-hidden rounded-[1.125rem]',
+                  'group relative flex flex-col overflow-hidden rounded-[1.125rem]',
                   'bg-[var(--surface-panel)] ring-1 ring-inset ring-hairline',
                   'shadow-[var(--shadow-low)]',
                   'transition-[transform,box-shadow] duration-400 ease-[var(--ease-emphasis)]',
@@ -232,17 +240,18 @@ export function ServicesCarousel({ slides, labels }: ServicesCarouselProps) {
                 </div>
 
                 {/*
-                  `mt-auto` instead of `flex-1`.
+                  The copy sits directly under the artwork — no `mt-auto`, no
+                  `flex-1`.
 
-                  `flex-1` let this block absorb the row's leftover height and
-                  then distributed it *inside* itself, so the gap opened up
-                  under the last line — 110px of it on the shorter cards.
-                  `mt-auto` pushes the whole block to the card's floor instead,
-                  so the same leftover height sits above it, under the artwork,
-                  where it reads as breathing room. The copy always ends a
-                  consistent `pb-6` from the bottom edge.
+                  Both were attempts to absorb the row's leftover height, and
+                  both put it somewhere wrong: `flex-1` opened a gap *under*
+                  the last line (110px on the shorter cards), and `mt-auto`
+                  moved that same gap *above* the copy, which pulled the text
+                  away from the image it belongs to. The block now simply
+                  follows the image, and the surplus is dealt with at its
+                  source — see the paragraph's line clamp below.
                 */}
-                <div className="relative mt-auto flex flex-col px-5 pb-6 pt-4">
+                <div className="relative flex flex-col px-5 pb-6 pt-4">
                   {/* Icon and index share one quiet meta line, so the card opens
                       on its title rather than on a badge competing with it. The
                       icon is seated in a tile, matching every other glyph on
