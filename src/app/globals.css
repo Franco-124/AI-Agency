@@ -63,6 +63,16 @@
   --header-height: 4.5rem;
 
   /* ----------------------------------------------------------------
+     Bottom action bar (phones only — see `MobileActionBar`).
+
+     `--fab-offset` is where the WhatsApp button sits. Both it and the page's
+     bottom padding are driven from here, so the bar, the FAB and the end of
+     the content can never disagree about how much room the bar needs.
+     ---------------------------------------------------------------- */
+  --mobile-bar-height: 4.75rem;
+  --fab-offset: max(1.5rem, env(safe-area-inset-bottom));
+
+  /* ----------------------------------------------------------------
      Elevation. Three shadows on a single light direction (above, slightly
      front), each a two-part cast: a tight contact shadow that seats the
      element, plus a wide ambient one that gives it air. Single-layer
@@ -651,16 +661,29 @@
      snapped card aligned to the section gutter even though the track
      itself bleeds past it on small screens.
      ---------------------------------------------------------------- */
-  .services-track {
-    scroll-padding-left: 1.25rem;
+  /*
+    `.swipe-row` is the generic half: hidden scrollbar plus contained
+    overscroll, for any real horizontal scroller. Used by the services deck and
+    by the hero's capability chips — it was named `.services-track` while the
+    carousel was its only user, which then read as a lie on the hero.
+
+    `.services-track` keeps the deck-specific `scroll-padding`, which aligns a
+    snapped card to the section gutter even though the track bleeds past it.
+    The chips do not snap, so they must not inherit that.
+  */
+  .swipe-row {
     scrollbar-width: none;
     -ms-overflow-style: none;
     /* Stops a horizontal swipe from chaining into the page/browser history. */
     overscroll-behavior-x: contain;
   }
 
-  .services-track::-webkit-scrollbar {
+  .swipe-row::-webkit-scrollbar {
     display: none;
+  }
+
+  .services-track {
+    scroll-padding-left: 1.25rem;
   }
 
   @media (min-width: 640px) {
@@ -760,6 +783,38 @@
       transform: translateY(-3px);
       box-shadow: var(--shadow-high);
       border-color: var(--surface-border-strong);
+    }
+  }
+
+  /* ----------------------------------------------------------------
+     Bottom action bar geometry.
+
+     Two things have to move out of the bar's way, and both are driven from
+     here rather than hardcoded in the components:
+
+       - the end of the page, so the footer is never covered;
+       - the WhatsApp FAB, so it is not stacked on top of the bar in the
+         corner a thumb reaches most easily.
+
+     `body` carries `.has-mobile-bar` unconditionally, and `MobileActionBar`
+     adds `data-bar-visible` to the document element while the bar is on
+     screen — so the FAB only lifts while there is something to lift over.
+     Scoped under `lg` because the bar itself is phone-only.
+     ---------------------------------------------------------------- */
+  @media (width < 64rem) {
+    .has-mobile-bar {
+      /* Room for the bar at its resting height. Applied always, not only while
+         the bar shows: the bar appears on scroll, and adding the padding at
+         that moment would shift the page under the reader's finger. */
+      padding-bottom: calc(
+        var(--mobile-bar-height) + max(0.75rem, env(safe-area-inset-bottom))
+      );
+    }
+
+    :root[data-bar-visible='true'] {
+      --fab-offset: calc(
+        var(--mobile-bar-height) + max(1rem, env(safe-area-inset-bottom))
+      );
     }
   }
 

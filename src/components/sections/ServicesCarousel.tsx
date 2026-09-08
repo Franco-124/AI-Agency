@@ -156,7 +156,7 @@ export function ServicesCarousel({ slides, labels }: ServicesCarouselProps) {
         tabIndex={0}
         aria-label={labels.region}
         className={cn(
-          'services-track -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-5 pb-2',
+          'swipe-row services-track -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-5 pb-2',
           'sm:-mx-8 sm:px-8 lg:mx-0 lg:px-0',
         )}
       >
@@ -175,6 +175,17 @@ export function ServicesCarousel({ slides, labels }: ServicesCarouselProps) {
               )}
             >
               <article
+                /*
+                  `h-full` fills the stretched track row, so all five cards
+                  share a bottom edge.
+
+                  The five bodies are uneven — one runs 374 characters against
+                  roughly 200 for the rest — so that one sets the row's height.
+                  The extra height used to land *under* the paragraph: 110-131px
+                  of dead space in four of five cards. It now collects above the
+                  copy instead, via the copy block's `mt-auto` below, so no copy
+                  is cut or hidden and the space reads as air under the artwork.
+                */
                 className={cn(
                   'group relative flex h-full flex-col overflow-hidden rounded-[1.125rem]',
                   'bg-[var(--surface-panel)] ring-1 ring-inset ring-hairline',
@@ -220,7 +231,18 @@ export function ServicesCarousel({ slides, labels }: ServicesCarouselProps) {
                   />
                 </div>
 
-                <div className="relative flex flex-1 flex-col px-5 pb-6 pt-4">
+                {/*
+                  `mt-auto` instead of `flex-1`.
+
+                  `flex-1` let this block absorb the row's leftover height and
+                  then distributed it *inside* itself, so the gap opened up
+                  under the last line — 110px of it on the shorter cards.
+                  `mt-auto` pushes the whole block to the card's floor instead,
+                  so the same leftover height sits above it, under the artwork,
+                  where it reads as breathing room. The copy always ends a
+                  consistent `pb-6` from the bottom edge.
+                */}
+                <div className="relative mt-auto flex flex-col px-5 pb-6 pt-4">
                   {/* Icon and index share one quiet meta line, so the card opens
                       on its title rather than on a badge competing with it. The
                       icon is seated in a tile, matching every other glyph on

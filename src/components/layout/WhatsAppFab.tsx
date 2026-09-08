@@ -112,7 +112,13 @@ export function WhatsAppFab() {
   }
 
   return (
-    <div className="fixed bottom-[max(1.5rem,env(safe-area-inset-bottom))] right-[max(1.25rem,env(safe-area-inset-right))] z-50 flex flex-col items-end gap-3">
+    /*
+      `bottom` is keyed to `--fab-offset`, which `MobileActionBar` raises while
+      the bottom bar is on screen (see `globals.css`). Without that the FAB and
+      the bar would stack on the same corner — the one spot a thumb reaches
+      most easily, and therefore the worst place for two overlapping controls.
+    */
+    <div className="fixed bottom-[var(--fab-offset)] right-[max(1.25rem,env(safe-area-inset-right))] z-50 flex flex-col items-end gap-3 transition-[bottom] duration-300 ease-[var(--ease-emphasis)]">
       {showGreeting ? (
         <div
           role="status"

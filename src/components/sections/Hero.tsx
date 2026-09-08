@@ -14,6 +14,7 @@ import type { CSSProperties } from 'react'
 import { DemoBookingWidget } from '@/components/forms/DemoBookingWidget'
 import { HeroMotion } from '@/components/motion/HeroMotion'
 import { sectionIds } from '@/lib/site'
+import { cn } from '@/lib/utils'
 
 import agentStepsVisual from '../../../public/images/hero-agent-steps.webp'
 import outcomeCardsVisual from '../../../public/images/hero-outcome-cards.webp'
@@ -30,8 +31,15 @@ const heroFeatures: ReadonlyArray<{ key: string; Icon: LucideIcon }> = [
 /*
   Two layouts in one tree.
 
-  Below `lg` this is the original hero, unchanged: copy ranged left, the CTA
-  pulled above the feature row on phones, no side visuals.
+  Below `lg`: copy ranged left, no side visuals, and deliberately little of it.
+  A phone hero earns attention by saying one thing, so this half runs
+  positioning line, headline, promise, CTA pair, reassurance — then the four
+  capabilities as a scrolling chip row rather than as eight runs of body text.
+  An earlier pass put a title *and* a detail in each of four grid cells, which
+  left 440 characters on the first screen; the detail now lives in the services
+  cards two sections down, where each capability gets a paragraph. The primary
+  action also follows the reader down the page from `MobileActionBar`, so the
+  CTA here no longer has to be the only chance to act.
 
   From `lg` up it is the approved comp — copy centred between two flanking
   product visuals. Every number in that half is measured off the comp
@@ -191,19 +199,31 @@ export function Hero() {
       */}
       <div className="relative z-10 mx-auto hero-shell hero-copy flex w-full flex-col justify-start px-5 pb-20 pt-[calc(var(--header-height)+2.25rem)] sm:px-8 sm:pb-24 lg:items-center lg:justify-center lg:pb-[calc(var(--header-height)+1.5rem)] lg:pt-[calc(var(--header-height)+1.5rem)] lg:text-center">
         {/*
-          The eyebrow is the site's positioning line and it is long ("Agencia de
-          automatización con IA para pymes en Colombia"). At the eyebrow's 11px
-          uppercase treatment that wraps to three cramped lines on a phone, so
-          below `sm` it renders as sentence-case body text with a leading accent
-          dot instead — same string, same role, actually readable.
+          The positioning line.
+
+          This string is 55 characters, and on a phone that is the problem: it
+          is the first thing above the headline and it costs two lines before
+          the reader reaches the actual message.
+
+          Two treatments were tried and rejected. As loose 13px body text it
+          read as a paragraph competing with the subtitle. As a bordered pill it
+          wrapped to *three* lines and filled the column — a pill that wraps is
+          not a pill, it is a paragraph with a border, which was worse.
+
+          What works is leaving it as plain text but making it unmistakably
+          subordinate: 12px, tight leading, the muted ink, and an accent rule
+          that ties it to the headline below rather than letting it float. The
+          full string stays in the DOM at every size — it is the site's
+          positioning and it carries real SEO weight — it simply stops
+          competing for the eye. From `sm` up it becomes the standard eyebrow.
         */}
         <p
-          className="hero-rise inline-flex max-w-[30ch] items-baseline gap-2.5 text-[0.8125rem] font-medium leading-relaxed text-[var(--text-muted)] sm:type-eyebrow sm:max-w-none sm:items-center"
+          className="hero-rise flex max-w-[26rem] items-start gap-2.5 text-[0.75rem] font-medium leading-[1.5] text-[var(--text-muted)] sm:type-eyebrow sm:max-w-none sm:items-center"
           style={{ '--hero-delay': '0.05s' } as CSSProperties}
         >
           <span
             aria-hidden
-            className="mt-[0.45em] h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--color-acento)] sm:mt-0 sm:h-px sm:w-7 sm:rounded-none sm:bg-[var(--accent-hairline)]"
+            className="mt-[0.5em] h-px w-4 shrink-0 bg-[var(--accent-hairline)] sm:mt-0 sm:w-7"
           />
           {t('eyebrow')}
         </p>
@@ -260,7 +280,11 @@ export function Hero() {
           the headline, the promise and the action are the whole first screen,
           and everything else is what the visitor finds by scrolling.
         */}
+        {/* `data-hero-cta` is the anchor `MobileActionBar` watches: the bottom
+            bar only appears once this pair has scrolled out of view, so the
+            page never shows two copies of the same action at once. */}
         <div
+          data-hero-cta
           className="hero-rise mt-7 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:items-center lg:mt-10 lg:gap-4"
           style={{ '--hero-delay': '0.3s' } as CSSProperties}
         >
@@ -285,61 +309,80 @@ export function Hero() {
         </p>
 
         {/*
-          Four capabilities, below the CTA at every size.
-
-          On phones this is a two-column strip of icon-plus-label with the
-          detail line dropped to a second line only where it fits — the old
-          version stacked a title *and* a detail in each of four grid cells,
-          which is eight lines of 13px text competing with the headline for the
-          same screen. The list is separated from the CTA block by a hairline
-          rather than by whitespace alone, so it reads as supporting detail
-          rather than as a second, weaker set of claims.
-        */}
         {/*
-          Desktop is a centred flex row, not a four-column grid.
+          Four capabilities.
 
-          The grid forced four equal tracks out of the copy column's width,
-          which is narrower than four of these labels need — so "Agenda
-          automática de citas" broke across three lines while its neighbours
-          sat on one, and the row lost its baseline. A flex row lets each item
-          take the width its own label needs and wrap as a unit if it must.
+          Two different objects for two different jobs, because one object
+          cannot do both well:
+
+          On a phone this was the single largest source of clutter — four cells
+          each stacking a title *and* a detail line, so eight runs of 13px text
+          sat under the CTA and the first screen carried 440 characters of copy.
+          It is now a horizontally-scrolled row of chips carrying the title
+          only. The detail is not lost: each of these four capabilities is a
+          service with its own card two sections down, where it gets a
+          paragraph instead of four words. Here they are wayfinding, not
+          content.
+
+          From `lg` up, where the width exists, the full
+          icon-plus-title-plus-detail row returns unchanged.
+
+          The chip row bleeds past the gutter and scrolls rather than wrapping
+          to two rows: a partially visible fourth chip signals "there is more"
+          the way the services carousel does, and the block stays one line tall
+          whatever the labels say. `.swipe-row` supplies the hidden
+          scrollbar and contained overscroll.
         */}
         <ul
-          className="hero-rise mt-9 grid w-full max-w-[34rem] grid-cols-2 gap-x-5 gap-y-4 border-t border-[var(--surface-border-subtle)] pt-7 sm:mt-10 sm:gap-x-8 lg:mt-11 lg:flex lg:max-w-none lg:flex-nowrap lg:justify-center lg:gap-x-7 lg:border-t-0 lg:pt-0"
+          className={cn(
+            'hero-rise swipe-row mt-8 flex gap-2 overflow-x-auto pb-1',
+            '-mx-5 px-5 sm:-mx-8 sm:px-8',
+            'lg:mx-0 lg:mt-11 lg:justify-center lg:gap-x-7 lg:overflow-visible lg:px-0 lg:pb-0',
+          )}
           style={{ '--hero-delay': '0.42s' } as CSSProperties}
         >
           {heroFeatures.map(({ key, Icon }) => (
-            <li key={key} className="flex min-w-0 items-start gap-2.5">
+            <li
+              key={key}
+              className={cn(
+                // Phone: a self-contained chip.
+                'flex shrink-0 items-center gap-2 rounded-full border border-hairline bg-[var(--surface-panel)] py-1.5 pl-1.5 pr-3.5 shadow-[var(--shadow-low)]',
+                // Desktop: a plain row item again, no chip chrome.
+                'lg:min-w-0 lg:items-start lg:gap-2.5 lg:rounded-none lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none',
+              )}
+            >
               {/*
-                The icon sits in its own tinted tile rather than floating loose
-                beside the text. Four bare 22px strokes read as clip art; four
+                The icon is seated in a tinted tile rather than floating loose
+                beside the text. Four bare strokes read as clip art; four
                 seated glyphs read as a system — and the tile is what makes the
-                accent legible at this size without turning the stroke itself
-                up to full chroma.
+                accent legible at this size without pushing the stroke itself
+                to full chroma.
               */}
               <span
                 aria-hidden
-                className="mt-px flex h-7 w-7 shrink-0 items-center justify-center rounded-[0.4375rem] border border-[var(--accent-hairline)] bg-[var(--accent-soft)]"
+                className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-[var(--accent-hairline)] bg-[var(--accent-soft)] lg:mt-px lg:h-7 lg:w-7 lg:rounded-[0.4375rem]"
               >
                 <Icon
-                  className="h-[0.875rem] w-[0.875rem] text-[var(--accent-text)]"
+                  className="h-[0.8125rem] w-[0.8125rem] text-[var(--accent-text)] lg:h-[0.875rem] lg:w-[0.875rem]"
                   strokeWidth={1.9}
                 />
               </span>
+
               {/*
-                `lg:whitespace-nowrap` keeps each label on its own two lines
-                (title / detail) rather than letting either wrap again. The
-                copy is split into exactly those two parts in the message file,
-                so a third line is always an accident of column width — at
-                1024 and 1280 it made the row 75px tall against 38px at 1920,
-                which is what broke the row's shared baseline. The row is
-                measured to fit at every `lg` width, so nowrap cannot overflow.
+                `whitespace-nowrap` keeps each label on one line as a chip, and
+                on its own two lines (title / detail) from `lg`. The copy is
+                split into exactly those two parts, so a third line is always
+                an accident of column width — at 1024 and 1280 it made the
+                desktop row 75px tall against 38px at 1920, breaking its shared
+                baseline. The row is measured to fit at every `lg` width, so
+                nowrap cannot overflow.
               */}
-              <span className="min-w-0 text-left text-[0.8125rem] leading-[1.45] lg:whitespace-nowrap">
-                <span className="block font-medium text-[var(--text-primary)]">
+              <span className="whitespace-nowrap text-left text-[0.8125rem] leading-[1.45]">
+                <span className="font-medium text-[var(--text-primary)] lg:block">
                   {t(`features.${key}.title`)}
                 </span>
-                <span className="block text-[var(--text-muted)]">
+                {/* Dropped on phones — the chip carries the title alone. */}
+                <span className="hidden text-[var(--text-muted)] lg:block">
                   {t(`features.${key}.detail`)}
                 </span>
               </span>
