@@ -170,7 +170,7 @@
         "body": "Revisamos por dónde llegan y por dónde se te pierden clientes hoy: tu web, tu WhatsApp, tus redes. Sales con un plan claro de qué corregir primero y qué esperar de cada cambio, antes de invertir un peso."
       },
       "one": {
-        "title": "Agente de IA para atención automática por WhatsApp",
+        "title": "Agente de IA que atiende por WhatsApp",
         "body": "Un agente de IA entrenado con tu negocio responde precios, horarios y dudas frecuentes en segundos, de día, de noche y en fines de semana. Cuando la consulta es seria, te la pasa con todo el contexto listo."
       },
       "three": {
@@ -178,12 +178,12 @@
         "body": "Tu sistema de IA envía un mensaje en el momento justo a quien preguntó y no volvió, retomando el hilo donde quedó. Recuperas ventas que hoy se enfrían en el chat sin que nadie tenga que perseguirlas."
       },
       "four": {
-        "title": "Sitios web profesionales que convierten visitas en clientes",
-        "body": "Diseñamos y programamos tu sitio completo: inicio, servicios, portafolio, preguntas frecuentes y un formulario que llega directo a tu WhatsApp. Lo puedes contratar solo, o como parte de un Sistema de IA si además quieres que tu negocio atienda solo. Carga rápido, se ve impecable en el celular y cada sección está escrita para que el visitante entienda, confíe y te escriba."
+        "title": "Sitios web que convierten visitas en clientes",
+        "body": "Diseñamos y programamos tu sitio completo: inicio, servicios, portafolio y un formulario que llega directo a tu WhatsApp. Carga rápido, se ve impecable en el celular y cada palabra invita a escribirte."
       },
       "five": {
         "title": "Organización de la información de tus clientes",
-        "body": "Tu sistema de IA registra cada conversación, contacto y dato en un solo panel. Sabes de dónde vino cada cliente, qué pidió y en qué punto quedó, sin perseguir hojas de cálculo."
+        "body": "Tu sistema de IA registra cada conversación, contacto y dato en un solo panel. Sabes de dónde vino cada cliente, qué pidió y en qué punto quedó, sin perseguir hojas de cálculo ni notas sueltas."
       }
     },
     "carousel": {
@@ -282,15 +282,7 @@
       "cta": "Quiero mi sitio web"
     },
     "systems": {
-      "title": "Sistemas de IA para tu negocio",
-      "lead": "Un agente entrenado con la información de tu negocio, más las automatizaciones que necesita para atender y dar seguimiento sin que tu equipo tenga que estar pendiente. El precio cambia según qué tan complejo es el agente:",
-      "items": {
-        "one": "Cuántos canales atiende: solo WhatsApp, o también Instagram y chat en tu sitio",
-        "two": "Si agenda contra la disponibilidad real de tu calendario, o solo capta los datos para que tu equipo confirme",
-        "three": "Si puede derivar una conversación a una persona con el contexto completo, o solo responde lo básico",
-        "four": "Cuántos procesos automatiza además de responder: seguimiento a leads, recordatorios, reportes"
-      },
-      "note": "¿Ya tienes un sitio web o landing? Evaluamos contigo si conviene integrar el agente directamente ahí, según tu caso."
+      "title": "Sistemas de IA para tu negocio"
     },
     "one": {
       "name": "Agente Esencial",

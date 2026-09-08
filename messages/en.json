@@ -167,19 +167,19 @@
     "items": {
       "zero": {
         "title": "A personalized diagnosis of your business",
-        "body": "We look at where customers reach you today and where you lose them: your website, your WhatsApp, your social profiles. You walk away with a clear plan of what to fix first and what each change should return, before you spend a peso."
+        "body": "We look at where customers reach you today and where you lose them: your website, your WhatsApp, your social profiles. You walk away with a clear plan of what to fix first, before you spend a peso."
       },
       "one": {
         "title": "AI agent for automated WhatsApp support",
-        "body": "An AI agent trained on your business answers pricing, hours and frequently asked questions in seconds — day, night and weekends. When a conversation gets serious, it hands the lead to you with the full context ready."
+        "body": "An AI agent trained on your business answers pricing, hours and frequently asked questions in seconds — day, night and weekends. When a conversation gets serious, it hands the lead to you in full."
       },
       "three": {
-        "title": "Automated lead follow-up",
-        "body": "Your AI system sends a message at the right moment to anyone who asked and never came back, picking the thread up where it stopped. You recover sales that go cold in the chat today, with nobody having to chase them."
+        "title": "Automated follow-up for potential customers",
+        "body": "Your AI system sends a message at the right moment to anyone who asked and never came back, picking the thread up where it stopped. You recover sales that go cold in the chat, with nobody chasing."
       },
       "four": {
-        "title": "Professional websites that turn visits into customers",
-        "body": "We design and build your full site: home, services, portfolio, FAQ and a contact form that lands straight in your WhatsApp. You can hire it on its own, or as part of an AI System if you also want your business to handle enquiries on its own. It loads fast, looks sharp on a phone, and every section is written so the visitor understands, trusts and writes to you."
+        "title": "Websites that turn visits into customers",
+        "body": "We design and build your full site: home, services, portfolio, FAQ and a contact form that lands straight in your WhatsApp. It loads fast, looks sharp on a phone, and every section is written so the visitor trusts you."
       },
       "five": {
         "title": "Your customer information, organized",
@@ -282,15 +282,7 @@
       "cta": "I want my website"
     },
     "systems": {
-      "title": "AI Systems for your business",
-      "lead": "An agent trained on your business information, plus the automations it needs to handle enquiries and follow up without your team having to keep an eye on it. The price changes based on how complex the agent is:",
-      "items": {
-        "one": "How many channels it handles: WhatsApp only, or Instagram and chat on your website too",
-        "two": "Whether it books against your calendar's real availability, or only captures the details for your team to confirm",
-        "three": "Whether it can hand a conversation to a person with the full context, or only answer the basics",
-        "four": "How many processes it automates beyond answering: lead follow-up, reminders and reports"
-      },
-      "note": "Already have a website or landing page? We will assess with you whether it makes sense to integrate the agent directly there, based on your case."
+      "title": "AI Systems for your business"
     },
     "one": {
       "name": "Essential Agent",

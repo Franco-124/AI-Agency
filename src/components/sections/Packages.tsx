@@ -34,7 +34,6 @@ type PackageCardProps = {
   action: ReactNode
 }
 
-
 /**
  * One offer card.
  *
@@ -176,9 +175,11 @@ function PackagePanel({
 }
 
 /**
- * The standalone website offer leads, followed by the three AI systems. The
- * cards deliberately retain their shared visual language while the explanatory
- * copy explains how each system differs.
+ * The standalone website offer leads, followed by the three AI systems under
+ * their own heading. The cards keep one shared visual language and are left to
+ * differentiate themselves through their scope and their price — the prose
+ * that used to explain the pricing variables above them said the same thing
+ * twice, and said it before the visitor had seen a figure.
  */
 export function Packages() {
   const t = useTranslations('packages')
@@ -223,38 +224,30 @@ export function Packages() {
         </PackagePanel>
 
         {/*
-          The bridge between the website offer and the three systems. It reads
-          as an aside rather than as another card: no panel chrome, just an
-          accent rule down its left edge — which is what stops the page from
-          becoming five consecutive rounded rectangles.
+          Heading only, introducing the three system tiers below it.
+
+          It used to carry a lead paragraph, a four-item list of what moves the
+          price, and a closing note — roughly 540 characters explaining pricing
+          variables before the visitor had seen a single price. The three cards
+          immediately below already state their scope and their figure, so the
+          list was pre-empting them with the same information in prose.
+
+          With one line of text the accent rule down the left edge went too:
+          that treatment marked a block of prose as an aside, and there is no
+          longer a block to mark. It is now a plain subsection heading, paired
+          with the eyebrow rule every other heading on the page uses.
         */}
-        <div className="mt-12 max-w-[44rem] border-l-2 border-[var(--accent-hairline)] pl-5 sm:mt-14 sm:pl-7">
+        <div className="mt-12 flex items-center gap-3 sm:mt-14">
+          <span
+            aria-hidden
+            className="h-px w-7 shrink-0 bg-[var(--accent-hairline)]"
+          />
           <h3 className="font-display text-[1.1875rem] font-medium leading-snug tracking-[-0.025em] sm:text-xl">
             {t('systems.title')}
           </h3>
-          <p className="mt-2.5 text-[0.9375rem] leading-relaxed text-ink-faint">
-            {t('systems.lead')}
-          </p>
-          <ul className="mt-5 flex flex-col gap-2.5 text-[0.9375rem] leading-relaxed text-ink-muted">
-            {['one', 'two', 'three', 'four'].map((item) => (
-              <li key={item} className="flex gap-3">
-                {/* A drawn rule rather than an em dash character: the dash
-                    inherits the text baseline and sat visibly high against a
-                    wrapped line. */}
-                <span
-                  aria-hidden
-                  className="mt-[0.6875em] h-px w-3 shrink-0 bg-[var(--accent-text)]"
-                />
-                <span className="min-w-0">{t(`systems.items.${item}`)}</span>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-5 text-[0.875rem] leading-relaxed text-ink-faint">
-            {t('systems.note')}
-          </p>
         </div>
 
-        <div className="mt-8">
+        <div className="mt-6">
           <PackagePanel className="lg:grid lg:grid-cols-3 lg:divide-x lg:divide-y-0">
             {systemOffers.map((definition) => (
               <PackageCard
