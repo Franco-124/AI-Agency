@@ -21,27 +21,50 @@ export function Faq() {
   return (
     <Section id={sectionIds.faq} labelledBy="faq-titulo" surface="raised">
       <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
-        <Reveal className="lg:col-span-4">
-          <SectionHeading id="faq-titulo" title={t('title')} />
+        {/*
+          The heading column sticks on desktop. With eight questions the list
+          runs well past a viewport, and a heading that scrolls away leaves the
+          reader in an unlabelled stack of disclosures. It is `lg`-only: on a
+          phone a sticky heading would eat the screen the answers need.
+        */}
+        <Reveal className="lg:col-span-4 lg:self-start lg:sticky lg:top-[calc(var(--header-height)+3rem)]">
+          <SectionHeading id="faq-titulo" index={9} title={t('title')} />
         </Reveal>
 
         <Reveal delay={0.08} className="lg:col-span-8">
-          <div className="w-full">
+          <div className="w-full border-t border-hairline-subtle">
             {faqKeys.map((key) => (
               <details
                 key={key}
-                className="group border-b border-hairline last:border-b-0"
+                className="group border-b border-hairline-subtle"
               >
-                <summary className="flex flex-1 cursor-pointer list-none items-start justify-between gap-6 py-6 text-left text-base font-medium leading-snug text-ink transition-colors duration-200 [&::-webkit-details-marker]:hidden hover:text-[var(--color-acento)] sm:text-lg">
+                {/*
+                  `-mx-*` plus matching padding widens the row's hit area and
+                  its hover wash to the full column, so the target is the row
+                  rather than the text — while the copy stays optically aligned
+                  with the heading beside it.
+                */}
+                <summary className="-mx-3 flex cursor-pointer list-none items-start justify-between gap-6 rounded-lg px-3 py-5 text-left text-[0.9375rem] font-medium leading-snug text-ink transition-colors duration-200 [&::-webkit-details-marker]:hidden hover:bg-[color-mix(in_srgb,var(--color-acento)_5%,transparent)] group-open:text-[var(--accent-text)] sm:py-6 sm:text-base">
                   {t(`items.${key}.question`)}
-                  <Plus
+                  {/*
+                    The glyph is seated in a tile that fills with the accent
+                    wash when open, so the open row is legible as open from the
+                    control alone — a rotated stroke on its own reads as a
+                    hover artefact more than as a state.
+                  */}
+                  <span
                     aria-hidden
-                    className="mt-0.5 h-5 w-5 shrink-0 text-ink-faint transition-transform duration-300 group-open:rotate-45 group-open:text-[var(--color-acento)]"
-                  />
+                    className="mt-px flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-hairline transition-colors duration-300 group-open:border-[var(--accent-hairline)] group-open:bg-[var(--accent-soft)]"
+                  >
+                    <Plus
+                      className="h-3.5 w-3.5 text-ink-faint transition-[transform,color] duration-300 ease-[var(--ease-emphasis)] group-open:rotate-45 group-open:text-[var(--accent-text)]"
+                      strokeWidth={2}
+                    />
+                  </span>
                 </summary>
-                <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-[240ms] ease-out group-open:grid-rows-[1fr]">
+                <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-[260ms] ease-[var(--ease-emphasis)] group-open:grid-rows-[1fr]">
                   <div className="overflow-hidden">
-                    <p className="pb-7 pr-11 text-[0.9375rem] leading-relaxed text-ink-muted">
+                    <p className="type-body max-w-[60ch] pb-6 pr-10">
                       {t(`items.${key}.answer`)}
                     </p>
                   </div>

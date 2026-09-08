@@ -104,7 +104,13 @@ export default async function LocaleLayout({
     // Space Grotesk is the display face; Plus Jakarta Sans is the body/UI
     // face (see the token contract in globals.css).
     <html lang={locale} className={`${plusJakartaSans.variable} ${spaceGrotesk.variable}`}>
-      <body className="min-h-dvh bg-surface text-ink antialiased">
+      {/*
+        `page-grain` lays a fixed, very faint noise layer over the whole
+        viewport (see `globals.css`). It covers the sections that do not opt
+        into the heavier `.grain` treatment, so the page has one continuous
+        surface tooth rather than three textured blocks separated by flat fill.
+      */}
+      <body className="page-grain relative min-h-dvh bg-surface text-ink antialiased">
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
       </body>
     </html>

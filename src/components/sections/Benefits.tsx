@@ -26,7 +26,7 @@ export function Benefits() {
   return (
     <Section id={sectionIds.benefits} labelledBy="beneficios-titulo">
       <Reveal>
-        <SectionHeading id="beneficios-titulo" title={t('title')} />
+        <SectionHeading id="beneficios-titulo" index={3} title={t('title')} />
       </Reveal>
 
       {/*
@@ -34,7 +34,7 @@ export function Benefits() {
         seams. Below `sm` the list is a single column split horizontally; from
         `sm` it becomes a 2x2 quadrant with both axes ruled.
       */}
-      <ol className="mt-14 grid divide-y divide-hairline border-t border-hairline sm:grid-cols-2 sm:divide-x">
+      <ol className="mt-12 grid divide-y divide-hairline-subtle border-t border-hairline-subtle sm:mt-14 sm:grid-cols-2 sm:divide-x">
         {benefitKeys.map((key, index) => (
           <Reveal
             as="li"
@@ -45,13 +45,23 @@ export function Benefits() {
               rule on the first row, but the top border lives on the parent —
               so instead every cell is padded uniformly and the grid's own
               divides handle separation.
+
+              The quadrant now lights up under the pointer: a very faint accent
+              wash on the cell plus the ordinal filling in. It is the cheapest
+              way to make a ruled grid feel like an interface rather than a
+              printed table, and it costs no layout — background and colour only.
             */
-            className="group/benefit min-w-0 px-0 py-8 sm:px-8 sm:py-10 sm:first:pl-0 sm:[&:nth-child(3)]:pl-0"
+            className="group/benefit relative min-w-0 px-0 py-7 transition-colors duration-300 sm:px-8 sm:py-10 sm:first:pl-0 sm:[&:nth-child(3)]:pl-0 sm:hover:bg-[color-mix(in_srgb,var(--color-acento)_4%,transparent)]"
           >
-            <div className="flex items-baseline gap-4">
+            <div className="flex items-baseline gap-3.5">
+              {/*
+                Hollow at rest, filled on hover. The outline keeps four large
+                ordinals from out-shouting the four claims they number, and the
+                fill is what rewards the pointer landing on the cell.
+              */}
               <span
                 aria-hidden
-                className="type-figure shrink-0 text-[1.375rem] leading-none text-[var(--color-acento)] tabular-nums"
+                className="type-figure shrink-0 text-[1.25rem] leading-none tabular-nums text-transparent transition-colors duration-300 [-webkit-text-stroke:1px_var(--accent-hairline)] group-hover/benefit:text-[var(--accent-text)] group-hover/benefit:[-webkit-text-stroke:1px_transparent]"
               >
                 {String(index + 1).padStart(2, '0')}
               </span>
@@ -60,7 +70,7 @@ export function Benefits() {
               </h3>
             </div>
             {/* Indented to the headline's text column, not the ordinal's. */}
-            <p className="mt-3 max-w-[34ch] pl-[2.375rem] text-[0.9375rem] leading-relaxed text-ink-muted">
+            <p className="type-body mt-2.5 max-w-[36ch] pl-[2.1875rem]">
               {t(`items.${key}.meaning`)}
             </p>
           </Reveal>

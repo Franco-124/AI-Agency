@@ -22,26 +22,40 @@ export function Why() {
   const t = useTranslations('why')
 
   return (
-    <Section id={sectionIds.why} labelledBy="por-que-titulo">
+    <Section
+      id={sectionIds.why}
+      labelledBy="por-que-titulo"
+      surface="sunken"
+      rhythm="wide"
+    >
       <Reveal>
-        <SectionHeading id="por-que-titulo" title={t('title')} />
+        <SectionHeading id="por-que-titulo" index={5} title={t('title')} />
       </Reveal>
 
-      <ul className="mt-16 grid min-w-0 divide-y divide-hairline sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+      <ul className="mt-12 grid min-w-0 divide-y divide-hairline-subtle sm:mt-16 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
         {pillars.map(({ key, Icon }, index) => (
           <Reveal
             as="li"
             key={key}
             delay={index * 0.06}
             className={cn(
-              'min-w-0 flex flex-col gap-4 py-8 sm:px-8 sm:py-0 first:sm:pl-0 last:sm:pr-0',
+              'min-w-0 flex flex-col gap-4 py-7 sm:px-8 sm:py-0 first:sm:pl-0 last:sm:pr-0',
             )}
           >
-            <Icon
-              className="h-6 w-6 text-[var(--color-acento)]"
-              strokeWidth={1.5}
+            {/*
+              Seated in a tile, matching the hero's capability row — three bare
+              24px strokes on a hairline grid read as stock glyphs, and the tile
+              is what marks them as part of the same drawn system.
+            */}
+            <span
               aria-hidden
-            />
+              className="flex h-10 w-10 items-center justify-center rounded-[0.5625rem] border border-[var(--accent-hairline)] bg-[var(--accent-soft)]"
+            >
+              <Icon
+                className="h-[1.125rem] w-[1.125rem] text-[var(--accent-text)]"
+                strokeWidth={1.75}
+              />
+            </span>
             {/*
               Stepped down from `.type-section-title` (which tops out at
               3.25rem) to a fixed pillar scale. At the section-title size these
@@ -50,12 +64,12 @@ export function Why() {
               same weight, one screen apart. They are subheads, so they now
               read as such.
             */}
-            <h3 className="min-w-0 break-words font-display text-xl font-medium leading-[1.15] tracking-[-0.02em] sm:text-[1.375rem]">
+            <h3 className="min-w-0 break-words font-display text-[1.1875rem] font-medium leading-[1.2] tracking-[-0.022em] sm:text-[1.3125rem]">
               {t(`pillars.${key}.title`)}
             </h3>
             {/* `max-w-[34ch]`: at 26ch the third pillar's body broke to five
                 very short lines in a column wide enough for three. */}
-            <p className="max-w-[34ch] text-[0.9375rem] leading-relaxed text-ink-muted">
+            <p className="type-body max-w-[34ch]">
               {t(`pillars.${key}.body`)}
             </p>
           </Reveal>

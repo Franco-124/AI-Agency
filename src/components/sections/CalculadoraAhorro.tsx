@@ -45,11 +45,13 @@ export function CalculadoraAhorro() {
   const mesesParaPagarse = calcularMesesParaPagarse(ahorroMensualEstimado)
 
   return (
-    <div className="rounded-2xl border border-hairline bg-[color-mix(in_srgb,var(--color-primario)_88%,transparent)] p-7 sm:p-9">
-      <h3 className="text-lg font-semibold leading-snug tracking-[-0.02em]">{t('title')}</h3>
-      <p className="mt-3 text-[0.9375rem] leading-relaxed text-ink-muted">{t('lead')}</p>
+    <div className="surface-panel rounded-[1.125rem] p-6 sm:p-8">
+      <h3 className="text-[1.0625rem] font-semibold leading-snug tracking-[-0.02em] sm:text-lg">
+        {t('title')}
+      </h3>
+      <p className="type-body mt-2.5">{t('lead')}</p>
 
-      <form className="mt-7 grid gap-5 sm:grid-cols-2">
+      <form className="mt-6 grid gap-5 sm:grid-cols-2">
         <Field id={`${prefix}-salario`} label={t('salarioLabel')}>
           {(props) => (
             <input
@@ -79,36 +81,57 @@ export function CalculadoraAhorro() {
         </Field>
       </form>
 
-      <div className="mt-8 grid gap-5 sm:grid-cols-2">
-        <div>
-          <p className="text-sm text-ink-faint">{t('monthlyLabel')}</p>
-          <p className="type-figure mt-2 text-2xl text-[var(--color-acento)] sm:text-[1.75rem]">
-            {hasResult ? formatCOP(ahorroMensualEstimado, locale) : '—'}
-          </p>
+      {/*
+        The output is now a distinct inset panel rather than two more rows of
+        the same column. This is the moment the tool actually pays off, and it
+        previously looked identical to the labels above it — so the two figures
+        read as more copy instead of as a result the visitor produced.
+
+        `aria-live="polite"` is the substantive part: the numbers change as the
+        visitor types, with no submit to announce them, so without it a screen
+        reader user gets no result at all. `aria-atomic` makes the pair read as
+        one figure rather than as two unrelated updates.
+      */}
+      <div
+        aria-live="polite"
+        aria-atomic="true"
+        className="mt-7 rounded-[0.875rem] border border-hairline bg-[var(--surface-sunken)] p-5 shadow-[inset_0_1px_0_color-mix(in_srgb,white_4%,transparent)] sm:p-6"
+      >
+        <div className="grid gap-5 sm:grid-cols-2 sm:gap-6">
+          <div>
+            <p className="type-eyebrow">{t('monthlyLabel')}</p>
+            <p className="type-figure mt-2.5 text-[1.625rem] leading-none text-[var(--accent-text)] sm:text-[1.875rem]">
+              {hasResult ? formatCOP(ahorroMensualEstimado, locale) : '—'}
+            </p>
+          </div>
+          {/* Ruled off from the monthly figure on wide layouts, so the pair
+              reads as two columns of one result rather than two results. */}
+          <div className="sm:border-l sm:border-hairline-subtle sm:pl-6">
+            <p className="type-eyebrow">{t('yearlyLabel')}</p>
+            <p className="type-figure mt-2.5 text-[1.625rem] leading-none text-[var(--accent-text)] sm:text-[1.875rem]">
+              {hasResult ? formatCOP(ahorroAnualEstimado, locale) : '—'}
+            </p>
+          </div>
         </div>
-        <div>
-          <p className="text-sm text-ink-faint">{t('yearlyLabel')}</p>
-          <p className="type-figure mt-2 text-2xl text-[var(--color-acento)] sm:text-[1.75rem]">
-            {hasResult ? formatCOP(ahorroAnualEstimado, locale) : '—'}
-          </p>
-        </div>
+
+        <p className="type-body mt-5 border-t border-hairline-subtle pt-5 text-[0.9375rem]">
+          {mesesParaPagarse !== null
+            ? t('paybackLine', { months: mesesParaPagarse })
+            : t('paybackEmpty')}
+        </p>
       </div>
 
-      <p className="mt-4 text-[0.9375rem] leading-relaxed text-ink-muted">
-        {mesesParaPagarse !== null
-          ? t('paybackLine', { months: mesesParaPagarse })
-          : t('paybackEmpty')}
+      {/* Visible on purpose — not fine print. Covers both results above. */}
+      <p className="mt-5 text-[0.8125rem] leading-relaxed text-ink-faint">
+        {t('disclaimer')}
       </p>
 
-      {/* Visible on purpose — not fine print. Covers both results above. */}
-      <p className="mt-6 text-[0.8125rem] leading-relaxed text-ink-faint">{t('disclaimer')}</p>
-
-      <Button asChild size="lg" variant="outline" block className="mt-7 sm:w-auto">
+      <Button asChild size="lg" variant="outline" block className="mt-6 sm:w-auto">
         <a href={`#${sectionIds.finalCta}`}>
           {t('cta')}
           <ArrowRight
             aria-hidden
-            className="h-4 w-4 transition-transform duration-200 group-hover/btn:translate-x-0.5"
+            className="h-4 w-4 transition-transform duration-200 ease-[var(--ease-emphasis)] group-hover/btn:translate-x-0.5"
           />
         </a>
       </Button>

@@ -48,17 +48,17 @@ export default async function PrivacyPage({ params }: PageProps) {
         <h1 className="type-section-title">{t('title')}</h1>
         <p className="type-lead mt-8">{t('intro')}</p>
 
-        <section className="mt-14">
-          <h2 className="text-xl font-semibold tracking-[-0.02em]">{t('dataTitle')}</h2>
-          <p className="mt-4 text-[0.9375rem] leading-relaxed text-ink-muted">
+        <section className="mt-12 sm:mt-14">
+          <h2 className="font-display text-[1.1875rem] font-medium tracking-[-0.022em] sm:text-xl">{t('dataTitle')}</h2>
+          <p className="type-body mt-4">
             {t('dataIntro')}
           </p>
           <ul className="mt-5 flex flex-col gap-3">
             {dataKeys.map((key) => (
-              <li key={key} className="flex gap-3 text-[0.9375rem] text-ink-muted">
+              <li key={key} className="type-body flex gap-3">
                 <span
                   aria-hidden
-                  className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-[var(--color-acento)]"
+                  className="mt-[0.6875em] h-1 w-1 shrink-0 rounded-full bg-[var(--accent-text)]"
                 />
                 {t(`data.${key}`)}
               </li>
@@ -66,17 +66,17 @@ export default async function PrivacyPage({ params }: PageProps) {
           </ul>
         </section>
 
-        <section className="mt-14">
-          <h2 className="text-xl font-semibold tracking-[-0.02em]">{t('useTitle')}</h2>
-          <p className="mt-4 text-[0.9375rem] leading-relaxed text-ink-muted">
+        <section className="mt-12 sm:mt-14">
+          <h2 className="font-display text-[1.1875rem] font-medium tracking-[-0.022em] sm:text-xl">{t('useTitle')}</h2>
+          <p className="type-body mt-4">
             {t('useIntro')}
           </p>
           <ul className="mt-5 flex flex-col gap-3">
             {useKeys.map((key) => (
-              <li key={key} className="flex gap-3 text-[0.9375rem] text-ink-muted">
+              <li key={key} className="type-body flex gap-3">
                 <span
                   aria-hidden
-                  className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-[var(--color-acento)]"
+                  className="mt-[0.6875em] h-1 w-1 shrink-0 rounded-full bg-[var(--accent-text)]"
                 />
                 {t(`use.${key}`)}
               </li>
@@ -84,41 +84,48 @@ export default async function PrivacyPage({ params }: PageProps) {
           </ul>
         </section>
 
-        <section className="mt-14">
-          <h2 className="text-xl font-semibold tracking-[-0.02em]">
+        <section className="mt-12 sm:mt-14">
+          <h2 className="font-display text-[1.1875rem] font-medium tracking-[-0.022em] sm:text-xl">
             {t('sharingTitle')}
           </h2>
-          <p className="mt-4 text-[0.9375rem] leading-relaxed text-ink-muted">
+          <p className="type-body mt-4">
             {t('sharing')}
           </p>
         </section>
 
-        <section className="mt-14">
-          <h2 className="text-xl font-semibold tracking-[-0.02em]">
+        <section className="mt-12 sm:mt-14">
+          <h2 className="font-display text-[1.1875rem] font-medium tracking-[-0.022em] sm:text-xl">
             {t('retentionTitle')}
           </h2>
-          <p className="mt-4 text-[0.9375rem] leading-relaxed text-ink-muted">
+          <p className="type-body mt-4">
             {t('retention')}
           </p>
         </section>
 
-        <section className="mt-14">
-          <h2 className="text-xl font-semibold tracking-[-0.02em]">{t('rightsTitle')}</h2>
-          <p className="mt-4 text-[0.9375rem] leading-relaxed text-ink-muted">
+        <section className="mt-12 sm:mt-14">
+          <h2 className="font-display text-[1.1875rem] font-medium tracking-[-0.022em] sm:text-xl">{t('rightsTitle')}</h2>
+          <p className="type-body mt-4">
             {t('rights')}
           </p>
-          <p className="mt-4 text-[0.9375rem] leading-relaxed text-ink-muted">
+          <p className="type-body mt-4">
             {t('rightsContact')}{' '}
+            {/*
+              An inline link inside a sentence, so it deliberately does not get
+              a 44px box — that would break the line it belongs to. `py-2` on an
+              inline element grows the hit area without affecting the line box,
+              which is the correct trade-off here: the same address is also
+              offered in the footer as a full-height target.
+            */}
             <a
               href={`mailto:${siteConfig.email}`}
-              className="text-[var(--color-acento)] underline underline-offset-4"
+              className="-my-2 inline-block py-2 text-[var(--accent-text)] underline decoration-[var(--accent-hairline)] underline-offset-4 transition-colors duration-200 hover:decoration-[var(--accent-text)]"
             >
               {siteConfig.email}
             </a>
           </p>
         </section>
 
-        <p className="mt-16 border-t border-hairline pt-7 text-sm text-ink-faint">
+        <p className="mt-16 border-t border-hairline-subtle pt-7 text-[0.8125rem] text-ink-faint">
           {t('updated')}
         </p>
       </main>

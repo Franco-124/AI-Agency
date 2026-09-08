@@ -1,7 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ChevronLeft, ChevronRight, Loader2, MessageCircle, X } from 'lucide-react'
+import { Check, ChevronLeft, ChevronRight, Loader2, MessageCircle, X } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
 import { useEffect, useId, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -293,17 +293,19 @@ export function BookingCalendarPanel({
   return (
     <div
       className={cn(
-        'w-full basis-full rounded-2xl border border-hairline bg-[color-mix(in_srgb,var(--color-primario)_94%,transparent)] p-6 sm:p-7 lg:p-10',
+        'surface-panel w-full basis-full rounded-[1.125rem] p-5 shadow-[var(--shadow-high)] sm:p-7 lg:p-9',
         className,
       )}
     >
       <div className="flex items-start justify-between gap-4">
-        <div>
-          <h3 className="text-lg font-semibold tracking-[-0.02em] text-ink">
+        <div className="min-w-0">
+          <h3 className="text-[1.0625rem] font-semibold tracking-[-0.02em] text-ink sm:text-lg">
             {phase.step === 'fallback' ? t('fallbackTitle') : t('title')}
           </h3>
           {phase.step !== 'fallback' && (
-            <p className="mt-1 text-sm text-ink-muted">{t('subtitle')}</p>
+            <p className="mt-1.5 text-[0.875rem] leading-relaxed text-ink-muted">
+              {t('subtitle')}
+            </p>
           )}
         </div>
         {!isTerminal && (
@@ -311,25 +313,33 @@ export function BookingCalendarPanel({
             type="button"
             onClick={onCancel}
             aria-label={t('dismiss')}
-            className="shrink-0 rounded-full p-1.5 text-ink-faint transition-colors hover:bg-[var(--accent-soft)] hover:text-ink"
+            /* Grown to a 44px target — it was a 28px hit area on a control
+               that dismisses the booking flow. */
+            className="-m-2 flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-ink-faint transition-colors hover:bg-[var(--accent-soft)] hover:text-ink"
           >
             <X aria-hidden className="h-4 w-4" />
           </button>
         )}
       </div>
 
+      {/*
+        Day navigator. Now a bordered strip rather than three loose controls on
+        a shared row: the strip is what identifies the two chevrons and the
+        date between them as one navigator, and it gives the arrows a surface
+        to sit on so they are visibly buttons rather than glyphs.
+      */}
       {currentDay && (
-        <div className="mt-6 flex items-center justify-between">
+        <div className="mt-6 flex items-center justify-between gap-2 rounded-[0.75rem] border border-hairline bg-[var(--surface-sunken)] p-1">
           <button
             type="button"
             disabled={!canGoBack || isBusy}
             onClick={() => goToDay(addDays(currentDay, -1))}
             aria-label={t('prevDay')}
-            className="rounded-full p-1.5 text-ink-faint transition-colors hover:bg-[var(--accent-soft)] hover:text-ink disabled:pointer-events-none disabled:opacity-40"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[0.5rem] text-ink-faint transition-colors hover:bg-[var(--accent-soft)] hover:text-[var(--accent-text)] disabled:pointer-events-none disabled:opacity-30"
           >
             <ChevronLeft aria-hidden className="h-4 w-4" />
           </button>
-          <p className="text-sm font-medium capitalize text-ink">
+          <p className="min-w-0 truncate text-center text-[0.875rem] font-medium capitalize text-ink">
             {formatDayLabel(currentDay, locale)}
           </p>
           <button
@@ -337,7 +347,7 @@ export function BookingCalendarPanel({
             disabled={isBusy}
             onClick={() => goToDay(addDays(currentDay, 1))}
             aria-label={t('nextDay')}
-            className="rounded-full p-1.5 text-ink-faint transition-colors hover:bg-[var(--accent-soft)] hover:text-ink disabled:pointer-events-none disabled:opacity-40"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[0.5rem] text-ink-faint transition-colors hover:bg-[var(--accent-soft)] hover:text-[var(--accent-text)] disabled:pointer-events-none disabled:opacity-30"
           >
             <ChevronRight aria-hidden className="h-4 w-4" />
           </button>
@@ -345,20 +355,25 @@ export function BookingCalendarPanel({
       )}
 
       {phase.step === 'loading' && (
-        <p className="mt-3 text-sm text-ink-muted">{t('loadingSlots')}</p>
+        <p className="mt-4 text-[0.875rem] text-ink-muted">{t('loadingSlots')}</p>
       )}
 
       {phase.step === 'error' && (
-        <p role="alert" className="mt-3 text-sm text-[var(--color-acento)]">
+        <p
+          role="alert"
+          className="mt-4 rounded-[0.625rem] border border-[var(--accent-hairline)] bg-[var(--accent-soft)] px-3.5 py-2.5 text-[0.875rem] leading-relaxed text-[var(--accent-text)]"
+        >
           {phase.message}
         </p>
       )}
 
       {(phase.step === 'slots' || phase.step === 'confirming') && (
         <>
-          <div className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-4 lg:gap-3">
+          <div className="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-4 lg:gap-2.5">
             {phase.step === 'slots' && phase.slots.length === 0 && (
-              <p className="col-span-full text-sm text-ink-muted">{t('noSlots')}</p>
+              <p className="col-span-full text-[0.875rem] text-ink-muted">
+                {t('noSlots')}
+              </p>
             )}
             {(phase.step === 'slots' ? phase.slots : [phase.slot]).map((slot) => (
               <button
@@ -366,11 +381,32 @@ export function BookingCalendarPanel({
                 type="button"
                 disabled={phase.step === 'confirming'}
                 onClick={() => setSelectedSlot(slot)}
+                /*
+                  The selected slot is the accent gradient with white text.
+                  It was previously the flat accent with `--color-neutro-oscuro`
+                  text on it, which is a near-black on mid-violet pairing that
+                  does not reach 4.5:1 — the one state in this flow the visitor
+                  most needs to read. White on the same fill clears it.
+
+                  `aria-pressed` is what actually communicates the selection:
+                  colour alone left screen-reader users with no way to tell
+                  which of eight identical time buttons was chosen.
+                */
+                aria-pressed={selectedSlot?.start === slot.start}
                 className={cn(
-                  'rounded-lg border px-3 py-2 text-sm transition-colors disabled:pointer-events-none disabled:opacity-55 lg:px-4 lg:py-3 lg:text-base',
+                  'flex min-h-11 items-center justify-center rounded-[0.5rem] border px-2 text-[0.875rem] font-medium tabular-nums',
+                  'transition-[background-color,border-color,color,box-shadow] duration-200',
+                  'disabled:pointer-events-none disabled:opacity-55 lg:text-[0.9375rem]',
                   selectedSlot?.start === slot.start
-                    ? 'border-[var(--color-acento)] bg-[var(--color-acento)] text-[var(--color-neutro-oscuro)]'
-                    : 'border-hairline text-ink hover:border-[var(--accent-hairline)]',
+                    ? [
+                        'border-[color-mix(in_srgb,var(--color-acento)_70%,white_30%)] text-white',
+                        'bg-[linear-gradient(to_bottom,color-mix(in_srgb,var(--color-acento)_92%,white)_0%,var(--color-acento)_100%)]',
+                        'shadow-[inset_0_1px_0_color-mix(in_srgb,white_28%,transparent),var(--shadow-accent)]',
+                      ].join(' ')
+                    : [
+                        'border-hairline bg-[var(--surface-sunken)] text-ink',
+                        'hover:border-[var(--accent-hairline)] hover:bg-[var(--accent-soft)] hover:text-[var(--accent-text)]',
+                      ].join(' '),
                 )}
               >
                 {formatSlotTime(slot.start, locale)}
@@ -449,10 +485,30 @@ export function BookingCalendarPanel({
         </>
       )}
 
+      {/*
+        The confirmation is the payoff of the whole flow, so it lands as a
+        marked state rather than as two more paragraphs: an accent-washed
+        inset with a ticked glyph. Without it, a visitor who has just given
+        their details gets no visual acknowledgement that anything happened.
+      */}
       {phase.step === 'confirmed' && (
-        <div role="status" className="mt-6">
-          <p className="text-base font-semibold text-ink">{t('confirmedTitle')}</p>
-          <p className="mt-1.5 text-sm text-ink-muted">{t('confirmedBody')}</p>
+        <div
+          role="status"
+          className="mt-6 rounded-[0.875rem] border border-[var(--accent-hairline)] bg-[var(--accent-soft)] p-5"
+        >
+          <span
+            aria-hidden
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--accent-hairline)] bg-[color-mix(in_srgb,var(--color-acento)_18%,transparent)]"
+          >
+            <Check className="h-[1.125rem] w-[1.125rem] text-[var(--accent-text)]" strokeWidth={2.25} />
+          </span>
+
+          <p className="mt-4 text-[1.0625rem] font-semibold tracking-[-0.015em] text-ink">
+            {t('confirmedTitle')}
+          </p>
+          <p className="mt-1.5 text-[0.875rem] leading-relaxed text-ink-muted">
+            {t('confirmedBody')}
+          </p>
 
           <Button type="button" variant="outline" size="lg" className="mt-6" onClick={onCancel}>
             {t('backHome')}

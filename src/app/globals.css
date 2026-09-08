@@ -5,29 +5,103 @@
    Every component consumes these tokens. No loose hex codes allowed.
    ------------------------------------------------------------------ */
 :root {
-  --color-primario: #1a1420;
-  --color-secundario: #322b3d;
-  --color-acento: #9333ea;
-  --color-neutro-oscuro: #0d0a11;
-  --color-neutro-claro: #f5f3f8;
+  /* ----------------------------------------------------------------
+     Base palette.
 
-  /* Derived surfaces, kept as tokens so they stay auditable. */
+     The accent moved off `#9333ea` — a fully saturated violet at maximum
+     chroma, which is precisely the "AI purple" every generated landing page
+     ships with. `#8b5cf6` sits one step down in chroma and one up in
+     lightness: same hue family, same brand, but it reads as a considered
+     brand violet rather than a default. Two companions come with it — a
+     lighter `-lift` for text and thin strokes on dark ground (where the base
+     accent falls short of 4.5:1), and a deeper `-deep` for fills and shadows.
+     ---------------------------------------------------------------- */
+  --color-primario: #171320;
+  --color-secundario: #2e2839;
+  --color-acento: #8b5cf6;
+  --color-acento-lift: #b39cfb;
+  --color-acento-deep: #5b21b6;
+  --color-neutro-oscuro: #0b0910;
+  --color-neutro-claro: #f6f4fa;
+
+  /* ----------------------------------------------------------------
+     Surface ladder.
+
+     Five steps rather than the previous two. With only `base` and `raised`
+     every card, panel and inset landed on the same plane and the page read
+     flat: a card inside a raised section had no tone of its own, so depth
+     could only be faked with a border. Each step is a real, nameable
+     elevation, and components pick the step instead of mixing a one-off.
+     ---------------------------------------------------------------- */
   --surface-base: var(--color-neutro-oscuro);
+  --surface-sunken: #070509;
   --surface-raised: var(--color-primario);
-  --surface-border: color-mix(in srgb, var(--color-secundario) 70%, transparent);
-  --surface-border-strong: var(--color-secundario);
+  --surface-panel: #1e1929;
+  --surface-inset: #241e31;
+
+  /* ----------------------------------------------------------------
+     Border ladder. Three weights, because one hairline everywhere is what
+     made every element sit on the same plane: `subtle` separates content
+     inside a panel, `default` outlines a panel, `strong` marks a hover or
+     the current item.
+     ---------------------------------------------------------------- */
+  --surface-border-subtle: color-mix(in srgb, var(--color-neutro-claro) 7%, transparent);
+  --surface-border: color-mix(in srgb, var(--color-neutro-claro) 11%, transparent);
+  --surface-border-strong: color-mix(in srgb, var(--color-neutro-claro) 19%, transparent);
 
   --text-primary: var(--color-neutro-claro);
-  --text-secondary: color-mix(in srgb, var(--color-neutro-claro) 72%, transparent);
-  --text-muted: color-mix(in srgb, var(--color-neutro-claro) 52%, transparent);
+  --text-secondary: color-mix(in srgb, var(--color-neutro-claro) 74%, transparent);
+  --text-muted: color-mix(in srgb, var(--color-neutro-claro) 56%, transparent);
 
-  --accent-soft: color-mix(in srgb, var(--color-acento) 14%, transparent);
-  --accent-hairline: color-mix(in srgb, var(--color-acento) 38%, transparent);
+  --accent-soft: color-mix(in srgb, var(--color-acento) 13%, transparent);
+  --accent-hairline: color-mix(in srgb, var(--color-acento) 42%, transparent);
+  /* Accent used as *text* on the dark ground. The base accent clears 4.5:1
+     only just; the lift clears it with room, so every accented word, label
+     and figure on the page reads through this token, not the raw accent. */
+  --accent-text: var(--color-acento-lift);
 
   --header-height: 4.5rem;
 
+  /* ----------------------------------------------------------------
+     Elevation. Three shadows on a single light direction (above, slightly
+     front), each a two-part cast: a tight contact shadow that seats the
+     element, plus a wide ambient one that gives it air. Single-layer
+     shadows are what make a dark UI look pasted on.
+     ---------------------------------------------------------------- */
+  --shadow-low:
+    0 1px 2px rgba(4, 2, 8, 0.5),
+    0 2px 8px -2px rgba(4, 2, 8, 0.45);
+  --shadow-mid:
+    0 1px 2px rgba(4, 2, 8, 0.55),
+    0 12px 28px -12px rgba(4, 2, 8, 0.75);
+  --shadow-high:
+    0 1px 3px rgba(4, 2, 8, 0.6),
+    0 28px 60px -28px rgba(4, 2, 8, 0.85);
+  /* The one shadow that carries colour — reserved for the primary CTA, so
+     the accent reads as a lit surface rather than a flat swatch. */
+  --shadow-accent:
+    0 1px 2px rgba(4, 2, 8, 0.4),
+    0 10px 30px -10px color-mix(in srgb, var(--color-acento) 55%, transparent);
+
+  /* ----------------------------------------------------------------
+     Vertical rhythm. Sections no longer all share one padding value —
+     that uniformity is what made the scroll monotonous. Three roles:
+     `hero-adjacent` blocks open wide, ordinary blocks sit at `normal`,
+     and blocks that belong to the one above them close to `tight`.
+     ---------------------------------------------------------------- */
+  --space-section-tight: clamp(3.5rem, 3rem + 2.5vw, 5rem);
+  --space-section: clamp(4.5rem, 3.5rem + 4vw, 7.5rem);
+  --space-section-wide: clamp(5.5rem, 4rem + 6vw, 10rem);
+
+  /* Content measures. One place to change how wide the page runs. */
+  --measure-page: 78rem;
+  --measure-prose: 44rem;
+
   /* One easing curve and one duration for every entrance on the page. */
   --ease-entrance: cubic-bezier(0.22, 0.61, 0.36, 1);
+  /* Expo-out. Used where an element should arrive decisively — the CTA
+     press, the panel open — rather than glide. */
+  --ease-emphasis: cubic-bezier(0.16, 1, 0.3, 1);
   --duration-entrance: 500ms;
 }
 
@@ -39,13 +113,20 @@
   --color-neutro-claro: var(--color-neutro-claro);
 
   --color-surface: var(--surface-base);
+  --color-surface-sunken: var(--surface-sunken);
   --color-surface-raised: var(--surface-raised);
+  --color-surface-panel: var(--surface-panel);
+  --color-surface-inset: var(--surface-inset);
+
+  --color-hairline-subtle: var(--surface-border-subtle);
   --color-hairline: var(--surface-border);
   --color-hairline-strong: var(--surface-border-strong);
 
   --color-ink: var(--text-primary);
   --color-ink-muted: var(--text-secondary);
   --color-ink-faint: var(--text-muted);
+  /* Accent as text — always this, never the raw accent (contrast). */
+  --color-accent-text: var(--accent-text);
 
   --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -80,9 +161,12 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  /* White on the accent, not near-black: `--color-neutro-oscuro` on the
+     mid-violet accent falls short of 4.5:1, and selected text is text the
+     reader is actively working with. */
   ::selection {
     background-color: var(--color-acento);
-    color: var(--color-neutro-oscuro);
+    color: #ffffff;
   }
 
   :focus-visible {
@@ -114,20 +198,55 @@
     Set on the display face (Space Grotesk): a geometric grotesque carries the
     letterforms at this size with tight tracking for a modern, technical feel.
   */
+  /*
+    The headline. Two separate ramps rather than one clamp across the whole
+    range, because a single curve cannot serve both ends: the value that reads
+    as confident on a 1440px monitor is shouting on a 390px phone, where the
+    same string then wraps to five or six lines and the eye has to climb it
+    instead of taking it in.
+
+    Phone: 1.75rem–2.125rem. Deliberately restrained — a 33-character Spanish
+    headline lands in three comfortable lines at this size, with line-height
+    opened to 1.18 so those lines are legible as lines rather than as a block.
+
+    Desktop (>= 48rem): the ramp resumes and runs up to 4.5rem, where the
+    tighter 1.04 leading and negative tracking belong.
+  */
   .type-display {
     font-family: var(--font-display);
-    font-size: clamp(2.25rem, 1.6rem + 4.2vw, 5.25rem);
-    line-height: 1.05;
+    font-size: clamp(1.75rem, 1.4rem + 1.6vw, 2.125rem);
+    line-height: 1.18;
     font-weight: 560;
-    letter-spacing: -0.012em;
+    letter-spacing: -0.018em;
   }
 
+  @media (width >= 48rem) {
+    .type-display {
+      font-size: clamp(2.5rem, 1.2rem + 3.6vw, 4.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.028em;
+    }
+  }
+
+  /*
+    Section titles. Same two-ramp treatment, and the phone end is capped
+    well below the old 1.875rem floor: at that size every section title on
+    the page competed with the hero headline for the same optical weight.
+  */
   .type-section-title {
     font-family: var(--font-display);
-    font-size: clamp(1.875rem, 1.35rem + 2.2vw, 3.25rem);
-    line-height: 1.06;
-    font-weight: 520;
-    letter-spacing: -0.008em;
+    font-size: clamp(1.5rem, 1.3rem + 1vw, 1.75rem);
+    line-height: 1.18;
+    font-weight: 540;
+    letter-spacing: -0.02em;
+  }
+
+  @media (width >= 48rem) {
+    .type-section-title {
+      font-size: clamp(2rem, 1.1rem + 2.4vw, 2.875rem);
+      line-height: 1.08;
+      letter-spacing: -0.024em;
+    }
   }
 
   /* The two "hero figures" on the page: the results stat and the package
@@ -139,19 +258,51 @@
     letter-spacing: -0.01em;
   }
 
+  /*
+    Standfirst under a title. Floors at 1rem — 16px is the readability floor
+    on a phone, and the old 1.0625rem start paired with a 1.375rem cap made
+    the lead paragraph nearly as loud as the section title it sits under.
+    `--measure-prose` caps the line at roughly 70 characters, the upper bound
+    for comfortable reading.
+  */
   .type-lead {
-    font-size: clamp(1.0625rem, 0.98rem + 0.5vw, 1.375rem);
-    line-height: 1.55;
+    font-size: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+    line-height: 1.65;
+    max-width: var(--measure-prose);
     color: var(--text-secondary);
   }
 
+  /*
+    Body copy inside cards and lists. Named rather than repeated as an
+    arbitrary `text-[0.9375rem]` in twelve components — which is how the page
+    ended up with four slightly different body sizes.
+  */
+  .type-body {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+  }
+
+  /*
+    The eyebrow. Tracking pulled back from 0.16em to 0.11em: at 12px with
+    0.16em the words stopped reading as words and became a texture, which is
+    the single most recognisable tell of a generated landing page.
+  */
+  /*
+    12px, not 11px. Uppercase letterforms have no descenders and a smaller
+    apparent x-height for a given point size, so an 11px uppercase label is
+    effectively smaller than 11px of body text — under the readability floor,
+    and these labels carry real content (the calculator's own result labels
+    are eyebrows).
+  */
   .type-eyebrow {
     font-size: 0.75rem;
     line-height: 1;
-    font-weight: 500;
-    letter-spacing: 0.16em;
+    font-weight: 600;
+    letter-spacing: 0.11em;
     text-transform: uppercase;
     color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
   }
 
   /* ----------------------------------------------------------------
@@ -163,51 +314,85 @@
      and a grounded shadow.
      ---------------------------------------------------------------- */
 
-  /* Primary — translucent violet glass. */
+  /*
+    Primary CTA.
+
+    Opaque, not translucent. The previous version was a blurred violet pane —
+    a treatment that costs a backdrop-filter pass on every CTA on the page and,
+    because the button then samples whatever sits behind it, made the same
+    button a different colour in each section. It is now a real surface: a
+    vertical gradient from the accent to its deeper sibling, so the fill has a
+    light direction, plus a 1px top highlight and the accent-coloured shadow.
+    That reads as an object with a light on it, which is what "expensive"
+    actually looks like in a dark interface.
+  */
   .btn-volume {
     position: relative;
-    background: color-mix(in srgb, var(--color-acento) 82%, transparent);
-    backdrop-filter: blur(10px) saturate(140%);
-    -webkit-backdrop-filter: blur(10px) saturate(140%);
-    border: 1px solid color-mix(in srgb, var(--color-acento) 100%, white 30%);
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--color-acento) 92%, white) 0%,
+      var(--color-acento) 55%,
+      color-mix(in srgb, var(--color-acento) 88%, var(--color-acento-deep)) 100%
+    );
+    border: 1px solid color-mix(in srgb, var(--color-acento) 70%, white 30%);
     box-shadow:
-      inset 0 1px 0 color-mix(in srgb, white 22%, transparent),
-      0 1px 3px rgba(13, 10, 17, 0.3);
-    color: var(--color-neutro-claro);
+      inset 0 1px 0 color-mix(in srgb, white 30%, transparent),
+      var(--shadow-accent);
+    color: #ffffff;
   }
 
   .btn-volume:hover {
-    background: color-mix(in srgb, var(--color-acento) 90%, transparent);
-    border-color: color-mix(in srgb, var(--color-acento) 100%, white 42%);
-  }
-
-  .btn-volume:active {
-    background: color-mix(in srgb, var(--color-acento) 96%, transparent);
-    border-color: color-mix(in srgb, var(--color-acento) 100%, white 30%);
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--color-acento) 84%, white) 0%,
+      color-mix(in srgb, var(--color-acento) 94%, white) 55%,
+      var(--color-acento) 100%
+    );
     box-shadow:
-      inset 0 1px 0 color-mix(in srgb, white 12%, transparent),
-      0 1px 1px rgba(13, 10, 17, 0.3);
+      inset 0 1px 0 color-mix(in srgb, white 36%, transparent),
+      0 1px 2px rgba(4, 2, 8, 0.4),
+      0 14px 36px -10px color-mix(in srgb, var(--color-acento) 68%, transparent);
   }
 
-  /* Secondary — quiet dark glass, same finish, lower presence. */
+  /* Pressed: the gradient inverts and the cast collapses, so the surface
+     reads as pushed into the page rather than merely darkened. */
+  .btn-volume:active {
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--color-acento) 88%, var(--color-acento-deep)) 0%,
+      var(--color-acento) 100%
+    );
+    box-shadow:
+      inset 0 2px 4px color-mix(in srgb, var(--color-acento-deep) 55%, transparent),
+      0 1px 1px rgba(4, 2, 8, 0.4);
+  }
+
+  /*
+    Secondary. Also opaque now, and lifted off the page background by one
+    surface step plus a contact shadow — previously it was a translucent pane
+    that vanished against any section darker than itself.
+  */
   .btn-surface {
     position: relative;
-    background: color-mix(in srgb, var(--color-neutro-oscuro) 68%, transparent);
-    backdrop-filter: blur(10px) saturate(120%);
-    -webkit-backdrop-filter: blur(10px) saturate(120%);
+    background: var(--surface-panel);
     border: 1px solid var(--surface-border);
-    box-shadow: inset 0 1px 0 color-mix(in srgb, white 6%, transparent);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, white 7%, transparent),
+      var(--shadow-low);
     color: var(--text-primary);
   }
 
   .btn-surface:hover {
-    background: color-mix(in srgb, var(--color-neutro-oscuro) 78%, transparent);
+    background: var(--surface-inset);
     border-color: var(--surface-border-strong);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, white 10%, transparent),
+      var(--shadow-mid);
   }
 
   .btn-surface:active {
-    background: color-mix(in srgb, var(--color-neutro-oscuro) 90%, transparent);
-    border-color: var(--surface-border);
+    background: var(--surface-raised);
+    box-shadow: inset 0 2px 5px rgba(4, 2, 8, 0.55);
   }
 
   /* ----------------------------------------------------------------
@@ -216,40 +401,79 @@
      other CTA on the site) so this treatment never leaks elsewhere.
      ---------------------------------------------------------------- */
 
+  /*
+    The hero's primary CTA is the single most important object on the page, so
+    it gets the full treatment rather than a translucent tint: the same lit
+    gradient as `.btn-volume`, but opaque and with a wider, warmer cast. It was
+    previously 55% alpha violet over a blur, which on the hero's own violet
+    bloom left the most important button on the site reading as a suggestion.
+  */
   .btn-hero-primary {
     position: relative;
-    background: rgba(147, 51, 234, 0.55);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(147, 51, 234, 0.7);
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--color-acento) 88%, white) 0%,
+      var(--color-acento) 52%,
+      color-mix(in srgb, var(--color-acento) 82%, var(--color-acento-deep)) 100%
+    );
+    border: 1px solid color-mix(in srgb, var(--color-acento) 62%, white 38%);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, white 34%, transparent),
+      0 2px 4px rgba(4, 2, 8, 0.45),
+      0 16px 44px -14px color-mix(in srgb, var(--color-acento) 70%, transparent);
     color: #ffffff;
   }
 
   .btn-hero-primary:hover {
-    background: rgba(147, 51, 234, 0.65);
-    border-color: rgba(147, 51, 234, 0.85);
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--color-acento) 78%, white) 0%,
+      color-mix(in srgb, var(--color-acento) 92%, white) 52%,
+      var(--color-acento) 100%
+    );
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, white 40%, transparent),
+      0 2px 4px rgba(4, 2, 8, 0.45),
+      0 20px 52px -14px color-mix(in srgb, var(--color-acento) 80%, transparent);
   }
 
   .btn-hero-primary:active {
-    background: rgba(147, 51, 234, 0.45);
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--color-acento) 84%, var(--color-acento-deep)) 0%,
+      var(--color-acento) 100%
+    );
+    box-shadow:
+      inset 0 2px 5px color-mix(in srgb, var(--color-acento-deep) 60%, transparent),
+      0 1px 2px rgba(4, 2, 8, 0.4);
   }
 
+  /*
+    The secondary keeps the glass — here it is earned, because the hero has a
+    real lit backdrop for it to sample. Raised from 3.2% to 6% fill and given a
+    contact shadow so it has a visible edge on the hero's darkest corner, where
+    the old version was effectively invisible.
+  */
   .btn-hero-secondary {
     position: relative;
-    background: rgba(255, 255, 255, 0.032);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    color: rgba(255, 255, 255, 0.88);
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(14px) saturate(130%);
+    -webkit-backdrop-filter: blur(14px) saturate(130%);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.12),
+      0 2px 12px -4px rgba(4, 2, 8, 0.5);
+    color: rgba(255, 255, 255, 0.92);
   }
 
   .btn-hero-secondary:hover {
-    background: rgba(255, 255, 255, 0.062);
-    border-color: rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.105);
+    border-color: rgba(255, 255, 255, 0.26);
   }
 
   .btn-hero-secondary:active {
-    background: rgba(255, 255, 255, 0.032);
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: inset 0 2px 5px rgba(4, 2, 8, 0.4);
   }
 
   /* ----------------------------------------------------------------
@@ -295,13 +519,26 @@
      An earlier version sized the section to its content instead, which left a
      dead black band under the copy; the fill now comes from the vertical
      rhythm and the ambient light, not from shrinking the section. */
+  /*
+    Phone: explicitly NOT a full viewport height.
+
+    `100dvh` here forced every hero element to stretch to fill a screen it did
+    not have the content for, which is what left the phone hero feeling both
+    crowded (type scaled up to fill) and empty (dead space under the CTA). The
+    hero now sizes to its content with generous but finite padding, and the
+    next section's top edge is visible below the fold — which is a better
+    scroll cue than any chevron, and the reason the affordance stays desktop-only.
+
+    `min-height` is kept as a floor for landscape phones only, well under the
+    viewport so it never stretches a portrait layout.
+  */
   .hero-shell {
-    min-height: 100dvh;
+    min-height: 0;
   }
 
   @media (width >= 64rem) {
     .hero-shell {
-      min-height: max(46rem, 100svh);
+      min-height: max(44rem, 100svh);
     }
   }
 
@@ -314,7 +551,7 @@
      utility outranks the components layer, so it silently beat this rule and
      let the copy run under the visuals at 1024. */
   .hero-copy {
-    max-width: 80rem;
+    max-width: var(--measure-page);
   }
 
   @media (width >= 64rem) {
@@ -449,6 +686,117 @@
   }
 
   /* ----------------------------------------------------------------
+     Panel and card surfaces.
+
+     One named treatment instead of the `bg-[color-mix(in_srgb,var(--color-primario)_88%,transparent)]`
+     that was pasted into Packages, Advisory and FinalCta separately — three
+     copies that had already drifted to 88%, 88% and 94%.
+
+     The finish is what carries the "premium" read, and it is three things
+     working together, none of which the flat bordered box had:
+
+       1. A vertical gradient on the fill, so the panel has a light direction.
+       2. A 1px inner top highlight, which is the specular edge every physical
+          panel has and the single strongest cue that a surface is lit.
+       3. A layered cast shadow, so it sits above the page rather than on it.
+     ---------------------------------------------------------------- */
+  .surface-panel {
+    position: relative;
+    background: linear-gradient(
+      to bottom,
+      var(--surface-panel) 0%,
+      color-mix(in srgb, var(--surface-panel) 82%, var(--surface-base)) 100%
+    );
+    border: 1px solid var(--surface-border);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, white 6%, transparent),
+      var(--shadow-mid);
+  }
+
+  /* Same finish, one step quieter — for cards sitting *inside* a panel, where
+     the full treatment would compete with their container. */
+  .surface-card {
+    position: relative;
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--surface-raised) 94%, var(--surface-panel)) 0%,
+      var(--surface-raised) 100%
+    );
+    border: 1px solid var(--surface-border-subtle);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, white 4%, transparent),
+      var(--shadow-low);
+  }
+
+  /* The featured tier. The accent is carried by a tinted fill and a lit top
+     edge rather than by a coloured border — a saturated outline around a card
+     is the loudest, cheapest way to mark emphasis. */
+  .surface-card-featured {
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--color-acento) 10%, var(--surface-panel)) 0%,
+      color-mix(in srgb, var(--color-acento) 4%, var(--surface-raised)) 100%
+    );
+    border-color: var(--accent-hairline);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--color-acento-lift) 22%, transparent),
+      var(--shadow-mid);
+  }
+
+  /* ----------------------------------------------------------------
+     Interactive lift. Applied to any card that is itself a link or that
+     reveals something on hover. Transform and shadow only — both compositor
+     properties, so the hover costs no layout.
+     ---------------------------------------------------------------- */
+  .lift {
+    transition:
+      transform 260ms var(--ease-emphasis),
+      box-shadow 260ms var(--ease-emphasis),
+      border-color 260ms var(--ease-emphasis);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .lift:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-high);
+      border-color: var(--surface-border-strong);
+    }
+  }
+
+  /* ----------------------------------------------------------------
+     Section index. The two-digit ordinal that now precedes every section
+     title, which is what turns eleven interchangeable blocks into a
+     sequence the visitor can place themselves in. Editorial device, not
+     decoration — it is `aria-hidden` in markup.
+     ---------------------------------------------------------------- */
+  .section-index {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    font-variant-numeric: tabular-nums;
+    color: color-mix(in srgb, var(--color-acento-lift) 80%, transparent);
+  }
+
+  /* ----------------------------------------------------------------
+     Top hairline that fades out at both ends instead of running edge to
+     edge. A full-bleed 1px line across eleven consecutive sections is the
+     most visible piece of "template" on a long page; a line that resolves
+     into the background reads as a considered break.
+     ---------------------------------------------------------------- */
+  .edge-rule {
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      var(--surface-border) 18%,
+      var(--surface-border-strong) 50%,
+      var(--surface-border) 82%,
+      transparent 100%
+    );
+  }
+
+  /* ----------------------------------------------------------------
      Scroll entrances. The attribute is written by `useScrollTrigger`
      right before paint; elements it never touches (server render, no
      JavaScript, reduced motion, above the fold) carry no attribute and
@@ -558,8 +906,11 @@
     transition-delay: var(--rail-delay, 0s);
   }
 
+  /* The unlit resting state. Also clears the accent glow the lit node
+     carries — without this the node reads as lit-but-grey while pending. */
   [data-rail='pending'] .rail-node {
-    background-color: var(--color-secundario);
+    background-color: var(--surface-border-strong);
+    box-shadow: none;
   }
 
   .rail-fill {
@@ -694,14 +1045,48 @@
     position: relative;
   }
 
+  /*
+    `soft-light` rather than `overlay`, at a higher alpha.
+
+    On a near-black ground `overlay` maps almost the whole noise range to
+    black — the texture was being computed and painted every frame for an
+    effect that was invisible below roughly 8% lightness, which is most of
+    this page. `soft-light` lifts rather than multiplies, so the grain
+    actually registers, and the higher alpha is what makes the large flat
+    sections read as a surface with tooth instead of as empty fill. This is
+    the detail that most separates a rendered-looking dark page from a
+    printed-looking one.
+  */
   .grain::after {
     content: "";
     position: absolute;
     inset: 0;
     pointer-events: none;
-    opacity: 0.16;
-    mix-blend-mode: overlay;
+    opacity: 0.42;
+    mix-blend-mode: soft-light;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  }
+
+  /*
+    Body-level texture. The `grain` utility only applies to the three sections
+    that opt into it, which left the rest of the page — the majority of its
+    height — on flat fill. This is the same noise at a much lower alpha,
+    covering everything, so there is no visible boundary where the tooth
+    starts and stops.
+
+    Fixed rather than scrolling: the grain belongs to the screen, like film
+    grain, not to the document. A scrolling texture at this alpha reads as a
+    moving pattern.
+  */
+  .page-grain::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.22;
+    mix-blend-mode: soft-light;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
   }
 }
 
@@ -733,8 +1118,17 @@
     transform: scaleX(1);
   }
 
+  /*
+    With motion off the timeline is drawn complete, so the nodes must land on
+    their *lit* state — glow included. Restating the shadow matters: the
+    `pending` rule above clears it, and inheriting that here would leave four
+    flat violet dots where the animated version has four lights.
+  */
   [data-rail='pending'] .rail-node {
     background-color: var(--color-acento);
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--color-acento-lift) 45%, transparent),
+      0 0 12px color-mix(in srgb, var(--color-acento) 55%, transparent);
   }
 
   [data-reveal='pending'] .rule-draw {

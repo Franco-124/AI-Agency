@@ -40,8 +40,9 @@ const markDismissed = () => {
 /**
  * Persistent WhatsApp entry point.
  *
- * A dark, icon-only circle — the orange icon is the only accent, so it reads
- * as a quiet utility button rather than competing with the hero CTA.
+ * A dark, icon-only circle carrying WhatsApp's own green glyph, so it reads as
+ * a channel shortcut rather than as a third CTA competing with the hero and
+ * the lead form for the same violet.
  *
  * A greeting bubble appears once per session and is suppressed for the rest of
  * the session as soon as it is dismissed or the button is used.
@@ -115,13 +116,16 @@ export function WhatsAppFab() {
       {showGreeting ? (
         <div
           role="status"
-          className="relative max-w-[15rem] rounded-xl rounded-br-sm border border-hairline-strong bg-[var(--color-primario)] px-4 py-3 pr-8 text-sm leading-relaxed text-[var(--color-neutro-claro)] motion-safe:animate-[greeting-in_320ms_ease-out]"
+          className="surface-panel relative max-w-[15rem] rounded-xl rounded-br-sm px-4 py-3 pr-9 text-[0.875rem] leading-relaxed text-ink shadow-[var(--shadow-high)] motion-safe:animate-[greeting-in_320ms_var(--ease-emphasis)]"
         >
           <button
             type="button"
             onClick={dismissGreeting}
             aria-label={t('close')}
-            className="absolute right-1.5 top-1.5 inline-flex h-6 w-6 items-center justify-center rounded text-ink-faint transition-colors duration-200 hover:text-ink"
+            /* Was a 24px target on a control the visitor is meant to reach for
+               first — grown to 44px, with the padding absorbed by the offset so
+               the bubble's own box is unchanged. */
+            className="absolute -right-1 -top-1 inline-flex h-11 w-11 items-center justify-center rounded-full text-ink-faint transition-colors duration-200 hover:text-ink"
           >
             <X className="h-3.5 w-3.5" aria-hidden />
           </button>
@@ -129,13 +133,25 @@ export function WhatsAppFab() {
         </div>
       ) : null}
 
+      {/*
+        The glyph is WhatsApp's own green, not the site accent.
+
+        It was `--color-acento`, which recoloured a third party's brand mark to
+        ours — the same mistake `Integrations` explicitly avoids for the other
+        nine marks. Green also does the job better here: it identifies the
+        channel instantly and keeps the button from reading as a third violet
+        CTA competing with the hero and the form.
+
+        The disc itself keeps the site's panel finish (lit top edge, layered
+        cast) so it still belongs to this page rather than looking bolted on.
+      */}
       <a
         href={href}
         target="_blank"
         rel="noopener noreferrer"
         aria-label={t('ariaLabel')}
         onClick={dismissGreeting}
-        className="inline-flex h-14 w-14 items-center justify-center rounded-full border-[0.5px] border-[var(--color-secundario)] bg-[var(--color-primario)] text-[var(--color-acento)] transition-transform duration-200 ease-out motion-safe:hover:-translate-y-0.5"
+        className="inline-flex h-14 w-14 items-center justify-center rounded-full border border-hairline-strong bg-[var(--surface-panel)] text-[#25D366] shadow-[inset_0_1px_0_color-mix(in_srgb,white_8%,transparent),var(--shadow-high)] transition-[transform,border-color,background-color] duration-200 ease-[var(--ease-emphasis)] hover:border-[color-mix(in_srgb,#25D366_45%,transparent)] hover:bg-[var(--surface-inset)] motion-safe:hover:-translate-y-0.5"
       >
         <WhatsAppIcon className="h-6 w-6 shrink-0" />
       </a>

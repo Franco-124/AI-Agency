@@ -29,9 +29,16 @@ export function Footer() {
   const year = new Date().getFullYear()
 
   return (
-    <footer className="border-t border-hairline bg-[var(--color-primario)]">
-      <div className="mx-auto max-w-[80rem] px-5 py-16 sm:px-8 lg:py-20">
-        <div className="grid gap-12 md:grid-cols-[1.5fr_1fr_1fr]">
+    // Sunken, not raised. The footer is where the page ends, and a *lighter*
+    // slab at the bottom reads as one more section rather than as a floor —
+    // dropping it below the page surface is what closes the document.
+    <footer className="relative bg-[var(--surface-sunken)]">
+      <span
+        aria-hidden
+        className="edge-rule pointer-events-none absolute inset-x-0 top-0"
+      />
+      <div className="mx-auto w-full max-w-[var(--measure-page)] px-5 py-14 sm:px-8 lg:py-20">
+        <div className="grid gap-10 md:grid-cols-[1.6fr_1fr_1fr] md:gap-12">
           <div className="max-w-sm">
             <div className="flex items-center gap-2.5">
               <span className="relative inline-flex h-6 w-6 shrink-0 items-center justify-center overflow-hidden rounded-md">
@@ -49,10 +56,10 @@ export function Footer() {
             </div>
             <p className="mt-5 text-sm leading-relaxed text-ink-muted">{t('tagline')}</p>
 
-            {/* `-ml-2.5` pulls the row back to the text's optical left edge:
-                each link carries its own padding to reach a 44px tap target,
-                which would otherwise indent the first glyph. */}
-            <ul aria-label={t('socialLabel')} className="-ml-2.5 mt-6 flex items-center gap-1">
+            {/* Seated in tiles rather than left as bare glyphs, matching the
+                integration grid and the hero's capability row — the tile is
+                also what gives the 44px tap target a visible boundary. */}
+            <ul aria-label={t('socialLabel')} className="mt-6 flex items-center gap-2.5">
               {socialLinks.map(({ key, label, href }) => {
                 const Glyph = socialGlyphs[key]
 
@@ -63,9 +70,9 @@ export function Footer() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={label}
-                      className="inline-flex h-11 w-11 items-center justify-center rounded-md text-ink-muted transition-colors duration-200 hover:text-ink"
+                      className="inline-flex h-11 w-11 items-center justify-center rounded-[0.5625rem] border border-hairline bg-[var(--surface-raised)] text-ink-muted transition-colors duration-200 hover:border-[var(--accent-hairline)] hover:bg-[var(--accent-soft)] hover:text-[var(--accent-text)]"
                     >
-                      <Glyph className="h-[1.125rem] w-[1.125rem]" aria-hidden />
+                      <Glyph className="h-[1.0625rem] w-[1.0625rem]" aria-hidden />
                     </a>
                   </li>
                 )
@@ -75,25 +82,32 @@ export function Footer() {
 
           <nav aria-label={t('navLabel')}>
             <h2 className="type-eyebrow">{t('navLabel')}</h2>
-            {/* `-my-2 py-2` grows the tap target to ~44px tall without
-                changing the visual `gap-3` rhythm between links — the
-                painted padding is cancelled out by the matching negative
-                margin, only the hit area grows. */}
-            <ul className="mt-5 flex flex-col gap-3">
+            {/*
+              `min-h-11` on a flex link, rather than the previous `-my-2 py-2`
+              trick. That trick was arithmetic on the line box — 20px of text
+              plus 16px of padding — and it landed at 36px, eight short of the
+              44px minimum, silently. `min-h-11` states the requirement
+              instead of computing it, so it cannot drift when the type size
+              changes. The list drops to `gap-0` because the targets now
+              provide their own separation.
+            */}
+            <ul className="mt-4 flex flex-col">
               {footerNav.map((item) => (
                 <li key={item.key}>
                   <Link
                     href={item.href}
-                    className="-my-2 block py-2 text-sm text-ink-muted transition-colors duration-200 hover:text-ink"
+                    className="flex min-h-11 items-center text-sm text-ink-muted transition-colors duration-200 hover:text-ink"
                   >
                     {tNav(item.key)}
                   </Link>
                 </li>
               ))}
+              {/* Separate from `footerNav`: its label lives in the `privacy`
+                  namespace, not `nav`, so it cannot share the loop's lookup. */}
               <li>
                 <Link
                   href="/privacidad"
-                  className="-my-2 block py-2 text-sm text-ink-muted transition-colors duration-200 hover:text-ink"
+                  className="flex min-h-11 items-center text-sm text-ink-muted transition-colors duration-200 hover:text-ink"
                 >
                   {tPrivacy('linkLabel')}
                 </Link>
@@ -103,13 +117,13 @@ export function Footer() {
 
           <div>
             <h2 className="type-eyebrow">{t('contactLabel')}</h2>
-            <ul className="mt-5 flex flex-col gap-3 text-sm text-ink-muted">
+            <ul className="mt-4 flex flex-col text-sm text-ink-muted">
               <li>
                 <a
                   href={`${whatsappUrl}?text=${encodeURIComponent(tWhatsapp('prefill'))}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="-my-2 inline-flex items-center gap-2 py-2 transition-colors duration-200 hover:text-ink"
+                  className="flex min-h-11 items-center gap-2 transition-colors duration-200 hover:text-ink"
                 >
                   <MessageCircle className="h-4 w-4 text-ink-faint" aria-hidden />
                   WhatsApp
@@ -118,13 +132,13 @@ export function Footer() {
               <li>
                 <a
                   href={`mailto:${siteConfig.email}`}
-                  className="-my-2 inline-flex items-center gap-2 py-2 transition-colors duration-200 hover:text-ink"
+                  className="flex min-h-11 items-center gap-2 transition-colors duration-200 hover:text-ink"
                 >
                   <Mail className="h-4 w-4 text-ink-faint" aria-hidden />
                   {siteConfig.email}
                 </a>
               </li>
-              <li className="inline-flex items-center gap-2">
+              <li className="flex min-h-11 items-center gap-2">
                 <MapPin className="h-4 w-4 text-ink-faint" aria-hidden />
                 {t('location')}
               </li>
@@ -132,8 +146,8 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 border-t border-hairline pt-7">
-          <p className="text-xs text-ink-faint">
+        <div className="mt-12 border-t border-hairline-subtle pt-7 sm:mt-14">
+          <p className="text-[0.75rem] text-ink-faint">
             © {year} {t('rights')}
           </p>
         </div>

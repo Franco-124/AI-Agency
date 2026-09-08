@@ -25,12 +25,28 @@ export function Services() {
       labelledBy="servicios-titulo"
       surface="texture"
       backgroundSrc="/images/13-services-new.webp"
-      /* Pinned to the original rhythm: this section's spacing is deliberate
-         and is excluded from the page-wide reduction below it. */
-      className="py-24 lg:py-32"
+      /* The first block after the hero, and the one that answers "what is
+         this". It opens at the widest rhythm so the transition out of the hero
+         is an arrival rather than a step. */
+      rhythm="wide"
+      /* No top rule: the hero already closes with one, and two hairlines a few
+         pixels apart is the seam this treatment exists to hide. */
+      divided={false}
     >
       <Reveal>
-        <SectionHeading id="servicios-titulo" title={t('title')} lead={t('lead')} />
+        {/*
+          Index but no eyebrow. The copy is fixed, and this section has no
+          eyebrow string of its own — inventing one, or reusing the title as
+          one, would either add copy or print the same words twice. The ordinal
+          alone still does the job the index exists for: placing the block in
+          the sequence.
+        */}
+        <SectionHeading
+          id="servicios-titulo"
+          index={1}
+          title={t('title')}
+          lead={t('lead')}
+        />
       </Reveal>
 
       {/* Copy is resolved here, on the server, so the interactive track stays a

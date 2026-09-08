@@ -8,6 +8,7 @@ import { CalculadoraAhorro } from '@/components/sections/CalculadoraAhorro'
 import { PackageCtaLink } from '@/components/sections/PackageCtaLink'
 import { Button } from '@/components/ui/button'
 import type { PackageKey } from '@/lib/package-interest'
+import { priceClasses, priceScale } from '@/lib/price-display'
 import { sectionIds } from '@/lib/site'
 import { cn } from '@/lib/utils'
 
@@ -33,6 +34,7 @@ type PackageCardProps = {
   action: ReactNode
 }
 
+
 /**
  * One offer card.
  *
@@ -53,16 +55,34 @@ type PackageCardProps = {
  */
 function PackageCard({ definition, t, note, action }: PackageCardProps) {
   const { key, featureKeys, featured } = definition
+  const price = t(`${key}.price`)
 
   return (
     <li
       className={cn(
-        'flex flex-col p-7 sm:p-9',
-        featured && 'bg-[color-mix(in_srgb,var(--color-acento)_6%,transparent)]',
+        'relative flex flex-col p-6 sm:p-8',
+        /* The featured tier is tinted and lit along its top edge rather than
+           outlined in accent — see `.surface-card-featured` for why. */
+        featured &&
+          'bg-[linear-gradient(to_bottom,color-mix(in_srgb,var(--color-acento)_9%,transparent)_0%,color-mix(in_srgb,var(--color-acento)_2%,transparent)_60%,transparent_100%)]',
       )}
     >
+      {/* The lit top edge of the featured card. Sits inside the panel's own
+          rounding, so it reads as this cell being lifted rather than as a
+          rule drawn across the panel. */}
       {featured ? (
-        <p className="type-eyebrow flex h-4 items-center text-[var(--color-acento)]">
+        <span
+          aria-hidden
+          className="accent-rule absolute inset-x-0 top-0 opacity-70"
+        />
+      ) : null}
+
+      {featured ? (
+        <p className="type-eyebrow flex h-4 items-center gap-2 text-[var(--accent-text)]">
+          <span
+            aria-hidden
+            className="h-1 w-1 rounded-full bg-[var(--color-acento)]"
+          />
           {t('badge')}
         </p>
       ) : (
@@ -70,22 +90,42 @@ function PackageCard({ definition, t, note, action }: PackageCardProps) {
         <span aria-hidden className="block h-4" />
       )}
 
-      <h3 className="mt-3 text-xl font-semibold leading-snug tracking-[-0.025em]">
+      <h3 className="mt-3.5 font-display text-[1.1875rem] font-medium leading-snug tracking-[-0.025em] sm:text-xl">
         {t(`${key}.name`)}
       </h3>
-      <p className="mt-3 text-sm text-ink-faint">{t(`${key}.audience`)}</p>
+      <p className="mt-2.5 text-[0.8125rem] leading-relaxed text-ink-faint">
+        {t(`${key}.audience`)}
+      </p>
 
-      <ul className="mt-8 flex flex-col gap-4">
+      {/* Separated from the pitch above by a hairline: the card now has two
+          readable zones (what it is / what you get) instead of one column of
+          evenly-spaced text. */}
+      <ul className="mt-6 flex flex-col gap-3.5 border-t border-hairline-subtle pt-6">
         {featureKeys.map((featureKey) => (
-          <li key={featureKey} className="flex gap-3">
-            <Check
+          <li key={featureKey} className="flex gap-2.5">
+            {/*
+              The tick sits in a small seated square rather than floating as a
+              bare stroke. Four loose ticks per card across four cards is
+              sixteen unanchored glyphs; the tile groups each one with its line.
+            */}
+            <span
               aria-hidden
               className={cn(
-                'mt-0.5 h-4 w-4 shrink-0',
-                featured ? 'text-[var(--color-acento)]' : 'text-ink-faint',
+                'mt-[0.1875rem] flex h-[1.125rem] w-[1.125rem] shrink-0 items-center justify-center rounded-[0.3125rem] border',
+                featured
+                  ? 'border-[var(--accent-hairline)] bg-[var(--accent-soft)]'
+                  : 'border-hairline bg-[var(--surface-inset)]',
               )}
-            />
-            <span className="text-[0.9375rem] leading-relaxed text-ink-muted">
+            >
+              <Check
+                className={cn(
+                  'h-[0.6875rem] w-[0.6875rem]',
+                  featured ? 'text-[var(--accent-text)]' : 'text-ink-muted',
+                )}
+                strokeWidth={2.5}
+              />
+            </span>
+            <span className="type-body text-[0.9375rem]">
               {t(`${key}.features.${featureKey}`)}
             </span>
           </li>
@@ -97,11 +137,21 @@ function PackageCard({ definition, t, note, action }: PackageCardProps) {
       {/* `mt-auto` pins price + CTA to the card's floor, so the three system
           cards keep their prices on one line however unevenly the feature
           lists wrap. */}
-      <div className="mt-auto pt-10">
-        <p className="type-figure text-2xl text-[var(--color-acento)] sm:text-[1.75rem]">
-          {t(`${key}.price`)}
+      <div className="mt-auto border-t border-hairline-subtle pt-7">
+        {/* Figure scale or phrase scale, chosen from the string's own length
+            — see `priceScale`. Shared with `Advisory`, which mixes the same
+            two shapes under one key. */}
+        <p
+          className={cn(
+            'text-[var(--accent-text)]',
+            priceClasses[priceScale(price)],
+          )}
+        >
+          {price}
         </p>
-        <p className="mt-2 text-sm text-ink-faint">{t(`${key}.maintenance`)}</p>
+        <p className="mt-1.5 text-[0.8125rem] text-ink-faint">
+          {t(`${key}.maintenance`)}
+        </p>
         {action}
       </div>
     </li>
@@ -117,8 +167,10 @@ function PackagePanel({
   className?: string
 }) {
   return (
-    <div className="overflow-hidden rounded-2xl border border-hairline bg-[color-mix(in_srgb,var(--color-primario)_88%,transparent)]">
-      <ul className={cn('divide-y divide-hairline', className)}>{children}</ul>
+    <div className="surface-panel overflow-hidden rounded-[1.125rem]">
+      <ul className={cn('divide-y divide-hairline-subtle', className)}>
+        {children}
+      </ul>
     </div>
   )
 }
@@ -134,10 +186,18 @@ export function Packages() {
   const [websiteOffer, ...systemOffers] = packages
 
   return (
-    <Section id={sectionIds.packages} labelledBy="paquetes-titulo" surface="texture">
+    // The offer. Widest rhythm on the page — this is where the visitor is
+    // asked to weigh money, and the block needs room to be read slowly.
+    <Section
+      id={sectionIds.packages}
+      labelledBy="paquetes-titulo"
+      surface="texture"
+      rhythm="wide"
+    >
       <Reveal>
         <SectionHeading
           id="paquetes-titulo"
+          index={6}
           eyebrow={t('eyebrow')}
           title={t('title')}
           lead={t('lead')}
@@ -162,24 +222,34 @@ export function Packages() {
           />
         </PackagePanel>
 
-        <div className="mt-10 max-w-3xl">
-          <h3 className="text-xl font-semibold leading-snug tracking-[-0.025em]">
+        {/*
+          The bridge between the website offer and the three systems. It reads
+          as an aside rather than as another card: no panel chrome, just an
+          accent rule down its left edge — which is what stops the page from
+          becoming five consecutive rounded rectangles.
+        */}
+        <div className="mt-12 max-w-[44rem] border-l-2 border-[var(--accent-hairline)] pl-5 sm:mt-14 sm:pl-7">
+          <h3 className="font-display text-[1.1875rem] font-medium leading-snug tracking-[-0.025em] sm:text-xl">
             {t('systems.title')}
           </h3>
-          <p className="mt-3 text-sm leading-relaxed text-ink-faint">
+          <p className="mt-2.5 text-[0.9375rem] leading-relaxed text-ink-faint">
             {t('systems.lead')}
           </p>
-          <ul className="mt-4 flex flex-col gap-2 text-sm leading-relaxed text-ink-muted">
+          <ul className="mt-5 flex flex-col gap-2.5 text-[0.9375rem] leading-relaxed text-ink-muted">
             {['one', 'two', 'three', 'four'].map((item) => (
               <li key={item} className="flex gap-3">
-                <span aria-hidden className="text-[var(--color-acento)]">
-                  —
-                </span>
-                <span>{t(`systems.items.${item}`)}</span>
+                {/* A drawn rule rather than an em dash character: the dash
+                    inherits the text baseline and sat visibly high against a
+                    wrapped line. */}
+                <span
+                  aria-hidden
+                  className="mt-[0.6875em] h-px w-3 shrink-0 bg-[var(--accent-text)]"
+                />
+                <span className="min-w-0">{t(`systems.items.${item}`)}</span>
               </li>
             ))}
           </ul>
-          <p className="mt-4 text-sm leading-relaxed text-ink-faint">
+          <p className="mt-5 text-[0.875rem] leading-relaxed text-ink-faint">
             {t('systems.note')}
           </p>
         </div>
@@ -221,21 +291,19 @@ export function Packages() {
         describe a case.
       */}
       <Reveal delay={0.28} className="mt-6">
-        <div className="group relative overflow-hidden rounded-2xl border border-hairline bg-[color-mix(in_srgb,var(--color-primario)_88%,transparent)] p-7 transition-[border-color,transform] duration-200 ease-out hover:border-[var(--accent-hairline)] motion-safe:hover:-translate-y-0.5 sm:p-9">
+        <div className="surface-panel lift group relative overflow-hidden rounded-[1.125rem] p-6 sm:p-8">
           {/* Draws itself across the top edge on hover — the brand spark, once. */}
           <span
             aria-hidden
-            className="accent-rule absolute inset-x-0 top-0 origin-left scale-x-0 transition-transform duration-500 ease-out group-hover:scale-x-100"
+            className="accent-rule absolute inset-x-0 top-0 origin-left scale-x-0 transition-transform duration-500 ease-[var(--ease-emphasis)] group-hover:scale-x-100"
           />
 
-          <div className="flex flex-col gap-7 sm:flex-row sm:items-center sm:justify-between sm:gap-10">
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between sm:gap-10">
             <div className="max-w-xl">
-              <h3 className="text-lg font-semibold leading-snug tracking-[-0.02em]">
+              <h3 className="text-[1.0625rem] font-semibold leading-snug tracking-[-0.02em] sm:text-lg">
                 {t('noFit.title')}
               </h3>
-              <p className="mt-3 text-[0.9375rem] leading-relaxed text-ink-muted">
-                {t('noFit.body')}
-              </p>
+              <p className="type-body mt-2.5">{t('noFit.body')}</p>
             </div>
 
             <Button asChild size="lg" variant="outline" className="shrink-0">

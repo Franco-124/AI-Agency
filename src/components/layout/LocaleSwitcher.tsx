@@ -98,16 +98,20 @@ export function LocaleSwitcher({ label, className, variant = 'dropdown' }: Local
           lang={locale}
           onClick={() => switchTo(locale)}
           className={cn(
-            'flex min-h-11 w-full items-center gap-2.5 rounded-lg px-3 text-sm transition-colors duration-150',
+            /* `h-11`, not `min-h-11`: the option is a flex child of a
+               `flex-col` list, where the default `align-items: stretch` was
+               resolving its height from the content and landing at 42px —
+               `min-height` cannot raise a box the parent has already sized. */
+            'flex h-11 w-full items-center gap-2.5 rounded-lg px-3 text-sm transition-colors duration-150',
             isActive
-              ? 'bg-[var(--color-acento)]/10 text-ink'
-              : 'text-ink-muted hover:bg-white/5 hover:text-ink',
+              ? 'bg-[var(--accent-soft)] text-ink'
+              : 'text-ink-muted hover:bg-[var(--accent-soft)] hover:text-ink',
           )}
         >
           <Flag aria-hidden className="h-3.5 w-5 shrink-0 rounded-[2px] object-cover" />
           <span className="flex-1 whitespace-nowrap text-left">{name}</span>
           {isActive && (
-            <Check aria-hidden className="h-3.5 w-3.5 shrink-0 text-[var(--color-acento)]" />
+            <Check aria-hidden className="h-3.5 w-3.5 shrink-0 text-[var(--accent-text)]" />
           )}
         </button>
       </li>
@@ -123,7 +127,7 @@ export function LocaleSwitcher({ label, className, variant = 'dropdown' }: Local
         aria-label={label}
         onClick={() => setIsOpen((open) => !open)}
         className={cn(
-          'inline-flex min-h-11 items-center gap-2 rounded-lg border border-hairline px-3 py-2 text-xs font-medium text-ink transition-colors duration-200 hover:border-hairline-strong',
+          'inline-flex min-h-11 items-center gap-2 rounded-[0.5rem] border border-hairline bg-[var(--surface-panel)] px-3 py-2 text-xs font-medium text-ink shadow-[var(--shadow-low)] transition-colors duration-200 hover:border-hairline-strong hover:bg-[var(--surface-inset)]',
           variant === 'inline' && 'w-full justify-between',
           isPending && 'opacity-60',
         )}
@@ -146,7 +150,7 @@ export function LocaleSwitcher({ label, className, variant = 'dropdown' }: Local
           role="listbox"
           aria-label={label}
           className={cn(
-            'absolute right-0 top-[calc(100%+0.5rem)] z-10 min-w-[9.5rem] origin-top-right overflow-hidden rounded-lg border border-hairline bg-[var(--color-neutro-oscuro)] p-1 shadow-lg transition-all duration-150 ease-out',
+            'surface-panel absolute right-0 top-[calc(100%+0.5rem)] z-10 min-w-[9.5rem] origin-top-right overflow-hidden rounded-[0.75rem] p-1 shadow-[var(--shadow-high)] transition-all duration-150 ease-[var(--ease-emphasis)]',
             isOpen
               ? 'pointer-events-auto scale-100 opacity-100'
               : 'pointer-events-none scale-95 opacity-0',

@@ -48,9 +48,14 @@ export function ScrollProgress() {
       aria-hidden
       className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-0.5"
     >
+      {/*
+        A gradient rather than a flat fill, brightening toward the leading
+        edge, plus a soft glow. A flat 2px band is the default every framework
+        ships; the lit edge makes the bar read as something advancing.
+      */}
       <div
         ref={barRef}
-        className="h-full w-full origin-left scale-x-0 bg-[var(--color-acento)]"
+        className="h-full w-full origin-left scale-x-0 bg-[linear-gradient(to_right,var(--color-acento-deep)_0%,var(--color-acento)_60%,var(--color-acento-lift)_100%)] shadow-[0_0_10px_color-mix(in_srgb,var(--color-acento)_60%,transparent)]"
       />
     </div>
   )

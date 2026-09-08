@@ -31,9 +31,20 @@ const railVars = (index: number) =>
     '--rail-segment': `${SEGMENT_DURATION}s`,
   }) as CSSProperties
 
-/** Rests lit; `[data-rail='pending']` is what dims it back to the resting grey. */
-const NODE_CLASSES =
-  'rail-node block h-3 w-3 rounded-full bg-[var(--color-acento)] ring-4 ring-[var(--color-neutro-oscuro)]'
+/**
+ * Rests lit; `[data-rail='pending']` is what dims it back to the resting grey.
+ *
+ * The ring is keyed to the section's own surface (`sunken`), not to the page
+ * background — it exists to punch a gap between the node and the connector
+ * line running under it, and a ring in the wrong colour draws a visible halo
+ * instead. It is also given the accent glow, so a lit node reads as a light
+ * source rather than as a coloured dot.
+ */
+const NODE_CLASSES = [
+  'rail-node block h-[0.6875rem] w-[0.6875rem] rounded-full',
+  'bg-[var(--color-acento)] ring-4 ring-[var(--surface-sunken)]',
+  'shadow-[0_0_0_1px_color-mix(in_srgb,var(--color-acento-lift)_45%,transparent),0_0_12px_color-mix(in_srgb,var(--color-acento)_55%,transparent)]',
+].join(' ')
 
 export function Process() {
   const t = useTranslations('process')
@@ -49,9 +60,17 @@ export function Process() {
   })
 
   return (
-    <Section id={sectionIds.process} labelledBy="proceso-titulo">
+    // Sunken: the timeline reads as a recess between the lit blocks either
+    // side of it, which is what gives the scroll a front-to-back rhythm and
+    // not only a light/dark one.
+    <Section
+      id={sectionIds.process}
+      labelledBy="proceso-titulo"
+      surface="sunken"
+      rhythm="wide"
+    >
       <Reveal>
-        <SectionHeading id="proceso-titulo" title={t('title')} />
+        <SectionHeading id="proceso-titulo" index={2} title={t('title')} />
       </Reveal>
 
       {/*
@@ -113,24 +132,36 @@ export function Process() {
                     position and left the four steps visually interchangeable.
                     The icon drops to a quiet accent beside it.
                   */}
-                  <div className="flex items-center gap-3">
+                  {/*
+                    The ordinal is now a hollow outline rather than a solid
+                    accent fill. Four solid 32px violet numerals down a row
+                    pulled more weight than the step titles they label — the
+                    outline keeps the editorial scale while returning the
+                    emphasis to the copy, and it is the same device the
+                    Benefits list uses, so the two blocks read as one system.
+                  */}
+                  <div className="flex items-baseline gap-3">
                     <span
                       aria-hidden
-                      className="type-figure text-[2rem] leading-none text-[var(--color-acento)] tabular-nums sm:text-[2.25rem]"
+                      className="type-figure text-[1.75rem] leading-none tabular-nums text-transparent sm:text-[2rem] [-webkit-text-stroke:1px_var(--accent-hairline)]"
                     >
                       {String(index + 1).padStart(2, '0')}
                     </span>
+                    <span
+                      aria-hidden
+                      className="h-px w-5 shrink-0 bg-[var(--surface-border)]"
+                    />
                     <Icon
-                      size={20}
-                      strokeWidth={1.5}
+                      size={17}
+                      strokeWidth={1.75}
                       aria-hidden="true"
-                      className="shrink-0 text-ink-faint"
+                      className="shrink-0 text-[var(--accent-text)]"
                     />
                   </div>
-                  <h3 className="mt-5 text-lg font-semibold tracking-[-0.02em]">
+                  <h3 className="mt-4 text-[1.0625rem] font-semibold leading-snug tracking-[-0.02em] sm:text-lg">
                     {t(`steps.${key}.title`)}
                   </h3>
-                  <p className="mt-3 max-w-xs text-[0.9375rem] leading-relaxed text-ink-muted">
+                  <p className="type-body mt-2.5 max-w-[32ch]">
                     {t(`steps.${key}.body`)}
                   </p>
                 </div>

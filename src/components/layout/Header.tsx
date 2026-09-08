@@ -5,6 +5,7 @@ import { useLocale, useTranslations } from 'next-intl'
 import { useEffect, useId, useRef, useState } from 'react'
 
 import { Logo } from '@/components/brand/Logo'
+import { Button } from '@/components/ui/button'
 import { usePathname } from '@/i18n/navigation'
 import { sectionIds } from '@/lib/site'
 import { cn } from '@/lib/utils'
@@ -148,17 +149,32 @@ export function Header() {
   }, [isMenuOpen])
 
   return (
+    /*
+      Scrolled state is a translucent blurred bar rather than an opaque one.
+      An opaque bar dropping in is a hard visual event — a rectangle appearing
+      over the content; a frosted one keeps the page continuous underneath,
+      which is the treatment every well-made site of this kind uses and the
+      single cheapest upgrade to how "finished" a page feels while scrolling.
+
+      The mobile panel is the exception: while it is open the bar must be
+      fully opaque, because the nav links sit over whatever content the panel
+      covers and a blur is not enough to keep them legible.
+    */
     <header
       className={cn(
-        'fixed inset-x-0 top-0 z-50 transition-colors duration-300',
-        isScrolled || isMenuOpen
-          ? 'border-b border-hairline bg-[var(--color-neutro-oscuro)]'
-          : 'border-b border-transparent bg-transparent',
+        'fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow,backdrop-filter] duration-300',
+        isMenuOpen && 'bg-[var(--surface-base)]',
+        !isMenuOpen &&
+          isScrolled &&
+          'bg-[color-mix(in_srgb,var(--surface-base)_82%,transparent)] shadow-[0_1px_0_var(--surface-border),var(--shadow-mid)] backdrop-blur-xl backdrop-saturate-150',
+        !isMenuOpen && !isScrolled && 'bg-transparent',
       )}
     >
       <a
         href="#contenido"
-        className="sr-only focus-visible:not-sr-only focus-visible:absolute focus-visible:left-4 focus-visible:top-4 focus-visible:z-10 focus-visible:rounded-lg focus-visible:bg-[var(--color-acento)] focus-visible:px-4 focus-visible:py-2 focus-visible:text-sm focus-visible:font-medium focus-visible:text-[var(--color-neutro-oscuro)]"
+        /* White on the accent — near-black on mid-violet does not clear
+           4.5:1, and this is the one control a keyboard user meets first. */
+        className="sr-only focus-visible:not-sr-only focus-visible:absolute focus-visible:left-4 focus-visible:top-4 focus-visible:z-10 focus-visible:rounded-lg focus-visible:bg-[var(--color-acento)] focus-visible:px-4 focus-visible:py-2 focus-visible:text-sm focus-visible:font-semibold focus-visible:text-white focus-visible:shadow-[var(--shadow-high)]"
       >
         {t('skipToContent')}
       </a>
@@ -183,7 +199,7 @@ export function Header() {
                 <span
                   aria-hidden
                   className={cn(
-                    'absolute inset-x-3 bottom-1 h-px origin-left bg-[var(--color-acento)] transition-transform duration-300 ease-out',
+                    'absolute inset-x-3 bottom-2 h-px origin-left bg-[var(--color-acento)] transition-transform duration-300 ease-out',
                     isActive ? 'scale-x-100' : 'scale-x-0',
                   )}
                 />
@@ -196,7 +212,7 @@ export function Header() {
                       href={sectionHref(item.id)}
                       aria-current={isActive ? 'location' : undefined}
                       className={cn(
-                        'relative rounded-md px-3 py-2 text-sm transition-colors duration-200',
+                        'relative flex min-h-11 items-center rounded-md px-3 text-sm transition-colors duration-200',
                         isActive ? 'text-ink' : 'text-ink-muted hover:text-ink',
                       )}
                     >
@@ -223,7 +239,7 @@ export function Header() {
                     aria-current={isActive ? 'location' : undefined}
                     onClick={() => setOpenDropdown(isOpen ? null : item.key)}
                     className={cn(
-                      'relative flex items-center gap-1 rounded-md px-3 py-2 text-sm transition-colors duration-200',
+                      'relative flex min-h-11 items-center gap-1 rounded-md px-3 text-sm transition-colors duration-200',
                       isActive ? 'text-ink' : 'text-ink-muted hover:text-ink',
                     )}
                   >
@@ -253,17 +269,19 @@ export function Header() {
                         : 'pointer-events-none -translate-y-1 opacity-0',
                     )}
                   >
-                    <ul className="overflow-hidden rounded-xl border border-hairline bg-[var(--color-primario)] p-1.5 shadow-[0_20px_45px_-12px_color-mix(in_srgb,var(--color-neutro-oscuro)_85%,transparent)]">
+                    <ul className="surface-panel overflow-hidden rounded-xl p-1.5 shadow-[var(--shadow-high)]">
                       {children.map((child) => (
                         <li key={child.key}>
                           <a
                             href={sectionHref(child.id)}
                             onClick={() => setOpenDropdown(null)}
                             aria-current={activeId === child.id ? 'location' : undefined}
-                            className="block rounded-lg px-3 py-2.5 transition-colors duration-200 hover:bg-[color-mix(in_srgb,var(--color-neutro-claro)_6%,transparent)]"
+                            className="group/item block min-h-11 rounded-lg px-3 py-2.5 transition-colors duration-200 hover:bg-[var(--accent-soft)]"
                           >
-                            <span className="block text-sm text-ink">{t(child.key)}</span>
-                            <span className="mt-0.5 block text-xs text-ink-faint">
+                            <span className="block text-sm text-ink transition-colors duration-200 group-hover/item:text-[var(--accent-text)]">
+                              {t(child.key)}
+                            </span>
+                            <span className="mt-0.5 block text-xs leading-relaxed text-ink-faint">
                               {t(child.descriptionKey)}
                             </span>
                           </a>
@@ -285,14 +303,21 @@ export function Header() {
             two accents that need to stand out on this screen, so the nav CTA
             reads as a plain link — only the arrow carries the orange.
           */}
+          {/*
+            Given real chrome now — a bordered pill that fills with the accent
+            wash on hover. As a bare text link beside the language toggle it
+            was indistinguishable from the nav items, so the header's only
+            conversion path read as a fifth menu entry. It stays well below the
+            hero CTA in weight: the wash and hairline, not a filled button.
+          */}
           <a
             href={sectionHref(sectionIds.finalCta)}
-            className="group hidden min-h-11 items-center gap-1.5 px-2 text-sm font-medium text-ink md:inline-flex"
+            className="group hidden min-h-11 items-center gap-1.5 rounded-[0.5rem] border border-hairline px-3.5 text-sm font-medium text-ink transition-colors duration-200 hover:border-[var(--accent-hairline)] hover:bg-[var(--accent-soft)] md:inline-flex"
           >
             {tHero('cta')}
             <ArrowRight
               aria-hidden
-              className="h-4 w-4 shrink-0 text-[var(--color-acento)] transition-transform duration-150 ease-out group-hover:translate-x-1"
+              className="h-4 w-4 shrink-0 text-[var(--accent-text)] transition-transform duration-200 ease-[var(--ease-emphasis)] group-hover:translate-x-1"
             />
           </a>
 
@@ -302,7 +327,7 @@ export function Header() {
             aria-controls={menuId}
             aria-label={isMenuOpen ? t('closeMenu') : t('openMenu')}
             onClick={() => setIsMenuOpen((open) => !open)}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-hairline text-ink transition-colors duration-200 hover:border-hairline-strong lg:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-[0.5rem] border border-hairline bg-[var(--surface-panel)] text-ink shadow-[var(--shadow-low)] transition-colors duration-200 hover:border-hairline-strong hover:bg-[var(--surface-inset)] lg:hidden"
           >
             {isMenuOpen ? (
               <X className="h-5 w-5" aria-hidden />
@@ -321,13 +346,13 @@ export function Header() {
       */}
       <div
         className={cn(
-          'grid overflow-hidden border-t transition-[grid-template-rows,border-color] duration-300 ease-out lg:hidden',
+          'grid overflow-hidden border-t transition-[grid-template-rows,border-color] duration-300 ease-[var(--ease-emphasis)] lg:hidden',
           isMenuOpen
             ? 'grid-rows-[1fr] border-hairline'
             : 'grid-rows-[0fr] border-transparent',
-          isScrolled || isMenuOpen
-            ? 'bg-[var(--color-neutro-oscuro)]'
-            : 'bg-transparent',
+          /* Opaque only while open — closed, the collapsed panel must not
+             paint a band under the bar's own blurred surface. */
+          isMenuOpen ? 'bg-[var(--surface-base)]' : 'bg-transparent',
         )}
       >
         <nav
@@ -358,7 +383,7 @@ export function Header() {
                         <a
                           href={sectionHref(child.id)}
                           onClick={() => setIsMenuOpen(false)}
-                          className="flex min-h-11 items-center rounded-lg px-3 text-lg text-ink-muted transition-colors duration-200 hover:text-ink"
+                          className="flex min-h-12 items-center rounded-lg px-3 text-[1.0625rem] text-ink-muted transition-colors duration-200 hover:bg-[var(--accent-soft)] hover:text-ink"
                         >
                           {t(child.key)}
                         </a>
@@ -371,7 +396,7 @@ export function Header() {
                   <a
                     href={sectionHref(item.id)}
                     onClick={() => setIsMenuOpen(false)}
-                    className="flex min-h-11 items-center rounded-lg px-3 text-lg text-ink-muted transition-colors duration-200 hover:text-ink"
+                    className="flex min-h-12 items-center rounded-lg px-3 text-[1.0625rem] text-ink-muted transition-colors duration-200 hover:bg-[var(--accent-soft)] hover:text-ink"
                   >
                     {t(item.key)}
                   </a>
@@ -380,18 +405,26 @@ export function Header() {
             )}
           </ul>
 
-          <div className="mt-7 flex flex-col gap-4">
-            <a
-              href={sectionHref(sectionIds.finalCta)}
-              onClick={() => setIsMenuOpen(false)}
-              className="group flex min-h-11 items-center gap-1.5 rounded-lg px-3 text-lg text-ink"
-            >
-              {tHero('cta')}
-              <ArrowRight
-                aria-hidden
-                className="h-5 w-5 shrink-0 text-[var(--color-acento)] transition-transform duration-150 ease-out group-hover:translate-x-1"
-              />
-            </a>
+          {/*
+            The panel's CTA is a real filled button, separated from the
+            destinations by a hairline. As a text link at the same size as the
+            nav items it was the fifth thing in a list of five and the one
+            action in the menu had no visual priority at all.
+          */}
+          <div className="mt-6 flex flex-col gap-4 border-t border-hairline-subtle pt-6">
+            <Button asChild size="lg" block>
+              <a
+                href={sectionHref(sectionIds.finalCta)}
+                onClick={() => setIsMenuOpen(false)}
+                className="group/cta"
+              >
+                {tHero('cta')}
+                <ArrowRight
+                  aria-hidden
+                  className="h-4 w-4 shrink-0 transition-transform duration-200 ease-[var(--ease-emphasis)] group-hover/cta:translate-x-1"
+                />
+              </a>
+            </Button>
             <LocaleSwitcher
               label={t('languageLabel')}
               variant="inline"

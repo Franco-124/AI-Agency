@@ -4,6 +4,7 @@ import type { SVGProps } from 'react'
 import { Section, SectionHeading } from '@/components/layout/Section'
 import { Reveal } from '@/components/motion/Reveal'
 import { sectionIds } from '@/lib/site'
+import { cn } from '@/lib/utils'
 
 /**
  * Official brand marks, unmodified: original colour, no accent-palette
@@ -114,11 +115,27 @@ function ChannelMark({
   t: ReturnType<typeof useTranslations>
 }) {
   return (
-    <li className="flex min-w-0 items-center gap-3 py-4 pr-4 sm:gap-3.5 sm:py-5">
-      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[0.5rem] border border-hairline bg-[var(--color-primario)]">
+    /*
+      The `nth-child` rules pull the first cell of each row back to the
+      section gutter: `divide-x` pads every cell equally, which would
+      otherwise indent the leftmost column away from the heading above it.
+      They are per-breakpoint because the column count changes — the odd
+      cells lead at two columns (`sm`), every third at three (`lg`), so the
+      `lg` rule has to restore the padding the `sm` rule removed.
+    */
+    <li
+      className={cn(
+        'group/channel flex min-w-0 items-center gap-3 py-4 transition-colors duration-300 sm:gap-3.5 sm:px-6 sm:py-5',
+        'sm:[&:nth-child(odd)]:pl-0 lg:[&:nth-child(odd)]:px-6 lg:[&:nth-child(3n+1)]:pl-0',
+        'hover:bg-[color-mix(in_srgb,var(--color-acento)_4%,transparent)]',
+      )}
+    >
+      {/* The tile lifts to a lighter surface on hover, so scanning the grid
+          for your own tool gives feedback on the row you are reading. */}
+      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[0.5625rem] border border-hairline bg-[var(--surface-panel)] shadow-[var(--shadow-low)] transition-colors duration-300 group-hover/channel:border-hairline-strong group-hover/channel:bg-[var(--surface-inset)]">
         <channel.Mark className="h-[1.125rem] w-[1.125rem] shrink-0" aria-hidden />
       </span>
-      <span className="min-w-0 text-[0.9375rem] leading-snug text-[var(--text-secondary)]">
+      <span className="min-w-0 text-[0.9375rem] leading-snug text-[var(--text-secondary)] transition-colors duration-300 group-hover/channel:text-[var(--text-primary)]">
         {t(`channels.${channel.key}`)}
       </span>
     </li>
@@ -146,19 +163,30 @@ export function Integrations() {
   const t = useTranslations('integrations')
 
   return (
-    <Section id={sectionIds.integrations} labelledBy="integraciones-titulo">
+    // `tight`: this answers an objection raised by the offer above it, so it
+    // belongs to that block rather than standing as a section of its own.
+    <Section
+      id={sectionIds.integrations}
+      labelledBy="integraciones-titulo"
+      rhythm="tight"
+    >
       <Reveal>
         <SectionHeading
           id="integraciones-titulo"
+          index={8}
           title={t('title')}
           lead={t('lead')}
         />
       </Reveal>
 
-      <Reveal delay={0.08} className="mt-12 sm:mt-14">
+      <Reveal delay={0.08} className="mt-10 sm:mt-12">
         {/* Ruled columns rather than cards: the hairlines group the set
-            without adding nine more rounded rectangles to the page. */}
-        <ul className="grid gap-x-8 border-t border-hairline sm:grid-cols-2 lg:grid-cols-3">
+            without adding nine more rounded rectangles to the page.
+
+            Every cell is now ruled on both axes rather than only along the
+            top edge, which is what turns nine loose rows into one legible
+            table the visitor can scan for their own tool. */}
+        <ul className="grid divide-y divide-hairline-subtle border-y border-hairline-subtle sm:grid-cols-2 sm:divide-x lg:grid-cols-3">
           {channels.map((channel) => (
             <ChannelMark key={channel.key} channel={channel} t={t} />
           ))}

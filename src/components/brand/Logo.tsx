@@ -13,9 +13,19 @@ type LogoProps = {
 
 export function Logo({ className, label }: LogoProps) {
   return (
+    /*
+      `min-h-11` and a small negative inset. The logo is the site's "home"
+      control and it measured 28px tall — the height of the mark alone. The
+      inset keeps the mark optically flush with the header's left gutter while
+      the hit area extends past it, so the target grows without the logo
+      appearing to shift inward.
+    */
     <Link
       href="/"
-      className={cn('group inline-flex items-center gap-2.5 rounded-sm', className)}
+      className={cn(
+        'group -mx-2 inline-flex min-h-11 items-center gap-2.5 rounded-lg px-2',
+        className,
+      )}
     >
       <span className="relative inline-flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden rounded-md">
         <span aria-hidden className="mark-halo" />

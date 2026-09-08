@@ -279,7 +279,7 @@ export function LeadForm() {
                 // Native arrow removed in favour of the site's own chevron.
                 'cursor-pointer appearance-none pr-11',
                 // Some platforms paint the open list from the control's colours.
-                '[&>option]:bg-[var(--color-neutro-oscuro)] [&>option]:text-ink',
+                '[&>option]:bg-[var(--surface-raised)] [&>option]:text-ink',
               )}
             >
               <option value="" disabled>
@@ -384,7 +384,7 @@ export function LeadForm() {
               className={cn(
                 props.className,
                 'cursor-pointer appearance-none pr-11',
-                '[&>option]:bg-[var(--color-neutro-oscuro)] [&>option]:text-ink',
+                '[&>option]:bg-[var(--surface-raised)] [&>option]:text-ink',
               )}
             >
               <option value="" disabled>

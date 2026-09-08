@@ -176,10 +176,11 @@ export function ServicesCarousel({ slides, labels }: ServicesCarouselProps) {
             >
               <article
                 className={cn(
-                  'group relative flex h-full flex-col overflow-hidden rounded-2xl',
-                  'bg-[var(--color-primario)] ring-1 ring-inset ring-hairline',
-                  'transition-[transform,box-shadow] duration-400 ease-[var(--ease-entrance)]',
-                  'hover:-translate-y-1.5 hover:shadow-[0_28px_70px_-40px_rgba(0,0,0,0.95)]',
+                  'group relative flex h-full flex-col overflow-hidden rounded-[1.125rem]',
+                  'bg-[var(--surface-panel)] ring-1 ring-inset ring-hairline',
+                  'shadow-[var(--shadow-low)]',
+                  'transition-[transform,box-shadow] duration-400 ease-[var(--ease-emphasis)]',
+                  'motion-safe:hover:-translate-y-1.5 hover:shadow-[var(--shadow-high)]',
                 )}
               >
                 {/*
@@ -191,7 +192,7 @@ export function ServicesCarousel({ slides, labels }: ServicesCarouselProps) {
                 <span
                   aria-hidden
                   className={cn(
-                    'pointer-events-none absolute inset-0 z-20 rounded-2xl',
+                    'pointer-events-none absolute inset-0 z-20 rounded-[1.125rem]',
                     'ring-1 ring-inset ring-[var(--accent-hairline)]',
                     'transition-opacity duration-400',
                     index === active ? 'opacity-100' : 'opacity-0 group-hover:opacity-100',
@@ -205,38 +206,45 @@ export function ServicesCarousel({ slides, labels }: ServicesCarouselProps) {
                   into the card body, and only far enough to seat the copy
                   against it without touching the subject.
                 */}
-                <div className="relative aspect-[16/10] w-full overflow-hidden bg-[var(--color-neutro-oscuro)]">
+                <div className="relative aspect-[16/10] w-full overflow-hidden bg-[var(--surface-sunken)]">
                   <Image
                     src={visual}
                     alt=""
                     fill
                     sizes="(min-width: 1024px) 30vw, (min-width: 640px) 62vw, 86vw"
-                    className="object-cover object-center transition-transform duration-700 ease-[var(--ease-entrance)] group-hover:scale-[1.05]"
+                    className="object-cover object-center transition-transform duration-700 ease-[var(--ease-entrance)] motion-safe:group-hover:scale-[1.05]"
                   />
                   <span
                     aria-hidden
-                    className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-[linear-gradient(to_top,var(--color-primario)_0%,color-mix(in_srgb,var(--color-primario)_55%,transparent)_55%,transparent_100%)]"
+                    className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-[linear-gradient(to_top,var(--surface-panel)_0%,color-mix(in_srgb,var(--surface-panel)_55%,transparent)_55%,transparent_100%)]"
                   />
                 </div>
 
                 <div className="relative flex flex-1 flex-col px-5 pb-6 pt-4">
                   {/* Icon and index share one quiet meta line, so the card opens
-                      on its title rather than on a badge competing with it. */}
-                  <div className="flex items-center gap-2.5 text-ink-faint">
-                    <Icon
-                      className="h-4 w-4 text-[var(--color-acento)] transition-transform duration-300 group-hover:-translate-y-0.5"
+                      on its title rather than on a badge competing with it. The
+                      icon is seated in a tile, matching every other glyph on
+                      the page. */}
+                  <div className="flex items-center gap-2.5">
+                    <span
                       aria-hidden
-                    />
+                      className="flex h-6 w-6 shrink-0 items-center justify-center rounded-[0.375rem] border border-[var(--accent-hairline)] bg-[var(--accent-soft)] transition-transform duration-300 ease-[var(--ease-emphasis)] motion-safe:group-hover:-translate-y-0.5"
+                    >
+                      <Icon
+                        className="h-[0.8125rem] w-[0.8125rem] text-[var(--accent-text)]"
+                        strokeWidth={1.9}
+                      />
+                    </span>
                     <span aria-hidden className="h-px w-4 bg-hairline-strong" />
                     <span className="type-eyebrow">
                       {String(index + 1).padStart(2, '0')}
                     </span>
                   </div>
 
-                  <h3 className="mt-3 text-[0.9375rem] font-medium leading-[1.4] tracking-[-0.01em] text-ink">
+                  <h3 className="mt-3.5 text-[0.9375rem] font-semibold leading-[1.4] tracking-[-0.015em] text-ink">
                     {title}
                   </h3>
-                  <p className="mt-2 text-[0.8125rem] leading-[1.6] text-ink-faint">
+                  <p className="mt-2 text-[0.8125rem] leading-[1.65] text-ink-faint">
                     {body}
                   </p>
                 </div>
@@ -270,8 +278,16 @@ export function ServicesCarousel({ slides, labels }: ServicesCarouselProps) {
         <ArrowRight className="h-5 w-5" aria-hidden />
       </CarouselButton>
 
-      {/* Dots stay below, centred, as the only remaining control row. */}
-      <div className="mt-7 flex items-center justify-center gap-2">
+      {/*
+        Dots stay below, centred, as the only remaining control row.
+
+        `w-11` on the button, not `w-6`: these are the carousel's primary
+        control on a phone, and a 24px-wide target is half the 44px minimum.
+        The painted dot inside stays small — the hit area grows, the visual
+        does not, so the row still reads as a row of dots. `-mx-2.5` pulls the
+        widened targets back to the original visual spacing.
+      */}
+      <div className="mt-7 flex items-center justify-center">
         {dots.map((index) => (
           <button
             key={index}
@@ -279,7 +295,7 @@ export function ServicesCarousel({ slides, labels }: ServicesCarouselProps) {
             onClick={() => scrollToIndex(index)}
             aria-label={slides[index]?.label}
             aria-current={index === active ? 'true' : undefined}
-            className="group inline-flex h-11 w-6 items-center justify-center"
+            className="group -mx-1 inline-flex h-11 w-11 items-center justify-center"
           >
             <span
               className={cn(
@@ -306,11 +322,15 @@ type CarouselButtonProps = {
 }
 
 /**
- * Transparent overlay control, floated on the cards' own line.
+ * Overlay control, floated on the cards' own line.
  *
- * No fill and no border at rest: only the glyph reads, so the arrows never
- * compete with the artwork. Hover paints the faint accent wash, which is also
- * what gives the 44px hit area a visible boundary once it matters.
+ * It now has a real surface — a frosted dark disc with a hairline — rather
+ * than being a bare glyph on a drop shadow. A shadowed glyph over artwork is
+ * legible on a dark card and invisible on a light one, so the control's
+ * contrast depended on whichever image happened to be under it; the disc is
+ * the same object over every slide. It is also the one place on the page where
+ * a backdrop blur is unambiguously right: the control sits *over* content and
+ * has to stay readable without hiding it.
  */
 function CarouselButton({
   label,
@@ -327,10 +347,13 @@ function CarouselButton({
       aria-label={label}
       className={cn(
         'absolute top-[28%] z-30 hidden h-11 w-11 -translate-y-1/2 sm:inline-flex',
-        'items-center justify-center rounded-full bg-transparent text-ink',
-        'transition-[color,background-color,opacity] duration-200',
-        'drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]',
-        'hover:bg-[var(--accent-soft)] hover:text-[var(--color-acento)]',
+        'items-center justify-center rounded-full text-ink',
+        'border border-[color-mix(in_srgb,white_16%,transparent)]',
+        'bg-[color-mix(in_srgb,var(--surface-sunken)_70%,transparent)]',
+        'shadow-[inset_0_1px_0_color-mix(in_srgb,white_12%,transparent),var(--shadow-mid)]',
+        'backdrop-blur-md backdrop-saturate-150',
+        'transition-[color,background-color,border-color,opacity] duration-200',
+        'hover:border-[var(--accent-hairline)] hover:bg-[color-mix(in_srgb,var(--color-acento)_22%,var(--surface-sunken))] hover:text-[var(--accent-text)]',
         'disabled:pointer-events-none disabled:opacity-0',
         className,
       )}
