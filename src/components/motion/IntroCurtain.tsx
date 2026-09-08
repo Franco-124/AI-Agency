@@ -1,47 +1,42 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
-import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from 'react'
 
 import { cn } from '@/lib/utils'
 
-/** How long the curtain holds before it starts leaving, in ms. */
-const HOLD = 1500
-/** The exit itself. Kept short — an exit the visitor waits through is a toll. */
-const EXIT = 620
+/**
+ * Beat timings, in ms from mount. Named rather than inlined because the CSS
+ * delays and these have to stay in step, and because the exit is derived from
+ * the last beat rather than guessed.
+ */
+const TIMINGS = {
+  /*
+   * One delay per rendered line. 160ms between the two halves of the first
+   * sentence keeps them reading as one phrase being uncovered; the 260ms
+   * before the resolution is the beat the pivot needs to land.
+   */
+  lineOne: 240,
+  lineTwo: 400,
+  lineThree: 660,
+  brand: 1080,
+  /** How long the finished frame is allowed to sit before it leaves. */
+  hold: 700,
+  /** The wipe itself. */
+  exit: 760,
+} as const
+
+const AUTO_DISMISS = TIMINGS.brand + TIMINGS.hold
+
 /** Once per session, not once per navigation. */
 const SEEN_KEY = 'numi:intro-seen'
 
-/**
- * The opening curtain: the wordmark, a line of positioning copy, and a rule
- * that draws itself across before the whole thing lifts to reveal the page.
- *
- * Anything that delays a landing page has to justify itself, so this is built
- * around not costing the visitor anything:
- *
- * - **Once per session.** `sessionStorage` gates it, so it plays on arrival
- *   and never again while the visitor is browsing — including on every
- *   client-side navigation to /agendar and back, which is where a
- *   play-on-mount intro becomes genuinely irritating.
- * - **Never for a returning visitor mid-session, never under reduced motion,
- *   and never for a deep link.** Arriving at `#paquetes` means the visitor
- *   asked for a specific section; covering it to play an animation is
- *   hostile.
- * - **Skippable.** A tap, a key, or a scroll dismisses it immediately.
- * - **Not a loading gate.** The page renders underneath from the first paint;
- *   this only sits on top of it. So the LCP element is painting while the
- *   curtain is up, and dismissing it early reveals a page that is already
- *   there rather than starting a load.
- * - **Absent from the server-rendered HTML.** The component itself *is*
- *   prerendered — `'use client'` marks the hydration boundary, it does not
- *   opt out of SSR — but it starts in a phase that renders `null` and only
- *   decides to play from an effect. So the markup a crawler or an answer
- *   engine receives is the page, never the curtain.
- *
- * The whole sequence is ~2.1s and it uses the site's own tokens — the accent
- * gradient on the wordmark, the display face, the same easing curve as every
- * other entrance on the page.
- */
 /**
  * Whether the curtain should play, decided once from browser state.
  *
@@ -69,22 +64,16 @@ function shouldPlay(): boolean {
   return true
 }
 
+const subscribeNoop = () => () => {}
+
 /**
  * Reports whether this client has mounted yet.
  *
- * `useSyncExternalStore` is the sanctioned way to read something that exists
- * outside React's render — here, "are we in a browser". Its server snapshot
- * is `false` and its client snapshot is `true`, so the first paint matches the
- * server exactly (no curtain, no hydration mismatch) and the second knows it
- * may look at `window`.
- *
- * The alternative — `setState` inside a mount effect — is what
- * `react-hooks/set-state-in-effect` exists to catch, and it is right to: it
- * renders a throwaway frame on every visit purely to ask a question the
- * environment could have answered.
+ * `useSyncExternalStore` is the sanctioned way to read something outside
+ * React's render — here, "are we in a browser". Its server snapshot is
+ * `false` and its client snapshot `true`, so the first paint matches the
+ * server exactly and the second may look at `window`.
  */
-const subscribeNoop = () => () => {}
-
 function useHasMounted(): boolean {
   return useSyncExternalStore(
     subscribeNoop,
@@ -96,21 +85,10 @@ function useHasMounted(): boolean {
 /**
  * The gate. Renders nothing on the server and nothing on a visit that should
  * not see the curtain, and otherwise mounts `Curtain` — which therefore only
- * ever exists when it is actually playing.
- *
- * Splitting it this way is what keeps both lint rules satisfied and the code
- * honest: the decision needs `window`, so it cannot happen during the server
- * render; making it here, at the boundary, means `Curtain` never has to model
- * "maybe I should not exist".
+ * ever exists while it is actually playing.
  */
 export function IntroCurtain() {
   const hasMounted = useHasMounted()
-
-  /*
-   * `useMemo` rather than a ref written during render (which React forbids)
-   * or `setState` in an effect (which renders a throwaway frame). It is only
-   * ever evaluated on the client, because `hasMounted` gates it.
-   */
   const play = useMemo(() => hasMounted && shouldPlay(), [hasMounted])
 
   if (!play) return null
@@ -118,9 +96,53 @@ export function IntroCurtain() {
   return <Curtain />
 }
 
+/**
+ * One line of the statement, revealed by riding up out of a masked box.
+ *
+ * This is the technique that separates a considered opening from a generic
+ * one, and it is worth understanding why: the text does not fade in, it
+ * *arrives* — translated up from below its own clipping boundary, so the line
+ * appears to be uncovered rather than to materialise. A fade says "an element
+ * became visible"; a masked rise says "this was always here, and you are now
+ * being shown it".
+ *
+ * `overflow-hidden` on the wrapper plus `translateY(110%)` on the inner span
+ * is all it takes, and both properties are compositor-only. The 110% (rather
+ * than 100%) clears descenders, which at 100% stay visible as a row of
+ * fragments below the mask.
+ */
+function Line({
+  children,
+  delay,
+  className,
+}: {
+  children: React.ReactNode
+  delay: number
+  className?: string
+}) {
+  return (
+    <span className="block overflow-hidden pb-[0.12em]">
+      <span
+        /*
+         * `whitespace-nowrap` is what makes the mask honest. The wrapper is
+         * one line tall by assumption, and `translateY(110%)` only clears one
+         * line — so a string that wrapped would leave its first line visible
+         * above the mask from frame zero. The copy is stored pre-broken (see
+         * `intro.line*` in the message files) and this stops any viewport
+         * from re-breaking it.
+         */
+        className={cn('intro-line block whitespace-nowrap', className)}
+        style={{ animationDelay: `${delay}ms` }}
+      >
+        {children}
+      </span>
+    </span>
+  )
+}
+
 function Curtain() {
   const t = useTranslations('intro')
-  const [phase, setPhase] = useState<'playing' | 'leaving'>('playing')
+  const [leaving, setLeaving] = useState(false)
   const [gone, setGone] = useState(false)
   const timersRef = useRef<number[]>([])
 
@@ -139,15 +161,15 @@ function Curtain() {
   }, [])
 
   useEffect(() => {
-    if (phase !== 'playing') return
+    if (leaving) return
 
     const dismiss = () => {
-      setPhase('leaving')
-      window.setTimeout(() => setGone(true), EXIT)
+      setLeaving(true)
+      timersRef.current.push(window.setTimeout(() => setGone(true), TIMINGS.exit))
     }
 
     // Auto-advance, plus every obvious way to say "skip".
-    timersRef.current.push(window.setTimeout(dismiss, HOLD))
+    timersRef.current.push(window.setTimeout(dismiss, AUTO_DISMISS))
     window.addEventListener('pointerdown', dismiss, { once: true })
     window.addEventListener('keydown', dismiss, { once: true })
     window.addEventListener('wheel', dismiss, { once: true, passive: true })
@@ -161,77 +183,108 @@ function Curtain() {
       window.removeEventListener('wheel', dismiss)
       window.removeEventListener('touchstart', dismiss)
     }
-  }, [phase])
+  }, [leaving])
 
   if (gone) return null
-
-  const leaving = phase === 'leaving'
 
   return (
     <div
       /*
-       * `aria-hidden` and no focusable children: the curtain says nothing the
-       * page does not already say in its own headings, so for a screen reader
-       * it is pure decoration to skip past. `role="presentation"` would still
-       * announce the text inside it.
+       * `aria-hidden` and no focusable children: the statement is decoration
+       * for a screen reader — the page's own headings carry the message — and
+       * `role="presentation"` would still announce the text inside.
        */
       aria-hidden
       className={cn(
-        'fixed inset-0 z-[100] flex items-center justify-center overflow-hidden',
-        'transition-[opacity,transform] ease-[var(--ease-emphasis)]',
-        leaving ? 'pointer-events-none opacity-0' : 'opacity-100',
+        'intro-root fixed inset-0 z-[100] overflow-hidden bg-[var(--surface-base)]',
+        leaving && 'intro-root-leaving',
       )}
-      style={{
-        background: 'var(--surface-base)',
-        transitionDuration: `${EXIT}ms`,
-        // Lifts away rather than fading in place, so the reveal has direction.
-        transform: leaving ? 'translateY(-1.5%)' : 'none',
-      }}
+      style={
+        {
+          '--intro-exit': `${TIMINGS.exit}ms`,
+        } as React.CSSProperties
+      }
     >
-      {/* Same accent bloom as the hero, so the curtain reads as the page's
-          own first frame rather than as a separate splash screen. */}
+      {/*
+        Ambient light, keyed to the hero's own field so the curtain reads as
+        the page's first frame rather than a separate splash screen. It drifts
+        very slowly during the hold, which is what keeps the finished frame
+        from looking like a static image while it waits.
+      */}
       <div
-        className="absolute inset-0"
+        className="intro-bloom absolute inset-0"
         style={{
           background: [
-            'radial-gradient(62% 38% at 50% 42%, color-mix(in srgb, var(--color-acento) 20%, transparent) 0%, transparent 100%)',
-            'radial-gradient(48% 30% at 82% 88%, color-mix(in srgb, var(--color-acento-deep) 24%, transparent) 0%, transparent 100%)',
+            'radial-gradient(58% 42% at 28% 34%, color-mix(in srgb, var(--color-acento) 22%, transparent) 0%, transparent 100%)',
+            'radial-gradient(46% 34% at 84% 82%, color-mix(in srgb, var(--color-acento-deep) 26%, transparent) 0%, transparent 100%)',
           ].join(', '),
         }}
       />
 
-      {/* The masked rule grid from the hero, at the same 64px pitch. */}
+      {/*
+        The rule grid from the hero, at the same 64px pitch. It scales up a
+        fraction over the whole sequence — a slow push that the eye reads as
+        depth without ever resolving as movement.
+      */}
       <div
-        className="absolute inset-0 opacity-50"
+        className="intro-grid absolute inset-0"
         style={{
           backgroundImage: [
             'linear-gradient(to right, color-mix(in srgb, var(--color-neutro-claro) 4%, transparent) 1px, transparent 1px)',
             'linear-gradient(to bottom, color-mix(in srgb, var(--color-neutro-claro) 4%, transparent) 1px, transparent 1px)',
           ].join(', '),
           backgroundSize: '64px 64px',
-          maskImage: 'radial-gradient(58% 46% at 50% 46%, #000 0%, transparent 76%)',
+          maskImage: 'radial-gradient(62% 50% at 32% 42%, #000 0%, transparent 78%)',
           WebkitMaskImage:
-            'radial-gradient(58% 46% at 50% 46%, #000 0%, transparent 76%)',
+            'radial-gradient(62% 50% at 32% 42%, #000 0%, transparent 78%)',
         }}
       />
 
-      <div className="relative flex w-full max-w-[26rem] flex-col items-center px-6 text-center sm:max-w-[34rem]">
-        {/* The mark, scaling up out of nothing. */}
-        <span className="intro-mark flex h-12 w-12 items-center justify-center rounded-[0.875rem] border border-[var(--accent-hairline)] bg-[var(--accent-soft)] sm:h-14 sm:w-14">
-          <span className="intro-spark block h-2.5 w-2.5 rounded-full bg-[var(--color-acento)] sm:h-3 sm:w-3" />
-        </span>
+      {/* Grain, so the flat ground has the same tooth as the rest of the page. */}
+      <div className="intro-grain absolute inset-0" />
 
-        {/* Set in the display face at the headline's own scale. */}
-        <p className="intro-line-1 mt-6 font-display text-[1.75rem] font-medium leading-[1.1] tracking-[-0.03em] text-[var(--text-primary)] sm:mt-7 sm:text-[2.5rem]">
-          {t('brand')}
-        </p>
+      {/*
+        Ranged left and set on the same 5/8-unit gutter as the hero copy, not
+        centred. A centred lockup is the default every generated splash screen
+        reaches for; matching the hero's own left edge means the statement sits
+        exactly where the headline is about to appear, so the reveal hands off
+        to the page instead of cutting to it.
+      */}
+      <div className="relative flex h-full w-full items-center">
+        <div className="mx-auto w-full max-w-[var(--measure-page)] px-5 sm:px-8">
+          <div className="max-w-[34rem]">
+            {/* The accent rule draws out first — it is the only thing on
+                screen for a beat, which is what makes the first line's
+                arrival feel answered rather than abrupt. */}
+            <span className="intro-rule block h-px w-16 origin-left bg-[linear-gradient(to_right,var(--color-acento),transparent)] sm:w-20" />
 
-        {/* Draws out from the centre between the two lines. */}
-        <span className="intro-rule mt-5 h-px w-16 bg-[linear-gradient(to_right,transparent,var(--color-acento),transparent)] sm:mt-6 sm:w-24" />
+            <p className="mt-7 font-display text-[1.375rem] font-medium leading-[1.26] tracking-[-0.028em] text-[var(--text-primary)] sm:mt-9 sm:text-[2rem] lg:text-[2.375rem]">
+              <Line delay={TIMINGS.lineOne}>{t('lineOne')}</Line>
+              <Line delay={TIMINGS.lineTwo}>{t('lineTwo')}</Line>
+              {/*
+                The resolution carries the accent. It is the half of the
+                statement the visitor is meant to leave with, and colouring it
+                is what marks the pivot the line turns on.
+              */}
+              <Line
+                delay={TIMINGS.lineThree}
+                className="text-[var(--accent-text)]"
+              >
+                {t('lineThree')}
+              </Line>
+            </p>
 
-        <p className="intro-line-2 mt-5 max-w-[24ch] text-[0.9375rem] leading-[1.55] text-[var(--text-secondary)] sm:mt-6 sm:max-w-[32ch] sm:text-[1.0625rem]">
-          {t('tagline')}
-        </p>
+            {/* The signature, last and smallest — the statement earns the
+                name rather than the name introducing the statement. */}
+            <span className="mt-8 block sm:mt-10">
+              <Line delay={TIMINGS.brand}>
+                <span className="type-eyebrow text-[var(--text-muted)]">
+                  {t('brand')}
+                </span>
+              </Line>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   )

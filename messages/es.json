@@ -6,7 +6,9 @@
   },
   "intro": {
     "brand": "Numi AI",
-    "tagline": "Tu negocio, atendiendo solo. Empecemos."
+    "lineOne": "La venta no se pierde",
+    "lineTwo": "por precio.",
+    "lineThree": "Se pierde por silencio."
   },
   "nav": {
     "skipToContent": "Saltar al contenido",

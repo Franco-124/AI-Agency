@@ -6,7 +6,9 @@
   },
   "intro": {
     "brand": "Numi AI",
-    "tagline": "Your business, running itself. Let’s begin."
+    "lineOne": "You rarely lose a sale",
+    "lineTwo": "on price.",
+    "lineThree": "You lose it in silence."
   },
   "nav": {
     "skipToContent": "Skip to content",

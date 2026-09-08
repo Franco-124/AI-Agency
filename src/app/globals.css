@@ -120,6 +120,10 @@
   /* Expo-out. Used where an element should arrive decisively — the CTA
      press, the panel open — rather than glide. */
   --ease-emphasis: cubic-bezier(0.16, 1, 0.3, 1);
+  /* The curtain's own curve. `--ease-emphasis` decelerates so hard that a
+     900ms travel appears to stall in its last third; this keeps the long
+     move alive to the end while still landing softly. */
+  --ease-intro: cubic-bezier(0.22, 1, 0.36, 1);
   --duration-entrance: 500ms;
 }
 
@@ -816,6 +820,70 @@
   }
 
   /* ----------------------------------------------------------------
+     Opening curtain (see `IntroCurtain`).
+
+     Every animated property here is `transform`, `opacity`, `clip-path` or
+     `filter`, so the sequence stays on the compositor and never competes
+     with the hero painting underneath it.
+     ---------------------------------------------------------------- */
+
+  /* `both` fill is what holds each line at `translateY(110%)` until its own
+     delay elapses — without it every line flashes at full opacity on frame
+     one and the stagger is lost. */
+  .intro-line {
+    animation: intro-line 900ms var(--ease-intro) both;
+  }
+
+  .intro-rule {
+    animation: intro-rule 720ms var(--ease-intro) 60ms both;
+  }
+
+  .intro-bloom {
+    animation: intro-bloom 6s ease-in-out both;
+  }
+
+  .intro-grid {
+    animation: intro-grid 6s ease-out both;
+  }
+
+  .intro-grain {
+    pointer-events: none;
+    opacity: 0.4;
+    mix-blend-mode: soft-light;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  }
+
+  .intro-root {
+    clip-path: inset(0 0 0 0);
+  }
+
+  /*
+     The exit runs two moves at once: the curtain is wiped away from the
+     bottom up, and its contents ride up faster than the wipe travels. The
+     offset between them is what makes it read as one gesture — the statement
+     leading its own exit — rather than as content being cut off by a mask.
+  */
+  .intro-root-leaving {
+    animation: intro-wipe var(--intro-exit, 780ms) var(--ease-intro) both;
+  }
+
+  .intro-root-leaving .intro-line,
+  .intro-root-leaving .intro-rule {
+    /*
+       `animation-delay: 0` is load-bearing. The entrance sets a per-line
+       delay inline (260/620/1060ms) to stagger the reveal, and replacing
+       only the animation *name* leaves that delay in place — so the exit
+       inherited it and the three lines left one after another, the last of
+       them starting a second after the wipe had already finished.
+
+       The exit is deliberately not staggered: on the way in the stagger is
+       the point, on the way out it just makes the curtain slow to leave.
+    */
+    animation: intro-line-out 380ms var(--ease-intro) both;
+    animation-delay: 0ms;
+  }
+
+  /* ----------------------------------------------------------------
      Section index. The two-digit ordinal that now precedes every section
      title, which is what turns eleven interchangeable blocks into a
      sequence the visitor can place themselves in. Editorial device, not
@@ -1017,68 +1085,99 @@
    Opening curtain. See `.intro-*` in the components layer.
    ------------------------------------------------------------------ */
 
-/* The mark arrives with a slight overshoot, which is what makes it land
-   rather than simply appear. */
-@keyframes intro-mark {
+/*
+  The masked rise — the technique the whole sequence is built on.
+
+  Each line is translated up from behind its own clipping boundary rather
+  than faded in. A fade says "an element became visible"; a masked rise says
+  "this was already here, and you are now being shown it", which is the
+  difference between a splash screen and an opening.
+
+  110% rather than 100%: at 100% the tails of "p" and "g" stay visible below
+  the mask as a row of fragments.
+
+  The blur clears at 55%, earlier than the travel finishes, so it reads as
+  focus being pulled rather than as a blurred element sliding into place.
+*/
+@keyframes intro-line {
   0% {
     opacity: 0;
-    transform: scale(0.72);
+    transform: translateY(110%);
+    filter: blur(6px);
   }
-  60% {
+  55% {
     opacity: 1;
-    transform: scale(1.06);
+    filter: blur(0);
   }
   100% {
     opacity: 1;
-    transform: scale(1);
+    transform: translateY(0);
+    filter: blur(0);
   }
 }
 
-@keyframes intro-spark-in {
+/* Leaves upward, and faster than it arrived: motion out should always
+   undercut motion in, or the exit becomes a toll the visitor pays. */
+@keyframes intro-line-out {
   from {
-    opacity: 0;
-    transform: scale(0.3);
+    opacity: 1;
+    transform: translateY(0);
   }
   to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* Glow and scale together — a pulse on opacity alone reads as a flicker. */
-@keyframes intro-spark-pulse {
-  0%,
-  100% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-acento) 45%, transparent);
-  }
-  50% {
-    transform: scale(1.18);
-    box-shadow: 0 0 14px 3px color-mix(in srgb, var(--color-acento) 40%, transparent);
-  }
-}
-
-/* Smaller travel than `hero-rise`: the curtain's copy is centred and short,
-   so a 20px lift would read as a jump at this scale. */
-@keyframes intro-rise {
-  from {
     opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
+    transform: translateY(-38%);
   }
 }
 
 @keyframes intro-rule {
   from {
     transform: scaleX(0);
-    opacity: 0;
   }
   to {
     transform: scaleX(1);
+  }
+}
+
+/*
+  The exit wipe. `inset()` consuming the curtain from the bottom up, not a
+  fade: a fading overlay leaves the page looking like it sat behind frosted
+  glass for half a second, while a wipe removes the curtain as an edge
+  travelling across the screen and the page is fully itself the moment it
+  passes.
+*/
+@keyframes intro-wipe {
+  from {
+    clip-path: inset(0 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 100% 0);
+  }
+}
+
+/*
+  Both background layers drift for the sequence's whole length. None of this
+  motion is legible frame to frame — it exists so the finished frame is never
+  a still image while it holds, which is the clearest tell of a splash screen.
+*/
+@keyframes intro-bloom {
+  from {
+    opacity: 0.55;
+    transform: scale(1.06) translate3d(-1.5%, 1%, 0);
+  }
+  to {
     opacity: 1;
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+}
+
+@keyframes intro-grid {
+  from {
+    opacity: 0;
+    transform: scale(1.1);
+  }
+  to {
+    opacity: 0.55;
+    transform: scale(1);
   }
 }
 
