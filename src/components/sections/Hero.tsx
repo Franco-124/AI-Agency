@@ -14,7 +14,6 @@ import type { CSSProperties } from 'react'
 import { DemoBookingWidget } from '@/components/forms/DemoBookingWidget'
 import { HeroMotion } from '@/components/motion/HeroMotion'
 import { sectionIds } from '@/lib/site'
-import { cn } from '@/lib/utils'
 
 import agentStepsVisual from '../../../public/images/hero-agent-steps.webp'
 import outcomeCardsVisual from '../../../public/images/hero-outcome-cards.webp'
@@ -31,15 +30,16 @@ const heroFeatures: ReadonlyArray<{ key: string; Icon: LucideIcon }> = [
 /*
   Two layouts in one tree.
 
-  Below `lg`: copy ranged left, no side visuals, and deliberately little of it.
-  A phone hero earns attention by saying one thing, so this half runs
-  positioning line, headline, promise, CTA pair, reassurance — then the four
-  capabilities as a scrolling chip row rather than as eight runs of body text.
-  An earlier pass put a title *and* a detail in each of four grid cells, which
-  left 440 characters on the first screen; the detail now lives in the services
-  cards two sections down, where each capability gets a paragraph. The primary
-  action also follows the reader down the page from `MobileActionBar`, so the
-  CTA here no longer has to be the only chance to act.
+  Below `lg`: copy ranged left, no side visuals, and deliberately little of it
+  — positioning line, headline, promise, CTA pair, reassurance. That is the
+  whole phone hero. A small screen rewards making one claim and handing off,
+  so the four capabilities are not here at all: they are services with their
+  own illustrated cards two sections below, where each gets a paragraph rather
+  than three words. An earlier pass carried them as four grid cells stacking a
+  title *and* a detail, which put 440 characters on the first screen.
+
+  The primary action also follows the reader down the page from
+  `MobileActionBar`, so the CTA here is not the only chance to act.
 
   From `lg` up it is the approved comp — copy centred between two flanking
   product visuals. Every number in that half is measured off the comp
@@ -310,47 +310,30 @@ export function Hero() {
 
         {/*
         {/*
-          Four capabilities.
+        {/*
+          Four capabilities — desktop only.
 
-          Two different objects for two different jobs, because one object
-          cannot do both well:
+          They are gone from the phone layout entirely. Every intermediate
+          treatment still cost the first screen more than it returned: as four
+          grid cells stacking a title *and* a detail it was eight runs of 13px
+          text under the CTA (440 characters on screen); reduced to a scrolling
+          chip row it was four truncated labels that read as tags without
+          telling the visitor anything the headline had not.
 
-          On a phone this was the single largest source of clutter — four cells
-          each stacking a title *and* a detail line, so eight runs of 13px text
-          sat under the CTA and the first screen carried 440 characters of copy.
-          It is now a horizontally-scrolled row of chips carrying the title
-          only. The detail is not lost: each of these four capabilities is a
-          service with its own card two sections down, where it gets a
-          paragraph instead of four words. Here they are wayfinding, not
-          content.
+          Nothing is lost by dropping them. Each of these four is a service
+          with its own illustrated card two sections below, where it gets a
+          real paragraph instead of three words — so on a phone the hero makes
+          one claim and hands off, which is what a small screen rewards.
 
-          From `lg` up, where the width exists, the full
-          icon-plus-title-plus-detail row returns unchanged.
-
-          The chip row bleeds past the gutter and scrolls rather than wrapping
-          to two rows: a partially visible fourth chip signals "there is more"
-          the way the services carousel does, and the block stays one line tall
-          whatever the labels say. `.swipe-row` supplies the hidden
-          scrollbar and contained overscroll.
+          From `lg` up the width exists for the full
+          icon-plus-title-plus-detail row, and it renders unchanged.
         */}
         <ul
-          className={cn(
-            'hero-rise swipe-row mt-8 flex gap-2 overflow-x-auto pb-1',
-            '-mx-5 px-5 sm:-mx-8 sm:px-8',
-            'lg:mx-0 lg:mt-11 lg:justify-center lg:gap-x-7 lg:overflow-visible lg:px-0 lg:pb-0',
-          )}
+          className="hero-rise hidden lg:mt-11 lg:flex lg:justify-center lg:gap-x-7"
           style={{ '--hero-delay': '0.42s' } as CSSProperties}
         >
           {heroFeatures.map(({ key, Icon }) => (
-            <li
-              key={key}
-              className={cn(
-                // Phone: a self-contained chip.
-                'flex shrink-0 items-center gap-2 rounded-full border border-hairline bg-[var(--surface-panel)] py-1.5 pl-1.5 pr-3.5 shadow-[var(--shadow-low)]',
-                // Desktop: a plain row item again, no chip chrome.
-                'lg:min-w-0 lg:items-start lg:gap-2.5 lg:rounded-none lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none',
-              )}
-            >
+            <li key={key} className="flex min-w-0 items-start gap-2.5">
               {/*
                 The icon is seated in a tinted tile rather than floating loose
                 beside the text. Four bare strokes read as clip art; four
@@ -360,29 +343,27 @@ export function Hero() {
               */}
               <span
                 aria-hidden
-                className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-[var(--accent-hairline)] bg-[var(--accent-soft)] lg:mt-px lg:h-7 lg:w-7 lg:rounded-[0.4375rem]"
+                className="mt-px flex h-7 w-7 shrink-0 items-center justify-center rounded-[0.4375rem] border border-[var(--accent-hairline)] bg-[var(--accent-soft)]"
               >
                 <Icon
-                  className="h-[0.8125rem] w-[0.8125rem] text-[var(--accent-text)] lg:h-[0.875rem] lg:w-[0.875rem]"
+                  className="h-[0.875rem] w-[0.875rem] text-[var(--accent-text)]"
                   strokeWidth={1.9}
                 />
               </span>
 
               {/*
-                `whitespace-nowrap` keeps each label on one line as a chip, and
-                on its own two lines (title / detail) from `lg`. The copy is
-                split into exactly those two parts, so a third line is always
-                an accident of column width — at 1024 and 1280 it made the
-                desktop row 75px tall against 38px at 1920, breaking its shared
-                baseline. The row is measured to fit at every `lg` width, so
-                nowrap cannot overflow.
+                `whitespace-nowrap` keeps each label on its own two lines
+                (title / detail). The copy is split into exactly those two
+                parts, so a third line is always an accident of column width —
+                at 1024 and 1280 it made the row 75px tall against 38px at
+                1920, breaking its shared baseline. The row is measured to fit
+                at every `lg` width, so nowrap cannot overflow.
               */}
-              <span className="whitespace-nowrap text-left text-[0.8125rem] leading-[1.45]">
-                <span className="font-medium text-[var(--text-primary)] lg:block">
+              <span className="min-w-0 whitespace-nowrap text-left text-[0.8125rem] leading-[1.45]">
+                <span className="block font-medium text-[var(--text-primary)]">
                   {t(`features.${key}.title`)}
                 </span>
-                {/* Dropped on phones — the chip carries the title alone. */}
-                <span className="hidden text-[var(--text-muted)] lg:block">
+                <span className="block text-[var(--text-muted)]">
                   {t(`features.${key}.detail`)}
                 </span>
               </span>
