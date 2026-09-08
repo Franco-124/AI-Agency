@@ -1,13 +1,7 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
-import {
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  useSyncExternalStore,
-} from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { cn } from '@/lib/utils'
 
@@ -35,81 +29,83 @@ const TIMINGS = {
 const AUTO_DISMISS = TIMINGS.brand + TIMINGS.hold
 
 /** Once per session, not once per navigation. */
-const SEEN_KEY = 'numi:intro-seen'
+export const INTRO_SEEN_KEY = 'numi:intro-seen'
 
 /**
- * Whether the curtain should play, decided once from browser state.
+ * Runs before React hydrates — injected as a blocking script in the layout's
+ * `<head>`.
  *
- * Called from an effect, never during render. A `'use client'` component is
- * still prerendered on the server, so a `useState` initialiser that touches
- * `window` throws there — which is exactly how this was first written, and it
- * 500'd the route.
+ * The curtain is rendered by the server and is therefore up from the very
+ * first paint. This decides, synchronously and before anything is painted,
+ * whether this particular visit should keep it; if not it sets an attribute
+ * that hides it in CSS, so it is never seen at all.
+ *
+ * The inversion matters. The first version mounted the curtain from an
+ * effect, which meant it could not exist until React had hydrated — measured
+ * at 660-814ms after the hero was already in the DOM, so every visitor saw
+ * the page, then had it covered, then uncovered. Deciding to *remove*
+ * something already present has no such window.
+ *
+ * Two query overrides ride along, purely as a reviewing affordance: `intro=1`
+ * forces a replay and `intro=0` suppresses one. The once-per-session rule is
+ * right for visitors but makes the intro nearly impossible to watch while
+ * working on it, since every reload is the same session.
  */
-function shouldPlay(): boolean {
-  // A deep link is a request for a specific section — never cover it.
-  if (window.location.hash) return false
-
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false
-
+export const INTRO_GATE_SCRIPT = `
+(function () {
   try {
-    if (sessionStorage.getItem(SEEN_KEY)) return false
-    sessionStorage.setItem(SEEN_KEY, '1')
-  } catch {
-    /*
-     * Private browsing can refuse storage. Playing the intro is the safe
-     * failure — it is brief and skippable — but it must not throw.
-     */
+    var d = document.documentElement;
+    var skip =
+      window.location.hash ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* Query overrides — see this constant's docstring. */
+    var forced = window.location.search.indexOf('intro=1') !== -1;
+    if (window.location.search.indexOf('intro=0') !== -1) skip = true;
+
+    if (forced) {
+      skip = false;
+    } else if (!skip) {
+      try {
+        if (sessionStorage.getItem('${INTRO_SEEN_KEY}')) {
+          skip = true;
+        } else {
+          sessionStorage.setItem('${INTRO_SEEN_KEY}', '1');
+        }
+      } catch (e) {
+        /* Private browsing can refuse storage; playing it is the safe failure. */
+      }
+    }
+
+    if (skip) d.setAttribute('data-intro', 'skip');
+    else d.setAttribute('data-intro', 'play');
+  } catch (e) {
+    /* Never let the gate break the page — worst case the curtain plays. */
+    document.documentElement.setAttribute('data-intro', 'skip');
   }
-
-  return true
-}
-
-const subscribeNoop = () => () => {}
+})();
+`
 
 /**
- * Reports whether this client has mounted yet.
+ * Whether this visit is actually showing the curtain.
  *
- * `useSyncExternalStore` is the sanctioned way to read something outside
- * React's render — here, "are we in a browser". Its server snapshot is
- * `false` and its client snapshot `true`, so the first paint matches the
- * server exactly and the second may look at `window`.
+ * The verdict was reached before paint by `INTRO_GATE_SCRIPT` and recorded on
+ * the root element; reading it back keeps one source of truth and means the
+ * session flag is only ever written once.
  */
-function useHasMounted(): boolean {
-  return useSyncExternalStore(
-    subscribeNoop,
-    () => true,
-    () => false,
-  )
-}
-
-/**
- * The gate. Renders nothing on the server and nothing on a visit that should
- * not see the curtain, and otherwise mounts `Curtain` — which therefore only
- * ever exists while it is actually playing.
- */
-export function IntroCurtain() {
-  const hasMounted = useHasMounted()
-  const play = useMemo(() => hasMounted && shouldPlay(), [hasMounted])
-
-  if (!play) return null
-
-  return <Curtain />
-}
+const isPlaying = () => document.documentElement.dataset.intro === 'play'
 
 /**
  * One line of the statement, revealed by riding up out of a masked box.
  *
- * This is the technique that separates a considered opening from a generic
- * one, and it is worth understanding why: the text does not fade in, it
- * *arrives* — translated up from below its own clipping boundary, so the line
- * appears to be uncovered rather than to materialise. A fade says "an element
- * became visible"; a masked rise says "this was always here, and you are now
- * being shown it".
+ * The text does not fade in, it *arrives* — translated up from below its own
+ * clipping boundary, so the line appears to be uncovered rather than to
+ * materialise. A fade says "an element became visible"; a masked rise says
+ * "this was always here, and you are now being shown it".
  *
  * `overflow-hidden` on the wrapper plus `translateY(110%)` on the inner span
- * is all it takes, and both properties are compositor-only. The 110% (rather
- * than 100%) clears descenders, which at 100% stay visible as a row of
- * fragments below the mask.
+ * is all it takes, and both are compositor-only. 110% rather than 100% clears
+ * descenders, which at 100% stay visible as a row of fragments below the mask.
  */
 function Line({
   children,
@@ -125,8 +121,8 @@ function Line({
       <span
         /*
          * `whitespace-nowrap` is what makes the mask honest. The wrapper is
-         * one line tall by assumption, and `translateY(110%)` only clears one
-         * line — so a string that wrapped would leave its first line visible
+         * one line tall by assumption and `translateY(110%)` only clears one
+         * line, so a string that wrapped would leave its first line visible
          * above the mask from frame zero. The copy is stored pre-broken (see
          * `intro.line*` in the message files) and this stops any viewport
          * from re-breaking it.
@@ -140,7 +136,30 @@ function Line({
   )
 }
 
-function Curtain() {
+/**
+ * The opening curtain.
+ *
+ * Rendered on the server, so it is painted with the first byte rather than
+ * mounted after hydration — which is what removes the flash of hero the
+ * previous version had. `data-intro="skip"` on the root element (written by
+ * `INTRO_GATE_SCRIPT` before paint) hides it in CSS for any visit that should
+ * not see it, so nothing here has to decide whether it is visible — the
+ * effects below only ask whether to run their timers.
+ *
+ * The rest of its contract:
+ *
+ * - **Once per session**, not once per navigation — so client-side moves to
+ *   /agendar and back never replay it.
+ * - **Never under reduced motion, never on a deep link.** Arriving at
+ *   `#paquetes` is a request for a section; covering it is hostile.
+ * - **Skippable** by tap, key, wheel or touch.
+ * - **Not a loading gate.** The page renders underneath from the first paint;
+ *   this only sits on top of it.
+ * - **`?intro=1` forces a replay** and `?intro=0` suppresses one — a
+ *   reviewing affordance, since the once-per-session rule otherwise makes the
+ *   intro impossible to re-watch without clearing storage by hand.
+ */
+export function IntroCurtain() {
   const t = useTranslations('intro')
   const [leaving, setLeaving] = useState(false)
   const [gone, setGone] = useState(false)
@@ -150,8 +169,15 @@ function Curtain() {
    * Locks the page while the curtain is up. Scrolling underneath an overlay
    * the visitor cannot see past is disorienting, and a stray scroll would
    * leave them somewhere they did not choose once it lifts.
+   *
+   * Both effects check the gate's verdict rather than tracking it in state.
+   * The CSS already hides the curtain for a skipped visit, so there is
+   * nothing to re-render — these only need to know whether to run at all,
+   * and reading the attribute directly avoids a throwaway render.
    */
   useEffect(() => {
+    if (!isPlaying()) return
+
     const previous = document.body.style.overflow
     document.body.style.overflow = 'hidden'
 
@@ -161,7 +187,7 @@ function Curtain() {
   }, [])
 
   useEffect(() => {
-    if (leaving) return
+    if (gone || leaving || !isPlaying()) return
 
     const dismiss = () => {
       setLeaving(true)
@@ -183,7 +209,7 @@ function Curtain() {
       window.removeEventListener('wheel', dismiss)
       window.removeEventListener('touchstart', dismiss)
     }
-  }, [leaving])
+  }, [gone, leaving])
 
   if (gone) return null
 
@@ -208,8 +234,8 @@ function Curtain() {
       {/*
         Ambient light, keyed to the hero's own field so the curtain reads as
         the page's first frame rather than a separate splash screen. It drifts
-        very slowly during the hold, which is what keeps the finished frame
-        from looking like a static image while it waits.
+        very slowly, which keeps the finished frame from looking like a static
+        image while it holds.
       */}
       <div
         className="intro-bloom absolute inset-0"
@@ -223,8 +249,8 @@ function Curtain() {
 
       {/*
         The rule grid from the hero, at the same 64px pitch. It scales up a
-        fraction over the whole sequence — a slow push that the eye reads as
-        depth without ever resolving as movement.
+        fraction over the sequence — a slow push the eye reads as depth
+        without ever resolving as movement.
       */}
       <div
         className="intro-grid absolute inset-0"
@@ -244,18 +270,18 @@ function Curtain() {
       <div className="intro-grain absolute inset-0" />
 
       {/*
-        Ranged left and set on the same 5/8-unit gutter as the hero copy, not
-        centred. A centred lockup is the default every generated splash screen
-        reaches for; matching the hero's own left edge means the statement sits
-        exactly where the headline is about to appear, so the reveal hands off
-        to the page instead of cutting to it.
+        Ranged left on the hero's own gutter, not centred. A centred lockup is
+        the default every generated splash screen reaches for; matching the
+        hero's left edge means the statement sits exactly where the headline is
+        about to appear, so the reveal hands off to the page instead of cutting
+        to it.
       */}
       <div className="relative flex h-full w-full items-center">
         <div className="mx-auto w-full max-w-[var(--measure-page)] px-5 sm:px-8">
           <div className="max-w-[34rem]">
-            {/* The accent rule draws out first — it is the only thing on
-                screen for a beat, which is what makes the first line's
-                arrival feel answered rather than abrupt. */}
+            {/* Draws first, and is the only thing on screen for a beat — which
+                is what makes the first line's arrival feel answered rather
+                than abrupt. */}
             <span className="intro-rule block h-px w-16 origin-left bg-[linear-gradient(to_right,var(--color-acento),transparent)] sm:w-20" />
 
             <p className="mt-7 font-display text-[1.375rem] font-medium leading-[1.26] tracking-[-0.028em] text-[var(--text-primary)] sm:mt-9 sm:text-[2rem] lg:text-[2.375rem]">
@@ -274,8 +300,8 @@ function Curtain() {
               </Line>
             </p>
 
-            {/* The signature, last and smallest — the statement earns the
-                name rather than the name introducing the statement. */}
+            {/* The signature, last and smallest — the statement earns the name
+                rather than the name introducing the statement. */}
             <span className="mt-8 block sm:mt-10">
               <Line delay={TIMINGS.brand}>
                 <span className="type-eyebrow text-[var(--text-muted)]">

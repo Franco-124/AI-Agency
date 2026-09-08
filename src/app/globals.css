@@ -858,6 +858,22 @@
   }
 
   /*
+     The curtain is server-rendered, so it is up from the first paint — this
+     is what takes it away again for a visit that should not see it. The
+     attribute is written by a blocking script in `<head>` (see
+     `INTRO_GATE_SCRIPT`), so this resolves before anything is painted and the
+     curtain is never briefly visible.
+
+     `data-intro` absent means the gate script did not run at all — no
+     JavaScript, or it threw. Hiding the curtain in that case is the correct
+     failure: an intro that cannot dismiss itself would trap the visitor
+     behind an overlay forever.
+  */
+  :root:not([data-intro='play']) .intro-root {
+    display: none;
+  }
+
+  /*
      The exit runs two moves at once: the curtain is wiped away from the
      bottom up, and its contents ride up faster than the wipe travels. The
      offset between them is what makes it read as one gesture — the statement
