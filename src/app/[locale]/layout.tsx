@@ -110,12 +110,7 @@ export default async function LocaleLayout({
         into the heavier `.grain` treatment, so the page has one continuous
         surface tooth rather than three textured blocks separated by flat fill.
       */}
-      {/*
-        `has-mobile-bar` reserves room at the bottom of the page for the
-        phone-only action bar, so the footer is never covered by it — the
-        padding is unconditional on purpose, see the rule in `globals.css`.
-      */}
-      <body className="page-grain has-mobile-bar relative min-h-dvh bg-surface text-ink antialiased">
+      <body className="page-grain relative min-h-dvh bg-surface text-ink antialiased">
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
       </body>
     </html>

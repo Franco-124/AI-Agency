@@ -4,10 +4,15 @@
     "description": "Numi AI atiende a tus clientes al instante, todo el día, para que tu equipo deje de perder tiempo y tu negocio deje de perder ventas.",
     "ogImageAlt": "Numi AI — automatización con inteligencia artificial para negocios en Colombia"
   },
+  "intro": {
+    "brand": "Numi AI",
+    "tagline": "Tu negocio, atendiendo solo. Empecemos."
+  },
   "nav": {
     "skipToContent": "Saltar al contenido",
     "mainNav": "Navegación principal",
     "home": "Inicio",
+    "bookShort": "Agendar",
     "services": "Servicios",
     "packages": "Paquetes",
     "advisory": "Asesoría",

@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 
 import { Footer } from '@/components/layout/Footer'
 import { Header } from '@/components/layout/Header'
-import { MobileActionBar } from '@/components/layout/MobileActionBar'
+import { IntroCurtain } from '@/components/motion/IntroCurtain'
 import { ScrollProgress } from '@/components/layout/ScrollProgress'
 import { WhatsAppFab } from '@/components/layout/WhatsAppFab'
 import { Advisory } from '@/components/sections/Advisory'
@@ -72,6 +72,15 @@ export default async function HomePage({ params }: PageProps) {
         }))}
       />
 
+      {/*
+        The opening curtain. Mounted first but painted on top: the page
+        renders underneath it from the first frame, so this delays nothing —
+        it is an overlay, not a loading gate. Plays once per session, skips
+        itself for deep links and under reduced motion, and is dismissed by
+        any tap, key or scroll. See `IntroCurtain`.
+      */}
+      <IntroCurtain />
+
       <ScrollProgress />
       <Header />
 
@@ -113,12 +122,6 @@ export default async function HomePage({ params }: PageProps) {
       </main>
 
       <Footer />
-      {/*
-        Phone-only bottom action bar. Mounted after the footer so it is last in
-        the tab order — it is a shortcut to an action already reachable in the
-        content, not a nav landmark to be met on the way in.
-      */}
-      <MobileActionBar />
       <WhatsAppFab />
     </>
   )

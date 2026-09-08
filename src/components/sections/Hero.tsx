@@ -38,8 +38,8 @@ const heroFeatures: ReadonlyArray<{ key: string; Icon: LucideIcon }> = [
   than three words. An earlier pass carried them as four grid cells stacking a
   title *and* a detail, which put 440 characters on the first screen.
 
-  The primary action also follows the reader down the page from
-  `MobileActionBar`, so the CTA here is not the only chance to act.
+  The header keeps a CTA visible at every size, so this is not the visitor's
+  only chance to act — which is what lets the phone hero stay this short.
 
   From `lg` up it is the approved comp — copy centred between two flanking
   product visuals. Every number in that half is measured off the comp
@@ -233,18 +233,25 @@ export function Hero() {
           carry the accent colour. Splitting it in the message file keeps the
           copy translatable without letting HTML into it.
 
-          The phone cap is `min(17ch, 100%)`, not a bare `17ch`. A `ch` measure
-          is relative to the font size, so at the headline's scale 17ch can
-          resolve wider than the gutters leave — which is exactly how the
-          subtitle below ended up clipping its last word per line. `min()` lets
-          the measure apply where there is room for it and yields to the
-          container where there is not. 17ch is the value that breaks the
-          33-character Spanish headline after roughly three words per line,
-          keeping it to three lines at a size that does not shout; the scale
-          itself caps at 2.125rem below 48rem — see `.type-display`.
+          The phone cap is a hard `22rem` (352px), not a `ch` measure.
+
+          Linear caps its mobile headline at 360px and Clerk at 280px, both as
+          fixed px — and the reason is that `ch` is relative to the font size,
+          so it drifts with the type scale and can resolve wider than the
+          gutters leave. That is exactly how the subtitle here once ended up
+          clipping the last word of every line. A fixed cap is the thing that
+          actually forces the ragged three-line silhouette this headline wants.
+
+          `text-balance` then distributes those breaks evenly rather than
+          leaving an orphan — the same pairing Clerk, Attio, Ramp, Retool,
+          Cursor and Vercel all ship.
+
+          352px rather than Clerk's 280px because this headline is 64
+          characters, not their 27: at 280px it broke to five lines. Sitting
+          just inside Linear's 360px keeps it to three.
         */}
         <h1
-          className="hero-rise type-display mt-4 max-w-[min(17ch,100%)] text-balance sm:mt-6 sm:max-w-[min(20ch,100%)] lg:mt-8 lg:max-w-[13em] lg:text-balance"
+          className="hero-rise type-display mt-4 max-w-[22rem] text-balance sm:mt-6 sm:max-w-[26rem] lg:mt-8 lg:max-w-[13em] lg:text-balance"
           style={{ '--hero-delay': '0.12s' } as CSSProperties}
         >
           {t('title.lead')}{' '}
@@ -280,11 +287,7 @@ export function Hero() {
           the headline, the promise and the action are the whole first screen,
           and everything else is what the visitor finds by scrolling.
         */}
-        {/* `data-hero-cta` is the anchor `MobileActionBar` watches: the bottom
-            bar only appears once this pair has scrolled out of view, so the
-            page never shows two copies of the same action at once. */}
         <div
-          data-hero-cta
           className="hero-rise mt-7 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:items-center lg:mt-10 lg:gap-4"
           style={{ '--hero-delay': '0.3s' } as CSSProperties}
         >

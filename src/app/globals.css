@@ -60,17 +60,16 @@
      and figure on the page reads through this token, not the raw accent. */
   --accent-text: var(--color-acento-lift);
 
-  --header-height: 4.5rem;
+  /*
+    Header height. 56px on phones, 72px from `sm`.
 
-  /* ----------------------------------------------------------------
-     Bottom action bar (phones only — see `MobileActionBar`).
-
-     `--fab-offset` is where the WhatsApp button sits. Both it and the page's
-     bottom padding are driven from here, so the bar, the FAB and the end of
-     the content can never disagree about how much room the bar needs.
-     ---------------------------------------------------------------- */
-  --mobile-bar-height: 4.75rem;
-  --fab-offset: max(1.5rem, env(safe-area-inset-bottom));
+    Measured from the sites this design takes after: Clerk and Linear ship a
+    42px mobile header, Ramp 56px, Vercel 64px — median ~56px. A fixed 72px bar
+    was eating 8.5% of a 390x844 viewport before the visitor read anything,
+    and on a phone the header holds only a logo and a menu button, so it has
+    no content to justify the height it had.
+  */
+  --header-height: 3.5rem;
 
   /* ----------------------------------------------------------------
      Elevation. Three shadows on a single light direction (above, slightly
@@ -94,14 +93,23 @@
     0 10px 30px -10px color-mix(in srgb, var(--color-acento) 55%, transparent);
 
   /* ----------------------------------------------------------------
-     Vertical rhythm. Sections no longer all share one padding value —
-     that uniformity is what made the scroll monotonous. Three roles:
-     `hero-adjacent` blocks open wide, ordinary blocks sit at `normal`,
-     and blocks that belong to the one above them close to `tight`.
+     Vertical rhythm.
+
+     Sections no longer all share one padding value — that uniformity is what
+     made the scroll monotonous. Three roles: blocks that open a new part of
+     the argument run `wide`, ordinary blocks sit at `normal`, and blocks that
+     belong to the one above them close to `tight`.
+
+     Each clamp also collapses hard toward its phone floor. Linear drops its
+     section padding 128px -> 48px between desktop and 768px, and the other
+     sites measured alongside it do the same: a rhythm that reads as generous
+     on a wide monitor reads as dead scrolling on a phone, where the reader
+     pays for every screenful of travel. The floors here are that collapse;
+     the ceilings are unchanged from the desktop design.
      ---------------------------------------------------------------- */
-  --space-section-tight: clamp(3.5rem, 3rem + 2.5vw, 5rem);
-  --space-section: clamp(4.5rem, 3.5rem + 4vw, 7.5rem);
-  --space-section-wide: clamp(5.5rem, 4rem + 6vw, 10rem);
+  --space-section-tight: clamp(2.75rem, 2rem + 3vw, 5rem);
+  --space-section: clamp(3.25rem, 2rem + 5vw, 7.5rem);
+  --space-section-wide: clamp(4rem, 2.25rem + 7vw, 10rem);
 
   /* Content measures. One place to change how wide the page runs. */
   --measure-page: 78rem;
@@ -113,6 +121,18 @@
      press, the panel open — rather than glide. */
   --ease-emphasis: cubic-bezier(0.16, 1, 0.3, 1);
   --duration-entrance: 500ms;
+}
+
+/*
+  Back to 72px from `sm` up, where the header carries the full nav, the
+  language switcher and a CTA — that content needs the height, a phone's
+  logo-plus-menu-button does not. Declared here rather than in `:root` so the
+  phone value stays the base and this is the enhancement.
+*/
+@media (width >= 40rem) {
+  :root {
+    --header-height: 4.5rem;
+  }
 }
 
 @theme inline {
@@ -211,23 +231,32 @@
   /*
     The headline. Two separate ramps rather than one clamp across the whole
     range, because a single curve cannot serve both ends: the value that reads
-    as confident on a 1440px monitor is shouting on a 390px phone, where the
-    same string then wraps to five or six lines and the eye has to climb it
-    instead of taking it in.
+    as confident on a 1440px monitor is shouting on a 390px phone.
 
-    Phone: 1.75rem–2.125rem. Deliberately restrained — a 33-character Spanish
-    headline lands in three comfortable lines at this size, with line-height
-    opened to 1.18 so those lines are legible as lines rather than as a block.
+    The phone end is calibrated against what the best-built marketing sites
+    actually ship (measured from their production CSS, not guessed):
 
-    Desktop (>= 48rem): the ramp resumes and runs up to 4.5rem, where the
-    tighter 1.04 leading and negative tracking belong.
+      Cursor 26px · Stripe 28px · Clerk 30px · Superhuman 32px
+      Linear 38px · Ramp 40px · Attio 40px · Vercel 48px
+
+    Median 38-40px. An earlier pass here ran 28-34px, at the very bottom of
+    that range, which read as timid rather than restrained — this is the
+    site's one headline and it should carry. 2.125rem (34px) at the small end
+    rising to 2.5rem (40px) puts it on the median without shouting.
+
+    Leading tightens to 1.1: every one of those sites compresses the headline
+    well below body leading (Attio 0.95, Superhuman 0.96, Stripe 1.07, Cursor
+    1.25), because a display line at 34px+ needs less air per line, not more.
+    1.18 was body-text leading applied to display type.
+
+    Desktop (>= 48rem): the ramp resumes and runs up to 4.5rem.
   */
   .type-display {
     font-family: var(--font-display);
-    font-size: clamp(1.75rem, 1.4rem + 1.6vw, 2.125rem);
-    line-height: 1.18;
+    font-size: clamp(2.125rem, 1.55rem + 2.6vw, 2.5rem);
+    line-height: 1.1;
     font-weight: 560;
-    letter-spacing: -0.018em;
+    letter-spacing: -0.022em;
   }
 
   @media (width >= 48rem) {
@@ -787,38 +816,6 @@
   }
 
   /* ----------------------------------------------------------------
-     Bottom action bar geometry.
-
-     Two things have to move out of the bar's way, and both are driven from
-     here rather than hardcoded in the components:
-
-       - the end of the page, so the footer is never covered;
-       - the WhatsApp FAB, so it is not stacked on top of the bar in the
-         corner a thumb reaches most easily.
-
-     `body` carries `.has-mobile-bar` unconditionally, and `MobileActionBar`
-     adds `data-bar-visible` to the document element while the bar is on
-     screen — so the FAB only lifts while there is something to lift over.
-     Scoped under `lg` because the bar itself is phone-only.
-     ---------------------------------------------------------------- */
-  @media (width < 64rem) {
-    .has-mobile-bar {
-      /* Room for the bar at its resting height. Applied always, not only while
-         the bar shows: the bar appears on scroll, and adding the padding at
-         that moment would shift the page under the reader's finger. */
-      padding-bottom: calc(
-        var(--mobile-bar-height) + max(0.75rem, env(safe-area-inset-bottom))
-      );
-    }
-
-    :root[data-bar-visible='true'] {
-      --fab-offset: calc(
-        var(--mobile-bar-height) + max(1rem, env(safe-area-inset-bottom))
-      );
-    }
-  }
-
-  /* ----------------------------------------------------------------
      Section index. The two-digit ordinal that now precedes every section
      title, which is what turns eleven interchangeable blocks into a
      sequence the visitor can place themselves in. Editorial device, not
@@ -1013,6 +1010,75 @@
   to {
     opacity: 1;
     transform: none;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Opening curtain. See `.intro-*` in the components layer.
+   ------------------------------------------------------------------ */
+
+/* The mark arrives with a slight overshoot, which is what makes it land
+   rather than simply appear. */
+@keyframes intro-mark {
+  0% {
+    opacity: 0;
+    transform: scale(0.72);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes intro-spark-in {
+  from {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Glow and scale together — a pulse on opacity alone reads as a flicker. */
+@keyframes intro-spark-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-acento) 45%, transparent);
+  }
+  50% {
+    transform: scale(1.18);
+    box-shadow: 0 0 14px 3px color-mix(in srgb, var(--color-acento) 40%, transparent);
+  }
+}
+
+/* Smaller travel than `hero-rise`: the curtain's copy is centred and short,
+   so a 20px lift would read as a jump at this scale. */
+@keyframes intro-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes intro-rule {
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
   }
 }
 

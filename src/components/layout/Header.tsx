@@ -304,20 +304,39 @@ export function Header() {
             reads as a plain link — only the arrow carries the orange.
           */}
           {/*
-            Given real chrome now — a bordered pill that fills with the accent
-            wash on hover. As a bare text link beside the language toggle it
-            was indistinguishable from the nav items, so the header's only
-            conversion path read as a fifth menu entry. It stays well below the
-            hero CTA in weight: the wash and hairline, not a filled button.
+            Visible at every size, including phones.
+
+            It used to be `md:inline-flex` — hidden on phones, where the only
+            way to act was to open the hamburger and find a link inside it.
+            Every design-led marketing site measured for this (Linear, Mercury,
+            Cursor, Clerk) keeps a CTA in the mobile header instead, and none
+            of the twelve surveyed used a fixed bottom bar. So the header
+            carries it.
+
+            Two forms, one element. On a phone it is a filled accent button
+            with a short label — the full "Agendar llamada estratégica" does
+            not fit beside a logo and a menu button at 56px, so the phone
+            shows `buttons.book` and the assistive name stays the full string
+            via `aria-label`. From `md` up there is room for the full label,
+            and it reverts to the quieter bordered pill so it does not compete
+            with the hero's own CTA on the first screen.
           */}
           <a
             href={sectionHref(sectionIds.finalCta)}
-            className="group hidden min-h-11 items-center gap-1.5 rounded-[0.5rem] border border-hairline px-3.5 text-sm font-medium text-ink transition-colors duration-200 hover:border-[var(--accent-hairline)] hover:bg-[var(--accent-soft)] md:inline-flex"
+            aria-label={tHero('cta')}
+            className={cn(
+              'group inline-flex min-h-11 items-center gap-1.5 rounded-[0.5rem] px-3 text-[0.8125rem] font-semibold transition-colors duration-200',
+              'btn-volume md:min-h-11 md:px-3.5 md:text-sm md:font-medium',
+              // From `md`: drop the filled treatment for the bordered pill.
+              'md:border md:border-hairline md:bg-none md:text-ink md:shadow-none',
+              'md:hover:border-[var(--accent-hairline)] md:hover:bg-[var(--accent-soft)]',
+            )}
           >
-            {tHero('cta')}
+            <span className="md:hidden">{t('bookShort')}</span>
+            <span className="hidden md:inline">{tHero('cta')}</span>
             <ArrowRight
               aria-hidden
-              className="h-4 w-4 shrink-0 text-[var(--accent-text)] transition-transform duration-200 ease-[var(--ease-emphasis)] group-hover:translate-x-1"
+              className="h-4 w-4 shrink-0 transition-transform duration-200 ease-[var(--ease-emphasis)] group-hover:translate-x-1 md:text-[var(--accent-text)]"
             />
           </a>
 
