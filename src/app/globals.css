@@ -328,16 +328,7 @@
 
   /* Hides the scrollbar on programmatically-scrolled panels (e.g. the hero
      chat card) without disabling scroll — the panel drives its own position. */
-  .scrollbar-none {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-
-  .scrollbar-none::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* ----------------------------------------------------------------
+      /* ----------------------------------------------------------------
      Wordmark. The letters are painted with a gradient whose highlight
      crosses them once every cycle — a lit surface rather than flat
      text. It stays selectable, real text: only the fill is replaced.
@@ -415,11 +406,7 @@
   }
 
   /* Hairline separators reused across sections instead of heavy shadows. */
-  .hairline-top {
-    border-top: 1px solid var(--surface-border);
-  }
-
-  /* ----------------------------------------------------------------
+    /* ----------------------------------------------------------------
      Services carousel track. A real horizontally scrollable list, so
      touch momentum, trackpad gestures and keyboard scrolling all come
      from the platform. The scrollbar is hidden because the dots and
@@ -487,44 +474,6 @@
     will-change: opacity, transform;
   }
 
-  /* ----------------------------------------------------------------
-     Integrations trust bar — infinite right-to-left marquee. The track
-     is the channel list rendered twice; animating exactly -50% (one
-     copy's width) and looping is invisible because the second copy is
-     already in the first one's starting position when it snaps back.
-     A CSS mask fades both edges into the section background instead of
-     a hard clip, so the ribbon reads as endless rather than a bounded
-     strip with a visible seam.
-     ---------------------------------------------------------------- */
-  .marquee-fade {
-    mask-image: linear-gradient(
-      to right,
-      transparent 0%,
-      black 8%,
-      black 92%,
-      transparent 100%
-    );
-    -webkit-mask-image: linear-gradient(
-      to right,
-      transparent 0%,
-      black 8%,
-      black 92%,
-      transparent 100%
-    );
-  }
-
-  .marquee-track {
-    animation: marquee-scroll 32s linear infinite;
-  }
-
-  @keyframes marquee-scroll {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(-50%);
-    }
-  }
 
   /* ----------------------------------------------------------------
      Hero load sequence. Driven by CSS keyframes rather than the scroll
@@ -548,11 +497,7 @@
   }
 
   /* Accent haze breathing behind the hero copy — atmosphere, not content. */
-  .aurora {
-    animation: aurora-drift 20s ease-in-out infinite;
-  }
-
-  .soft-float {
+    .soft-float {
     animation: soft-float 7s ease-in-out infinite;
   }
 
@@ -674,16 +619,6 @@
   }
 }
 
-@keyframes aurora-drift {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(-3%, 3%, 0) scale(1.06);
-  }
-}
-
 /*
   A slow rise with a small lateral drift. It fades in and out at the ends so a
   particle is never seen appearing or vanishing at a fixed point.
@@ -719,16 +654,6 @@
   }
 }
 
-@keyframes mark-pulse {
-  0%,
-  100% {
-    transform: scale(0.9);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-}
-
 @keyframes soft-float {
   0%,
   100% {
@@ -740,31 +665,6 @@
 }
 
 /* The confirmation lands with a single beat rather than simply appearing. */
-@keyframes check-pop {
-  0% {
-    opacity: 0;
-    transform: scale(0.6);
-  }
-  60% {
-    opacity: 1;
-    transform: scale(1.14);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes badge-breath {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.03);
-  }
-}
-
 /* The answer fades as it grows, so the copy is never legible at half height. */
 @keyframes accordion-down {
   from {
@@ -846,12 +746,10 @@
     global 0.01ms override would freeze them on their last keyframe — the
     hero photograph would stay zoomed in for the whole visit.
   */
-  .aurora,
   .soft-float,
   .particle,
   .wordmark,
-  .mark-halo,
-  .marquee-track {
+  .mark-halo {
     animation: none !important;
   }
 

@@ -105,14 +105,20 @@ const channels: ReadonlyArray<BrandChannel> = [
   { key: 'gmail', Mark: GmailMark },
 ]
 
-/** One logo + label pair, repeated twice per track for a seamless loop. */
-function ChannelMark({ channel, t }: { channel: BrandChannel; t: ReturnType<typeof useTranslations> }) {
+/** One logo + label cell in the integration grid. */
+function ChannelMark({
+  channel,
+  t,
+}: {
+  channel: BrandChannel
+  t: ReturnType<typeof useTranslations>
+}) {
   return (
-    <li className="flex min-w-0 shrink-0 flex-col items-center gap-3 px-6 text-center sm:px-8">
-      <span className="flex h-10 w-10 shrink-0 items-center justify-center">
-        <channel.Mark className="h-8 w-8 shrink-0" aria-hidden />
+    <li className="flex min-w-0 items-center gap-3 py-4 pr-4 sm:gap-3.5 sm:py-5">
+      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[0.5rem] border border-hairline bg-[var(--color-primario)]">
+        <channel.Mark className="h-[1.125rem] w-[1.125rem] shrink-0" aria-hidden />
       </span>
-      <span className="min-w-0 whitespace-nowrap text-sm text-[var(--text-secondary)]">
+      <span className="min-w-0 text-[0.9375rem] leading-snug text-[var(--text-secondary)]">
         {t(`channels.${channel.key}`)}
       </span>
     </li>
@@ -122,20 +128,25 @@ function ChannelMark({ channel, t }: { channel: BrandChannel; t: ReturnType<type
 /**
  * Trust bar: the channels Numi AI connects to, shown with unmodified brand
  * marks — never recoloured to the accent palette, never given the glass
- * button treatment. A light strip between "how we work" and "what changes",
- * not another heavy content block.
+ * button treatment.
  *
- * The row scrolls right-to-left on an infinite loop: the track is the
- * channel list rendered twice back to back, animated left by exactly one
- * copy's width, then snapped back — invisible to the eye since the second
- * copy is already sitting where the first one started. Pure CSS (no JS per
- * frame); paused outright under reduced motion via the shared media query.
+ * This was an infinite right-to-left marquee. Three reasons it is now a static
+ * grid: a name sliding past cannot actually be read, so the section failed at
+ * the one job it has (letting a visitor find *their* tool); the loop kept the
+ * compositor working for the entire visit on a block that carries no motion
+ * meaning; and under `prefers-reduced-motion` it froze mid-scroll, leaving
+ * arbitrary logos clipped at both edges. A grid also lets every label wrap
+ * normally instead of forcing `whitespace-nowrap` on nine of them.
+ *
+ * Each mark now sits on a bordered tile so the differently-shaped brand
+ * glyphs share one optical footprint rather than jumping in size against
+ * each other.
  */
 export function Integrations() {
   const t = useTranslations('integrations')
 
   return (
-    <Section id={sectionIds.integrations} labelledBy="integraciones-titulo" className="overflow-hidden">
+    <Section id={sectionIds.integrations} labelledBy="integraciones-titulo">
       <Reveal>
         <SectionHeading
           id="integraciones-titulo"
@@ -144,22 +155,15 @@ export function Integrations() {
         />
       </Reveal>
 
-      {/* Edges fade to the section background instead of cutting hard, so the
-          loop reads as an endless ribbon rather than a bounded strip. */}
-      <div className="marquee-fade relative mt-12 sm:mt-14">
-        <div className="marquee-track flex w-max">
-          <ul className="flex w-max shrink-0 items-start">
-            {channels.map((channel) => (
-              <ChannelMark key={`a-${channel.key}`} channel={channel} t={t} />
-            ))}
-          </ul>
-          <ul aria-hidden className="flex w-max shrink-0 items-start">
-            {channels.map((channel) => (
-              <ChannelMark key={`b-${channel.key}`} channel={channel} t={t} />
-            ))}
-          </ul>
-        </div>
-      </div>
+      <Reveal delay={0.08} className="mt-12 sm:mt-14">
+        {/* Ruled columns rather than cards: the hairlines group the set
+            without adding nine more rounded rectangles to the page. */}
+        <ul className="grid gap-x-8 border-t border-hairline sm:grid-cols-2 lg:grid-cols-3">
+          {channels.map((channel) => (
+            <ChannelMark key={channel.key} channel={channel} t={t} />
+          ))}
+        </ul>
+      </Reveal>
     </Section>
   )
 }

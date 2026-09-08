@@ -42,10 +42,20 @@ export function Why() {
               strokeWidth={1.5}
               aria-hidden
             />
-            <h3 className="type-section-title min-w-0 break-words text-2xl sm:text-[1.75rem]">
+            {/*
+              Stepped down from `.type-section-title` (which tops out at
+              3.25rem) to a fixed pillar scale. At the section-title size these
+              three ran to three and four lines inside a one-third column and
+              competed with the h2 directly above them — two headings of the
+              same weight, one screen apart. They are subheads, so they now
+              read as such.
+            */}
+            <h3 className="min-w-0 break-words font-display text-xl font-medium leading-[1.15] tracking-[-0.02em] sm:text-[1.375rem]">
               {t(`pillars.${key}.title`)}
             </h3>
-            <p className="max-w-[26ch] text-[0.9375rem] leading-relaxed text-ink-muted">
+            {/* `max-w-[34ch]`: at 26ch the third pillar's body broke to five
+                very short lines in a column wide enough for three. */}
+            <p className="max-w-[34ch] text-[0.9375rem] leading-relaxed text-ink-muted">
               {t(`pillars.${key}.body`)}
             </p>
           </Reveal>

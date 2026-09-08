@@ -19,7 +19,6 @@ const footerNav = [
   { key: 'packages', href: `/#${sectionIds.packages}` },
   { key: 'process', href: `/#${sectionIds.process}` },
   { key: 'faq', href: `/#${sectionIds.faq}` },
-  { key: 'about', href: `/#${sectionIds.about}` },
 ] as const
 
 export function Footer() {

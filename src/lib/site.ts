@@ -41,6 +41,5 @@ export const sectionIds = {
   advisory: 'asesoria',
   process: 'proceso',
   faq: 'preguntas-frecuentes',
-  about: 'sobre-nosotros',
   finalCta: 'agenda',
 } as const

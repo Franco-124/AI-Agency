@@ -13,7 +13,6 @@
     "advisory": "Asesoría",
     "process": "Proceso",
     "faq": "Preguntas frecuentes",
-    "about": "Sobre nosotros",
     "openMenu": "Abrir menú de navegación",
     "closeMenu": "Cerrar menú de navegación",
     "languageLabel": "Idioma",
@@ -432,17 +431,6 @@
         "answer": "Sí. De hecho, el diagnóstico suele ser el primer paso natural antes de la capacitación o de cualquiera de los tres paquetes."
       }
     }
-  },
-  "about": {
-    "title": "Sobre nosotros",
-    "body": "Somos Numi AI: un equipo de cinco ingenieros de software especializado en llevar automatización con inteligencia artificial a pequeñas y medianas empresas en Colombia. Trabajamos con negocios que dependen de responder rápido y agendar bien — clínicas estéticas, inmobiliarias, veterinarias, consultorios odontológicos y gimnasios — diseñando cada sistema a la medida de su operación real, no una plantilla genérica.",
-    "locationLabel": "Ubicación",
-    "location": "Medellín, Colombia.",
-    "missionLabel": "Misión",
-    "mission": "Ayudar a negocios a operar mejor, eliminando las tareas repetitivas con inteligencia artificial aplicada a su realidad, no a una plantilla genérica.",
-    "visionLabel": "Visión",
-    "vision": "Ser el socio tecnológico de referencia para pequeñas y medianas empresas en Colombia, reconocido por resultados reales, no por promesas.",
-    "imageAlt": "Fondo oscuro con textura sutil que acompaña la presentación del equipo de Numi AI"
   },
   "finalCta": {
     "title": "Tu negocio puede responder solo. Empecemos.",

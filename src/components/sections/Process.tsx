@@ -105,16 +105,29 @@ export function Process() {
                 </div>
 
                 <div className="min-w-0">
-                  <Icon
-                    size={24}
-                    strokeWidth={1.5}
-                    aria-hidden="true"
-                    className="text-ink-muted"
-                  />
-                  <span className="mt-5 block text-xs tabular-nums tracking-[0.14em] text-ink-faint">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                  <h3 className="mt-3 text-lg font-semibold tracking-[-0.02em]">
+                  {/*
+                    The ordinal leads, set in the display face at figure scale:
+                    a consulting engagement is a sequence, so the step number is
+                    the primary wayfinding cue. It used to be 12px letter-spaced
+                    metadata below the icon, which read as a label rather than a
+                    position and left the four steps visually interchangeable.
+                    The icon drops to a quiet accent beside it.
+                  */}
+                  <div className="flex items-center gap-3">
+                    <span
+                      aria-hidden
+                      className="type-figure text-[2rem] leading-none text-[var(--color-acento)] tabular-nums sm:text-[2.25rem]"
+                    >
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                    <Icon
+                      size={20}
+                      strokeWidth={1.5}
+                      aria-hidden="true"
+                      className="shrink-0 text-ink-faint"
+                    />
+                  </div>
+                  <h3 className="mt-5 text-lg font-semibold tracking-[-0.02em]">
                     {t(`steps.${key}.title`)}
                   </h3>
                   <p className="mt-3 max-w-xs text-[0.9375rem] leading-relaxed text-ink-muted">

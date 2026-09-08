@@ -13,7 +13,6 @@
     "advisory": "Advisory",
     "process": "Process",
     "faq": "FAQ",
-    "about": "About us",
     "openMenu": "Open navigation menu",
     "closeMenu": "Close navigation menu",
     "languageLabel": "Language",
@@ -432,17 +431,6 @@
         "answer": "Yes. In fact, the diagnostic is usually the natural first step before the training or before any of the three packages."
       }
     }
-  },
-  "about": {
-    "title": "About us",
-    "body": "We are Numi AI: a team of five software engineers specialized in bringing artificial intelligence automation to small and medium-sized businesses in Colombia. We work with businesses that depend on replying fast and booking well — aesthetic clinics, real estate agencies, veterinary clinics, dental practices and gyms — designing every system around their real operation, never from a generic template.",
-    "locationLabel": "Location",
-    "location": "Medellín, Colombia.",
-    "missionLabel": "Mission",
-    "mission": "To help businesses operate better by removing repetitive tasks with artificial intelligence applied to their reality, not to a generic template.",
-    "visionLabel": "Vision",
-    "vision": "To be the technology partner of reference for small and medium-sized businesses in Colombia, known for real results rather than promises.",
-    "imageAlt": "A dark background with a subtle texture accompanying the introduction of the Numi AI team"
   },
   "finalCta": {
     "title": "Your business can answer on its own. Let's start.",
