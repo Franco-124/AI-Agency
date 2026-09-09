@@ -212,7 +212,22 @@ export function IntroCurtain() {
   useEffect(() => {
     if (gone || leaving || !isPlaying()) return
 
-    const dismiss = () => setLeaving(true)
+    /*
+     * Flips the gate the moment the exit starts, not when it finishes. The
+     * hero underneath has been mounted and animating (entrance, particle
+     * drift, the two `mix-blend-screen` visuals) since first paint — all of
+     * it invisible under the curtain, all of it still costing frames the
+     * curtain's own four-line stagger and drifting background need. `.hero-rise`
+     * and `.soft-float`/`.particle` are gated on `data-intro='play'` in
+     * globals.css for exactly this reason; this is what releases that gate.
+     * Firing it at the start of the wipe rather than at `gone` costs nothing
+     * visible — 760ms into a 7s float is imperceptible — and frees the frame
+     * budget for the wipe itself, which is the animation most worth protecting.
+     */
+    const dismiss = () => {
+      setLeaving(true)
+      document.documentElement.dataset.intro = 'done'
+    }
 
     const timer = window.setTimeout(dismiss, AUTO_DISMISS)
     window.addEventListener('pointerdown', dismiss, { once: true })

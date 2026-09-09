@@ -1119,6 +1119,33 @@
     animation-delay: var(--particle-delay, 0s);
   }
 
+  /*
+     The curtain is opaque and covers the hero completely while it plays, so
+     everything below — the entrance rises, the 18-particle field, the two
+     `mix-blend-screen` side visuals riding `.soft-float` — has been animating
+     invisibly since first paint, purely because the hero mounts and starts
+     immediately. That is wasted compositor work at the exact moment the
+     curtain's own four-line stagger and drifting background need every frame
+     they can get, and `mix-blend-screen` in particular forces a re-read of
+     everything painted beneath it on every tick.
+
+     Entrances snap straight to their end state — still invisible, so there is
+     nothing to see — the same technique already used for reduced motion.
+     Infinite loops are paused instead, since they have no end state to snap
+     to. `IntroCurtain` flips `data-intro` to `done` the instant the wipe
+     starts, which is what releases both.
+  */
+  :root[data-intro='play'] .hero-rise,
+  :root[data-intro='play'] .rule-grow {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+  }
+
+  :root[data-intro='play'] .soft-float,
+  :root[data-intro='play'] .particle {
+    animation-play-state: paused;
+  }
+
   /* ----------------------------------------------------------------
      Section eyebrow rule. Same contract as `[data-reveal]`: the rule
      rests drawn, and only the `pending` state pulls it back to zero, so

@@ -3,7 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Check, ChevronLeft, ChevronRight, Loader2, MessageCircle, X } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
-import { useEffect, useId, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
@@ -142,6 +142,7 @@ export function BookingCalendarPanel({
 
   const [phase, setPhase] = useState<Phase>({ step: 'loading', day: todayIsoDate() })
   const [selectedSlot, setSelectedSlot] = useState<AvailabilitySlot | null>(null)
+  const panelRef = useRef<HTMLDivElement>(null)
 
   const {
     register,
@@ -290,8 +291,39 @@ export function BookingCalendarPanel({
   const isBusy = phase.step === 'loading' || phase.step === 'confirming'
   const canGoBack = currentDay !== undefined && currentDay > todayIsoDate()
 
+  /*
+   * Landing on a terminal phase collapses the day navigator, the slot grid
+   * and the three-field form all at once — on mobile that is most of the
+   * panel's height, gone in one render. The visitor was scrolled down to
+   * reach the submit button (often past a keyboard eating half the screen),
+   * and with nothing left above to hold that scroll position the browser
+   * clamps it to the new, much shorter document — which lands on whatever
+   * now sits at that offset, almost always the footer. There is no
+   * "confirmed" message to read at that point, just the page underneath it.
+   *
+   * Re-anchoring to the panel itself is what fixes that: whichever terminal
+   * state just landed, the panel — confirmation or fallback — is guaranteed
+   * to be the thing on screen. `requestAnimationFrame` waits for the
+   * collapsed layout to actually commit before measuring where to scroll to;
+   * scrolling against the pre-collapse layout would target the wrong offset.
+   */
+  useEffect(() => {
+    if (!isTerminal) return
+
+    const frame = requestAnimationFrame(() => {
+      // `nearest`, not `start`: the panel is very likely already visible
+      // (the bug is the browser having clamped scroll *past* it, not short
+      // of it), so this only moves the viewport the minimum needed to bring
+      // it back — no jump on a desktop where it never left view at all.
+      panelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    })
+
+    return () => cancelAnimationFrame(frame)
+  }, [isTerminal])
+
   return (
     <div
+      ref={panelRef}
       className={cn(
         'surface-panel w-full basis-full rounded-[1.125rem] p-5 shadow-[var(--shadow-high)] sm:p-7 lg:p-9',
         className,
