@@ -94,6 +94,16 @@ export function Header() {
           return { id, top: element.getBoundingClientRect().top + scrollY }
         })
         .filter((entry): entry is SectionOffset => entry !== null)
+        /*
+         * `trackedSections` follows the nav menu's order (services + advisory
+         * are grouped under one dropdown), not the page's actual top-to-bottom
+         * order — Advisory renders after Packages in the DOM. The scan below
+         * picks the last entry whose top crossed the threshold, so it must
+         * walk the sections in document order or it picks whichever tracked
+         * id happens to come last in the menu instead of whichever is
+         * physically closest above the fold.
+         */
+        .sort((a, b) => a.top - b.top)
     }
 
     const update = () => {
