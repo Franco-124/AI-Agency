@@ -121,6 +121,21 @@ export function Header() {
         }
       }
 
+      /*
+       * The last tracked section (FAQ) is followed by FinalCta, which isn't
+       * itself tracked. If FinalCta is shorter than a viewport, the page runs
+       * out of scroll room before FAQ's top ever comes within ACTIVE_OFFSET of
+       * the header, so the loop above never selects it and the nav is stuck on
+       * whichever section came before — at the actual bottom of the page, the
+       * last tracked section is unambiguously the current one regardless of
+       * where its top sits.
+       */
+      const atBottom =
+        scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2
+      if (atBottom && offsets.length > 0) {
+        current = offsets[offsets.length - 1].id
+      }
+
       setActiveId(current)
     }
 
