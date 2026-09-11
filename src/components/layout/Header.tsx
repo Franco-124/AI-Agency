@@ -7,6 +7,7 @@ import { useEffect, useId, useRef, useState } from 'react'
 import { Logo } from '@/components/brand/Logo'
 import { Button } from '@/components/ui/button'
 import { usePathname } from '@/i18n/navigation'
+import { lockScroll, unlockScroll } from '@/lib/scroll-lock'
 import { sectionIds } from '@/lib/site'
 import { cn } from '@/lib/utils'
 
@@ -58,6 +59,7 @@ export function Header() {
   const menuId = useId()
   const dropdownId = useId()
   const navRef = useRef<HTMLElement>(null)
+  const menuToggleRef = useRef<HTMLButtonElement>(null)
 
   /*
    * Section anchors only exist on the home page. Elsewhere (e.g. /privacidad)
@@ -211,23 +213,99 @@ export function Header() {
     }
   }, [openDropdown])
 
-  // Lock body scroll and allow Escape to close while the mobile panel is open.
+  /*
+   * The open mobile panel owns the screen: it locks scrolling, takes focus,
+   * keeps Tab inside itself, and hands focus back to the toggle on close.
+   *
+   * Without the trap, Tab walked straight out of the panel and into the page
+   * behind it — which is scroll-locked and visually covered, so a keyboard or
+   * screen-reader user was navigating content they could neither see nor
+   * scroll to (WCAG 2.4.3 / 2.1.2). The dropdown effect above already returns
+   * focus to its trigger; this mirrors that contract for the panel.
+   *
+   * The lock is reference-counted because the intro curtain holds one too —
+   * see `lockScroll`.
+   */
   useEffect(() => {
     if (!isMenuOpen) return
 
+    const panel = document.getElementById(menuId)
+    const toggle = menuToggleRef.current
+
+    /*
+     * The whole header is the boundary, not just the panel.
+     *
+     * While the panel is open the bar above it stays visible and interactive —
+     * it holds the logo, the "Agendar" CTA, the language switcher and the
+     * close button — so those are legitimately part of the open dialog. Scoping
+     * the trap to `#menuId` alone made the panel's last link look like the end
+     * of the list, and Tab fell straight through the header's own controls into
+     * the page behind, thousands of pixels down.
+     */
+    const header = toggle?.closest('header')
+
+    const focusables = () =>
+      Array.from(
+        header?.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])',
+        ) ?? [],
+      ).filter(
+        (element) =>
+          element.offsetParent !== null && !element.closest('[inert]'),
+      )
+
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setIsMenuOpen(false)
+      if (event.key === 'Escape') {
+        setIsMenuOpen(false)
+        return
+      }
+
+      if (event.key !== 'Tab') return
+
+      const items = focusables()
+      if (items.length === 0) return
+
+      const first = items[0]
+      const last = items[items.length - 1]
+      const current = document.activeElement
+
+      /*
+       * Compared by index rather than by identity against the two edges: focus
+       * can sit on something that is inside the header but is neither edge (or
+       * on nothing at all, after a click on the backdrop), and in those cases
+       * an identity check silently lets Tab out. Anything not currently in the
+       * list is pulled back to the matching edge.
+       */
+      const index = items.indexOf(current as HTMLElement)
+
+      if (event.shiftKey) {
+        if (index <= 0) {
+          event.preventDefault()
+          last.focus()
+        }
+        return
+      }
+
+      if (index === -1 || index === items.length - 1) {
+        event.preventDefault()
+        first.focus()
+      }
     }
 
-    const previousOverflow = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
+    lockScroll()
+    // The panel's own first link, not the header's — that is where the
+    // visitor's attention just went.
+    panel
+      ?.querySelector<HTMLElement>('a[href], button:not([disabled])')
+      ?.focus()
     window.addEventListener('keydown', onKeyDown)
 
     return () => {
-      document.body.style.overflow = previousOverflow
+      unlockScroll()
       window.removeEventListener('keydown', onKeyDown)
+      toggle?.focus()
     }
-  }, [isMenuOpen])
+  }, [isMenuOpen, menuId])
 
   return (
     /*
@@ -439,6 +517,7 @@ export function Header() {
           </a>
 
           <button
+            ref={menuToggleRef}
             type="button"
             aria-expanded={isMenuOpen}
             aria-controls={menuId}

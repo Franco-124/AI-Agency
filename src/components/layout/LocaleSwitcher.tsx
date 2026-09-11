@@ -89,8 +89,13 @@ export function LocaleSwitcher({ label, className, variant = 'dropdown' }: Local
     const { name, Flag } = localeMeta[locale]
     const isActive = locale === active
 
+    /*
+      `shrink-0` on the item, not just a height on the button: the list is a
+      flex column, so the `<li>` was free to shrink below its content and took
+      the 44px button down to 41.8px with it.
+    */
     return (
-      <li key={locale}>
+      <li key={locale} className="shrink-0">
         <button
           type="button"
           role="option"
@@ -145,10 +150,18 @@ export function LocaleSwitcher({ label, className, variant = 'dropdown' }: Local
         />
       </button>
 
+      {/*
+        `inert` while closed, matching the header's own dropdown. Both variants
+        stay mounted so they can transition, and neither `opacity-0` nor a
+        collapsed `0fr` grid row removes anything from the accessibility tree —
+        so both language options were tab stops while invisible, and in the
+        mobile panel that put them inside an otherwise focus-trapped menu.
+      */}
       {variant === 'dropdown' ? (
         <ul
           role="listbox"
           aria-label={label}
+          inert={!isOpen}
           className={cn(
             'surface-panel absolute right-0 top-[calc(100%+0.5rem)] z-10 min-w-[9.5rem] origin-top-right overflow-hidden rounded-[0.75rem] p-1 shadow-[var(--shadow-high)] transition-all duration-150 ease-[var(--ease-emphasis)]',
             isOpen
@@ -165,7 +178,12 @@ export function LocaleSwitcher({ label, className, variant = 'dropdown' }: Local
             isOpen ? 'grid-rows-[1fr] pt-2' : 'grid-rows-[0fr]',
           )}
         >
-          <ul role="listbox" aria-label={label} className="flex flex-col gap-0.5 overflow-hidden">
+          <ul
+            role="listbox"
+            aria-label={label}
+            inert={!isOpen}
+            className="flex flex-col gap-0.5 overflow-hidden"
+          >
             {options}
           </ul>
         </div>

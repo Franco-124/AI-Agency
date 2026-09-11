@@ -49,7 +49,27 @@ export type FallbackReason = 'no_availability' | 'service_failed'
 /** How many days ahead to auto-search for the first day with any open slot. */
 const MAX_LOOKAHEAD_DAYS = 14
 
-const todayIsoDate = () => new Date().toISOString().slice(0, 10)
+/**
+ * The visitor's own current calendar day.
+ *
+ * Built from local parts rather than `toISOString().slice(0, 10)`: that
+ * converts the current *instant* to UTC, so for anyone west of Greenwich it
+ * rolls over early — in Colombia (UTC-5) every visit after 19:00 local
+ * reported tomorrow. The panel then treated the visitor's actual today as the
+ * past, refused to navigate back to it, and skipped whatever slots were still
+ * open that evening.
+ *
+ * `addDays` and `formatDayLabel` below stay in UTC on purpose: once the day is
+ * a plain `YYYY-MM-DD`, UTC arithmetic on it is what keeps it free of
+ * timezone drift.
+ */
+const todayIsoDate = () => {
+  const now = new Date()
+  const month = String(now.getMonth() + 1).padStart(2, '0')
+  const day = String(now.getDate()).padStart(2, '0')
+
+  return `${now.getFullYear()}-${month}-${day}`
+}
 
 /** Pure calendar-date arithmetic in UTC — immune to the visitor's local timezone. */
 function addDays(isoDay: string, delta: number): string {
@@ -147,7 +167,7 @@ export function BookingCalendarPanel({
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<BookingContact>({
     resolver: zodResolver(bookingContactSchema),
     defaultValues: {
@@ -496,12 +516,22 @@ export function BookingCalendarPanel({
                 )}
               </Field>
 
+              {/*
+                `isSubmitting` as well as the phase, because they commit at
+                different times. `setPhase({step:'confirming'})` is async, so a
+                double-click — or Enter while the first click is still in
+                flight — re-entered the handler before `confirming` landed and
+                booked the same slot twice. react-hook-form flips
+                `isSubmitting` synchronously as the submit starts, which closes
+                that window; the phase check stays because it also covers the
+                terminal states.
+              */}
               <Button
                 type="submit"
                 variant="solid"
                 size="lg"
                 block
-                disabled={phase.step === 'confirming'}
+                disabled={phase.step === 'confirming' || isSubmitting}
               >
                 {phase.step === 'confirming' ? (
                   <>

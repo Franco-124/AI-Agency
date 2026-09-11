@@ -184,6 +184,10 @@
     scroll-behavior: smooth;
     scroll-padding-top: calc(var(--header-height) + 1.5rem);
     -webkit-tap-highlight-color: transparent;
+    /* Reserves the scrollbar's column permanently, so locking body scroll
+       (intro curtain, mobile menu) cannot shift the whole page sideways on
+       platforms with classic overlay-less scrollbars. */
+    scrollbar-gutter: stable;
   }
 
   body {
@@ -631,7 +635,18 @@
   @media (width >= 64rem) {
     .hero-frame {
       content-visibility: auto;
-      contain-intrinsic-size: auto 44rem;
+      /*
+        No `auto` keyword here on purpose. `contain-intrinsic-size: auto 44rem`
+        tells the browser to remember the section's last *rendered* size and
+        reuse it as a layout placeholder while the subtree is skipped. That
+        remembered size does not get re-measured on a viewport resize that
+        happens while the hero is off-screen (or mid-resize) — so the frame
+        keeps an old height while its absolutely-positioned side visuals
+        (`top: 50%` / `-translate-y-1/2`) resolve their `%` against the new
+        one, and the right-hand visual lands mid-page, overlapping the copy.
+        A fixed size has no "remembered" state to go stale.
+      */
+      contain-intrinsic-size: 44rem;
     }
   }
 
@@ -1117,6 +1132,23 @@
     );
     animation: particle-drift var(--particle-duration, 45s) linear infinite;
     animation-delay: var(--particle-delay, 0s);
+  }
+
+  /*
+    Phones get no particle field.
+
+    On a small screen the hero already carries a gradient base, an ambient
+    bloom and the masked grid — eighteen drifting dots on top of that is the
+    layer that tips it from "atmospheric" into "busy", and it is the only one
+    of the four that animates for the entire visit. Dropped here rather than
+    in `HeroBackdrop` because that component also owns the visibility gate
+    that pauses the two blended side visuals; unmounting it on phones would
+    take the gate with it.
+  */
+  @media (width < 40rem) {
+    .particle {
+      display: none;
+    }
   }
 
   /*

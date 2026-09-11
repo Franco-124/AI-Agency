@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 
+import { lockScroll, unlockScroll } from '@/lib/scroll-lock'
 import { cn } from '@/lib/utils'
 
 /**
@@ -191,11 +192,10 @@ export function IntroCurtain() {
   useEffect(() => {
     if (!isPlaying() || gone) return
 
-    const previous = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
+    lockScroll()
 
     return () => {
-      document.body.style.overflow = previous
+      unlockScroll()
     }
   }, [gone])
 

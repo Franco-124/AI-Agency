@@ -58,21 +58,42 @@ export function WhatsAppFab() {
    * so a visitor who reaches for WhatsApp instead should not lose that context
    * either — otherwise the team gets a generic "tell me more" with no signal
    * of what the visitor already decided.
+   *
+   * Resolved in the click handler rather than during render, because both
+   * helpers read `sessionStorage`, which does not exist on the server. Building
+   * the URL inline made the server emit the generic link and the client's first
+   * render emit the prefilled one — a hydration mismatch on the most-clicked
+   * control on the page. Deferring to the click also means the interest is read
+   * at its freshest: a visitor who taps a package card and *then* reaches for
+   * WhatsApp gets the right message without this component re-rendering at all.
+   *
+   * The `href` stays a real WhatsApp URL so the control remains a working link
+   * for middle-click, "copy link" and crawlers; the handler only upgrades it.
    */
-  const interestPrefill = (): string | undefined => {
+  const messageFor = (): string => {
     const packageKey = readPackageInterest()
     if (packageKey) return t('prefillPackage', { package: tPackages(`${packageKey}.name`) })
 
     const advisoryKey = readAdvisoryInterest()
     if (advisoryKey) return t('prefillAdvisory', { offer: tAdvisory(`${advisoryKey}.name`) })
 
-    return undefined
+    return t('prefill')
   }
 
-  const href = `${whatsappUrl}?text=${encodeURIComponent(interestPrefill() ?? t('prefill'))}`
+  const urlFor = (message: string) =>
+    `${whatsappUrl}?text=${encodeURIComponent(message)}`
+
+  const href = urlFor(t('prefill'))
 
   useEffect(() => {
-    if (sessionStorage.getItem(DISMISSED_KEY)) return
+    // Guarded like every other storage read on the page: a blocked storage API
+    // (Safari private mode) throws on access, and an unguarded throw here would
+    // take the whole subtree down with it.
+    try {
+      if (sessionStorage.getItem(DISMISSED_KEY)) return
+    } catch {
+      // Unreadable storage just means we cannot tell it was dismissed before.
+    }
 
     const timer = window.setTimeout(() => setShowGreeting(true), GREETING_DELAY)
     return () => window.clearTimeout(timer)
@@ -112,11 +133,27 @@ export function WhatsAppFab() {
   }
 
   return (
-    <div className="fixed bottom-[max(1.5rem,env(safe-area-inset-bottom))] right-[max(1.25rem,env(safe-area-inset-right))] z-50 flex flex-col items-end gap-3">
+    /*
+      Tucked tighter into the corner on phones (12px inset, 48px disc) than on
+      desktop (20px / 56px). It is a fixed overlay, so every pixel of inset is
+      a pixel of the reading column it can cover — at the desktop offsets it
+      sat over card prices and the message textarea at 390px. The desktop
+      values are unchanged; only the phone case moves.
+    */
+    <div className="fixed bottom-[max(0.75rem,env(safe-area-inset-bottom))] right-[max(0.75rem,env(safe-area-inset-right))] z-50 flex flex-col items-end sm:bottom-[max(1.5rem,env(safe-area-inset-bottom))] sm:right-[max(1.25rem,env(safe-area-inset-right))]">
+      {/*
+        Positioned above the button rather than stacked in flow above it.
+
+        In flow, the greeting appearing ~4s after load grew this flex column
+        and pushed the button up — which Chrome records as a layout shift, and
+        it was the entire measured CLS on a phone (0.0389, every bit of it
+        from this element pair). Taking the bubble out of flow means the
+        button never moves, so the greeting costs nothing.
+      */}
       {showGreeting ? (
         <div
           role="status"
-          className="surface-panel relative max-w-[15rem] rounded-xl rounded-br-sm px-4 py-3 pr-9 text-[0.875rem] leading-relaxed text-ink shadow-[var(--shadow-high)] motion-safe:animate-[greeting-in_320ms_var(--ease-emphasis)]"
+          className="surface-panel absolute bottom-full right-0 mb-3 w-max max-w-[min(15rem,calc(100vw-2rem))] rounded-xl rounded-br-sm px-4 py-3 pr-9 text-[0.875rem] leading-relaxed text-ink shadow-[var(--shadow-high)] motion-safe:animate-[greeting-in_320ms_var(--ease-emphasis)]"
         >
           <button
             type="button"
@@ -150,10 +187,14 @@ export function WhatsAppFab() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label={t('ariaLabel')}
-        onClick={dismissGreeting}
-        className="inline-flex h-14 w-14 items-center justify-center rounded-full border border-hairline-strong bg-[var(--surface-panel)] text-[#25D366] shadow-[inset_0_1px_0_color-mix(in_srgb,white_8%,transparent),var(--shadow-high)] transition-[transform,border-color,background-color] duration-200 ease-[var(--ease-emphasis)] hover:border-[color-mix(in_srgb,#25D366_45%,transparent)] hover:bg-[var(--surface-inset)] motion-safe:hover:-translate-y-0.5"
+        onClick={(event) => {
+          dismissGreeting()
+          // Rewrite to the interest-aware message at the last possible moment.
+          event.currentTarget.href = urlFor(messageFor())
+        }}
+        className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-hairline-strong bg-[var(--surface-panel)] text-[#25D366] shadow-[inset_0_1px_0_color-mix(in_srgb,white_8%,transparent),var(--shadow-high)] transition-[transform,border-color,background-color] duration-200 ease-[var(--ease-emphasis)] hover:border-[color-mix(in_srgb,#25D366_45%,transparent)] hover:bg-[var(--surface-inset)] motion-safe:hover:-translate-y-0.5 sm:h-14 sm:w-14"
       >
-        <WhatsAppIcon className="h-6 w-6 shrink-0" />
+        <WhatsAppIcon className="h-[1.375rem] w-[1.375rem] shrink-0 sm:h-6 sm:w-6" />
       </a>
     </div>
   )

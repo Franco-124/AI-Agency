@@ -119,6 +119,14 @@ export default async function LocaleLayout({
         the sanctioned escape hatch for markup a pre-hydration script owns.
       */
       data-intro="pending"
+      /*
+        Opts into Next's smooth-scroll contract: `globals.css` sets
+        `scroll-behavior: smooth` on this element, and without this attribute
+        Next warns that it will also smooth-scroll route transitions — which
+        would animate the jump between pages, not just the in-page anchors the
+        rule is there for.
+      */
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
       {/*

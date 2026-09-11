@@ -206,6 +206,12 @@ export function LeadForm() {
       // Straight to the booking panel: no intermediate confirmation screen
       // to read, the calendar itself is the confirmation that something
       // happened.
+      //
+      // Released before navigating, not after: `router.push` is a client
+      // navigation that may be slow, blocked, or reversed with Back, and this
+      // component survives all three. Leaving the status at `submitting`
+      // stranded the form with a spinning, permanently disabled button.
+      setStatus('idle')
       router.push('/agendar#reserva')
     } catch (error) {
       console.error('Lead submission failed:', error)
@@ -310,9 +316,16 @@ export function LeadForm() {
           className="motion-safe:animate-[greeting-in_240ms_ease-out]"
         >
           {(props) => (
+            /*
+              No `autoFocus`. It fires on mount, which on a phone lands while
+              the native select's own picker is still closing — the browser
+              then either drops the focus or reopens the keyboard over the
+              sheet. The field is rendered directly under the select that
+              revealed it and is the obvious next target, so the visitor does
+              not need to be thrown into it.
+            */
             <input
               type="text"
-              autoFocus
               placeholder={tFields('industryOtherPlaceholder')}
               {...props}
               {...register('industryOther', {
