@@ -64,7 +64,11 @@ export function Faq() {
                 </summary>
                 <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-[260ms] ease-[var(--ease-emphasis)] group-open:grid-rows-[1fr]">
                   <div className="overflow-hidden">
-                    <p className="type-body max-w-[60ch] pb-6 pr-10">
+                    {/* `pr-10` only from `sm`: it exists to keep the answer
+                        clear of the open/close glyph's column, and on a phone
+                        there is no surplus width to give away — it just made
+                        the paragraph asymmetric against its own question. */}
+                    <p className="type-body max-w-[60ch] pb-6 sm:pr-10">
                       {t(`items.${key}.answer`)}
                     </p>
                   </div>

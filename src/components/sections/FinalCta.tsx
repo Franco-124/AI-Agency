@@ -13,7 +13,9 @@ export function FinalCta() {
     <section
       id={sectionIds.finalCta}
       aria-labelledby="cta-final-titulo"
-      className="relative isolate scroll-mt-24 overflow-hidden py-[var(--space-section-wide)]"
+      /* No `scroll-mt-*` — `html`'s global `scroll-padding-top` already
+         accounts for the fixed header; stacking both overshoots the landing. */
+      className="relative isolate overflow-hidden py-[var(--space-section-wide)]"
     >
       <Image
         src="/images/15-cta-new.webp"

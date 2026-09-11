@@ -19,7 +19,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: t('title'),
     description: t('metaDescription'),
-    alternates: { canonical: `/${safeLocale}/privacidad` },
+    // Repeated rather than inherited — see the note in `agendar/page.tsx`.
+    alternates: {
+      canonical: `/${safeLocale}/privacidad`,
+      languages: {
+        es: '/es/privacidad',
+        en: '/en/privacidad',
+        'x-default': '/es/privacidad',
+      },
+    },
   }
 }
 
@@ -118,7 +126,10 @@ export default async function PrivacyPage({ params }: PageProps) {
             */}
             <a
               href={`mailto:${siteConfig.email}`}
-              className="-my-2 inline-block py-2 text-[var(--accent-text)] underline decoration-[var(--accent-hairline)] underline-offset-4 transition-colors duration-200 hover:decoration-[var(--accent-text)]"
+              /* `min-h-11` with the padding pulled back out: the link measured
+                 41.5px tall, just under the 44px touch minimum, and this is
+                 the only way to contact us on this page. */
+              className="-my-2 inline-flex min-h-11 items-center py-2 text-[var(--accent-text)] underline decoration-[var(--accent-hairline)] underline-offset-4 transition-colors duration-200 hover:decoration-[var(--accent-text)]"
             >
               {siteConfig.email}
             </a>

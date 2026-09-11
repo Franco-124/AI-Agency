@@ -125,8 +125,10 @@ function ChannelMark({
     */
     <li
       className={cn(
-        'group/channel flex min-w-0 items-center gap-3 py-4 transition-colors duration-300 sm:gap-3.5 sm:px-6 sm:py-5',
-        'sm:[&:nth-child(odd)]:pl-0 lg:[&:nth-child(odd)]:px-6 lg:[&:nth-child(3n+1)]:pl-0',
+        'group/channel flex min-w-0 items-center gap-2.5 py-3.5 transition-colors duration-300 sm:gap-3.5 sm:px-6 sm:py-5',
+        /* Two columns from the smallest screen up, so the odd-cell gutter
+           reset applies at every width rather than only from `sm`. */
+        'px-3 [&:nth-child(odd)]:pl-0 lg:[&:nth-child(odd)]:px-6 lg:[&:nth-child(3n+1)]:pl-0',
         'hover:bg-[color-mix(in_srgb,var(--color-acento)_4%,transparent)]',
       )}
     >

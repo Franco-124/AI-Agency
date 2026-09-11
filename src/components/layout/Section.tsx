@@ -42,6 +42,13 @@ type SectionProps = {
   rhythm?: Rhythm
   /** Overrides the shared texture image when `surface="texture"`. */
   backgroundSrc?: string
+  /**
+   * Loads the texture eagerly with a fetch priority. Set it only on a section
+   * whose texture is the page's LCP element — on a phone the first section
+   * below the hero starts inside the viewport, so its "background" is the
+   * largest thing painted, and lazy-loading it delays LCP by design.
+   */
+  backgroundPriority?: boolean
 }
 
 const surfaceClasses: Record<Surface, string> = {
@@ -66,13 +73,24 @@ export function Section({
   surface = 'base',
   rhythm = 'normal',
   backgroundSrc = '/images/10-textura-base-sitio.webp',
+  backgroundPriority = false,
 }: SectionProps) {
   return (
     <section
       id={id}
       aria-labelledby={labelledBy}
       className={cn(
-        'relative isolate scroll-mt-24',
+        /*
+          No `scroll-mt-*` here: `html` already sets `scroll-padding-top` to
+          the fixed header's height (see globals.css). `scroll-margin-top` on
+          the target and `scroll-padding-top` on the scroller stack instead of
+          overriding one another, so having both left every anchor jump
+          landing 96px too low — nearly double the header height. That gap
+          pushed the target section's top past `ACTIVE_OFFSET` in the
+          header's scroll-spy, so clicking "Paquetes" scrolled past where the
+          highlight logic expected it and the nav kept the previous item lit.
+        */
+        'relative isolate',
         surfaceClasses[surface],
         rhythmClasses[rhythm],
         className,
@@ -97,7 +115,14 @@ export function Section({
           alt=""
           aria-hidden
           fill
-          sizes="100vw"
+          /*
+            Capped at 1280w. These are out-of-focus textures sitting at 90%
+            opacity behind the copy, so the 2560w candidate the default ladder
+            offers buys nothing visible and costs real bytes on the one
+            connection that can least afford them.
+          */
+          sizes="(min-width: 1280px) 1280px, 100vw"
+          priority={backgroundPriority}
           className="-z-10 object-cover object-center opacity-90"
         />
       ) : null}

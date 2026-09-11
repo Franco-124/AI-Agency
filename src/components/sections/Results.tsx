@@ -13,7 +13,9 @@ export function Results() {
     <section
       id={sectionIds.results}
       aria-labelledby="resultados-titulo"
-      className="grain relative isolate scroll-mt-24 overflow-hidden bg-[var(--surface-raised)] py-[var(--space-section)]"
+      /* No `scroll-mt-*` — `html`'s global `scroll-padding-top` already
+         accounts for the fixed header; stacking both overshoots the landing. */
+      className="grain relative isolate overflow-hidden bg-[var(--surface-raised)] py-[var(--space-section)]"
     >
       {/* Ruled texture with its accent line — the atmosphere of this block. */}
       <Image
@@ -89,9 +91,13 @@ export function Results() {
                 it marks the block as testimony at a glance, before a word is
                 read.
               */}
+              {/* Desktop only. This card already sits on a texture image plus
+                  two gradient veils and two edge rules; on a phone a 72px
+                  glyph on top of that stopped reading as a quotation cue and
+                  started reading as clutter behind the testimonial. */}
               <span
                 aria-hidden
-                className="pointer-events-none absolute right-5 top-3 select-none font-display text-[4.5rem] leading-none text-[color-mix(in_srgb,var(--color-acento)_14%,transparent)] sm:text-[5.5rem]"
+                className="pointer-events-none absolute right-5 top-3 hidden select-none font-display text-[4.5rem] leading-none text-[color-mix(in_srgb,var(--color-acento)_14%,transparent)] sm:block sm:text-[5.5rem]"
               >
                 &rdquo;
               </span>

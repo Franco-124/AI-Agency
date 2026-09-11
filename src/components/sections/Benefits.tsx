@@ -59,9 +59,19 @@ export function Benefits() {
                 ordinals from out-shouting the four claims they number, and the
                 fill is what rewards the pointer landing on the cell.
               */}
+              {/*
+                Solid on touch, hollow-then-filling on pointer devices.
+
+                The outline treatment only makes sense where a pointer can
+                complete it: on a phone there is no hover, so the ordinal sat
+                permanently as a 1px accent-hairline outline — far under any
+                reasonable contrast, reading as a rendering artefact rather
+                than as a number. `@media (hover: hover)` scopes the whole
+                effect to devices that can actually resolve it.
+              */}
               <span
                 aria-hidden
-                className="type-figure shrink-0 text-[1.25rem] leading-none tabular-nums text-transparent transition-colors duration-300 [-webkit-text-stroke:1px_var(--accent-hairline)] group-hover/benefit:text-[var(--accent-text)] group-hover/benefit:[-webkit-text-stroke:1px_transparent]"
+                className="type-figure shrink-0 text-[1.25rem] leading-none tabular-nums text-[var(--accent-text)] transition-colors duration-300 [@media(hover:hover)]:text-transparent [@media(hover:hover)]:[-webkit-text-stroke:1px_var(--accent-hairline)] [@media(hover:hover)]:group-hover/benefit:text-[var(--accent-text)] [@media(hover:hover)]:group-hover/benefit:[-webkit-text-stroke:1px_transparent]"
               >
                 {String(index + 1).padStart(2, '0')}
               </span>

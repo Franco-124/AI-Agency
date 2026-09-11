@@ -49,6 +49,7 @@ export function Footer() {
                   aria-hidden
                   width={256}
                   height={256}
+                  sizes="24px"
                   className="relative h-6 w-6 object-cover"
                 />
               </span>

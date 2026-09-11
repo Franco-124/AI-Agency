@@ -151,10 +151,15 @@ export function ServicesCarousel({ slides, labels }: ServicesCarouselProps) {
         partially visible next card signals "there is more to swipe", while
         scroll-padding keeps the snapped card aligned to the original gutter.
       */}
+      {/*
+        The label lives on the `role="group"` wrapper above, not here too:
+        carrying it on both made a screen reader announce the same string
+        twice in a row on entry. This element keeps only what it needs to be
+        a focusable scroll container.
+      */}
       <ul
         ref={trackRef}
         tabIndex={0}
-        aria-label={labels.region}
         className={cn(
           'swipe-row services-track -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-5 pb-2',
           'sm:-mx-8 sm:px-8 lg:mx-0 lg:px-0',
@@ -315,7 +320,11 @@ export function ServicesCarousel({ slides, labels }: ServicesCarouselProps) {
             key={index}
             type="button"
             onClick={() => scrollToIndex(index)}
-            aria-label={slides[index]?.label}
+            /* Carries its position in the set, so it is distinguishable from
+               the slide it targets — the two used to share one string, which
+               a screen reader read out twice with nothing marking which was
+               the control. */
+            aria-label={`${slides[index]?.label} (${index + 1}/${total})`}
             aria-current={index === active ? 'true' : undefined}
             className="group -mx-1 inline-flex h-11 w-11 items-center justify-center"
           >

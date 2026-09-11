@@ -25,6 +25,10 @@ export function Services() {
       labelledBy="servicios-titulo"
       surface="texture"
       backgroundSrc="/images/13-services-new.webp"
+      /* Measured as the LCP element on a phone: this section starts inside
+         the first viewport, so its texture is the largest thing painted and
+         was being lazy-loaded. */
+      backgroundPriority
       /* The first block after the hero, and the one that answers "what is
          this". It opens at the widest rhythm so the transition out of the hero
          is an arrival rather than a step. */

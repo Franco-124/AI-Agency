@@ -36,6 +36,10 @@ export function Logo({ className, label }: LogoProps) {
           width={256}
           height={256}
           priority
+          /* Rendered at 28px. Without `sizes` the default ladder served a
+             128w candidate for a 28px box — roughly 4.5x the pixels needed,
+             on an image that loads with `priority` in the header. */
+          sizes="28px"
           className="relative h-7 w-7 object-cover transition-transform duration-300 group-hover:rotate-[18deg]"
         />
       </span>
