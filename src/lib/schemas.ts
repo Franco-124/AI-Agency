@@ -11,8 +11,18 @@ const WHATSAPP_PATTERN = /^[+()\d][\d\s()+-]{6,19}$/
 const requiredText = (max: number) =>
   z.string().trim().min(1, 'required').max(max, 'tooLong')
 
-/** Mirrors the "¿Qué te interesa?" picker options in `LeadForm`. */
-export const interestKeys = ['automation', 'diagnostic', 'training', 'unsure'] as const
+/**
+ * Mirrors the "¿Qué te interesa?" picker options in `LeadForm`, in the same
+ * order the offers appear on the page: the standalone website tier leads the
+ * packages section, so it leads here too.
+ */
+export const interestKeys = [
+  'website',
+  'automation',
+  'diagnostic',
+  'training',
+  'unsure',
+] as const
 
 export const leadSchema = z.object({
   name: requiredText(120),

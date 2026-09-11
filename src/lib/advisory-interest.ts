@@ -15,7 +15,13 @@
 const STORAGE_KEY = 'numi:advisory-interest'
 export const ADVISORY_INTEREST_EVENT = 'numi:advisory-interest'
 
-export const advisoryInterestKeys = ['diagnostic', 'training'] as const
+/**
+ * `website` rides along with the two advisory offers because it behaves
+ * identically from the form's point of view: one card, one CTA, and the click
+ * itself is the answer to "what are you interested in". The three automation
+ * packages deliberately stay out — see the note in `LeadForm`.
+ */
+export const advisoryInterestKeys = ['diagnostic', 'training', 'website'] as const
 
 export type AdvisoryInterestKey = (typeof advisoryInterestKeys)[number]
 

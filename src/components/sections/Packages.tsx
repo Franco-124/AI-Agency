@@ -4,6 +4,7 @@ import type { ReactNode } from 'react'
 
 import { Section, SectionHeading } from '@/components/layout/Section'
 import { Reveal } from '@/components/motion/Reveal'
+import { AdvisoryCtaLink } from '@/components/sections/AdvisoryCtaLink'
 import { CalculadoraAhorro } from '@/components/sections/CalculadoraAhorro'
 import { PackageCtaLink } from '@/components/sections/PackageCtaLink'
 import { Button } from '@/components/ui/button'
@@ -215,10 +216,15 @@ export function Packages() {
                 {t('website.note')}
               </p>
             }
+            /* Carries its own interest key, so the form below arrives with
+               "Sitio Web Profesional" already picked — the same hand-off the
+               two advisory offers use. The three automation tiers still do
+               not pre-select anything: which of the three is a real decision
+               the visitor has not necessarily made yet. */
             action={
-              <Button asChild block size="lg" variant="outline" className="mt-8">
-                <a href={`#${sectionIds.finalCta}`}>{t('website.cta')}</a>
-              </Button>
+              <AdvisoryCtaLink interestKey="website" variant="outline">
+                {t('website.cta')}
+              </AdvisoryCtaLink>
             }
           />
         </PackagePanel>

@@ -22,7 +22,21 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: t('title'),
     description: t('subtitle'),
-    alternates: { canonical: `/${safeLocale}/agendar` },
+    /*
+      `languages` has to be repeated here. Next replaces the parent's
+      `alternates` object wholesale rather than merging into it, so declaring
+      only `canonical` left this page — one of six indexable URLs — with no
+      hreflang at all, and search engines with no way to tell the two locale
+      versions apart from duplicates.
+    */
+    alternates: {
+      canonical: `/${safeLocale}/agendar`,
+      languages: {
+        es: '/es/agendar',
+        en: '/en/agendar',
+        'x-default': '/es/agendar',
+      },
+    },
   }
 }
 

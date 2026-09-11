@@ -305,17 +305,32 @@ export function Hero() {
           />
         </div>
 
-        {/* Answers the three objections that stop a click */}
+        {/*
+          Answers the two objections that actually stop the click — "what does
+          it cost me" and "am I going to be sold to" — and names what the
+          visitor walks away with either way.
+
+          It replaced three metadata fragments split by middots ("30 min · Sin
+          compromiso · Respuesta en el día"). Two of them did not survive
+          scrutiny: the duration merely restated the button above it, and a
+          same-day *reply* contradicts the CTA, which books a call rather than
+          sending a question.
+
+          `items-start` with the icon nudged onto the first line's optical
+          centre, because this is now a sentence that wraps to two lines on a
+          phone — centred alignment would have floated the glyph into the
+          middle of the block.
+        */}
         <p
-          className="hero-rise mt-4 inline-flex items-center gap-2 text-[0.8125rem] text-[var(--text-muted)] sm:mt-5 lg:mt-6"
+          className="hero-rise mt-4 flex max-w-[32rem] items-start gap-2 text-[0.8125rem] leading-[1.55] text-[var(--text-muted)] sm:mt-5 lg:mt-6 lg:justify-center lg:text-center"
           style={{ '--hero-delay': '0.36s' } as CSSProperties}
         >
           <CalendarCheck
             aria-hidden
-            className="h-[0.9375rem] w-[0.9375rem] shrink-0 text-[var(--accent-text)]"
+            className="mt-[0.2em] h-[0.9375rem] w-[0.9375rem] shrink-0 text-[var(--accent-text)]"
             strokeWidth={1.75}
           />
-          {t('ctaMeta')}
+          <span className="min-w-0">{t('ctaMeta')}</span>
         </p>
 
         {/*

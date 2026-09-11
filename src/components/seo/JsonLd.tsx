@@ -16,8 +16,7 @@ type JsonLdProps = {
 }
 
 export function JsonLd({ locale, name, description, services, review }: JsonLdProps) {
-  const data = {
-    '@context': 'https://schema.org',
+  const organization = {
     '@type': ['Organization', 'ProfessionalService'],
     '@id': `${siteConfig.url}/#organization`,
     name,
@@ -72,6 +71,35 @@ export function JsonLd({ locale, name, description, services, review }: JsonLdPr
         },
       })),
     },
+  }
+
+  /*
+    The site as its own entity, published alongside the organization rather
+    than folded into it.
+
+    Search engines and answer engines model "the company" and "the website"
+    separately: `Organization` answers *who this business is*, `WebSite`
+    answers *what this domain is and who publishes it*. Without the second
+    node the domain has no entity of its own to attach to, which is what
+    `publisher` here supplies via the organization's `@id`.
+
+    No `potentialAction`/`SearchAction`: that declares a site search endpoint,
+    and this site has none. Declaring one that does not exist is worse than
+    omitting it.
+  */
+  const website = {
+    '@type': 'WebSite',
+    '@id': `${siteConfig.url}/#website`,
+    url: `${siteConfig.url}/${locale}`,
+    name,
+    description,
+    inLanguage: locale,
+    publisher: { '@id': `${siteConfig.url}/#organization` },
+  }
+
+  const data = {
+    '@context': 'https://schema.org',
+    '@graph': [organization, website],
   }
 
   return (

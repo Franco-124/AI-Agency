@@ -44,7 +44,7 @@
     "subtitle": "Implementamos agentes de IA, automatizaciones y sitios web que convierten conversaciones en citas, clientes y crecimiento.",
     "cta": "Agendar llamada estratégica",
     "ctaSecondary": "Ver soluciones",
-    "ctaMeta": "30 min · Sin compromiso · Respuesta en el día",
+    "ctaMeta": "Llamada de 15 min sin costo. Sales con un diagnóstico claro, compres o no.",
     "features": {
       "one": {
         "title": "Atención 24/7",
@@ -404,7 +404,7 @@
       },
       "two": {
         "question": "¿Cuánto tiempo toma implementarlo?",
-        "answer": "Depende del alcance, pero la mayoría de negocios ven resultados en pocas semanas."
+        "answer": "Entre 2 y 6 semanas según el alcance: el Agente Esencial es el más rápido, el Agente Avanzado toma algo más, y el Agente Multicanal es el más extenso porque conecta varios canales. En la llamada de 15 minutos te damos la fecha concreta para tu caso."
       },
       "three": {
         "question": "¿Esto reemplaza a mi equipo?",
@@ -412,11 +412,11 @@
       },
       "four": {
         "question": "¿Qué pasa si necesito ayuda después de la entrega?",
-        "answer": "Incluimos acompañamiento continuo. No te dejamos solo."
+        "answer": "Cada paquete incluye mantenimiento mensual: desde COP $200.000 en el Agente Esencial, $450.000 en el Agente Avanzado y $900.000 en el Agente Multicanal. Eso cubre ajustes, monitoreo y soporte continuo, no solo el arreglo de errores."
       },
       "five": {
         "question": "¿Funciona para mi tipo de negocio?",
-        "answer": "Trabajamos con negocios que dependen de responder rápido y agendar bien. Si ese es tu caso, probablemente sí."
+        "answer": "Trabajamos sobre todo con clínicas estéticas, inmobiliarias, veterinarias, consultorios odontológicos y gimnasios: negocios que viven de responder rápido y de llenar una agenda. Si el tuyo depende de atender consultas por WhatsApp y agendar citas, aplica igual aunque no esté en esa lista."
       },
       "six": {
         "question": "¿El diagnóstico reemplaza la llamada estratégica gratuita de 15 minutos?",
@@ -451,6 +451,7 @@
     "interest": "¿Qué te interesa?",
     "interestPlaceholder": "Selecciona una opción",
     "interestOptions": {
+      "website": "Sitio Web Profesional",
       "automation": "Automatización (uno de los 3 paquetes)",
       "diagnostic": "Diagnóstico de Automatización",
       "training": "Capacitación en Productividad con IA",
@@ -464,7 +465,8 @@
     "messageHint": "Mínimo 10 caracteres.",
     "messagePrefill": {
       "diagnostic": "Quiero el Diagnóstico de Automatización para saber qué le conviene automatizar a mi negocio.",
-      "training": "Quiero la Capacitación en Productividad con IA para que mi equipo aprenda a usarla."
+      "training": "Quiero la Capacitación en Productividad con IA para que mi equipo aprenda a usarla.",
+      "website": "Quiero un Sitio Web Profesional para mi negocio."
     },
     "submit": "Agenda tu llamada estratégica",
     "note": "Te contactaremos por WhatsApp o correo para coordinar el horario que mejor te funcione."

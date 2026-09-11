@@ -44,7 +44,7 @@
     "subtitle": "We build AI agents, automations and websites that turn conversations into appointments, clients and growth.",
     "cta": "Book a call",
     "ctaSecondary": "See solutions",
-    "ctaMeta": "30 min · No commitment · Same-day reply",
+    "ctaMeta": "Free 15-minute call. You leave with a clear diagnosis, whether you hire us or not.",
     "features": {
       "one": {
         "title": "24/7 support",
@@ -404,7 +404,7 @@
       },
       "two": {
         "question": "How long does it take to implement?",
-        "answer": "It depends on the scope, but most businesses see results within a few weeks."
+        "answer": "Between 2 and 6 weeks depending on scope: Agente Esencial is the fastest, Agente Avanzado takes a little longer, and Agente Multicanal is the longest because it connects several channels. We confirm the exact date for your case on the 15-minute call."
       },
       "three": {
         "question": "Does this replace my team?",
@@ -412,11 +412,11 @@
       },
       "four": {
         "question": "What if I need help after delivery?",
-        "answer": "Ongoing support is included. We don't leave you on your own."
+        "answer": "Every package includes monthly maintenance: from COP $200,000 on Agente Esencial, $450,000 on Agente Avanzado and $900,000 on Agente Multicanal. That covers adjustments, monitoring and ongoing support — not just bug fixes."
       },
       "five": {
         "question": "Does it work for my kind of business?",
-        "answer": "We work with businesses that depend on replying fast and booking well. If that's your case, most likely yes."
+        "answer": "We work mostly with aesthetic clinics, real estate agencies, veterinary clinics, dental practices and gyms: businesses that live on replying fast and filling a calendar. If yours depends on handling WhatsApp enquiries and booking appointments, it applies too, even if it is not on that list."
       },
       "six": {
         "question": "Does the diagnostic replace the free 15-minute strategy call?",
@@ -451,6 +451,7 @@
     "interest": "What are you interested in?",
     "interestPlaceholder": "Select an option",
     "interestOptions": {
+      "website": "Professional Website",
       "automation": "Automation (one of the 3 packages)",
       "diagnostic": "Automation Diagnostic",
       "training": "AI Productivity Training",
@@ -464,7 +465,8 @@
     "messageHint": "Minimum 10 characters.",
     "messagePrefill": {
       "diagnostic": "I want the Automation Diagnostic to find out what's worth automating in my business.",
-      "training": "I want the AI Productivity Training so my team can learn to use it."
+      "training": "I want the AI Productivity Training so my team can learn to use it.",
+      "website": "I want a Professional Website for my business."
     },
     "submit": "Book your strategy call",
     "note": "We'll reach out on WhatsApp or by email to arrange a time that works best for you."
