@@ -161,8 +161,8 @@
     "lead": "Construimos sistemas de IA profesionales, hechos a la medida de tu negocio, no funciones sueltas ni plantillas genéricas.",
     "items": {
       "diagnostic": {
-        "title": "Diagnóstico personalizado",
-        "body": "Revisamos por dónde llegan y por dónde se te pierden clientes hoy: tu web, tu WhatsApp, tus redes. Sales con un plan concreto de qué automatizar primero y qué esperar de cada paso, contrates o no."
+        "title": "Diagnóstico de procesos",
+        "body": "Mapeamos cómo trabaja tu negocio hoy, paso a paso: qué hace cada persona, en qué orden ocurre cada cosa y dónde se pierde tiempo, información o clientes. Sales con un plan concreto de qué conviene reordenar, qué automatizar primero y qué dejar como está, contrates o no."
       },
       "chatbots": {
         "title": "Chatbots",
@@ -271,44 +271,36 @@
     "title": "Preguntas frecuentes",
     "items": {
       "one": {
-        "question": "¿Necesito saber de tecnología para usar esto?",
-        "answer": "No. Nosotros nos encargamos de todo. Tú solo ves los resultados."
+        "question": "¿Cuánto tiempo toma implementarlo y empezar a usarlo?",
+        "answer": "Entre 10 y 20 días hábiles según el alcance. Para arrancar necesitamos tres cosas de tu parte: acceso a tu WhatsApp Business, tu catálogo o lista de servicios con precios, y las preguntas que más te repiten tus clientes. Mientras construimos, tu operación sigue igual: nada se apaga ni se migra hasta que el sistema esté probado y lo apruebes."
       },
       "two": {
-        "question": "¿Cuánto tiempo toma implementarlo?",
-        "answer": "Entre 2 y 6 semanas según el alcance: el Agente Esencial es el más rápido, el Agente Avanzado toma algo más, y el Agente Multicanal es el más extenso porque conecta varios canales. En la llamada de 15 minutos te damos la fecha concreta para tu caso."
+        "question": "¿Qué pasa si el agente no sabe responder algo o el cliente se enoja?",
+        "answer": "Escala a una persona de tu equipo. Definimos contigo los disparadores del handoff: cuando el cliente lo pide, cuando aparece un reclamo o una palabra sensible, cuando la consulta sale del alcance, o cuando el agente no tiene certeza suficiente. Al pasar, la persona recibe la conversación completa y responde con el contexto ya leído. Además ves todas las conversaciones en un panel y puedes intervenir cuando quieras: no es una caja negra."
       },
       "three": {
-        "question": "¿Esto reemplaza a mi equipo?",
-        "answer": "No. Libera a tu equipo de tareas repetitivas para que se enfoque en lo que más importa."
+        "question": "¿Cuánto cuesta y qué incluye exactamente el precio?",
+        "answer": "Hay dos cifras y las dos las conoces antes de firmar. Una implementación única, que cubre el diagnóstico, la construcción, la carga de tu información, las integraciones acordadas y las pruebas hasta que funcione. Y una mensualidad, que cubre el alojamiento, el monitoreo, los ajustes de respuestas y el soporte. Aparte va solo el consumo de mensajes que cobra WhatsApp, que se paga a Meta y varía según tu volumen; te lo estimamos con tus propios números en la propuesta. No cobramos por cambios menores ni por atender un problema que sea nuestro."
       },
       "four": {
-        "question": "¿Qué pasa si necesito ayuda después de la entrega?",
-        "answer": "Cada paquete incluye mantenimiento mensual: desde COP $200.000 en el Agente Esencial, $450.000 en el Agente Avanzado y $900.000 en el Agente Multicanal. Eso cubre ajustes, monitoreo y soporte continuo, no solo el arreglo de errores."
+        "question": "¿Necesito saber de tecnología o tener un equipo técnico para mantenerlo?",
+        "answer": "No. Lo que tú haces es responder cuando una conversación te llega escalada, igual que hoy respondes un WhatsApp. Si quieres cambiar un precio, un horario o una respuesta, se hace desde un panel sin tocar código, y te enseñamos cómo en la entrega. Los errores, las actualizaciones y los cambios de las plataformas los resolvemos nosotros dentro de la mensualidad."
       },
       "five": {
-        "question": "¿Funciona para mi tipo de negocio?",
-        "answer": "Trabajamos sobre todo con clínicas estéticas, inmobiliarias, veterinarias, consultorios odontológicos y gimnasios: negocios que viven de responder rápido y de llenar una agenda. Si el tuyo depende de atender consultas por WhatsApp y agendar citas, aplica igual aunque no esté en esa lista."
+        "question": "¿Funciona con las herramientas que ya uso (CRM, WhatsApp Business, calendario)?",
+        "answer": "Hoy conectamos WhatsApp Business API, Google Calendar y Outlook, Google Sheets, HubSpot y formularios web, además de cualquier herramienta que exponga una API abierta. Si usas algo que no está en esa lista, lo revisamos en el diagnóstico y te decimos si se puede conectar, con qué límites, o si conviene otra ruta — antes de que contrates, no después."
       },
       "six": {
-        "question": "¿El diagnóstico reemplaza la llamada estratégica gratuita de 15 minutos?",
-        "answer": "No. La llamada gratuita es para conocernos y ver si encajamos. El diagnóstico es un análisis más profundo, con entregable escrito, sobre qué automatizar y qué no en tu negocio específico."
-      },
-      "seven": {
-        "question": "¿Necesito contratar un agente de IA para tomar la capacitación?",
-        "answer": "No. Funciona como servicio independiente. Muchos negocios la usan como primer paso antes de decidir si automatizar algo."
-      },
-      "eight": {
-        "question": "¿Puedo contratar los dos servicios juntos?",
-        "answer": "Sí. De hecho, el diagnóstico suele ser el primer paso natural antes de la capacitación o de cualquiera de los tres paquetes."
+        "question": "¿Qué pasa si quiero cancelar o no me sirve después de un tiempo?",
+        "answer": "Cancelas cuando quieras avisando con 30 días. No hay permanencia mínima ni multa por salir. Tus datos son tuyos: al cerrar te entregamos el histórico de conversaciones y los contactos capturados en un formato que puedas abrir y llevarte, y borramos lo que quede de nuestro lado si nos lo pides."
       }
     }
   },
   "finalCta": {
     "title": "Tu negocio puede responder solo. Empecemos.",
-    "body": "Completa el formulario y uno de nuestros socios te contacta en menos de 24 horas para agendar tu llamada estratégica de 15 minutos — encaje o no en uno de los tres paquetes.",
+    "body": "Completa el formulario y uno de nuestros socios te contacta en menos de 24 horas para agendar tu llamada estratégica de 15 minutos. Sales con un diagnóstico claro de qué conviene automatizar en tu operación, contrates o no.",
     "button": "Agenda tu llamada estratégica",
-    "imageAlt": "Banner oscuro con un trazo naranja que invita a agendar una llamada con Numi AI"
+    "imageAlt": "Banner oscuro que invita a agendar una llamada con Numi AI"
   },
   "leadForm": {
     "title": "Agenda tu llamada",
