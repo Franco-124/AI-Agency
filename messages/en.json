@@ -33,90 +33,24 @@
     "advisoryDesc": "Guidance and diagnosis for your business."
   },
   "hero": {
-    "eyebrow": "AI automation agency for small and mid-sized businesses in Colombia",
-    "title": {
-      "lead": "We make your business serve",
-      "highlightOne": "more",
-      "middle": ", work less and sell",
-      "highlightTwo": "better",
-      "tail": "."
-    },
-    "subtitle": "We build AI agents, automations and websites that turn conversations into appointments, clients and growth.",
-    "cta": "Book a call",
-    "ctaSecondary": "See solutions",
-    "ctaMeta": "Free 15-minute call. You leave with a clear diagnosis, whether you hire us or not.",
-    "features": {
-      "one": {
-        "title": "24/7 support",
-        "detail": "over WhatsApp"
-      },
-      "two": {
-        "title": "Automatic booking",
-        "detail": "of appointments"
-      },
-      "three": {
-        "title": "Smart follow-up",
-        "detail": "on leads"
-      },
-      "four": {
-        "title": "Websites that",
-        "detail": "convert"
-      }
-    },
-    "scrollHint": "See how it works",
-    "imageAlt": "A dark background with a subtle texture",
-    "flowImageAlt": "Diagram of the Numi AI flow: a WhatsApp message comes in, the agent greets, qualifies the lead, books the appointment and follows up, with the confirmed appointment and the results +40% support capacity, -30% operating costs and +25% lead conversion",
-    "chat": {
-      "ariaLabel": "Example of a conversation handled by Numi AI",
-      "name": "Numi AI",
-      "status": "Online",
-      "meta": "Real-time conversation",
-      "timeOne": "10:32 AM",
-      "timeTwo": "10:32 AM",
-      "timeThree": "10:33 AM",
-      "timeFour": "10:33 AM",
-      "timeFive": "10:34 AM",
-      "timeSix": "10:34 AM",
-      "timeSeven": "10:35 AM",
-      "timeEight": "10:35 AM",
-      "realEstate": {
-        "messages": {
-          "one": "Hi, can I see the apartment in Laureles?",
-          "two": "Of course! We have viewings tomorrow at 10:00 AM or 3:00 PM. Which works for you?",
-          "three": "3:00 PM works perfectly",
-          "four": "Done, your viewing is booked for tomorrow at 3:00 PM. You'll get the confirmation on WhatsApp.",
-          "five": "Do I need to bring anything?",
-          "six": "Just your ID. If you need to reschedule, message me anytime.",
-          "seven": "Perfect, thank you",
-          "eight": "My pleasure. See you tomorrow."
-        }
-      },
-      "clinic": {
-        "messages": {
-          "one": "Hi, do you have an assessment appointment this week?",
-          "two": "Yes! Thursday 9:00 AM or Friday 2:00 PM. Which do you prefer?",
-          "three": "Thursday at 9:00 AM",
-          "four": "Your assessment is booked for Thursday at 9:00 AM.",
-          "five": "Should I bring anything?",
-          "six": "Your ID and any previous test results. I'll send you a reminder the day before.",
-          "seven": "Great, thank you",
-          "eight": "My pleasure. See you Thursday."
-        }
-      },
-      "vet": {
-        "messages": {
-          "one": "Hi, I need an appointment for my dog",
-          "two": "Of course! We have today at 4:00 PM or tomorrow at 11:00 AM. Which suits you better?",
-          "three": "Today at 4:00 PM",
-          "four": "Done, appointment today at 4:00 PM. Could you confirm your pet’s name?",
-          "five": "His name is Toby, he's 3 years old",
-          "six": "Noted. Bring his vaccination card if you have it handy.",
-          "seven": "Perfect, I'll be there",
-          "eight": "See you then. Message me if anything comes up."
-        }
-      }
-    },
-    "proof": "+40% customer support capacity — validated real case"
+    "title": "Your business loses time and money on tasks that should already run themselves.",
+    "subtitle": "Numi AI builds AI agents, automations and websites that handle both your customer conversations and the internal processes eating up your team’s time.",
+    "cta": "Book your assessment",
+    "ctaSecondary": "See what we do",
+    "marquee": {
+      "ariaLabel": "What we automate",
+      "items": [
+        "Automated replies 24/7",
+        "Zero unanswered messages",
+        "Appointment booking with no human in the loop",
+        "Internal reports generated without spreadsheets",
+        "Automatic follow-up on every lead",
+        "Internal processes that no longer depend on someone remembering",
+        "Automations built around your business",
+        "Fewer repetitive tasks, more time to grow",
+        "A system that never takes a day off"
+      ]
+    }
   },
   "booking": {
     "title": "Book a strategy call",

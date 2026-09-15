@@ -57,7 +57,7 @@ export default async function PrivacyPage({ params }: PageProps) {
         <p className="type-lead mt-8">{t('intro')}</p>
 
         <section className="mt-12 sm:mt-14">
-          <h2 className="font-display text-[1.1875rem] font-medium tracking-[-0.022em] sm:text-xl">{t('dataTitle')}</h2>
+          <h2 className="font-display text-[1.1875rem] font-medium tracking-[-0.004em] sm:text-xl">{t('dataTitle')}</h2>
           <p className="type-body mt-4">
             {t('dataIntro')}
           </p>
@@ -75,7 +75,7 @@ export default async function PrivacyPage({ params }: PageProps) {
         </section>
 
         <section className="mt-12 sm:mt-14">
-          <h2 className="font-display text-[1.1875rem] font-medium tracking-[-0.022em] sm:text-xl">{t('useTitle')}</h2>
+          <h2 className="font-display text-[1.1875rem] font-medium tracking-[-0.004em] sm:text-xl">{t('useTitle')}</h2>
           <p className="type-body mt-4">
             {t('useIntro')}
           </p>
@@ -93,7 +93,7 @@ export default async function PrivacyPage({ params }: PageProps) {
         </section>
 
         <section className="mt-12 sm:mt-14">
-          <h2 className="font-display text-[1.1875rem] font-medium tracking-[-0.022em] sm:text-xl">
+          <h2 className="font-display text-[1.1875rem] font-medium tracking-[-0.004em] sm:text-xl">
             {t('sharingTitle')}
           </h2>
           <p className="type-body mt-4">
@@ -102,7 +102,7 @@ export default async function PrivacyPage({ params }: PageProps) {
         </section>
 
         <section className="mt-12 sm:mt-14">
-          <h2 className="font-display text-[1.1875rem] font-medium tracking-[-0.022em] sm:text-xl">
+          <h2 className="font-display text-[1.1875rem] font-medium tracking-[-0.004em] sm:text-xl">
             {t('retentionTitle')}
           </h2>
           <p className="type-body mt-4">
@@ -111,7 +111,7 @@ export default async function PrivacyPage({ params }: PageProps) {
         </section>
 
         <section className="mt-12 sm:mt-14">
-          <h2 className="font-display text-[1.1875rem] font-medium tracking-[-0.022em] sm:text-xl">{t('rightsTitle')}</h2>
+          <h2 className="font-display text-[1.1875rem] font-medium tracking-[-0.004em] sm:text-xl">{t('rightsTitle')}</h2>
           <p className="type-body mt-4">
             {t('rights')}
           </p>

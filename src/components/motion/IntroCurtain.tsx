@@ -214,14 +214,14 @@ export function IntroCurtain() {
 
     /*
      * Flips the gate the moment the exit starts, not when it finishes. The
-     * hero underneath has been mounted and animating (entrance, particle
-     * drift, the two `mix-blend-screen` visuals) since first paint — all of
-     * it invisible under the curtain, all of it still costing frames the
-     * curtain's own four-line stagger and drifting background need. `.hero-rise`
-     * and `.soft-float`/`.particle` are gated on `data-intro='play'` in
-     * globals.css for exactly this reason; this is what releases that gate.
-     * Firing it at the start of the wipe rather than at `gone` costs nothing
-     * visible — 760ms into a 7s float is imperceptible — and frees the frame
+     * hero underneath has been mounted and animating (the entrance rises and
+     * the phrase marquee) since first paint — all of it invisible under the
+     * curtain, all of it still costing frames the curtain's own four-line
+     * stagger and drifting background need. `.hero-rise` and
+     * `.hero-marquee-track` are gated on `data-intro='play'` in globals.css
+     * for exactly this reason; this is what releases that gate. Firing it at
+     * the start of the wipe rather than at `gone` costs nothing visible —
+     * 760ms into a 64s marquee cycle is imperceptible — and frees the frame
      * budget for the wipe itself, which is the animation most worth protecting.
      */
     const dismiss = () => {
@@ -328,7 +328,7 @@ export function IntroCurtain() {
                 than abrupt. */}
             <span className="intro-rule block h-px w-16 origin-left bg-[linear-gradient(to_right,var(--color-acento),transparent)] sm:w-20" />
 
-            <p className="mt-7 font-display text-[1.375rem] font-medium leading-[1.26] tracking-[-0.028em] text-[var(--text-primary)] sm:mt-9 sm:text-[2rem] lg:text-[2.375rem]">
+            <p className="mt-7 font-display text-[1.375rem] font-medium leading-[1.3] tracking-[-0.008em] text-[var(--text-primary)] sm:mt-9 sm:text-[2rem] lg:text-[2.375rem]">
               <Line delay={TIMINGS.lineOne}>{t('lineOne')}</Line>
               <Line delay={TIMINGS.lineTwo}>{t('lineTwo')}</Line>
               {/*
@@ -361,7 +361,7 @@ export function IntroCurtain() {
                   read as a caption rather than as a name. Tracking stays
                   wide, which is what keeps it reading as a mark.
                 */}
-                <span className="font-display text-[0.9375rem] font-semibold uppercase tracking-[0.14em] text-[var(--text-secondary)] sm:text-[1.0625rem]">
+                <span className="font-sans text-[0.9375rem] font-semibold uppercase tracking-[0.14em] text-[var(--text-secondary)] sm:text-[1.0625rem]">
                   {t('brand')}
                 </span>
               </Line>

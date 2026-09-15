@@ -39,6 +39,13 @@
   --surface-panel: #1e1929;
   --surface-inset: #241e31;
 
+  /* The hero's own ground. A touch deeper and more violet than `base`, so the
+     first screen reads as its own plane and the accent bloom on it has
+     somewhere to sit — the rest of the page stays on `base`. Named rather
+     than inlined because the marquee's edge fades must resolve to exactly
+     this colour to disappear into it. */
+  --hero-bg: #12081f;
+
   /* ----------------------------------------------------------------
      Border ladder. Three weights, because one hairline everywhere is what
      made every element sit on the same plane: `subtle` separates content
@@ -167,8 +174,14 @@
   /* Display face. Restricted by rule to the hero headline, section titles and
      the two numeric "hero figures" (the results stat and package prices) — see
      `.type-display`, `.type-section-title` and `.type-figure` below. Every
-     other heading, label and piece of UI stays on `--font-sans`. */
-  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+     other heading, label and piece of UI stays on `--font-sans`.
+
+     The fallback stack is serif, not sans: if Fraunces fails to load, a
+     headline must fall back to something of the same species, or the page
+     reflows into a different design rather than an unstyled version of this
+     one. */
+  --font-display: var(--font-fraunces), ui-serif, Georgia, 'Times New Roman',
+    serif;
 
   --radius-lg: 0.625rem;
   --radius-xl: 0.875rem;
@@ -259,19 +272,37 @@
 
     Desktop (>= 48rem): the ramp resumes and runs up to 4.5rem.
   */
+  /*
+    Weight and tracking are set for a serif, and both moved when the face did.
+
+    500 rather than the 560 Space Grotesk carried: an old-style serif at
+    display size already has stroke contrast doing the work that weight does
+    in a geometric sans, so the same numeric weight reads noticeably heavier
+    and the headline turns into a slab.
+
+    Tracking eases back from -0.028em to -0.01em for the same reason. Negative
+    tracking suits a sans whose letterforms are near-monolinear; on a serif it
+    collides the serifs of adjacent letters and muddies the word shape at
+    exactly the size where the headline is meant to be most legible.
+
+    `font-optical-sizing: auto` is the point of choosing Fraunces: the glyphs
+    are redrawn per size — finer strokes and tighter spacing as the type grows
+    — instead of one outline scaled up.
+  */
   .type-display {
     font-family: var(--font-display);
+    font-optical-sizing: auto;
     font-size: clamp(2.125rem, 1.55rem + 2.6vw, 2.5rem);
-    line-height: 1.1;
-    font-weight: 560;
-    letter-spacing: -0.022em;
+    line-height: 1.12;
+    font-weight: 500;
+    letter-spacing: -0.005em;
   }
 
   @media (width >= 48rem) {
     .type-display {
       font-size: clamp(2.5rem, 1.2rem + 3.6vw, 4.5rem);
-      line-height: 1.05;
-      letter-spacing: -0.028em;
+      line-height: 1.08;
+      letter-spacing: -0.012em;
     }
   }
 
@@ -282,17 +313,18 @@
   */
   .type-section-title {
     font-family: var(--font-display);
+    font-optical-sizing: auto;
     font-size: clamp(1.5rem, 1.3rem + 1vw, 1.75rem);
-    line-height: 1.18;
-    font-weight: 540;
-    letter-spacing: -0.02em;
+    line-height: 1.2;
+    font-weight: 500;
+    letter-spacing: -0.004em;
   }
 
   @media (width >= 48rem) {
     .type-section-title {
       font-size: clamp(2rem, 1.1rem + 2.4vw, 2.875rem);
-      line-height: 1.08;
-      letter-spacing: -0.024em;
+      line-height: 1.12;
+      letter-spacing: -0.01em;
     }
   }
 
@@ -301,8 +333,12 @@
      than a UI label — never used for anything counted or tabular. */
   .type-figure {
     font-family: var(--font-display);
-    font-weight: 560;
-    letter-spacing: -0.01em;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    /* Positive, unlike the headlines. A price or a percentage is read digit by
+       digit rather than as a word shape, and Fraunces' figures are narrow
+       enough that the default fit reads cramped at display size. */
+    letter-spacing: 0.005em;
   }
 
   /*
@@ -557,123 +593,99 @@
   }
 
   /* ----------------------------------------------------------------
-     Hero desktop geometry.
+     Hero geometry.
 
-     `--hero-visual-w` and `--hero-visual-inset` are the single source of truth
-     for the two flanking product visuals. Three things derive from them: the
-     visuals' own placement, the section's height, and the copy column's width.
+     The flanking product visuals are gone, and with them the derived column
+     width they used to dictate: there is no artwork left for the copy to
+     avoid, so the measures below are plain editorial caps chosen for how the
+     two lines break, not values computed from an image's inset.
 
-     Deriving rather than guessing per breakpoint matters — with fixed steps the
-     headline collided with the artwork at one size and, at another, was squeezed
-     narrower than the 11.8em its first line needs and broke onto a fourth line.
-
-     The visuals stay subordinate to the copy: 17vw on small desktops, 21vw (capped
-     at 23rem) above, so they read as frames rather than as a second subject.
+     The old `content-visibility: auto` containment went with them too. It
+     existed to stop the compositor re-evaluating those visuals'
+     `mix-blend-screen` while the hero sat below the fold; nothing in the
+     section blends any more, so the containment would only add bookkeeping
+     (and its fixed `contain-intrinsic-size` was a standing resize hazard).
      ---------------------------------------------------------------- */
-  .hero-frame {
-    --hero-visual-w: 0px;
-    --hero-visual-inset: 0px;
-  }
+  /* The hero owns the whole first screen on desktop: nothing of the next
+     section may show under it. `svh` rather than `dvh` because it is the
+     *smallest* viewport height, so the seam cannot peek through while browser
+     chrome is collapsing, and `44rem` is a floor for short windows — below
+     that the copy would start colliding with the header, and letting the page
+     scroll is the better failure.
 
+     Phones are deliberately excluded. Sizing to `100dvh` there stretched
+     every element to fill a screen the content did not have, which left the
+     hero feeling crowded and empty at once. It sizes to its content instead,
+     and the next section's top edge showing below the fold is a better scroll
+     cue than any chevron. */
   @media (width >= 64rem) {
     .hero-frame {
-      --hero-visual-w: 17vw;
-      --hero-visual-inset: 4vw;
-    }
-  }
-
-  @media (width >= 80rem) {
-    .hero-frame {
-      --hero-visual-w: min(21vw, 23rem);
-      --hero-visual-inset: 5vw;
-    }
-  }
-
-  /* The hero owns the whole first screen: nothing of the next section may show
-     under it. `svh` rather than `dvh` on desktop because it is the *smallest*
-     viewport height, so the seam cannot peek through while browser chrome is
-     collapsing. `46rem` is a floor for short windows — below that the copy
-     would start colliding with the header, and letting the page scroll is the
-     better failure. The visuals (1.6x their own width) always fit inside this.
-
-     An earlier version sized the section to its content instead, which left a
-     dead black band under the copy; the fill now comes from the vertical
-     rhythm and the ambient light, not from shrinking the section. */
-  /*
-    Phone: explicitly NOT a full viewport height.
-
-    `100dvh` here forced every hero element to stretch to fill a screen it did
-    not have the content for, which is what left the phone hero feeling both
-    crowded (type scaled up to fill) and empty (dead space under the CTA). The
-    hero now sizes to its content with generous but finite padding, and the
-    next section's top edge is visible below the fold — which is a better
-    scroll cue than any chevron, and the reason the affordance stays desktop-only.
-
-    `min-height` is kept as a floor for landscape phones only, well under the
-    viewport so it never stretches a portrait layout.
-  */
-  .hero-shell {
-    min-height: 0;
-  }
-
-  /*
-     Skips the hero's rendering work entirely once it is scrolled past.
-
-     The two flanking visuals use `mix-blend-screen`, which the compositor
-     re-evaluates on every frame for as long as the section participates in
-     rendering — even far below the fold. Measured on desktop: median frame
-     24ms with them live, 17ms with them hidden.
-
-     `content-visibility: auto` lets the browser skip a subtree that is off
-     screen, and `contain-intrinsic-size` supplies the height it would have
-     had so the scrollbar does not jump when it is skipped. The value matches
-     the `min-height` above.
-
-     Scoped to `lg` because the visuals only exist there — on a phone the hero
-     has no blending to skip and containment would only add bookkeeping.
-  */
-  @media (width >= 64rem) {
-    .hero-frame {
-      content-visibility: auto;
-      /*
-        No `auto` keyword here on purpose. `contain-intrinsic-size: auto 44rem`
-        tells the browser to remember the section's last *rendered* size and
-        reuse it as a layout placeholder while the subtree is skipped. That
-        remembered size does not get re-measured on a viewport resize that
-        happens while the hero is off-screen (or mid-resize) — so the frame
-        keeps an old height while its absolutely-positioned side visuals
-        (`top: 50%` / `-translate-y-1/2`) resolve their `%` against the new
-        one, and the right-hand visual lands mid-page, overlapping the copy.
-        A fixed size has no "remembered" state to go stale.
-      */
-      contain-intrinsic-size: 44rem;
-    }
-  }
-
-  @media (width >= 64rem) {
-    .hero-shell {
       min-height: max(44rem, 100svh);
     }
   }
 
-  /* Copy column width. Each visual's artwork starts 4.5% in, so its inner edge
-     sits `50vw - inset - 0.955 * width` from the centre and the free span is
-     twice that. The column's own `4rem` of horizontal padding doubles as the
-     gutter, so it cancels out of the border-box max-width. `60rem` is the cap.
+  /* ----------------------------------------------------------------
+     Hero phrase marquee.
 
-     The phone cap lives here too rather than as a `max-w-[80rem]` utility: a
-     utility outranks the components layer, so it silently beat this rule and
-     let the copy run under the visuals at 1024. */
-  .hero-copy {
-    max-width: var(--measure-page);
+     The track holds the phrase list twice and translates by exactly -50%, so
+     the second copy arrives where the first began and the loop closes with no
+     seam. Duration is set on the track rather than baked into the keyframes,
+     which is what lets the phone slow it down without a second animation.
+     ---------------------------------------------------------------- */
+  /* Both ends dissolve instead of being cut at a hard vertical line, which is
+     what makes the strip read as a continuous band passing through the
+     viewport rather than as a clipped box. A mask rather than two gradient
+     overlays: the overlays had to be painted in the section's exact background
+     colour to disappear into it, so they silently broke against anything
+     placed behind the strip. A mask removes the pixels instead. */
+  .hero-marquee {
+    mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 10%,
+      #000 90%,
+      transparent
+    );
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 10%,
+      #000 90%,
+      transparent
+    );
   }
 
-  @media (width >= 64rem) {
-    .hero-copy {
-      max-width: min(
-        60rem,
-        calc(100vw - 2 * var(--hero-visual-inset) - 1.91 * var(--hero-visual-w))
-      );
+  .hero-marquee-track {
+    animation: hero-marquee var(--hero-marquee-duration, 48s) linear infinite;
+    /* Promotes the track to its own compositor layer so the translation never
+       triggers layout or paint on the rest of the section. */
+    will-change: transform;
+  }
+
+  /* Deliberately no `:hover` pause on desktop: the strip is ambient texture,
+     and stopping it under the cursor turns it into something that looks
+     interactive and rewards stopping to read — which is the opposite of the
+     job it does under the CTAs.
+
+     Touch is the exception. A coarse pointer cannot hover, so the only way a
+     visitor can hold a phrase still long enough to read it is to touch the
+     strip, and that gesture is unambiguous. */
+  @media (hover: none) {
+    .hero-marquee:active .hero-marquee-track {
+      animation-play-state: paused;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-marquee-track {
+      animation: none;
+    }
+
+    /* With the animation off the track no longer scrolls, so the phrases past
+       the fold would be unreachable. The strip becomes a normal horizontal
+       scroller the visitor drives themselves. */
+    .hero-marquee {
+      overflow-x: auto;
     }
   }
 
@@ -1086,95 +1098,25 @@
     animation-delay: var(--hero-delay, 0s);
   }
 
-  /* The eyebrow's hairline draws itself out of the left edge. */
-  .rule-grow {
-    transform-origin: left;
-    animation: rule-grow 700ms var(--ease-entrance) both;
-    animation-delay: var(--hero-delay, 0s);
-  }
-
-  /* Accent haze breathing behind the hero copy — atmosphere, not content. */
-    .soft-float {
-    animation: soft-float 7s ease-in-out infinite;
-  }
-
-  /*
-     Everything ambient in the hero stops once the hero is off screen.
-
-     The side visuals carry `mix-blend-screen`, which is the most expensive
-     thing on the page per frame: a blended layer forces the compositor to
-     re-read what is painted beneath it, and an infinite float meant that read
-     happened 60 times a second for the entire visit — including while the
-     visitor was ten sections further down and could not see it. The attribute
-     is written by `HeroMotion` from the observer the particle field already
-     uses, so this costs no extra observer.
-  */
-  [data-hero-motion='paused'] .soft-float,
-  [data-hero-motion='paused'] .particle {
-    animation-play-state: paused;
-  }
-
-  /* ----------------------------------------------------------------
-     Hero particle field. Transform and opacity only, so the whole
-     field stays on the compositor. Negative delays start each particle
-     mid-cycle, which is what stops them rising as one visible wave.
-     ---------------------------------------------------------------- */
-  .particle {
-    position: absolute;
-    border-radius: 9999px;
-    /* A soft gradient instead of a solid dot plus `filter: blur()` — same
-       result, without a blur pass per particle per frame. */
-    background: radial-gradient(
-      circle,
-      var(--color-acento) 0%,
-      color-mix(in srgb, var(--color-acento) 55%, transparent) 50%,
-      transparent 78%
-    );
-    animation: particle-drift var(--particle-duration, 45s) linear infinite;
-    animation-delay: var(--particle-delay, 0s);
-  }
-
-  /*
-    Phones get no particle field.
-
-    On a small screen the hero already carries a gradient base, an ambient
-    bloom and the masked grid — eighteen drifting dots on top of that is the
-    layer that tips it from "atmospheric" into "busy", and it is the only one
-    of the four that animates for the entire visit. Dropped here rather than
-    in `HeroBackdrop` because that component also owns the visibility gate
-    that pauses the two blended side visuals; unmounting it on phones would
-    take the gate with it.
-  */
-  @media (width < 40rem) {
-    .particle {
-      display: none;
-    }
-  }
-
   /*
      The curtain is opaque and covers the hero completely while it plays, so
-     everything below — the entrance rises, the 18-particle field, the two
-     `mix-blend-screen` side visuals riding `.soft-float` — has been animating
-     invisibly since first paint, purely because the hero mounts and starts
-     immediately. That is wasted compositor work at the exact moment the
-     curtain's own four-line stagger and drifting background need every frame
-     they can get, and `mix-blend-screen` in particular forces a re-read of
-     everything painted beneath it on every tick.
+     the entrance rises below it have been animating invisibly since first
+     paint, purely because the hero mounts and starts immediately. That is
+     wasted compositor work at the exact moment the curtain's own four-line
+     stagger and drifting background need every frame they can get.
 
      Entrances snap straight to their end state — still invisible, so there is
-     nothing to see — the same technique already used for reduced motion.
-     Infinite loops are paused instead, since they have no end state to snap
-     to. `IntroCurtain` flips `data-intro` to `done` the instant the wipe
+     nothing to see — the same technique already used for reduced motion. The
+     marquee is paused instead, since an infinite loop has no end state to
+     snap to. `IntroCurtain` flips `data-intro` to `done` the instant the wipe
      starts, which is what releases both.
   */
-  :root[data-intro='play'] .hero-rise,
-  :root[data-intro='play'] .rule-grow {
+  :root[data-intro='play'] .hero-rise {
     animation-duration: 0.01ms !important;
     animation-delay: 0s !important;
   }
 
-  :root[data-intro='play'] .soft-float,
-  :root[data-intro='play'] .particle {
+  :root[data-intro='play'] .hero-marquee-track {
     animation-play-state: paused;
   }
 
@@ -1263,6 +1205,26 @@
   to {
     opacity: 1;
     transform: none;
+  }
+}
+
+/*
+  The hero phrase strip.
+
+  -50% exactly, because the track renders the phrase list twice: at the end of
+  the cycle the second copy sits where the first started, so resetting to 0 is
+  invisible. Any other distance leaves a jump.
+
+  `translate3d` rather than `translateX` keeps the whole cycle on the
+  compositor — the track is wide enough that a layout-affecting transform
+  would be measurable on a phone.
+*/
+@keyframes hero-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
   }
 }
 
@@ -1366,36 +1328,6 @@
   }
 }
 
-@keyframes rule-grow {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-
-/*
-  A slow rise with a small lateral drift. It fades in and out at the ends so a
-  particle is never seen appearing or vanishing at a fixed point.
-*/
-@keyframes particle-drift {
-  0% {
-    opacity: 0;
-    transform: translate3d(0, 0, 0);
-  }
-  12% {
-    opacity: var(--particle-opacity, 0.3);
-  }
-  82% {
-    opacity: var(--particle-opacity, 0.3);
-  }
-  100% {
-    opacity: 0;
-    transform: translate3d(var(--particle-drift, 0), -180px, 0);
-  }
-}
-
 /*
   Most of the cycle is deliberately still — the highlight only travels over the
   last 40%, so the mark shines periodically instead of shimmering constantly.
@@ -1407,16 +1339,6 @@
   }
   100% {
     background-position: 0% 0;
-  }
-}
-
-@keyframes soft-float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-8px);
   }
 }
 
@@ -1562,8 +1484,6 @@
     global 0.01ms override would freeze them on their last keyframe — the
     hero photograph would stay zoomed in for the whole visit.
   */
-  .soft-float,
-  .particle,
   .wordmark,
   .mark-halo {
     animation: none !important;
@@ -1572,10 +1492,6 @@
   /* Left at its resting offset, where the gradient reads as the flat ink colour. */
   .wordmark {
     background-position: 100% 0;
-  }
-
-  .particle {
-    opacity: 0;
   }
 
   /* The carousel still jumps to the requested slide — it just does not glide

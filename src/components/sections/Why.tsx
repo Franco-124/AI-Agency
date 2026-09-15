@@ -64,7 +64,7 @@ export function Why() {
               same weight, one screen apart. They are subheads, so they now
               read as such.
             */}
-            <h3 className="min-w-0 break-words font-display text-[1.1875rem] font-medium leading-[1.2] tracking-[-0.022em] sm:text-[1.3125rem]">
+            <h3 className="min-w-0 break-words font-display text-[1.1875rem] font-medium leading-[1.25] tracking-[-0.004em] sm:text-[1.3125rem]">
               {t(`pillars.${key}.title`)}
             </h3>
             {/* `max-w-[34ch]`: at 26ch the third pillar's body broke to five

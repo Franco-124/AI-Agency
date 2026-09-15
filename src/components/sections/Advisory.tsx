@@ -36,7 +36,7 @@ function AdvisoryCard({ offer, featureKeys, t, variant, note }: AdvisoryCardProp
 
   return (
     <div className="surface-panel lift flex flex-col rounded-[1.125rem] p-6 sm:p-8">
-      <h3 className="font-display text-[1.1875rem] font-medium leading-snug tracking-[-0.025em] sm:text-xl">
+      <h3 className="font-display text-[1.1875rem] font-medium leading-snug tracking-[-0.004em] sm:text-xl">
         {t(`${offer}.name`)}
       </h3>
       <p className="mt-2.5 text-[0.8125rem] leading-relaxed text-ink-faint">

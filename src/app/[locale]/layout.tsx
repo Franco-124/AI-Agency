@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
 import { notFound } from 'next/navigation'
-import { Plus_Jakarta_Sans, Space_Grotesk } from 'next/font/google'
+import { Fraunces, Plus_Jakarta_Sans } from 'next/font/google'
 import { NextIntlClientProvider } from 'next-intl'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 
@@ -77,10 +77,25 @@ export const viewport = {
   colorScheme: 'dark',
 }
 
-const spaceGrotesk = Space_Grotesk({
+/*
+  Display face for every headline on the page.
+
+  Fraunces replaced Space Grotesk here: a geometric sans set the headlines in
+  the same voice as the body copy, so a section title read as "larger UI text"
+  rather than as editorial writing. A serif with real optical sizing gives the
+  page a second voice, which is what lets the hero carry a claim rather than a
+  label.
+
+  `axes: ['SOFT', 'WONK']` is deliberately NOT requested — Fraunces ships four
+  variable axes and each one added to the subset is weight served to every
+  visitor. Only the optical-size axis is wanted, and that one comes free with
+  `font-optical-sizing: auto`.
+*/
+const fraunces = Fraunces({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-space-grotesk',
+  weight: ['300', '500', '600'],
+  variable: '--font-fraunces',
 })
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -106,7 +121,7 @@ export default async function LocaleLayout({
     // face (see the token contract in globals.css).
     <html
       lang={locale}
-      className={`${plusJakartaSans.variable} ${spaceGrotesk.variable}`}
+      className={`${plusJakartaSans.variable} ${fraunces.variable}`}
       /*
         Declared on the server so the gate script *changes* an attribute
         rather than adding one. React compares the server HTML against the

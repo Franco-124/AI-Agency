@@ -90,7 +90,7 @@ function PackageCard({ definition, t, note, action }: PackageCardProps) {
         <span aria-hidden className="block h-4" />
       )}
 
-      <h3 className="mt-3.5 font-display text-[1.1875rem] font-medium leading-snug tracking-[-0.025em] sm:text-xl">
+      <h3 className="mt-3.5 font-display text-[1.1875rem] font-medium leading-snug tracking-[-0.004em] sm:text-xl">
         {t(`${key}.name`)}
       </h3>
       <p className="mt-2.5 text-[0.8125rem] leading-relaxed text-ink-faint">
@@ -248,7 +248,7 @@ export function Packages() {
             aria-hidden
             className="h-px w-7 shrink-0 bg-[var(--accent-hairline)]"
           />
-          <h3 className="font-display text-[1.1875rem] font-medium leading-snug tracking-[-0.025em] sm:text-xl">
+          <h3 className="font-display text-[1.1875rem] font-medium leading-snug tracking-[-0.004em] sm:text-xl">
             {t('systems.title')}
           </h3>
         </div>

@@ -1,438 +1,142 @@
-import {
-  CalendarCheck,
-  CalendarClock,
-  ChevronDown,
-  Globe,
-  MessageCircle,
-  MousePointerClick,
-  Users,
-  type LucideIcon,
-} from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import type { CSSProperties } from 'react'
 
 import { DemoBookingWidget } from '@/components/forms/DemoBookingWidget'
-import { HeroMotion } from '@/components/motion/HeroMotion'
 import { sectionIds } from '@/lib/site'
 
-import agentStepsVisual from '../../../public/images/hero-agent-steps.webp'
-import outcomeCardsVisual from '../../../public/images/hero-outcome-cards.webp'
-import { HeroSideVisual } from './HeroSideVisual'
-
-/** The four capabilities in the icon row, in reading order. */
-const heroFeatures: ReadonlyArray<{ key: string; Icon: LucideIcon }> = [
-  { key: 'one', Icon: MessageCircle },
-  { key: 'two', Icon: CalendarClock },
-  { key: 'three', Icon: Users },
-  { key: 'four', Icon: Globe },
-]
+import { HeroMarquee } from './HeroMarquee'
 
 /*
-  Two layouts in one tree.
+  A single centred column — headline, promise, the CTA pair — closed by a
+  full-bleed strip of phrases where a logo wall would go.
 
-  Below `lg`: copy ranged left, no side visuals, and deliberately little of it
-  — positioning line, headline, promise, CTA pair, reassurance. That is the
-  whole phone hero. A small screen rewards making one claim and handing off,
-  so the four capabilities are not here at all: they are services with their
-  own illustrated cards two sections below, where each gets a paragraph rather
-  than three words. An earlier pass carried them as four grid cells stacking a
-  title *and* a detail, which put 440 characters on the first screen.
+  This replaced a hero built the other way round: two flanking product visuals,
+  a particle field, a masked rule grid and a four-item capability row around
+  the copy. Each was defensible alone, but together they gave the first screen
+  four things competing for the same glance and the headline was only one of
+  them. Everything cut still exists further down the page — the four
+  capabilities are services with their own illustrated cards, where each gets a
+  paragraph instead of three words.
 
-  The header keeps a CTA visible at every size, so this is not the visitor's
-  only chance to act — which is what lets the phone hero stay this short.
-
-  From `lg` up it is the approved comp — copy centred between two flanking
-  product visuals. Every number in that half is measured off the comp
-  (1536 x 1024) rather than invented:
-
-    headline      cap height 36px => ~50px type, line pitch 53.5px (1.07)
-    headline box  635px wide      => breaks after "negocio" / "trabaje"
-    subtitle      ~19px, wraps inside ~590px
-    features      4 items, 36px gutters, 636px total
-    CTAs          332px + 24px gap + 233px, 58px tall
-    left visual   x 51-377,    y 197-687   (327 x 491)
-    right visual  x 1114-1467, y 192-819   (354 x 628)
-
-  The headline cap is set in `em`, not px, so the three-line break survives the
-  fluid type scale instead of only holding at one width — its first line needs
-  11.8em, and the column width in `globals.css` is derived to always clear that.
-  Desktop geometry (visual width and inset) lives there too, as custom
-  properties on the section, because the column and the visuals both read it.
+  The headline is set in the serif display face against everything else in the
+  sans, which is the whole typographic idea of the page: the serif is the voice
+  making the argument, the sans is the interface around it.
 */
-
 export function Hero() {
   const t = useTranslations('hero')
+  const marqueeItems = t.raw('marquee.items') as ReadonlyArray<string>
 
   return (
     <section
       id={sectionIds.hero}
-      className="hero-frame relative isolate overflow-hidden"
+      className="hero-frame relative isolate flex flex-col overflow-hidden bg-[var(--hero-bg)]"
     >
       {/*
-        Deep base, sampled off the comp's own field. The bottom 16% fades back
-        to the site token so the seam with the next section stays invisible.
+        The only visual element behind the copy: one wide, soft violet bloom
+        centred on the headline.
 
-        Nothing else dims the lower edge: an overlay fade was tried here and
-        removed, because the comp keeps its violet live all the way to the
-        bottom-right corner and the fade flattened exactly that.
+        It is a `radial-gradient` rather than a blurred box because a gradient
+        is painted once by the rasteriser, while `filter: blur()` at this size
+        forces an offscreen buffer the compositor re-reads — for a shape whose
+        entire purpose is to have no discernible edge. The stop positions do
+        the diffusing, and the alpha is keyed to the accent token so the
+        palette stays auditable from `globals.css` alone.
       */}
       <div
         aria-hidden
-        className="absolute inset-0 -z-30"
+        className="pointer-events-none absolute inset-0 -z-10"
         style={{
           background:
-            'linear-gradient(to bottom, #04030a 0%, #04030a 84%, var(--surface-base) 100%)',
+            'radial-gradient(42% 38% at 50% 34%, color-mix(in srgb, var(--color-acento) 30%, transparent) 0%, color-mix(in srgb, var(--color-acento) 11%, transparent) 45%, transparent 72%)',
         }}
       />
 
       {/*
-        Ambient light. Centres, radii and alphas were originally a
-        least-squares fit to the approved comp's background pixels, and the
-        desktop pair below is unchanged from that fit.
+        Copy column. Centred at every size — the phone layout differs only in
+        type scale and in the CTA pair stacking, not in alignment, so the
+        hierarchy survives the breakpoint.
 
-        What is new is that the field is now direction-aware on phones. The
-        desktop bloom sits low-right, behind the right-hand product visual —
-        but that visual is hidden below `lg`, so on a phone the brightest part
-        of the screen was an empty corner while the headline sat on flat black.
-        The phone field instead places a single soft bloom up and behind the
-        headline, so the copy is lit by it and the type has something to sit
-        against. Both are keyed to the accent token rather than a hardcoded
-        violet, so the palette stays auditable from one place.
+        `62rem` rather than the 56.25rem of the reference mockup, because the
+        headline's own `em` cap resolves to about 60.75rem once the type
+        reaches the top of its ramp. A narrower column here would silently
+        become the real constraint at large widths and squeeze the headline
+        back into ragged lines — the exact failure the `em` cap exists to
+        prevent. The column stays wider than the headline so that the headline
+        is always the thing deciding its own measure; each child below caps
+        itself.
       */}
-      <div
-        aria-hidden
-        className="absolute inset-0 -z-20 lg:hidden"
-        style={{
-          background: [
-            /*
-              Tight and low-alpha on purpose. An earlier pass ran this at 26%
-              over 90% of the width, which tinted the entire phone screen
-              violet — the headline then sat on a coloured field rather than
-              being lit by one, and the section read as a purple block instead
-              of as a dark page with light in it. 14% over a 62%-wide ellipse
-              lands the falloff inside the headline's own block.
-            */
-            'radial-gradient(62% 34% at 18% 14%, color-mix(in srgb, var(--color-acento) 14%, transparent) 0%, transparent 100%)',
-            'radial-gradient(58% 30% at 96% 82%, color-mix(in srgb, var(--color-acento-deep) 20%, transparent) 0%, transparent 100%)',
-          ].join(', '),
-        }}
-      />
-      <div
-        aria-hidden
-        className="absolute inset-0 -z-20 hidden lg:block"
-        style={{
-          background: [
-            'radial-gradient(28% 48% at 90% 74%, color-mix(in srgb, var(--color-acento-deep) 52%, transparent) 0%, transparent 100%)',
-            'radial-gradient(72% 34% at 50% 104%, color-mix(in srgb, var(--color-acento-deep) 14%, transparent) 0%, transparent 100%)',
-            'radial-gradient(95% 44% at 49.5% 50%, color-mix(in srgb, var(--color-acento) 8%, transparent) 0%, transparent 100%)',
-          ].join(', '),
-        }}
-      />
-
-      {/*
-        Grid field. A very faint 64px rule grid, masked to a soft ellipse so it
-        exists only where the copy sits and never reaches an edge to reveal
-        itself as a tiled pattern.
-
-        This is the piece that most changes how the hero reads: it gives the
-        headline a plane to sit on. Deep-space gradients alone have no
-        measurable surface, which is why an unstructured dark hero looks
-        unfinished no matter how well the type is set.
-      */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-20 opacity-[0.55]"
-        style={{
-          backgroundImage: [
-            'linear-gradient(to right, color-mix(in srgb, var(--color-neutro-claro) 4%, transparent) 1px, transparent 1px)',
-            'linear-gradient(to bottom, color-mix(in srgb, var(--color-neutro-claro) 4%, transparent) 1px, transparent 1px)',
-          ].join(', '),
-          backgroundSize: '64px 64px',
-          maskImage:
-            'radial-gradient(80% 62% at 30% 34%, #000 0%, transparent 78%)',
-          WebkitMaskImage:
-            'radial-gradient(80% 62% at 30% 34%, #000 0%, transparent 78%)',
-        }}
-      />
-
-      {/* Slow particle field. Nothing in it moves fast enough to pull focus. */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-20">
-        <HeroMotion />
-      </div>
-
-      {/*
-        Side visuals, desktop only. Absolute so they never enter the centre
-        column's flow and never affect where the copy lands, and centred on the
-        section's midline the way the comp centres them — the left one rides
-        3rem higher, which is the offset measured off the comp.
-      */}
-      <HeroSideVisual
-        src={agentStepsVisual}
-        className="absolute left-[var(--hero-visual-inset)] top-1/2 z-0 hidden w-[var(--hero-visual-w)] -translate-y-[calc(50%+3rem)] lg:block"
-      />
-      <HeroSideVisual
-        src={outcomeCardsVisual}
-        floatDelay="-3.5s"
-        className="absolute right-[var(--hero-visual-inset)] top-1/2 z-0 hidden w-[var(--hero-visual-w)] -translate-y-1/2 lg:block"
-      />
-
-      {/*
-        Copy column. Top-aligned and ranged left on phones, exactly as before;
-        optically centred between the visuals from `lg` up.
-
-        Cross-axis alignment is left at the default `stretch` below `lg` on
-        purpose: `items-start` here would shrink-to-fit every child to its
-        max-content width, so the headline and eyebrow would overflow the
-        viewport instead of wrapping.
-      */}
-      {/*
-        Phone reading order is now the DOM order — the `order-1/2/3` utilities
-        that pulled the CTA above the feature list are gone.
-
-        They were solving a real problem (the CTA sat too far down) but doing it
-        by making the visual sequence disagree with the DOM: keyboard and
-        screen-reader users met the four capabilities *after* the button that
-        follows them, and the reason for the mismatch was invisible in the
-        markup. The order is instead fixed at the source — the feature list is
-        now a compact two-line strip on phones rather than a four-row grid, so
-        the CTA is above the fold on its own merits.
-      */}
-      <div className="relative z-10 mx-auto hero-shell hero-copy flex w-full flex-col justify-start px-5 pb-20 pt-[calc(var(--header-height)+2.25rem)] sm:px-8 sm:pb-24 lg:items-center lg:justify-center lg:pb-[calc(var(--header-height)+1.5rem)] lg:pt-[calc(var(--header-height)+1.5rem)] lg:text-center">
+      <div className="relative z-10 mx-auto flex w-full max-w-[62rem] flex-1 flex-col items-center justify-center px-6 pb-16 pt-[calc(var(--header-height)+3.5rem)] text-center sm:pb-20 sm:pt-[calc(var(--header-height)+5rem)] lg:pb-24 lg:pt-[calc(var(--header-height)+6rem)]">
         {/*
-          The positioning line.
+          One flowing sentence, broken by the measure rather than by an
+          author-chosen line break — a hard break can only be right at one
+          width, and this headline is read at every width between 320px and
+          1920px.
 
-          This string is 55 characters, and on a phone that is the problem: it
-          is the first thing above the headline and it costs two lines before
-          the reader reaches the actual message.
+          The cap is in `em`, not `rem` or `px`, and that is the whole reason
+          the lines come out even. `em` resolves against this element's own
+          font size, which is fluid (`clamp(2.125rem … 4.5rem)`), so the
+          measure holds the same ~25 characters per line at every size. The
+          previous fixed `45rem` could only be correct at one point on that
+          ramp: at the 4.5rem end it left about 20 characters per line and
+          broke the sentence into four ragged lines, and at the small end it
+          ran to 42 and gave two long ones with an orphan under them.
 
-          Two treatments were tried and rejected. As loose 13px body text it
-          read as a paragraph competing with the subtitle. As a bordered pill it
-          wrapped to *three* lines and filled the column — a pill that wraps is
-          not a pill, it is a paragraph with a border, which was worse.
-
-          What works is leaving it as plain text but making it unmistakably
-          subordinate: 12px, tight leading, the muted ink, and an accent rule
-          that ties it to the headline below rather than letting it float. The
-          full string stays in the DOM at every size — it is the site's
-          positioning and it carries real SEO weight — it simply stops
-          competing for the eye. From `sm` up it becomes the standard eyebrow.
-        */}
-        <p
-          /*
-            `lg:text-[0.8125rem]` nudges this up on desktop only. The shared
-            `.type-eyebrow` token stays at 12px because every section heading
-            on the page uses it and they should not all grow — but the hero's
-            is the site's positioning line, carried alone above a 40px+
-            headline, where 12px reads as fine print rather than as a label.
-          */
-          className="hero-rise flex max-w-[26rem] items-start gap-2.5 text-[0.75rem] font-medium leading-[1.5] text-[var(--text-muted)] sm:type-eyebrow sm:max-w-none sm:items-center lg:text-[0.8125rem] lg:tracking-[0.12em]"
-          style={{ '--hero-delay': '0.05s' } as CSSProperties}
-        >
-          <span
-            aria-hidden
-            className="mt-[0.5em] h-px w-4 shrink-0 bg-[var(--accent-hairline)] sm:mt-0 sm:w-7"
-          />
-          {t('eyebrow')}
-        </p>
-
-        {/*
-          Assembled from parts rather than held as one string because two words
-          carry the accent colour. Splitting it in the message file keeps the
-          copy translatable without letting HTML into it.
-
-          The phone cap is a hard `22rem` (352px), not a `ch` measure.
-
-          Linear caps its mobile headline at 360px and Clerk at 280px, both as
-          fixed px — and the reason is that `ch` is relative to the font size,
-          so it drifts with the type scale and can resolve wider than the
-          gutters leave. That is exactly how the subtitle here once ended up
-          clipping the last word of every line. A fixed cap is the thing that
-          actually forces the ragged three-line silhouette this headline wants.
-
-          `text-balance` then distributes those breaks evenly rather than
-          leaving an orphan — the same pairing Clerk, Attio, Ramp, Retool,
-          Cursor and Vercel all ship.
-
-          352px rather than Clerk's 280px because this headline is 64
-          characters, not their 27: at 280px it broke to five lines. Sitting
-          just inside Linear's 360px keeps it to three.
+          `text-balance` then evens out whatever breaks remain. It only
+          redistributes within the width it is given — it cannot rescue a
+          measure that is wrong for the type size, which is why the cap has to
+          be right first.
         */}
         <h1
-          className="hero-rise type-display mt-4 max-w-[22rem] text-balance sm:mt-6 sm:max-w-[26rem] lg:mt-8 lg:max-w-[13em] lg:text-balance"
-          style={{ '--hero-delay': '0.12s' } as CSSProperties}
+          className="hero-rise type-display max-w-[13.5em] text-balance text-[var(--text-primary)]"
+          style={{ '--hero-delay': '0.05s' } as CSSProperties}
         >
-          {t('title.lead')}{' '}
-          <span className="text-[var(--accent-text)]">
-            {t('title.highlightOne')}
-          </span>
-          {t('title.middle')}{' '}
-          <span className="text-[var(--accent-text)]">
-            {t('title.highlightTwo')}
-          </span>
-          {t('title.tail')}
+          {t('title')}
         </h1>
 
-        {/*
-          `max-w-full` below `sm`, not a `ch` measure.
-
-          A `ch` cap is the right tool for a *reading* measure on a wide
-          column, but on a 390px phone `38ch` resolves wider than the 350px
-          the gutters leave — so the paragraph overflowed the viewport and the
-          last word of each line was clipped. The phone column is already the
-          measure; from `sm` up, where there is more width than a comfortable
-          line, the `ch` cap takes over and does its actual job.
-        */}
         <p
-          className="hero-rise type-lead mt-4 max-w-full sm:mt-6 sm:max-w-[46ch] lg:mt-7 lg:max-w-[34rem]"
-          style={{ '--hero-delay': '0.22s' } as CSSProperties}
+          className="hero-rise mt-6 max-w-[35rem] text-balance text-[1rem] leading-[1.6] text-[var(--text-secondary)] sm:text-[1.125rem]"
+          style={{ '--hero-delay': '0.14s' } as CSSProperties}
         >
           {t('subtitle')}
         </p>
 
         {/*
-          CTA pair. Directly under the subtitle at every size now: on a phone
-          the headline, the promise and the action are the whole first screen,
-          and everything else is what the visitor finds by scrolling.
+          Stacks below `sm` rather than wrapping: two full-width buttons on a
+          phone are a clearer tap-target pair than two half-width ones that may
+          or may not fit on one row depending on the translation's length.
         */}
         <div
-          className="hero-rise mt-7 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:items-center lg:mt-10 lg:gap-4"
-          style={{ '--hero-delay': '0.3s' } as CSSProperties}
+          className="hero-rise mt-9 flex w-full flex-col items-stretch gap-4 sm:w-auto sm:flex-row sm:items-center sm:justify-center lg:mt-10"
+          style={{ '--hero-delay': '0.22s' } as CSSProperties}
         >
           <DemoBookingWidget
             ctaLabel={t('cta')}
             secondaryLabel={t('ctaSecondary')}
-            secondaryHref={`#${sectionIds.packages}`}
+            secondaryHref={`#${sectionIds.services}`}
           />
         </div>
-
-        {/*
-          Answers the two objections that actually stop the click — "what does
-          it cost me" and "am I going to be sold to" — and names what the
-          visitor walks away with either way.
-
-          It replaced three metadata fragments split by middots ("30 min · Sin
-          compromiso · Respuesta en el día"). Two of them did not survive
-          scrutiny: the duration merely restated the button above it, and a
-          same-day *reply* contradicts the CTA, which books a call rather than
-          sending a question.
-
-          `items-start` with the icon nudged onto the first line's optical
-          centre, because this is now a sentence that wraps to two lines on a
-          phone — centred alignment would have floated the glyph into the
-          middle of the block.
-        */}
-        <p
-          className="hero-rise mt-4 flex max-w-[32rem] items-start gap-2 text-[0.8125rem] leading-[1.55] text-[var(--text-muted)] sm:mt-5 lg:mt-6 lg:justify-center lg:text-center"
-          style={{ '--hero-delay': '0.36s' } as CSSProperties}
-        >
-          <CalendarCheck
-            aria-hidden
-            className="mt-[0.2em] h-[0.9375rem] w-[0.9375rem] shrink-0 text-[var(--accent-text)]"
-            strokeWidth={1.75}
-          />
-          <span className="min-w-0">{t('ctaMeta')}</span>
-        </p>
-
-        {/*
-        {/*
-        {/*
-          Four capabilities — desktop only.
-
-          They are gone from the phone layout entirely. Every intermediate
-          treatment still cost the first screen more than it returned: as four
-          grid cells stacking a title *and* a detail it was eight runs of 13px
-          text under the CTA (440 characters on screen); reduced to a scrolling
-          chip row it was four truncated labels that read as tags without
-          telling the visitor anything the headline had not.
-
-          Nothing is lost by dropping them. Each of these four is a service
-          with its own illustrated card two sections below, where it gets a
-          real paragraph instead of three words — so on a phone the hero makes
-          one claim and hands off, which is what a small screen rewards.
-
-          From `lg` up the width exists for the full
-          icon-plus-title-plus-detail row, and it renders unchanged.
-        */}
-        <ul
-          className="hero-rise hidden lg:mt-11 lg:flex lg:justify-center lg:gap-x-7"
-          style={{ '--hero-delay': '0.42s' } as CSSProperties}
-        >
-          {heroFeatures.map(({ key, Icon }) => (
-            <li key={key} className="flex min-w-0 items-start gap-2.5">
-              {/*
-                The icon is seated in a tinted tile rather than floating loose
-                beside the text. Four bare strokes read as clip art; four
-                seated glyphs read as a system — and the tile is what makes the
-                accent legible at this size without pushing the stroke itself
-                to full chroma.
-              */}
-              <span
-                aria-hidden
-                className="mt-px flex h-7 w-7 shrink-0 items-center justify-center rounded-[0.4375rem] border border-[var(--accent-hairline)] bg-[var(--accent-soft)]"
-              >
-                <Icon
-                  className="h-[0.875rem] w-[0.875rem] text-[var(--accent-text)]"
-                  strokeWidth={1.9}
-                />
-              </span>
-
-              {/*
-                `whitespace-nowrap` keeps each label on its own two lines
-                (title / detail). The copy is split into exactly those two
-                parts, so a third line is always an accident of column width —
-                at 1024 and 1280 it made the row 75px tall against 38px at
-                1920, breaking its shared baseline. The row is measured to fit
-                at every `lg` width, so nowrap cannot overflow.
-              */}
-              <span className="min-w-0 whitespace-nowrap text-left text-[0.8125rem] leading-[1.45]">
-                <span className="block font-medium text-[var(--text-primary)]">
-                  {t(`features.${key}.title`)}
-                </span>
-                <span className="block text-[var(--text-muted)]">
-                  {t(`features.${key}.detail`)}
-                </span>
-              </span>
-            </li>
-          ))}
-        </ul>
       </div>
 
       {/*
-        Scroll affordance. The hero occupies the whole first screen, so nothing
-        of the next section shows through to imply one — this is the only cue
-        that the page continues, which is why it runs at every size.
+        The strip runs the full width of the section and sits in its flow at
+        the bottom edge — not absolutely positioned — so it can never overlap
+        the copy on a short window; the section simply grows instead.
+
+        Its own hairline separates it from the copy above, which is what makes
+        it read as a band the page passes through rather than as a caption
+        belonging to the CTAs.
       */}
-      <a
-        href={`#${sectionIds.services}`}
-        className="group absolute inset-x-0 bottom-7 mx-auto hidden w-fit flex-col items-center gap-2 text-[0.75rem] font-medium tracking-[0.02em] text-[var(--text-muted)] no-underline transition-colors duration-200 hover:text-[var(--text-primary)] lg:flex"
+      <div
+        className="hero-rise relative z-10 w-full border-t border-[var(--surface-border-subtle)]"
+        style={{ '--hero-delay': '0.3s' } as CSSProperties}
       >
-        <span className="inline-flex items-center gap-2">
-          <MousePointerClick
-            aria-hidden
-            className="h-[0.875rem] w-[0.875rem]"
-            strokeWidth={1.75}
-          />
-          {t('scrollHint')}
-        </span>
-        {/*
-          The chevron sits in a ring rather than floating on its own, which is
-          what makes it read as a control the visitor may press instead of a
-          decorative arrow — and gives the hover a shape to fill.
-        */}
-        <span className="flex h-8 w-8 items-center justify-center rounded-full border border-[var(--surface-border)] transition-colors duration-200 group-hover:border-[var(--accent-hairline)] group-hover:bg-[var(--accent-soft)]">
-          <ChevronDown
-            aria-hidden
-            className="h-4 w-4 transition-transform duration-300 ease-[var(--ease-emphasis)] group-hover:translate-y-0.5"
-            strokeWidth={1.75}
-          />
-        </span>
-      </a>
+        <HeroMarquee label={t('marquee.ariaLabel')} items={marqueeItems} />
+      </div>
 
       {/*
         Closes the hero with a hairline that fades at both ends, the same
-        treatment every section separator now uses — so the seam between the
-        hero and the page below reads as part of one system rather than as the
-        point where the "designed" part stops.
+        treatment every section separator uses — so the seam between the hero
+        and the page below reads as part of one system.
       */}
       <span
         aria-hidden

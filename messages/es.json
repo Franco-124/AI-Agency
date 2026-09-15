@@ -33,90 +33,24 @@
     "advisoryDesc": "Acompañamiento y diagnóstico para tu negocio."
   },
   "hero": {
-    "eyebrow": "Agencia de automatización con IA para pymes en Colombia",
-    "title": {
-      "lead": "Hacemos que tu negocio atienda",
-      "highlightOne": "más",
-      "middle": ", trabaje menos y venda",
-      "highlightTwo": "mejor",
-      "tail": "."
-    },
-    "subtitle": "Implementamos agentes de IA, automatizaciones y sitios web que convierten conversaciones en citas, clientes y crecimiento.",
-    "cta": "Agendar llamada estratégica",
-    "ctaSecondary": "Ver soluciones",
-    "ctaMeta": "Llamada de 15 min sin costo. Sales con un diagnóstico claro, compres o no.",
-    "features": {
-      "one": {
-        "title": "Atención 24/7",
-        "detail": "por WhatsApp"
-      },
-      "two": {
-        "title": "Agenda automática",
-        "detail": "de citas"
-      },
-      "three": {
-        "title": "Seguimiento",
-        "detail": "inteligente de leads"
-      },
-      "four": {
-        "title": "Sitios web que",
-        "detail": "convierten"
-      }
-    },
-    "scrollHint": "Descubre cómo funciona",
-    "imageAlt": "Fondo oscuro con una textura sutil",
-    "flowImageAlt": "Diagrama del flujo de Numi AI: un mensaje de WhatsApp entra, el agente saluda, califica el lead, agenda la cita y hace seguimiento, con la cita confirmada y los resultados +40% de capacidad de atención, -30% de costos operativos y +25% de conversión de leads",
-    "chat": {
-      "ariaLabel": "Ejemplo de conversación atendida por Numi AI",
-      "name": "Numi AI",
-      "status": "En línea",
-      "meta": "Conversación en tiempo real",
-      "timeOne": "10:32 a.m.",
-      "timeTwo": "10:32 a.m.",
-      "timeThree": "10:33 a.m.",
-      "timeFour": "10:33 a.m.",
-      "timeFive": "10:34 a.m.",
-      "timeSix": "10:34 a.m.",
-      "timeSeven": "10:35 a.m.",
-      "timeEight": "10:35 a.m.",
-      "realEstate": {
-        "messages": {
-          "one": "Hola, ¿puedo ver el apartamento de Laureles?",
-          "two": "¡Claro! Tenemos visitas mañana a las 10:00 a.m. o 3:00 p.m. ¿Cuál te sirve?",
-          "three": "A las 3:00 p.m. está perfecto",
-          "four": "Listo, agendada la visita mañana 3:00 p.m. Te llega la confirmación por WhatsApp.",
-          "five": "¿Necesito llevar algo?",
-          "six": "Solo tu documento de identidad. Si necesitas reprogramar, escríbeme cuando quieras.",
-          "seven": "Perfecto, gracias",
-          "eight": "Con gusto. Nos vemos mañana."
-        }
-      },
-      "clinic": {
-        "messages": {
-          "one": "Buenas, ¿tienen cita para valoración esta semana?",
-          "two": "¡Sí! Queda jueves 9:00 a.m. o viernes 2:00 p.m. ¿Cuál prefieres?",
-          "three": "El jueves a las 9:00 a.m.",
-          "four": "Agendada tu valoración para el jueves a las 9:00 a.m.",
-          "five": "¿Debo llevar algo?",
-          "six": "Tu documento y los exámenes previos si los tienes. Te envío el recordatorio un día antes.",
-          "seven": "Listo, muchas gracias",
-          "eight": "Con gusto. Te esperamos el jueves."
-        }
-      },
-      "vet": {
-        "messages": {
-          "one": "Hola, necesito consulta para mi perro",
-          "two": "¡Claro! Hoy tenemos a las 4:00 p.m. o mañana a las 11:00 a.m. ¿Cuál te queda mejor?",
-          "three": "Hoy a las 4:00 p.m.",
-          "four": "Listo, consulta hoy 4:00 p.m. ¿Me confirmas el nombre de tu mascota?",
-          "five": "Se llama Toby, tiene 3 años",
-          "six": "Anotado. Trae su carnet de vacunas si lo tienes a la mano.",
-          "seven": "Perfecto, allá estaré",
-          "eight": "Te esperamos. Cualquier cosa me escribes."
-        }
-      }
-    },
-    "proof": "+40% de capacidad de atención al cliente — caso real validado"
+    "title": "Tu negocio pierde tiempo y dinero en tareas que ya deberían funcionar solas.",
+    "subtitle": "Numi AI construye agentes, automatizaciones y sitios web que resuelven tanto la atención a tus clientes como los procesos internos que hoy le quitan tiempo a tu equipo.",
+    "cta": "Agenda tu diagnóstico",
+    "ctaSecondary": "Ver qué hacemos",
+    "marquee": {
+      "ariaLabel": "Lo que automatizamos",
+      "items": [
+        "Respuestas automatizadas 24/7",
+        "Cero mensajes sin responder",
+        "Agenda de citas sin intervención humana",
+        "Reportes internos generados sin hojas de cálculo",
+        "Seguimiento automático a cada cliente potencial",
+        "Procesos internos que ya no dependen de que alguien se acuerde",
+        "Automatizaciones hechas a la medida de tu negocio",
+        "Menos tareas repetitivas, más tiempo para crecer",
+        "Un sistema que no se toma días libres"
+      ]
+    }
   },
   "booking": {
     "title": "Agenda una llamada estratégica",
