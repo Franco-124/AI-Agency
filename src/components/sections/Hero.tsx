@@ -103,21 +103,25 @@ export function Hero() {
           neutral. Left alone it simply contradicted them: a neutral document
           with a purple-lit cover.
 
-          `saturate(0.28)` pulls the field nearly to graphite while keeping just
-          enough hue that the light sweep still reads as the brand's rather than
-          as grey; `brightness(0.62)` seats it behind the copy instead of
-          competing with it, and the slight `contrast` bump keeps the sweep from
-          going muddy once the other two have flattened it. A gentler grade was
-          tried first (0.55/0.8) and was not enough — the source is saturated
-          far enough that half measures still read as a purple wash. These are
-          `filter` on a static image, applied once at paint, so they cost
-          nothing per frame.
+          Three passes were needed to land this. The source at full chroma was a
+          purple wash that contradicted the neutral surfaces; 0.55/0.8 barely
+          moved it; 0.28/0.62 fixed the hue but took the artwork down with it —
+          the light sweep went grey and flat, which loses the one thing the
+          image is actually for.
+
+          0.45/0.82 keeps the sweep luminous and legibly violet while staying
+          well clear of the wash. The `contrast` bump is eased to 1.04 to match:
+          at the darker grade it was holding the sweep out of the mud, and at
+          this brightness a heavier hand would only crush the gradient.
+
+          These are `filter` on a static image, applied once at paint, so they
+          cost nothing per frame.
 
           This is a stopgap that happens to be the right stopgap: the real fix
           is a re-exported backdrop, and until there is one this keeps the hero
           in the same register as everything below it.
         */
-        className="-z-30 object-cover object-[72%_center] [filter:saturate(0.28)_brightness(0.62)_contrast(1.08)] lg:object-center"
+        className="-z-30 object-cover object-[72%_center] [filter:saturate(0.45)_brightness(0.82)_contrast(1.04)] lg:object-center"
       />
 
       {/*
@@ -135,7 +139,7 @@ export function Hero() {
         className="absolute inset-0 -z-20"
         style={{
           background: [
-            'linear-gradient(to bottom, rgba(3, 5, 9, 0.55) 0%, rgba(3, 5, 9, 0.35) 55%, rgba(3, 5, 9, 0.8) 88%, var(--surface-base) 100%)',
+            'linear-gradient(to bottom, rgba(3, 5, 9, 0.44) 0%, rgba(3, 5, 9, 0.24) 55%, rgba(3, 5, 9, 0.78) 88%, var(--surface-base) 100%)',
           ].join(', '),
         }}
       />

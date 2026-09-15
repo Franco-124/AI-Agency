@@ -26,7 +26,7 @@ export function FinalCta() {
            note in `Hero`. This is the last full-bleed violet artwork on the
            page, and leaving it at source chroma would have closed the site on
            exactly the register the rest of it no longer uses. */
-        className="-z-10 object-cover object-center [filter:saturate(0.28)_brightness(0.62)_contrast(1.08)]"
+        className="-z-10 object-cover object-center [filter:saturate(0.45)_brightness(0.82)_contrast(1.04)]"
       />
       {/*
         Two overlays rather than one. The horizontal wash keeps the copy
