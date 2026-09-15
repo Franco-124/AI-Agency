@@ -10,7 +10,7 @@ import type { Lead } from '@/lib/schemas'
  *
  * Session storage rather than a query string: `message` is free text that can
  * run long, and none of it needs to survive in browser history or a shared
- * URL. Same pattern as `package-interest.ts` / `advisory-interest.ts` — read
+ * URL. Same pattern as `advisory-interest.ts` — read
  * once on the destination page's mount, then forgotten.
  */
 const STORAGE_KEY = 'numi:booking-handoff'
@@ -22,8 +22,6 @@ function isBookingHandoff(value: unknown): value is BookingHandoff {
     typeof value === 'object' &&
     value !== null &&
     typeof (value as Record<string, unknown>).name === 'string' &&
-    typeof (value as Record<string, unknown>).industry === 'string' &&
-    typeof (value as Record<string, unknown>).interest === 'string' &&
     typeof (value as Record<string, unknown>).whatsapp === 'string' &&
     typeof (value as Record<string, unknown>).email === 'string'
   )

@@ -16,7 +16,6 @@ const socialGlyphs = {
 // privacy page, where none of these sections exist.
 const footerNav = [
   { key: 'services', href: `/#${sectionIds.services}` },
-  { key: 'packages', href: `/#${sectionIds.packages}` },
   { key: 'process', href: `/#${sectionIds.process}` },
   { key: 'faq', href: `/#${sectionIds.faq}` },
 ] as const

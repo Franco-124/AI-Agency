@@ -75,6 +75,15 @@ export async function generateMetadata({
 export const viewport = {
   themeColor: '#0D0A11',
   colorScheme: 'dark',
+  /*
+   * `cover` so the page paints under the notch and the home indicator, which
+   * is what makes `env(safe-area-inset-*)` report real values — without it
+   * every inset resolves to 0 and the fixed header has no way to know it is
+   * sitting under a status bar. The header adds the top inset to its own
+   * height and publishes the total as `--header-height`, so the hero's
+   * padding follows automatically.
+   */
+  viewportFit: 'cover',
 }
 
 const spaceGrotesk = Space_Grotesk({

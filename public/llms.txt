@@ -1,6 +1,6 @@
 # Numi AI
 
-> Numi AI is an AI automation agency for small and medium businesses (pymes) in Colombia. It builds AI agents that answer customers instantly on WhatsApp 24/7, automations that book and follow up on appointments, and websites that convert — so business owners stop losing sales to slow replies.
+> Numi AI is an AI automation consultancy for small and medium businesses (pymes) in Colombia. It builds AI agents that answer customers instantly on WhatsApp 24/7, automations that book and follow up on appointments, and websites that convert — so business owners stop losing sales to slow replies.
 
 Numi AI is based in Medellín, Colombia, and serves businesses across Colombia. It focuses on service-based, appointment-driven niches: aesthetic clinics, real estate agencies, veterinary clinics, dental practices, and gyms.
 

@@ -7,7 +7,7 @@ export async function GET() {
   const body = {
     name: 'Numi AI',
     description:
-      'AI agency for small and medium businesses in Colombia. This is a marketing website, not an A2A-compliant agent — it exposes no A2A skills or tasks.',
+      'AI consultancy for small and medium businesses in Colombia. This is a marketing website, not an A2A-compliant agent — it exposes no A2A skills or tasks.',
     url: siteConfig.url,
     provider: {
       organization: siteConfig.name,

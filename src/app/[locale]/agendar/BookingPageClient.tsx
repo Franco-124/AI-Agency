@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { useTranslations } from 'next-intl'
 
 import {
   BookingCalendarPanel,
@@ -34,7 +33,6 @@ function resolveHandoff(): BookingHandoff | null {
  */
 export function BookingPageClient() {
   const router = useRouter()
-  const tFields = useTranslations('leadForm')
   const [handoff] = useState<BookingHandoff | null>(resolveHandoff)
   /** Guards against a double `onNoAvailability` call (Strict Mode, or the visitor paging back to today). */
   const notifiedRef = useRef(false)
@@ -51,14 +49,7 @@ export function BookingPageClient() {
   // `bookingRequestSchema`): the lead's message alone can run to 4000
   // characters, which would otherwise be rejected upstream as a 422.
   const notes = handoff
-    ? [
-        `Nicho: ${handoff.industry}`,
-        `Interés: ${tFields(`interestOptions.${handoff.interest}`)}`,
-        handoff.message ? `Mensaje: ${handoff.message}` : null,
-      ]
-        .filter(Boolean)
-        .join('\n')
-        .slice(0, NOTES_MAX_LENGTH)
+    ? `Mensaje: ${handoff.message}`.slice(0, NOTES_MAX_LENGTH)
     : undefined
 
   /*

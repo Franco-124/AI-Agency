@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 }
 
-const dataKeys = ['one', 'two', 'three', 'four', 'five', 'six'] as const
+const dataKeys = ['one', 'two', 'three', 'four'] as const
 const useKeys = ['one', 'two'] as const
 
 export default async function PrivacyPage({ params }: PageProps) {

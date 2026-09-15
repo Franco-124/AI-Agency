@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowRight, ChevronDown, Menu, X } from 'lucide-react'
+import { ArrowRight, Menu, X } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
 import { useEffect, useId, useRef, useState } from 'react'
 
@@ -14,29 +14,30 @@ import { cn } from '@/lib/utils'
 import { LocaleSwitcher } from './LocaleSwitcher'
 
 /*
- * "Servicios" and "Asesoría" are the same errand — what Numi sells — so they
- * collapse into one first-level entry with a menu, which keeps the top level
- * at five items. `children` is what marks an entry as a menu; the flat items
- * render as plain links.
+ * Four flat links. No dropdown.
+ *
+ * "Servicios" used to be a disclosure grouping itself with "Asesoría", because
+ * the two were one errand — what Numi sells — and splitting them cost a
+ * top-level slot. The advisory section is gone, so the menu was left wrapping
+ * a single child, and a disclosure that opens to reveal one link is strictly
+ * worse than the link. The whole dropdown path went with it: hover intent,
+ * the open/close state, the outside-click and Escape handlers, and the
+ * `aria-expanded` trigger were all machinery for a menu nothing needs now.
+ *
+ * "Contacto" is last because it is the errand a visitor runs after the other
+ * three have answered their questions. It points at `finalCta`, which already
+ * carries the form and the agency's channels — a nav entry that scrolls to
+ * the existing ask, not a second place to make it.
  */
 const navItems = [
-  {
-    key: 'servicesMenu',
-    id: sectionIds.services,
-    children: [
-      { key: 'servicesOverview', descriptionKey: 'servicesOverviewDesc', id: sectionIds.services },
-      { key: 'advisory', descriptionKey: 'advisoryDesc', id: sectionIds.advisory },
-    ],
-  },
-  { key: 'packages', id: sectionIds.packages },
+  { key: 'services', id: sectionIds.services },
   { key: 'process', id: sectionIds.process },
   { key: 'faq', id: sectionIds.faq },
+  { key: 'contact', id: sectionIds.finalCta },
 ] as const
 
-/** Every section id the nav can highlight, menu children included. */
-const trackedSections = navItems.flatMap((item) =>
-  'children' in item ? item.children.map((child) => child.id) : [item.id],
-)
+/** Every section id the nav can highlight. */
+const trackedSections = navItems.map((item) => item.id)
 
 type TrackedSection = (typeof trackedSections)[number]
 
@@ -55,9 +56,7 @@ export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [activeId, setActiveId] = useState<string | null>(null)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const menuId = useId()
-  const dropdownId = useId()
   const navRef = useRef<HTMLElement>(null)
   const menuToggleRef = useRef<HTMLButtonElement>(null)
 
@@ -184,34 +183,6 @@ export function Header() {
     }
   }, [])
 
-  /*
-   * The dropdown closes on Escape and on any pointer landing outside the nav.
-   * Escape also returns focus to the trigger, so keyboard users are not
-   * dropped back at the top of the document.
-   */
-  useEffect(() => {
-    if (!openDropdown) return
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key !== 'Escape') return
-      setOpenDropdown(null)
-      navRef.current
-        ?.querySelector<HTMLButtonElement>(`[data-dropdown-trigger="${openDropdown}"]`)
-        ?.focus()
-    }
-
-    const onPointerDown = (event: PointerEvent) => {
-      if (!navRef.current?.contains(event.target as Node)) setOpenDropdown(null)
-    }
-
-    window.addEventListener('keydown', onKeyDown)
-    window.addEventListener('pointerdown', onPointerDown)
-
-    return () => {
-      window.removeEventListener('keydown', onKeyDown)
-      window.removeEventListener('pointerdown', onPointerDown)
-    }
-  }, [openDropdown])
 
   /*
    * The open mobile panel owns the screen: it locks scrolling, takes focus,
@@ -322,28 +293,46 @@ export function Header() {
     <header
       className={cn(
         /*
-           `backdrop-filter` is deliberately NOT in the transition list.
-
-           Animating it makes the compositor re-run the blur over everything
-           behind the header on every frame of the 300ms transition, and it
-           fires on the first scroll — exactly when the browser is already
-           busiest. The colour and shadow still cross-fade, which is all the
-           eye reads; the blur simply switches on, and under a fading
-           background that is invisible.
+           `backdrop-filter` is deliberately NOT in the transition list, and it
+           is now set unconditionally rather than toggled on at the scroll
+           threshold. Animating it makes the compositor re-run the blur over
+           everything behind the header on every frame of the 300ms
+           transition, and it used to fire on the first scroll — exactly when
+           the browser is already busiest. Only the colour and shadow
+           cross-fade, which is all the eye reads.
         */
         /*
            No `contain: paint` here, deliberately. It would confine the bar's
            repaints to its own box — worthwhile next to a `backdrop-filter` —
-           but the nav dropdown is positioned at `top-full` and would be
-           clipped out of existence. Containment belongs on a box nothing
-           escapes.
+           but the mobile panel is a child that expands past the bar's own
+           height and would be clipped out of existence. Containment belongs on
+           a box nothing escapes.
+        */
+        /*
+           The bar carries a dark surface from the first frame.
+
+           It used to be `bg-transparent` at rest and only take a background
+           once the page had scrolled. Over the hero's new artwork that left
+           the nav floating on whatever the backdrop happened to be painting
+           under it — the bright arc sweeps through the top-right, which is
+           exactly where the CTA and the locale switcher sit — so the controls
+           had no consistent ground and the bar did not read as a bar until the
+           visitor scrolled.
+
+           Scroll still changes the treatment, just not from nothing: the
+           resting state is a lighter veil with no shadow, and scrolling
+           deepens it and adds the separator, so the bar still lifts off the
+           page as content passes under it.
         */
         'fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow] duration-300',
+        'backdrop-blur-xl backdrop-saturate-150',
         isMenuOpen && 'bg-[var(--surface-base)]',
         !isMenuOpen &&
           isScrolled &&
-          'bg-[color-mix(in_srgb,var(--surface-base)_82%,transparent)] shadow-[0_1px_0_var(--surface-border),var(--shadow-mid)] backdrop-blur-xl backdrop-saturate-150',
-        !isMenuOpen && !isScrolled && 'bg-transparent',
+          'bg-[color-mix(in_srgb,var(--surface-base)_82%,transparent)] shadow-[0_1px_0_var(--surface-border),var(--shadow-mid)]',
+        !isMenuOpen &&
+          !isScrolled &&
+          'bg-[color-mix(in_srgb,var(--surface-base)_62%,transparent)]',
       )}
     >
       <a
@@ -358,113 +347,40 @@ export function Header() {
       {/* Matches the hero's `2xl` container so the logo and the hero headline
           share a left edge on wide monitors, where the fixed 80rem cap left a
           visible gap down the left side. */}
-      <div className="mx-auto flex h-[var(--header-height)] max-w-[80rem] items-center justify-between gap-6 px-5 sm:px-8 2xl:max-w-[132rem] 2xl:px-[clamp(5rem,7.5vw,11rem)]">
+      {/*
+        `--header-bar` is the bar's own height; the padding above it is the
+        device's top inset, so on a notched phone the controls sit below the
+        status bar instead of under it. The painted surface still starts at
+        y=0, which is what keeps the blur running edge to edge.
+      */}
+      <div className="mx-auto flex h-[var(--header-bar)] max-w-[80rem] items-center justify-between gap-6 px-5 pt-[env(safe-area-inset-top,0px)] box-content sm:px-8 2xl:max-w-[132rem] 2xl:px-[clamp(5rem,7.5vw,11rem)]">
         <Logo label={t('home')} />
 
         <nav ref={navRef} aria-label={t('mainNav')} className="hidden lg:block">
           <ul className="flex items-center gap-1">
             {navItems.map((item) => {
-              const children = 'children' in item ? item.children : null
-              // A menu counts as current when any section inside it is.
-              const isActive = children
-                ? children.some((child) => child.id === activeId)
-                : activeId === item.id
-              const isOpen = openDropdown === item.key
-
-              const underline = (
-                <span
-                  aria-hidden
-                  className={cn(
-                    'absolute inset-x-3 bottom-2 h-px origin-left bg-[var(--color-acento)] transition-transform duration-300 ease-out',
-                    isActive ? 'scale-x-100' : 'scale-x-0',
-                  )}
-                />
-              )
-
-              if (!children) {
-                return (
-                  <li key={item.key}>
-                    <a
-                      href={sectionHref(item.id)}
-                      aria-current={isActive ? 'location' : undefined}
-                      className={cn(
-                        'relative flex min-h-11 items-center rounded-md px-3 text-sm transition-colors duration-200',
-                        isActive ? 'text-ink' : 'text-ink-muted hover:text-ink',
-                      )}
-                    >
-                      {t(item.key)}
-                      {/* Marks where the visitor is without moving anything. */}
-                      {underline}
-                    </a>
-                  </li>
-                )
-              }
+              const isActive = activeId === item.id
 
               return (
-                <li
-                  key={item.key}
-                  className="relative"
-                  onMouseEnter={() => setOpenDropdown(item.key)}
-                  onMouseLeave={() => setOpenDropdown(null)}
-                >
-                  <button
-                    type="button"
-                    data-dropdown-trigger={item.key}
-                    aria-expanded={isOpen}
-                    aria-controls={`${dropdownId}-${item.key}`}
+                <li key={item.key}>
+                  <a
+                    href={sectionHref(item.id)}
                     aria-current={isActive ? 'location' : undefined}
-                    onClick={() => setOpenDropdown(isOpen ? null : item.key)}
                     className={cn(
-                      'relative flex min-h-11 items-center gap-1 rounded-md px-3 text-sm transition-colors duration-200',
+                      'relative flex min-h-11 items-center rounded-md px-3 text-sm transition-colors duration-200',
                       isActive ? 'text-ink' : 'text-ink-muted hover:text-ink',
                     )}
                   >
                     {t(item.key)}
-                    <ChevronDown
+                    {/* Marks where the visitor is without moving anything. */}
+                    <span
                       aria-hidden
                       className={cn(
-                        'h-3.5 w-3.5 transition-transform duration-200',
-                        isOpen && 'rotate-180',
+                        'absolute inset-x-3 bottom-2 h-px origin-left bg-[var(--color-acento)] transition-transform duration-300 ease-out',
+                        isActive ? 'scale-x-100' : 'scale-x-0',
                       )}
                     />
-                    {underline}
-                  </button>
-
-                  {/*
-                    Kept mounted so the open/close can transition, and made
-                    `inert` while closed so its links stay out of tab order and
-                    out of the accessibility tree.
-                  */}
-                  <div
-                    id={`${dropdownId}-${item.key}`}
-                    inert={!isOpen}
-                    className={cn(
-                      'absolute left-0 top-full w-72 pt-2 transition-all duration-200 ease-out',
-                      isOpen
-                        ? 'translate-y-0 opacity-100'
-                        : 'pointer-events-none -translate-y-1 opacity-0',
-                    )}
-                  >
-                    <ul className="surface-panel overflow-hidden rounded-xl p-1.5 shadow-[var(--shadow-high)]">
-                      {children.map((child) => (
-                        <li key={child.key}>
-                          <a
-                            href={sectionHref(child.id)}
-                            onClick={() => setOpenDropdown(null)}
-                            aria-current={activeId === child.id ? 'location' : undefined}
-                            className="group/item block min-h-11 rounded-lg px-3 py-2.5 transition-colors duration-200 hover:bg-[var(--accent-soft)]"
-                          >
-                            <span className="block text-sm text-ink transition-colors duration-200 group-hover/item:text-[var(--accent-text)]">
-                              {t(child.key)}
-                            </span>
-                            <span className="mt-0.5 block text-xs leading-relaxed text-ink-faint">
-                              {t(child.descriptionKey)}
-                            </span>
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                  </a>
                 </li>
               )
             })}
@@ -535,17 +451,29 @@ export function Header() {
       </div>
 
       {/*
-        The panel slides open by animating its grid track from 0fr to 1fr, which
-        the `hidden` attribute cannot do. It stays in the DOM either way, so
-        `inert` is what removes the collapsed links from tab order and from
-        assistive technology.
+        The panel animates its own max-height, not a grid track.
+
+        It used to be a `grid` going from `grid-rows-[0fr]` to `[1fr]`, which
+        is the usual trick for animating to auto height. It did not collapse:
+        measured on an iPhone viewport the closed panel still resolved its
+        track to `56px` and reported a 57px box, so the fixed header was 113px
+        tall while `--header-height` said 56px — and the hero, which reserves
+        its top padding from that token, started its headline 21px *underneath*
+        the bar. The first line of the h1 was clipped on every phone.
+
+        `max-h-0` has no such failure mode: zero is zero. The open value is a
+        ceiling comfortably above the panel's real height (four links plus the
+        CTA block), so the content decides the height and this only bounds the
+        transition. It stays in the DOM either way, so `inert` is what removes
+        the collapsed links from tab order and from assistive technology.
       */}
       <div
         className={cn(
-          'grid overflow-hidden border-t transition-[grid-template-rows,border-color] duration-300 ease-[var(--ease-emphasis)] lg:hidden',
-          isMenuOpen
-            ? 'grid-rows-[1fr] border-hairline'
-            : 'grid-rows-[0fr] border-transparent',
+          'overflow-hidden transition-[max-height] duration-300 ease-[var(--ease-emphasis)] lg:hidden',
+          /* `border-t` only while open. Kept as a border at all times it cost
+             a permanent 1px of header height even when collapsed, which is the
+             same class of bug as the grid track above. */
+          isMenuOpen ? 'max-h-[32rem] border-t border-hairline' : 'max-h-0',
           /* Opaque only while open — closed, the collapsed panel must not
              paint a band under the bar's own blurred surface. */
           isMenuOpen ? 'bg-[var(--surface-base)]' : 'bg-transparent',
@@ -560,45 +488,18 @@ export function Header() {
             isMenuOpen ? 'opacity-100 delay-100' : 'opacity-0',
           )}
         >
-          {/*
-            No dropdown on the phone: the panel has the room to list every
-            destination flat, and a nested disclosure would only add a tap
-            between the visitor and the section. The grouped entry becomes a
-            heading with its children indented under it.
-          */}
           <ul className="flex flex-col gap-1">
-            {navItems.map((item) =>
-              'children' in item ? (
-                <li key={item.key}>
-                  <span className="flex min-h-11 items-center px-3 text-xs uppercase tracking-[0.16em] text-ink-faint">
-                    {t(item.key)}
-                  </span>
-                  <ul className="flex flex-col gap-1">
-                    {item.children.map((child) => (
-                      <li key={child.key}>
-                        <a
-                          href={sectionHref(child.id)}
-                          onClick={() => setIsMenuOpen(false)}
-                          className="flex min-h-12 items-center rounded-lg px-3 text-[1.0625rem] text-ink-muted transition-colors duration-200 hover:bg-[var(--accent-soft)] hover:text-ink"
-                        >
-                          {t(child.key)}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-              ) : (
-                <li key={item.key}>
-                  <a
-                    href={sectionHref(item.id)}
-                    onClick={() => setIsMenuOpen(false)}
-                    className="flex min-h-12 items-center rounded-lg px-3 text-[1.0625rem] text-ink-muted transition-colors duration-200 hover:bg-[var(--accent-soft)] hover:text-ink"
-                  >
-                    {t(item.key)}
-                  </a>
-                </li>
-              ),
-            )}
+            {navItems.map((item) => (
+              <li key={item.key}>
+                <a
+                  href={sectionHref(item.id)}
+                  onClick={() => setIsMenuOpen(false)}
+                  className="flex min-h-12 items-center rounded-lg px-3 text-[1.0625rem] text-ink-muted transition-colors duration-200 hover:bg-[var(--accent-soft)] hover:text-ink"
+                >
+                  {t(item.key)}
+                </a>
+              </li>
+            ))}
           </ul>
 
           {/*

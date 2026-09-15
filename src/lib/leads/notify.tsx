@@ -17,13 +17,9 @@ function getResend(): Resend {
 
 const toEmailProps = (lead: Lead): NewLeadEmailProps => ({
   name: lead.name,
-  business: lead.business,
-  industry: lead.industry,
-  interest: lead.interest,
   whatsapp: lead.whatsapp,
   email: lead.email,
   message: lead.message,
-  packageInterest: lead.packageInterest,
 })
 
 /** Why the lead could not book itself — absent when this is a plain new-lead notification. */
@@ -35,7 +31,7 @@ export type NotifyReason = 'no_availability' | 'service_failed'
  * that is simply on record.
  */
 const subjectFor = (lead: Lead, reason?: NotifyReason): string => {
-  const who = lead.business ?? lead.name
+  const who = lead.name
 
   if (reason === 'no_availability') return `Agendar (sin cupos): ${who}`
   if (reason === 'service_failed') return `Agendar (falló el calendario): ${who}`

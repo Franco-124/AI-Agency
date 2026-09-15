@@ -75,7 +75,6 @@ export async function POST(request: Request) {
   // leaking the lead's personal data into the platform logs.
   console.info('[lead] received', {
     messageLength: lead.message?.length ?? 0,
-    hasPackageInterest: Boolean(lead.packageInterest),
     receivedAt,
   })
 

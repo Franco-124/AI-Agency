@@ -18,13 +18,9 @@ export async function GET() {
   const html = await render(
     <NewLeadEmail
       name="Ana Gómez"
-      business="Clínica Dental Sonrisa"
-      industry="Clínicas y consultorios"
-      interest="automation"
       whatsapp="+57 313 582 0975"
       email="ana@sonrisa.co"
       message={'Necesitamos automatizar la agenda.\nHoy respondemos a mano por WhatsApp.'}
-      packageInterest="Presencia Digital + Agente Esencial"
     />,
   )
 

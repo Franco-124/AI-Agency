@@ -8,6 +8,7 @@ import {
   Users,
   type LucideIcon,
 } from 'lucide-react'
+import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import type { CSSProperties } from 'react'
 
@@ -15,9 +16,7 @@ import { DemoBookingWidget } from '@/components/forms/DemoBookingWidget'
 import { HeroMotion } from '@/components/motion/HeroMotion'
 import { sectionIds } from '@/lib/site'
 
-import agentStepsVisual from '../../../public/images/hero-agent-steps.webp'
-import outcomeCardsVisual from '../../../public/images/hero-outcome-cards.webp'
-import { HeroSideVisual } from './HeroSideVisual'
+import heroBackdrop from '../../../public/images/hero-backdrop.webp'
 
 /** The four capabilities in the icon row, in reading order. */
 const heroFeatures: ReadonlyArray<{ key: string; Icon: LucideIcon }> = [
@@ -28,36 +27,36 @@ const heroFeatures: ReadonlyArray<{ key: string; Icon: LucideIcon }> = [
 ]
 
 /*
-  Two layouts in one tree.
+  One column of copy over a single full-bleed backdrop, at every size.
 
-  Below `lg`: copy ranged left, no side visuals, and deliberately little of it
-  — positioning line, headline, promise, CTA pair, reassurance. That is the
-  whole phone hero. A small screen rewards making one claim and handing off,
-  so the four capabilities are not here at all: they are services with their
-  own illustrated cards two sections below, where each gets a paragraph rather
-  than three words. An earlier pass carried them as four grid cells stacking a
-  title *and* a detail, which put 440 characters on the first screen.
+  The desktop hero used to flank the copy with two product visuals lifted from
+  an approved comp. They are gone: they carried no information the sections
+  below do not carry better, they forced the copy column to be derived from
+  their width rather than from its own measure, and their `mix-blend-screen`
+  was expensive enough that the whole section needed `content-visibility` to
+  stay at 60fps once scrolled past. Removing them removed all three problems.
+
+  What is left below `lg` is deliberately little: positioning line, headline,
+  promise, CTA pair, reassurance. That is the whole phone hero. A small screen
+  rewards making one claim and handing off, so the four capabilities are not
+  there at all — they are services with their own illustrated cards two
+  sections below, where each gets a paragraph rather than three words.
 
   The header keeps a CTA visible at every size, so this is not the visitor's
   only chance to act — which is what lets the phone hero stay this short.
 
-  From `lg` up it is the approved comp — copy centred between two flanking
-  product visuals. Every number in that half is measured off the comp
-  (1536 x 1024) rather than invented:
+  From `lg` up the same column centres itself and the capability row appears.
+  The type is still measured off the original comp (1536 x 1024):
 
     headline      cap height 36px => ~50px type, line pitch 53.5px (1.07)
     headline box  635px wide      => breaks after "negocio" / "trabaje"
     subtitle      ~19px, wraps inside ~590px
     features      4 items, 36px gutters, 636px total
     CTAs          332px + 24px gap + 233px, 58px tall
-    left visual   x 51-377,    y 197-687   (327 x 491)
-    right visual  x 1114-1467, y 192-819   (354 x 628)
 
   The headline cap is set in `em`, not px, so the three-line break survives the
   fluid type scale instead of only holding at one width — its first line needs
-  11.8em, and the column width in `globals.css` is derived to always clear that.
-  Desktop geometry (visual width and inset) lives there too, as custom
-  properties on the section, because the column and the visuals both read it.
+  11.8em, and the column width in `globals.css` clears that at every size.
 */
 
 export function Hero() {
@@ -66,115 +65,63 @@ export function Hero() {
   return (
     <section
       id={sectionIds.hero}
-      className="hero-frame relative isolate overflow-hidden"
+      className="relative isolate overflow-hidden"
     >
       {/*
-        Deep base, sampled off the comp's own field. The bottom 16% fades back
-        to the site token so the seam with the next section stays invisible.
+        The hero's field is now a single piece of artwork rather than a stack
+        of hand-fitted gradients.
 
-        Nothing else dims the lower edge: an overlay fade was tried here and
-        removed, because the comp keeps its violet live all the way to the
-        bottom-right corner and the fade flattened exactly that.
+        The previous version painted the background with three layers of
+        `radial-gradient` whose centres, radii and alphas were least-squares
+        fitted to an approved comp, plus a masked 64px rule grid — roughly 60
+        lines of CSS reproducing, approximately, an image that already existed.
+        Shipping the image itself is both closer to the intent and cheaper:
+        28KB of webp against four composited paint layers the compositor had
+        to re-evaluate on every frame.
+
+        `fill` with `object-cover` so it always covers the section at any
+        aspect ratio, and `priority` because this is the LCP element on every
+        viewport — it must not wait for the lazy-load observer.
+
+        `object-position` is right-of-centre on phones: the artwork's light
+        sweeps in from the top-right, and anchoring there keeps the bright arc
+        on screen in portrait instead of cropping it away and leaving the
+        headline on a flat dark field.
       */}
-      <div
+      <Image
+        src={heroBackdrop}
+        alt=""
         aria-hidden
-        className="absolute inset-0 -z-30"
-        style={{
-          background:
-            'linear-gradient(to bottom, #04030a 0%, #04030a 84%, var(--surface-base) 100%)',
-        }}
+        priority
+        fill
+        sizes="100vw"
+        className="-z-30 object-cover object-[72%_center] lg:object-center"
       />
 
       {/*
-        Ambient light. Centres, radii and alphas were originally a
-        least-squares fit to the approved comp's background pixels, and the
-        desktop pair below is unchanged from that fit.
+        Legibility scrim.
 
-        What is new is that the field is now direction-aware on phones. The
-        desktop bloom sits low-right, behind the right-hand product visual —
-        but that visual is hidden below `lg`, so on a phone the brightest part
-        of the screen was an empty corner while the headline sat on flat black.
-        The phone field instead places a single soft bloom up and behind the
-        headline, so the copy is lit by it and the type has something to sit
-        against. Both are keyed to the accent token rather than a hardcoded
-        violet, so the palette stays auditable from one place.
+        The artwork is bright enough in its top-right quadrant that white type
+        over it would drop below 4.5:1 on wide screens, where the copy column
+        is centred and reaches into that light. This darkens the field just
+        enough to hold contrast, and fades the bottom edge back to the site
+        token so the seam with the next section stays invisible — the one job
+        the old gradient stack did that the image cannot do for itself.
       */}
       <div
         aria-hidden
-        className="absolute inset-0 -z-20 lg:hidden"
+        className="absolute inset-0 -z-20"
         style={{
           background: [
-            /*
-              Tight and low-alpha on purpose. An earlier pass ran this at 26%
-              over 90% of the width, which tinted the entire phone screen
-              violet — the headline then sat on a coloured field rather than
-              being lit by one, and the section read as a purple block instead
-              of as a dark page with light in it. 14% over a 62%-wide ellipse
-              lands the falloff inside the headline's own block.
-            */
-            'radial-gradient(62% 34% at 18% 14%, color-mix(in srgb, var(--color-acento) 14%, transparent) 0%, transparent 100%)',
-            'radial-gradient(58% 30% at 96% 82%, color-mix(in srgb, var(--color-acento-deep) 20%, transparent) 0%, transparent 100%)',
+            'linear-gradient(to bottom, rgba(4, 3, 10, 0.55) 0%, rgba(4, 3, 10, 0.35) 55%, rgba(4, 3, 10, 0.8) 88%, var(--surface-base) 100%)',
           ].join(', '),
-        }}
-      />
-      <div
-        aria-hidden
-        className="absolute inset-0 -z-20 hidden lg:block"
-        style={{
-          background: [
-            'radial-gradient(28% 48% at 90% 74%, color-mix(in srgb, var(--color-acento-deep) 52%, transparent) 0%, transparent 100%)',
-            'radial-gradient(72% 34% at 50% 104%, color-mix(in srgb, var(--color-acento-deep) 14%, transparent) 0%, transparent 100%)',
-            'radial-gradient(95% 44% at 49.5% 50%, color-mix(in srgb, var(--color-acento) 8%, transparent) 0%, transparent 100%)',
-          ].join(', '),
-        }}
-      />
-
-      {/*
-        Grid field. A very faint 64px rule grid, masked to a soft ellipse so it
-        exists only where the copy sits and never reaches an edge to reveal
-        itself as a tiled pattern.
-
-        This is the piece that most changes how the hero reads: it gives the
-        headline a plane to sit on. Deep-space gradients alone have no
-        measurable surface, which is why an unstructured dark hero looks
-        unfinished no matter how well the type is set.
-      */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-20 opacity-[0.55]"
-        style={{
-          backgroundImage: [
-            'linear-gradient(to right, color-mix(in srgb, var(--color-neutro-claro) 4%, transparent) 1px, transparent 1px)',
-            'linear-gradient(to bottom, color-mix(in srgb, var(--color-neutro-claro) 4%, transparent) 1px, transparent 1px)',
-          ].join(', '),
-          backgroundSize: '64px 64px',
-          maskImage:
-            'radial-gradient(80% 62% at 30% 34%, #000 0%, transparent 78%)',
-          WebkitMaskImage:
-            'radial-gradient(80% 62% at 30% 34%, #000 0%, transparent 78%)',
         }}
       />
 
       {/* Slow particle field. Nothing in it moves fast enough to pull focus. */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-20">
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
         <HeroMotion />
       </div>
-
-      {/*
-        Side visuals, desktop only. Absolute so they never enter the centre
-        column's flow and never affect where the copy lands, and centred on the
-        section's midline the way the comp centres them — the left one rides
-        3rem higher, which is the offset measured off the comp.
-      */}
-      <HeroSideVisual
-        src={agentStepsVisual}
-        className="absolute left-[var(--hero-visual-inset)] top-1/2 z-0 hidden w-[var(--hero-visual-w)] -translate-y-[calc(50%+3rem)] lg:block"
-      />
-      <HeroSideVisual
-        src={outcomeCardsVisual}
-        floatDelay="-3.5s"
-        className="absolute right-[var(--hero-visual-inset)] top-1/2 z-0 hidden w-[var(--hero-visual-w)] -translate-y-1/2 lg:block"
-      />
 
       {/*
         Copy column. Top-aligned and ranged left on phones, exactly as before;
@@ -199,23 +146,22 @@ export function Hero() {
       */}
       <div className="relative z-10 mx-auto hero-shell hero-copy flex w-full flex-col justify-start px-5 pb-20 pt-[calc(var(--header-height)+2.25rem)] sm:px-8 sm:pb-24 lg:items-center lg:justify-center lg:pb-[calc(var(--header-height)+1.5rem)] lg:pt-[calc(var(--header-height)+1.5rem)] lg:text-center">
         {/*
-          The positioning line.
+          The positioning line. Not painted on phones.
 
-          This string is 55 characters, and on a phone that is the problem: it
-          is the first thing above the headline and it costs two lines before
-          the reader reaches the actual message.
+          This string is 55 characters, which on a 390px screen is two lines
+          spent before the reader reaches the actual message — and the hero
+          below `lg` sizes to its content, so those two lines pushed the whole
+          block past the fold. Several treatments were tried first and all of
+          them still cost the space: as loose 13px body text it read as a
+          paragraph competing with the subtitle, and as a bordered pill it
+          wrapped to *three* lines, which is not a pill but a paragraph with a
+          border.
 
-          Two treatments were tried and rejected. As loose 13px body text it
-          read as a paragraph competing with the subtitle. As a bordered pill it
-          wrapped to *three* lines and filled the column — a pill that wraps is
-          not a pill, it is a paragraph with a border, which was worse.
-
-          What works is leaving it as plain text but making it unmistakably
-          subordinate: 12px, tight leading, the muted ink, and an accent rule
-          that ties it to the headline below rather than letting it float. The
-          full string stays in the DOM at every size — it is the site's
-          positioning and it carries real SEO weight — it simply stops
-          competing for the eye. From `sm` up it becomes the standard eyebrow.
+          `sr-only` rather than `hidden`: the string is the site's positioning
+          and carries real SEO weight, so it must stay in the document and in
+          the accessibility tree — `hidden` would drop it from both. It is only
+          the visual cost that is removed. From `sm` up there is room, and
+          `not-sr-only` restores it as the standard eyebrow.
         */}
         <p
           /*
@@ -225,12 +171,12 @@ export function Hero() {
             is the site's positioning line, carried alone above a 40px+
             headline, where 12px reads as fine print rather than as a label.
           */
-          className="hero-rise flex max-w-[26rem] items-start gap-2.5 text-[0.75rem] font-medium leading-[1.5] text-[var(--text-muted)] sm:type-eyebrow sm:max-w-none sm:items-center lg:text-[0.8125rem] lg:tracking-[0.12em]"
+          className="hero-rise sr-only sm:not-sr-only sm:flex sm:type-eyebrow sm:items-center sm:gap-2.5 sm:font-medium sm:text-[var(--text-muted)] lg:text-[0.8125rem] lg:tracking-[0.12em]"
           style={{ '--hero-delay': '0.05s' } as CSSProperties}
         >
           <span
             aria-hidden
-            className="mt-[0.5em] h-px w-4 shrink-0 bg-[var(--accent-hairline)] sm:mt-0 sm:w-7"
+            className="h-px w-7 shrink-0 bg-[var(--accent-hairline)]"
           />
           {t('eyebrow')}
         </p>
@@ -258,7 +204,7 @@ export function Hero() {
           just inside Linear's 360px keeps it to three.
         */}
         <h1
-          className="hero-rise type-display mt-4 max-w-[22rem] text-balance sm:mt-6 sm:max-w-[26rem] lg:mt-8 lg:max-w-[13em] lg:text-balance"
+          className="hero-rise type-display max-w-[22rem] text-balance sm:mt-6 sm:max-w-[26rem] lg:mt-8 lg:max-w-[13em] lg:text-balance"
           style={{ '--hero-delay': '0.12s' } as CSSProperties}
         >
           {t('title.lead')}{' '}
@@ -301,7 +247,7 @@ export function Hero() {
           <DemoBookingWidget
             ctaLabel={t('cta')}
             secondaryLabel={t('ctaSecondary')}
-            secondaryHref={`#${sectionIds.packages}`}
+            secondaryHref={`#${sectionIds.services}`}
           />
         </div>
 
@@ -333,8 +279,6 @@ export function Hero() {
           <span className="min-w-0">{t('ctaMeta')}</span>
         </p>
 
-        {/*
-        {/*
         {/*
           Four capabilities — desktop only.
 

@@ -4,16 +4,24 @@ import { Section, SectionHeading } from '@/components/layout/Section'
 import { Reveal } from '@/components/motion/Reveal'
 import { sectionIds } from '@/lib/site'
 
-import { ServicesCarousel, type ServiceKey } from './ServicesCarousel'
+import { ServiceCard, type ServiceKey } from './ServiceCard'
 
-/* Icons are resolved inside the carousel — a component cannot be serialised
-   across the Server -> Client boundary, so only its key travels. */
+/*
+  The five services, in the order they are sold.
+
+  This used to be a scroll-snap carousel: five slides on a horizontal track
+  with arrows, dots and a derived active index. A carousel is the right shape
+  when a deck is too long to show at once — five cards are not. It cost a
+  client island, hid four of the five behind a gesture, and dimmed everything
+  that was not active, which is exactly the wrong treatment for a list where
+  no single entry matters more than the others. The grid shows all five.
+*/
 const services: ReadonlyArray<{ key: ServiceKey; visual: string }> = [
-  { key: 'zero', visual: '/images/28-services-diagnostic.webp' },
-  { key: 'one', visual: '/images/25-services-whatsapp.webp' },
-  { key: 'three', visual: '/images/22-services-followup.webp' },
-  { key: 'five', visual: '/images/27-services-database.webp' },
-  { key: 'four', visual: '/images/23-services-website.webp' },
+  { key: 'diagnostic', visual: '/images/28-services-diagnostic.webp' },
+  { key: 'chatbots', visual: '/images/25-services-whatsapp.webp' },
+  { key: 'automation', visual: '/images/22-services-followup.webp' },
+  { key: 'agents', visual: '/images/27-services-database.webp' },
+  { key: 'websites', visual: '/images/23-services-website.webp' },
 ]
 
 export function Services() {
@@ -38,13 +46,6 @@ export function Services() {
       divided={false}
     >
       <Reveal>
-        {/*
-          Index but no eyebrow. The copy is fixed, and this section has no
-          eyebrow string of its own — inventing one, or reusing the title as
-          one, would either add copy or print the same words twice. The ordinal
-          alone still does the job the index exists for: placing the block in
-          the sequence.
-        */}
         <SectionHeading
           id="servicios-titulo"
           index={1}
@@ -53,32 +54,27 @@ export function Services() {
         />
       </Reveal>
 
-      {/* Copy is resolved here, on the server, so the interactive track stays a
-          thin client island with no translation payload of its own. */}
-      <Reveal delay={0.08}>
-        <ServicesCarousel
-          slides={services.map(({ key, visual }, index) => ({
-            key,
-            visual,
-            title: t(`items.${key}.title`),
-            body: t(`items.${key}.body`),
-            /*
-              Formatted here rather than shipped as a template: `goTo` carries
-              ICU placeholders, so next-intl resolves it — applying the locale's
-              own number rules — instead of the client string-replacing it.
-            */
-            label: t('carousel.goTo', {
-              index: index + 1,
-              total: services.length,
-            }),
-          }))}
-          labels={{
-            previous: t('carousel.previous'),
-            next: t('carousel.next'),
-            region: t('carousel.region'),
-          }}
-        />
-      </Reveal>
+      {/*
+        Three columns, then two, then one.
+
+        Five into three leaves the last row holding two cards rather than a
+        lone orphan, which is why the deck is not four-up: `items-stretch` (the
+        grid default) then levels every card in a row to the tallest, so the
+        bodies can differ in length without the artwork drifting out of line.
+      */}
+      <ul className="mt-12 grid list-none grid-cols-1 gap-5 p-0 sm:grid-cols-2 lg:mt-14 lg:grid-cols-3 lg:gap-6">
+        {services.map(({ key, visual }, index) => (
+          <Reveal key={key} as="li" delay={0.06 * index} className="h-full">
+            <ServiceCard
+              serviceKey={key}
+              index={index}
+              visual={visual}
+              title={t(`items.${key}.title`)}
+              body={t(`items.${key}.body`)}
+            />
+          </Reveal>
+        ))}
+      </ul>
     </Section>
   )
 }

@@ -61,15 +61,26 @@
   --accent-text: var(--color-acento-lift);
 
   /*
-    Header height. 56px on phones, 72px from `sm`.
+    Header height. 56px of bar on phones, 72px from `sm`, plus whatever the
+    device reserves above it.
 
     Measured from the sites this design takes after: Clerk and Linear ship a
     42px mobile header, Ramp 56px, Vercel 64px — median ~56px. A fixed 72px bar
-    was eating 8.5% of a 390x844 viewport before the visitor read anything,
-    and on a phone the header holds only a logo and a menu button, so it has
-    no content to justify the height it had.
+    was eating 8.5% of a 390x844 viewport before the visitor read anything.
+
+    `--header-bar` is the bar's own height; `--header-height` is what the rest
+    of the page must clear, which is the bar plus the top safe-area inset. On a
+    notched phone the fixed header is pushed down by the status bar, so a
+    layout that reserved only the bar's height had its first line of copy
+    rendered underneath it — which is exactly what happened to the hero's
+    eyebrow. `env()` resolves to 0 wherever there is no inset (and on every
+    desktop browser), so the two values are identical there.
+
+    This requires `viewportFit: 'cover'` in the route's `viewport` export;
+    without it `env()` is always 0 and this correction silently does nothing.
   */
-  --header-height: 3.5rem;
+  --header-bar: 3.5rem;
+  --header-height: calc(var(--header-bar) + env(safe-area-inset-top, 0px));
 
   /* ----------------------------------------------------------------
      Elevation. Three shadows on a single light direction (above, slightly
@@ -135,7 +146,7 @@
 */
 @media (width >= 40rem) {
   :root {
-    --header-height: 4.5rem;
+    --header-bar: 4.5rem;
   }
 }
 
@@ -557,48 +568,22 @@
   }
 
   /* ----------------------------------------------------------------
-     Hero desktop geometry.
+     Hero geometry.
 
-     `--hero-visual-w` and `--hero-visual-inset` are the single source of truth
-     for the two flanking product visuals. Three things derive from them: the
-     visuals' own placement, the section's height, and the copy column's width.
-
-     Deriving rather than guessing per breakpoint matters — with fixed steps the
-     headline collided with the artwork at one size and, at another, was squeezed
-     narrower than the 11.8em its first line needs and broke onto a fourth line.
-
-     The visuals stay subordinate to the copy: 17vw on small desktops, 21vw (capped
-     at 23rem) above, so they read as frames rather than as a second subject.
+     The section used to carry `--hero-visual-w` / `--hero-visual-inset` as the
+     single source of truth for two flanking product visuals, with the copy
+     column's width *derived* from whatever space they left over. The visuals
+     are gone, so the column is now sized by its own measure — which is what it
+     should have been all along: the derivation existed to stop the headline
+     colliding with artwork that no longer exists.
      ---------------------------------------------------------------- */
-  .hero-frame {
-    --hero-visual-w: 0px;
-    --hero-visual-inset: 0px;
-  }
 
-  @media (width >= 64rem) {
-    .hero-frame {
-      --hero-visual-w: 17vw;
-      --hero-visual-inset: 4vw;
-    }
-  }
-
-  @media (width >= 80rem) {
-    .hero-frame {
-      --hero-visual-w: min(21vw, 23rem);
-      --hero-visual-inset: 5vw;
-    }
-  }
-
-  /* The hero owns the whole first screen: nothing of the next section may show
-     under it. `svh` rather than `dvh` on desktop because it is the *smallest*
-     viewport height, so the seam cannot peek through while browser chrome is
-     collapsing. `46rem` is a floor for short windows — below that the copy
-     would start colliding with the header, and letting the page scroll is the
-     better failure. The visuals (1.6x their own width) always fit inside this.
-
-     An earlier version sized the section to its content instead, which left a
-     dead black band under the copy; the fill now comes from the vertical
-     rhythm and the ambient light, not from shrinking the section. */
+  /* The hero owns the whole first screen on desktop: nothing of the next
+     section may show under it. `svh` rather than `dvh` because it is the
+     *smallest* viewport height, so the seam cannot peek through while browser
+     chrome is collapsing. `44rem` is a floor for short windows — below that
+     the copy would start colliding with the header, and letting the page
+     scroll is the better failure. */
   /*
     Phone: explicitly NOT a full viewport height.
 
@@ -608,46 +593,9 @@
     hero now sizes to its content with generous but finite padding, and the
     next section's top edge is visible below the fold — which is a better
     scroll cue than any chevron, and the reason the affordance stays desktop-only.
-
-    `min-height` is kept as a floor for landscape phones only, well under the
-    viewport so it never stretches a portrait layout.
   */
   .hero-shell {
     min-height: 0;
-  }
-
-  /*
-     Skips the hero's rendering work entirely once it is scrolled past.
-
-     The two flanking visuals use `mix-blend-screen`, which the compositor
-     re-evaluates on every frame for as long as the section participates in
-     rendering — even far below the fold. Measured on desktop: median frame
-     24ms with them live, 17ms with them hidden.
-
-     `content-visibility: auto` lets the browser skip a subtree that is off
-     screen, and `contain-intrinsic-size` supplies the height it would have
-     had so the scrollbar does not jump when it is skipped. The value matches
-     the `min-height` above.
-
-     Scoped to `lg` because the visuals only exist there — on a phone the hero
-     has no blending to skip and containment would only add bookkeeping.
-  */
-  @media (width >= 64rem) {
-    .hero-frame {
-      content-visibility: auto;
-      /*
-        No `auto` keyword here on purpose. `contain-intrinsic-size: auto 44rem`
-        tells the browser to remember the section's last *rendered* size and
-        reuse it as a layout placeholder while the subtree is skipped. That
-        remembered size does not get re-measured on a viewport resize that
-        happens while the hero is off-screen (or mid-resize) — so the frame
-        keeps an old height while its absolutely-positioned side visuals
-        (`top: 50%` / `-translate-y-1/2`) resolve their `%` against the new
-        one, and the right-hand visual lands mid-page, overlapping the copy.
-        A fixed size has no "remembered" state to go stale.
-      */
-      contain-intrinsic-size: 44rem;
-    }
   }
 
   @media (width >= 64rem) {
@@ -656,24 +604,18 @@
     }
   }
 
-  /* Copy column width. Each visual's artwork starts 4.5% in, so its inner edge
-     sits `50vw - inset - 0.955 * width` from the centre and the free span is
-     twice that. The column's own `4rem` of horizontal padding doubles as the
-     gutter, so it cancels out of the border-box max-width. `60rem` is the cap.
+  /* Copy column width.
 
-     The phone cap lives here too rather than as a `max-w-[80rem]` utility: a
+     The phone cap lives here rather than as a `max-w-[80rem]` utility: a
      utility outranks the components layer, so it silently beat this rule and
-     let the copy run under the visuals at 1024. */
+     let the copy run to the viewport edge at 1024. */
   .hero-copy {
     max-width: var(--measure-page);
   }
 
   @media (width >= 64rem) {
     .hero-copy {
-      max-width: min(
-        60rem,
-        calc(100vw - 2 * var(--hero-visual-inset) - 1.91 * var(--hero-visual-w))
-      );
+      max-width: 60rem;
     }
   }
 

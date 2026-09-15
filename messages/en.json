@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "title": "Numi AI — AI agency for small businesses in Colombia",
+    "title": "Numi AI — AI consultancy for small businesses in Colombia",
     "description": "Numi AI answers your customers instantly, around the clock, so your team stops losing time and your business stops losing sales.",
     "ogImageAlt": "Numi AI — artificial intelligence automation for businesses in Colombia"
   },
@@ -17,23 +17,17 @@
     "home": "Home",
     "bookShort": "Book a call",
     "services": "Services",
-    "packages": "Packages",
-    "advisory": "Advisory",
     "process": "Process",
     "faq": "FAQ",
+    "contact": "Contact",
     "openMenu": "Open navigation menu",
     "closeMenu": "Close navigation menu",
     "languageLabel": "Language",
     "spanish": "Spanish",
-    "english": "English",
-    "servicesMenu": "Services",
-    "servicesMenuLabel": "Open services menu",
-    "servicesOverview": "Core services",
-    "servicesOverviewDesc": "Websites, automation and AI agents.",
-    "advisoryDesc": "Guidance and diagnosis for your business."
+    "english": "English"
   },
   "hero": {
-    "eyebrow": "AI automation agency for small and mid-sized businesses in Colombia",
+    "eyebrow": "AI automation consultancy for small and mid-sized businesses in Colombia",
     "title": {
       "lead": "We make your business serve",
       "highlightOne": "more",
@@ -42,7 +36,7 @@
       "tail": "."
     },
     "subtitle": "We build AI agents, automations and websites that turn conversations into appointments, clients and growth.",
-    "cta": "Book a call",
+    "cta": "Book your diagnosis",
     "ctaSecondary": "See solutions",
     "ctaMeta": "Free 15-minute call. You leave with a clear diagnosis, whether you hire us or not.",
     "features": {
@@ -150,8 +144,6 @@
     "label": "Message us",
     "ariaLabel": "Message us on WhatsApp",
     "prefill": "Hi, I'd like to know more about Numi AI",
-    "prefillPackage": "Hi, I'm interested in the {package}. I'd like more information.",
-    "prefillAdvisory": "Hi, I'm interested in the {offer}. I'd like more information.",
     "greeting": "Questions about how it works? Message us directly on WhatsApp.",
     "close": "Close message"
   },
@@ -165,35 +157,29 @@
     }
   },
   "services": {
-    "title": "Everything Numi AI does for your business",
+    "title": "Our services",
     "lead": "We build professional AI systems tailored to your business, not isolated features or generic templates.",
     "items": {
-      "zero": {
-        "title": "A personalized diagnosis of your business",
-        "body": "We look at where customers reach you today and where you lose them: your website, your WhatsApp, your social profiles. You walk away with a clear plan of what to fix first, before you spend a peso."
+      "diagnostic": {
+        "title": "Personalized diagnosis",
+        "body": "We look at where customers reach you today and where you lose them: your website, your WhatsApp, your social channels. You leave with a concrete plan of what to automate first and what to expect from each step, whether you hire us or not."
       },
-      "one": {
-        "title": "AI agent for automated WhatsApp support",
-        "body": "An AI agent trained on your business answers pricing, hours and frequently asked questions in seconds — day, night and weekends. When a conversation gets serious, it hands the lead to you in full."
+      "chatbots": {
+        "title": "Chatbots",
+        "body": "A chatbot trained on your business answers pricing, hours and frequently asked questions in seconds, day and night. Someone who asks at 11pm gets an answer at 11pm, not the next morning."
       },
-      "three": {
-        "title": "Automated follow-up for potential customers",
-        "body": "Your AI system sends a message at the right moment to anyone who asked and never came back, picking the thread up where it stopped. You recover sales that go cold in the chat, with nobody chasing."
+      "automation": {
+        "title": "Process automation",
+        "body": "The repetitive work your team does by hand today: booking and confirming appointments, following up with the customer who asked and never came back, and recording every conversation and contact in a single panel. It runs on its own, with nobody having to remember."
       },
-      "four": {
-        "title": "Websites that turn visits into customers",
-        "body": "We design and build your full site: home, services, portfolio, FAQ and a contact form that lands straight in your WhatsApp. It loads fast, looks sharp on a phone, and every section is written so the visitor trusts you."
+      "agents": {
+        "title": "AI agents",
+        "body": "A step beyond a chatbot: the agent does not just answer, it acts. It checks your calendar, books the appointment, updates the customer record and hands off to a person when the case calls for it."
       },
-      "five": {
-        "title": "Your customer information, organized",
-        "body": "Your AI system records every conversation, contact and detail in a single panel. You know where each customer came from, what they asked for and where things stand, without chasing spreadsheets."
+      "websites": {
+        "title": "Professional websites",
+        "body": "We design and build your full site: home, services, portfolio and a contact form that lands straight in your WhatsApp. Fast, search-ready, and built so a visit ends in a conversation."
       }
-    },
-    "carousel": {
-      "previous": "Previous service",
-      "next": "Next service",
-      "goTo": "Service {index} of {total}",
-      "region": "Numi AI services"
     }
   },
   "integrations": {
@@ -258,120 +244,6 @@
         "title": "Ongoing support",
         "body": "We stay with you after delivery, not only during the project."
       }
-    }
-  },
-  "packages": {
-    "eyebrow": "Packages",
-    "title": "Choose how to start",
-    "lead": "Three ways to start, depending on the size of your operation.",
-    "badge": "Most chosen",
-    "noFit": {
-      "title": "None of these fit your case?",
-      "body": "Not every business fits into a package. Tell us how yours works and we'll put together a proposal shaped around your operation.",
-      "cta": "Tell us about your case"
-    },
-    "website": {
-      "name": "Professional Website",
-      "audience": "For businesses that need a solid digital presence before thinking about automation.",
-      "features": {
-        "one": "A site of up to 5 pages: home, services, portfolio, FAQ and contact",
-        "two": "Design and copy tailored to your business, not a generic template",
-        "three": "A contact form connected directly to your WhatsApp",
-        "four": "Optimized to load fast and look great on mobile"
-      },
-      "price": "From COP $800,000 to COP $1,500,000, depending on the amount of content",
-      "maintenance": "Optional, from COP $150,000/month",
-      "note": "Already have a website and want your business to handle enquiries on its own? An AI System solves that, not a new site.",
-      "cta": "I want my website"
-    },
-    "systems": {
-      "title": "AI Systems for your business"
-    },
-    "one": {
-      "name": "Essential Agent",
-      "audience": "For businesses taking their first steps into digital.",
-      "features": {
-        "one": "A WhatsApp agent that answers hours, pricing and frequently asked questions",
-        "two": "Books simple appointments: it captures the details and your team confirms",
-        "three": "Automatic notification whenever a new customer comes in"
-      },
-      "price": "From COP $1,500,000",
-      "maintenance": "Maintenance from COP $200,000/month",
-      "cta": "I want this system"
-    },
-    "two": {
-      "name": "Advanced Agent",
-      "audience": "For businesses with real daily enquiry volume.",
-      "features": {
-        "one": "An agent that books appointments against your calendar's real availability",
-        "two": "Answers more complex questions and hands over to a person with the full context when needed",
-        "three": "Automatic follow-up for potential customers who did not reply",
-        "four": "Automatic appointment reminders and a weekly conversation report"
-      },
-      "price": "From COP $3,000,000",
-      "maintenance": "Maintenance from COP $450,000/month",
-      "cta": "I want this system"
-    },
-    "three": {
-      "name": "Multichannel Agent",
-      "audience": "For businesses with several locations or a larger operation.",
-      "features": {
-        "one": "Available on WhatsApp, Instagram and as chat on your current website, with the same context across all three channels",
-        "two": "Complete automation of the support, booking and follow-up process",
-        "three": "All your customer information organized in a single panel",
-        "four": "A monthly strategy session with your team"
-      },
-      "price": "From COP $6,000,000",
-      "maintenance": "Maintenance from COP $900,000/month",
-      "cta": "I want this system"
-    }
-  },
-  "savingsCalculator": {
-    "title": "Estimate your savings",
-    "lead": "Enter two numbers and see how much you could save by automating repetitive tasks.",
-    "salarioLabel": "Average monthly salary (COP)",
-    "salarioPlaceholder": "E.g. 1,800,000",
-    "horasLabel": "Monthly hours on repetitive tasks",
-    "horasPlaceholder": "E.g. 40",
-    "monthlyLabel": "Estimated monthly savings",
-    "yearlyLabel": "Estimated yearly savings",
-    "paybackLine": "At this rate, the Automation + Full Support package pays for itself in about {months} months.",
-    "paybackEmpty": "Enter your numbers to see the payback period.",
-    "disclaimer": "Estimate based on conservative industry ranges. Actual savings depend on your operation.",
-    "cta": "Book your strategy call"
-  },
-  "advisory": {
-    "eyebrow": "Advisory and Training",
-    "title": "Two ways to start, without building a full system.",
-    "lead": "For businesses that first want to know what's worth it, or want their team to learn how to do it themselves.",
-    "diagnostic": {
-      "name": "Automation Diagnostic",
-      "subtitle": "Before you invest, know what's worth automating and what isn't.",
-      "features": {
-        "one": "1 to 2 working sessions with your team to understand how your business runs today",
-        "two": "Mapping of your current processes, spotting where automation creates real impact",
-        "three": "A written deliverable with prioritized opportunities and a clear recommendation"
-      },
-      "price": "From COP $700,000 · 1–2 sessions",
-      "note": "If you hire one of the three packages within the following 30 days, the diagnostic's cost is deducted from the project.",
-      "cta": "I want the diagnostic"
-    },
-    "training": {
-      "name": "AI Productivity Training",
-      "subtitle": "Get your team using AI to automate their own work, not just talking about AI.",
-      "features": {
-        "one": "A 4-session hands-on program, not a theory lecture",
-        "two": "Each participant applies AI to a real task from their day-to-day work",
-        "three": "Tools and prompts built for your business's specific context",
-        "four": "Follow-up between sessions to answer questions and adjust the approach",
-        "five": "A deliverable with the workflows your team can keep using on their own"
-      },
-      "price": "From COP $2,500,000 · 4-session program",
-      "cta": "I want the training"
-    },
-    "differentiation": {
-      "title": "How this differs from a generic course",
-      "body": "This isn't a generic course about AI: every session starts from your team's real tasks, so what they learn gets applied that same week to their own work, not to a case study unrelated to your business."
     }
   },
   "process": {
@@ -441,33 +313,11 @@
   "leadForm": {
     "title": "Book your call",
     "name": "Name",
-    "business": "Your business name",
-    "businessOptional": "Your business name (optional)",
-    "industry": "What does your business do?",
-    "industryPlaceholder": "Select an option",
-    "industryOptionOther": "Other",
-    "industryOther": "Tell us what it does",
-    "industryOtherPlaceholder": "For example: dental practice, language school…",
-    "interest": "What are you interested in?",
-    "interestPlaceholder": "Select an option",
-    "interestOptions": {
-      "website": "Professional Website",
-      "automation": "Automation (one of the 3 packages)",
-      "diagnostic": "Automation Diagnostic",
-      "training": "AI Productivity Training",
-      "unsure": "Not sure yet"
-    },
     "whatsapp": "WhatsApp",
     "email": "Email address",
     "message": "Tell us what you need",
-    "messageOptional": "Tell us what you need (optional)",
     "messagePlaceholder": "Tell us how your business works today and what you'd like to automate",
     "messageHint": "Minimum 10 characters.",
-    "messagePrefill": {
-      "diagnostic": "I want the Automation Diagnostic to find out what's worth automating in my business.",
-      "training": "I want the AI Productivity Training so my team can learn to use it.",
-      "website": "I want a Professional Website for my business."
-    },
     "submit": "Book your strategy call",
     "note": "We'll reach out on WhatsApp or by email to arrange a time that works best for you."
   },
@@ -497,11 +347,9 @@
     "dataIntro": "Only the data you type into the form:",
     "data": {
       "one": "Name",
-      "two": "Your business name",
-      "three": "What your business does",
-      "four": "WhatsApp number",
-      "five": "Email address",
-      "six": "The description of what you need to automate"
+      "two": "WhatsApp number",
+      "three": "Email address",
+      "four": "The description of what you need"
     },
     "useTitle": "What we use it for",
     "useIntro": "For two purposes, and no others:",
@@ -519,7 +367,7 @@
     "updated": "Last updated: August 2026."
   },
   "footer": {
-    "tagline": "Artificial intelligence agency for small and medium-sized businesses in Colombia.",
+    "tagline": "Artificial intelligence consultancy for small and medium-sized businesses in Colombia.",
     "navLabel": "Navigation",
     "contactLabel": "Contact",
     "location": "Medellín, Colombia",

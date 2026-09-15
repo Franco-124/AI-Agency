@@ -9,7 +9,7 @@ export async function GET() {
     name: 'numi-ai',
     version: '1.0.0',
     description:
-      'Numi AI is a marketing website for an AI agency in Colombia. No MCP tools or resources are exposed; business information is available via llms.txt and JSON-LD structured data.',
+      'Numi AI is a marketing website for an AI consultancy in Colombia. No MCP tools or resources are exposed; business information is available via llms.txt and JSON-LD structured data.',
     mcpServer: false,
     contentEndpoints: {
       llmsTxt: `${siteConfig.url}/llms.txt`,

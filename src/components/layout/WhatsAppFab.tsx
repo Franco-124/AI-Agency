@@ -4,8 +4,6 @@ import { X } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 
-import { readAdvisoryInterest } from '@/lib/advisory-interest'
-import { readPackageInterest } from '@/lib/package-interest'
 import { whatsappUrl } from '@/lib/site'
 
 /**
@@ -49,41 +47,22 @@ const markDismissed = () => {
  */
 export function WhatsAppFab() {
   const t = useTranslations('whatsapp')
-  const tPackages = useTranslations('packages')
-  const tAdvisory = useTranslations('advisory')
   const [showGreeting, setShowGreeting] = useState(false)
 
   /*
-   * The lead form pre-fills its message from the same package/advisory click,
-   * so a visitor who reaches for WhatsApp instead should not lose that context
-   * either — otherwise the team gets a generic "tell me more" with no signal
-   * of what the visitor already decided.
+   * One static message for everyone.
+
+   * This used to resolve an "interest" written to `sessionStorage` by the
+   * package and advisory card CTAs, rewriting the href on click so the team
+   * saw which offer the visitor had already picked. Both of those sections are
+   * gone, so every visitor now arrives here from the same place and the
+   * indirection resolved to the generic string every time.
    *
-   * Resolved in the click handler rather than during render, because both
-   * helpers read `sessionStorage`, which does not exist on the server. Building
-   * the URL inline made the server emit the generic link and the client's first
-   * render emit the prefilled one — a hydration mismatch on the most-clicked
-   * control on the page. Deferring to the click also means the interest is read
-   * at its freshest: a visitor who taps a package card and *then* reaches for
-   * WhatsApp gets the right message without this component re-rendering at all.
-   *
-   * The `href` stays a real WhatsApp URL so the control remains a working link
-   * for middle-click, "copy link" and crawlers; the handler only upgrades it.
+   * Building the URL during render is safe again for the same reason: there is
+   * no storage read left, so the server and the client's first render cannot
+   * disagree — which is what the deferred-to-click rewrite existed to prevent.
    */
-  const messageFor = (): string => {
-    const packageKey = readPackageInterest()
-    if (packageKey) return t('prefillPackage', { package: tPackages(`${packageKey}.name`) })
-
-    const advisoryKey = readAdvisoryInterest()
-    if (advisoryKey) return t('prefillAdvisory', { offer: tAdvisory(`${advisoryKey}.name`) })
-
-    return t('prefill')
-  }
-
-  const urlFor = (message: string) =>
-    `${whatsappUrl}?text=${encodeURIComponent(message)}`
-
-  const href = urlFor(t('prefill'))
+  const href = `${whatsappUrl}?text=${encodeURIComponent(t('prefill'))}`
 
   useEffect(() => {
     // Guarded like every other storage read on the page: a blocked storage API
@@ -187,11 +166,7 @@ export function WhatsAppFab() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label={t('ariaLabel')}
-        onClick={(event) => {
-          dismissGreeting()
-          // Rewrite to the interest-aware message at the last possible moment.
-          event.currentTarget.href = urlFor(messageFor())
-        }}
+        onClick={dismissGreeting}
         className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-hairline-strong bg-[var(--surface-panel)] text-[#25D366] shadow-[inset_0_1px_0_color-mix(in_srgb,white_8%,transparent),var(--shadow-high)] transition-[transform,border-color,background-color] duration-200 ease-[var(--ease-emphasis)] hover:border-[color-mix(in_srgb,#25D366_45%,transparent)] hover:bg-[var(--surface-inset)] motion-safe:hover:-translate-y-0.5 sm:h-14 sm:w-14"
       >
         <WhatsAppIcon className="h-[1.375rem] w-[1.375rem] shrink-0 sm:h-6 sm:w-6" />

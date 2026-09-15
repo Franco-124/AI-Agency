@@ -6,20 +6,17 @@ import { Header } from '@/components/layout/Header'
 import { IntroCurtain } from '@/components/motion/IntroCurtain'
 import { ScrollProgress } from '@/components/layout/ScrollProgress'
 import { WhatsAppFab } from '@/components/layout/WhatsAppFab'
-import { Advisory } from '@/components/sections/Advisory'
 import { Benefits } from '@/components/sections/Benefits'
 import { Faq } from '@/components/sections/Faq'
 import { FinalCta } from '@/components/sections/FinalCta'
 import { Hero } from '@/components/sections/Hero'
 import { Integrations } from '@/components/sections/Integrations'
-import { Packages, packages as packageDefinitions } from '@/components/sections/Packages'
 import { Process } from '@/components/sections/Process'
 import { Results } from '@/components/sections/Results'
 import { Services } from '@/components/sections/Services'
 import { Why } from '@/components/sections/Why'
 import { FaqJsonLd } from '@/components/seo/FaqJsonLd'
 import { JsonLd } from '@/components/seo/JsonLd'
-import { PackagesJsonLd } from '@/components/seo/PackagesJsonLd'
 import { isLocale } from '@/i18n/routing'
 import { faqKeys } from '@/lib/site'
 
@@ -40,7 +37,6 @@ export default async function HomePage({ params }: PageProps) {
   const tNiches = await getTranslations({ locale, namespace: 'niches' })
   const tFaq = await getTranslations({ locale, namespace: 'faq' })
   const tResults = await getTranslations({ locale, namespace: 'results' })
-  const tPackages = await getTranslations({ locale, namespace: 'packages' })
 
   return (
     <>
@@ -58,17 +54,6 @@ export default async function HomePage({ params }: PageProps) {
         items={faqKeys.map((key) => ({
           question: tFaq(`items.${key}.question`),
           answer: tFaq(`items.${key}.answer`),
-        }))}
-      />
-      <PackagesJsonLd
-        locale={locale}
-        items={packageDefinitions.map(({ key, featureKeys }) => ({
-          name: tPackages(`${key}.name`),
-          description: [
-            tPackages(`${key}.audience`),
-            ...featureKeys.map((featureKey) => tPackages(`${key}.features.${featureKey}`)),
-          ].join(' — '),
-          price: tPackages(`${key}.price`),
         }))}
       />
 
@@ -104,9 +89,10 @@ export default async function HomePage({ params }: PageProps) {
           interested, so spending an early slot on it interrupted the
           persuasion arc before there was anything to object to.
 
-          `Advisory` stays directly after `Packages` on purpose — both are
-          priced entry points, and the lighter option reads as the fallback for
-          anyone who found the packages too big a first step.
+          The three-tier package panel and the advisory/training block that
+          used to sit between `Why` and `Integrations` are both gone. The page
+          now makes its case and asks for the call directly, with `FinalCta`
+          carrying the only offer.
         */}
         <Hero />
         <Services />
@@ -114,8 +100,6 @@ export default async function HomePage({ params }: PageProps) {
         <Benefits />
         <Results />
         <Why />
-        <Packages />
-        <Advisory />
         <Integrations />
         <Faq />
         <FinalCta />
