@@ -2,14 +2,24 @@ import type { Lead } from '@/lib/schemas'
 import { getSupabaseAdminClient } from '@/lib/supabase'
 
 /**
- * Stand-in for the `leads` columns that are declared NOT NULL but no longer
- * have a form field behind them.
+ * Stand-in for `negocio`, the one column that is declared NOT NULL and no
+ * longer has a form field behind it.
  *
- * The form was cut back to name, WhatsApp, email and a free-text message, so
- * `negocio`, `dedicacion` and `interes` have nothing to carry — and sending
- * NULL for any of them would have the whole insert rejected and lose the lead.
- * Writing this placeholder keeps the row valid without a migration; the
- * columns stay in the table because historical rows still hold real values.
+ * The form was cut back to name, WhatsApp, email and a free-text message. This
+ * placeholder keeps the row valid without a migration; the column stays in the
+ * table because historical rows still hold real values.
+ *
+ * It is deliberately NOT written to `dedicacion` or `interes`. Both are
+ * nullable, and `interes` additionally carries
+ *
+ *   CHECK (interes IS NULL OR interes = ANY (ARRAY[
+ *     'automation', 'diagnostic', 'training', 'unsure'
+ *   ]))
+ *
+ * so a free-text placeholder in that column is not merely unnecessary — it is
+ * rejected outright, which took down the whole insert and returned 502 from
+ * `/api/contact` for every submission. The column accepts NULL by design,
+ * precisely so a lead that expressed no preference can say so.
  *
  * Spanish to match the column names and the rest of the row.
  */
@@ -22,17 +32,22 @@ const NOT_PROVIDED = 'No aplica'
  * created; the mapping is confined to this function so the rest of the code
  * keeps working with the English `Lead` shape.
  *
- * `negocio`, `dedicacion` and `interes` are written as placeholders now that
- * the form no longer collects them — see `NOT_PROVIDED`. Anything downstream
- * that segments on those columns (the `leads_prospeccion` sync) will see the
- * placeholder rather than a vertical, so coordinate before relying on them.
+ * `negocio` is written as a placeholder now that the form no longer collects
+ * it — see `NOT_PROVIDED`. `dedicacion` and `interes` are written as NULL,
+ * which is what "the visitor told us nothing" actually means and what both
+ * columns are typed to accept. Anything downstream that segments on these
+ * (the `leads_prospeccion` sync) must handle NULL rather than assume a value.
  */
 export async function saveLead(lead: Lead): Promise<void> {
   const { error } = await getSupabaseAdminClient().from('leads').insert({
     nombre: lead.name,
     negocio: NOT_PROVIDED,
-    dedicacion: NOT_PROVIDED,
-    interes: NOT_PROVIDED,
+    dedicacion: null,
+    /*
+     * NULL, not a placeholder: this column is constrained to a fixed set of
+     * slugs plus NULL, so any other string fails the CHECK and loses the lead.
+     */
+    interes: null,
     whatsapp: lead.whatsapp,
     correo: lead.email,
     necesidad: lead.message,
