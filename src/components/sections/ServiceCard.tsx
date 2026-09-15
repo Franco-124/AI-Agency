@@ -69,7 +69,19 @@ export function ServiceCard({
           alt=""
           fill
           sizes="(min-width: 1024px) 31vw, (min-width: 640px) 46vw, 90vw"
-          className="object-cover object-center transition-transform duration-700 ease-[var(--ease-entrance)] motion-safe:group-hover:scale-[1.05]"
+          /*
+            Desaturated to match the page. These are neon-violet renders — glowing
+            outlines on black, the house style of AI product marketing. The copy
+            and surfaces around them are now neutral, so at full chroma the
+            illustrations were the only thing on the card still making that
+            argument.
+
+            The zoom-on-hover also goes. A 1.05 scale on a photographic panel is
+            a merchandising gesture: it is what a product tile does to make an
+            item feel handled. These are explanatory diagrams for a service, and
+            the border already carries the hover.
+          */
+          className="object-cover object-center [filter:saturate(0.6)_brightness(0.9)]"
         />
         <span
           aria-hidden
@@ -83,7 +95,7 @@ export function ServiceCard({
         <div className="flex items-center gap-2.5">
           <span
             aria-hidden
-            className="flex h-6 w-6 shrink-0 items-center justify-center rounded-[0.375rem] border border-[var(--accent-hairline)] bg-[var(--accent-soft)] transition-transform duration-300 ease-[var(--ease-emphasis)] motion-safe:group-hover:-translate-y-0.5"
+            className="flex h-6 w-6 shrink-0 items-center justify-center rounded-[var(--radius-lg)] border border-[var(--accent-hairline)] bg-[var(--accent-soft)]"
           >
             <Icon
               className="h-[0.8125rem] w-[0.8125rem] text-[var(--accent-text)]"

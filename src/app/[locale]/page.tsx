@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation'
 
 import { Footer } from '@/components/layout/Footer'
 import { Header } from '@/components/layout/Header'
-import { IntroCurtain } from '@/components/motion/IntroCurtain'
 import { ScrollProgress } from '@/components/layout/ScrollProgress'
 import { WhatsAppFab } from '@/components/layout/WhatsAppFab'
 import { Benefits } from '@/components/sections/Benefits'
@@ -56,15 +55,6 @@ export default async function HomePage({ params }: PageProps) {
           answer: tFaq(`items.${key}.answer`),
         }))}
       />
-
-      {/*
-        The opening curtain. Mounted first but painted on top: the page
-        renders underneath it from the first frame, so this delays nothing —
-        it is an overlay, not a loading gate. Plays once per session, skips
-        itself for deep links and under reduced motion, and is dismissed by
-        any tap, key or scroll. See `IntroCurtain`.
-      */}
-      <IntroCurtain />
 
       <ScrollProgress />
       <Header />

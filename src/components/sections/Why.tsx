@@ -49,7 +49,7 @@ export function Why() {
             */}
             <span
               aria-hidden
-              className="flex h-10 w-10 items-center justify-center rounded-[0.5625rem] border border-[var(--accent-hairline)] bg-[var(--accent-soft)]"
+              className="flex h-10 w-10 items-center justify-center rounded-[var(--radius-lg)] border border-[var(--accent-hairline)] bg-[var(--accent-soft)]"
             >
               <Icon
                 className="h-[1.125rem] w-[1.125rem] text-[var(--accent-text)]"

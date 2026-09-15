@@ -16,13 +16,28 @@
      lighter `-lift` for text and thin strokes on dark ground (where the base
      accent falls short of 4.5:1), and a deeper `-deep` for fills and shadows.
      ---------------------------------------------------------------- */
-  --color-primario: #171320;
-  --color-secundario: #2e2839;
+  /* ----------------------------------------------------------------
+     Neutrals carry no hue.
+
+     Every surface on the page used to be mixed from the accent's own hue
+     family: `#0b0910` is a violet-tinted near-black, `#171320` a violet
+     charcoal. On a page whose accent is already violet that produced a
+     monochrome violet field — the page read as *lit* by the brand colour
+     rather than as a document that uses it, which is the single strongest
+     "AI startup" tell in the palette.
+
+     The neutrals are now a blue-graphite ink with the chroma pulled out:
+     they read as paper stock under a cool light, not as tinted glass. The
+     accent is unchanged and is now the only chromatic thing on the page,
+     which is what makes it read as a brand mark instead of as ambience.
+     ---------------------------------------------------------------- */
+  --color-primario: #14171c;
+  --color-secundario: #262b33;
   --color-acento: #8b5cf6;
   --color-acento-lift: #b39cfb;
   --color-acento-deep: #5b21b6;
-  --color-neutro-oscuro: #0b0910;
-  --color-neutro-claro: #f6f4fa;
+  --color-neutro-oscuro: #080a0f;
+  --color-neutro-claro: #f4f6f8;
 
   /* ----------------------------------------------------------------
      Surface ladder.
@@ -34,10 +49,10 @@
      elevation, and components pick the step instead of mixing a one-off.
      ---------------------------------------------------------------- */
   --surface-base: var(--color-neutro-oscuro);
-  --surface-sunken: #070509;
+  --surface-sunken: #050609;
   --surface-raised: var(--color-primario);
-  --surface-panel: #1e1929;
-  --surface-inset: #241e31;
+  --surface-panel: #1a1e25;
+  --surface-inset: #21262e;
 
   /* ----------------------------------------------------------------
      Border ladder. Three weights, because one hairline everywhere is what
@@ -89,18 +104,18 @@
      shadows are what make a dark UI look pasted on.
      ---------------------------------------------------------------- */
   --shadow-low:
-    0 1px 2px rgba(4, 2, 8, 0.5),
-    0 2px 8px -2px rgba(4, 2, 8, 0.45);
+    0 1px 2px rgba(2, 4, 8, 0.5),
+    0 2px 8px -2px rgba(2, 4, 8, 0.45);
   --shadow-mid:
-    0 1px 2px rgba(4, 2, 8, 0.55),
-    0 12px 28px -12px rgba(4, 2, 8, 0.75);
+    0 1px 2px rgba(2, 4, 8, 0.55),
+    0 12px 28px -12px rgba(2, 4, 8, 0.75);
   --shadow-high:
-    0 1px 3px rgba(4, 2, 8, 0.6),
-    0 28px 60px -28px rgba(4, 2, 8, 0.85);
+    0 1px 3px rgba(2, 4, 8, 0.6),
+    0 28px 60px -28px rgba(2, 4, 8, 0.85);
   /* The one shadow that carries colour — reserved for the primary CTA, so
      the accent reads as a lit surface rather than a flat swatch. */
   --shadow-accent:
-    0 1px 2px rgba(4, 2, 8, 0.4),
+    0 1px 2px rgba(2, 4, 8, 0.4),
     0 10px 30px -10px color-mix(in srgb, var(--color-acento) 55%, transparent);
 
   /* ----------------------------------------------------------------
@@ -118,9 +133,19 @@
      pays for every screenful of travel. The floors here are that collapse;
      the ceilings are unchanged from the desktop design.
      ---------------------------------------------------------------- */
-  --space-section-tight: clamp(2.75rem, 2rem + 3vw, 5rem);
-  --space-section: clamp(3.25rem, 2rem + 5vw, 7.5rem);
-  --space-section-wide: clamp(4rem, 2.25rem + 7vw, 10rem);
+  /*
+     The ceilings come down one step across the board (10rem -> 7.5rem at the
+     top). Very tall section padding is the signature of a marketing page,
+     where each block is a held beat and scrolling is the experience. A
+     professional-services site is read rather than toured: the visitor is
+     there to find out what the firm does and whether it is credible, and
+     every extra screen of travel between blocks is friction charged against
+     that. The three roles and their relative proportions are unchanged — the
+     rhythm still reads as grouped, it is just less spent on air.
+  */
+  --space-section-tight: clamp(2.5rem, 1.9rem + 2.4vw, 4rem);
+  --space-section: clamp(3rem, 2rem + 4vw, 5.75rem);
+  --space-section-wide: clamp(3.75rem, 2.25rem + 5.5vw, 7.5rem);
 
   /* Content measures. One place to change how wide the page runs. */
   --measure-page: 78rem;
@@ -131,11 +156,15 @@
   /* Expo-out. Used where an element should arrive decisively — the CTA
      press, the panel open — rather than glide. */
   --ease-emphasis: cubic-bezier(0.16, 1, 0.3, 1);
-  /* The curtain's own curve. `--ease-emphasis` decelerates so hard that a
-     900ms travel appears to stall in its last third; this keeps the long
-     move alive to the end while still landing softly. */
-  --ease-intro: cubic-bezier(0.22, 1, 0.36, 1);
-  --duration-entrance: 500ms;
+  /*
+    Entrances are shorter than they were. 500ms is a duration the visitor
+    perceives as motion in its own right — appropriate when the animation is
+    part of the experience, which is the register this pass is leaving. At
+    320ms a reveal registers as the content having settled rather than as
+    something that was performed for them, and the whole page feels quicker
+    to read without any element actually arriving sooner.
+  */
+  --duration-entrance: 320ms;
 }
 
 /*
@@ -173,17 +202,25 @@
   /* Accent as text — always this, never the raw accent (contrast). */
   --color-accent-text: var(--accent-text);
 
-  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-body-face), ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
   /* Display face. Restricted by rule to the hero headline, section titles and
      the two numeric "hero figures" (the results stat and package prices) — see
      `.type-display`, `.type-section-title` and `.type-figure` below. Every
      other heading, label and piece of UI stays on `--font-sans`. */
-  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-display-face), ui-sans-serif, system-ui, sans-serif;
 
-  --radius-lg: 0.625rem;
-  --radius-xl: 0.875rem;
-  --radius-2xl: 1.25rem;
+  /* Corner radii, pulled in one step across the board.
+
+     A 1.25rem corner on a panel is a consumer-product corner: it reads as
+     soft, approachable, app-like. Professional-services sites sit between
+     2px and 8px almost without exception, because a nearly-square corner
+     reads as a document or a printed card rather than as a UI surface. The
+     scale keeps three steps so components need no edits — each step simply
+     resolves tighter. */
+  --radius-lg: 0.25rem;
+  --radius-xl: 0.375rem;
+  --radius-2xl: 0.5rem;
 }
 
 @layer base {
@@ -196,7 +233,7 @@
     scroll-padding-top: calc(var(--header-height) + 1.5rem);
     -webkit-tap-highlight-color: transparent;
     /* Reserves the scrollbar's column permanently, so locking body scroll
-       (intro curtain, mobile menu) cannot shift the whole page sideways on
+       (the mobile menu) cannot shift the whole page sideways on
        platforms with classic overlay-less scrollbars. */
     scrollbar-gutter: stable;
   }
@@ -205,7 +242,11 @@
     background-color: var(--surface-base);
     color: var(--text-primary);
     font-family: var(--font-sans);
-    font-feature-settings: "cv11", "ss01";
+    /* `tnum` only. The `cv11`/`ss01` sets were Plus Jakarta Sans alternates
+       and mean nothing to Inter; tabular figures do, because the page carries
+       prices, percentages and a counted statistic that must not shift width
+       as they animate. */
+    font-feature-settings: "tnum";
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
   }
@@ -270,19 +311,34 @@
 
     Desktop (>= 48rem): the ramp resumes and runs up to 4.5rem.
   */
+  /*
+    Weights are now discrete. Space Grotesk was loaded as a variable font, so
+    `560` was a real interpolated instance; IBM Plex ships static cuts at 400,
+    500 and 600, and any value between them silently snaps to the nearest one.
+    Every weight on the page is therefore stated as a cut that actually exists.
+
+    600 rather than 500 for the headline: Plex's 500 is a text weight and goes
+    soft at display size, where the headline needs to hold the top of the page
+    on its own.
+
+    Tracking loosens from -0.022em to -0.01em. Plex is drawn on a wider chassis
+    with more generous sidebearings than Space Grotesk, so the negative tracking
+    calibrated for the old face closed its counters and made the line read as
+    compressed — the tell of type squeezed to fit rather than set to be read.
+  */
   .type-display {
     font-family: var(--font-display);
     font-size: clamp(2.125rem, 1.55rem + 2.6vw, 2.5rem);
-    line-height: 1.1;
-    font-weight: 560;
-    letter-spacing: -0.022em;
+    line-height: 1.12;
+    font-weight: 600;
+    letter-spacing: -0.012em;
   }
 
   @media (width >= 48rem) {
     .type-display {
-      font-size: clamp(2.5rem, 1.2rem + 3.6vw, 4.5rem);
-      line-height: 1.05;
-      letter-spacing: -0.028em;
+      font-size: clamp(2.5rem, 1.2rem + 3.6vw, 4rem);
+      line-height: 1.07;
+      letter-spacing: -0.018em;
     }
   }
 
@@ -294,16 +350,16 @@
   .type-section-title {
     font-family: var(--font-display);
     font-size: clamp(1.5rem, 1.3rem + 1vw, 1.75rem);
-    line-height: 1.18;
-    font-weight: 540;
-    letter-spacing: -0.02em;
+    line-height: 1.22;
+    font-weight: 600;
+    letter-spacing: -0.008em;
   }
 
   @media (width >= 48rem) {
     .type-section-title {
-      font-size: clamp(2rem, 1.1rem + 2.4vw, 2.875rem);
-      line-height: 1.08;
-      letter-spacing: -0.024em;
+      font-size: clamp(1.875rem, 1.1rem + 2.2vw, 2.5rem);
+      line-height: 1.14;
+      letter-spacing: -0.014em;
     }
   }
 
@@ -312,8 +368,11 @@
      than a UI label — never used for anything counted or tabular. */
   .type-figure {
     font-family: var(--font-display);
-    font-weight: 560;
-    letter-spacing: -0.01em;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    /* A figure that is being counted up must not reflow as its digits
+       change — Plex's tabular set holds every numeral on one advance width. */
+    font-variant-numeric: tabular-nums;
   }
 
   /*
@@ -364,207 +423,143 @@
   }
 
   /* ----------------------------------------------------------------
-  /* ----------------------------------------------------------------
-     Buttons — glass.
+     Buttons — solid.
 
-     Every CTA on the site is a pane of tinted glass rather than a painted
-     surface: a translucent fill, a real backdrop blur, a bright specular edge
-     along the top and a darker one along the bottom. The page's own violet
-     bloom shows through, so a button belongs to the section it sits in rather
-     than being stamped on top of it.
+     Every CTA was a pane of tinted glass: a translucent fill, a real
+     `backdrop-filter` blur, a bright specular rim along the top and a dark
+     one along the bottom. It was well built, and it was the wrong argument.
+     Glass is a *material* effect — it says the interface is a physical object
+     the visitor is handling, which is the vocabulary of consumer software.
+     A professional-services site is making a claim in writing; its buttons
+     should read as printed ink on stock, flat and unambiguous.
 
-     Three things do the work, and all three matter:
+     The replacement is deliberately plain: an opaque fill, one hairline, one
+     contact shadow. Three things follow from it —
 
-     1. **A two-stop rim.** `border-image` cannot be combined with a radius, so
-        the lit edge is drawn as two inset shadows — bright along the top, dark
-        along the bottom. That single detail is most of what separates glass
-        from a flat translucent rectangle.
-     2. **Saturation in the backdrop filter.** `saturate()` above 100% keeps
-        colour passing through the pane from going grey, which is what real
-        glass does and what a plain `blur()` fails to do.
-     3. **A contact shadow, not a glow.** Glass sits *on* something. The
-        previous treatment used a wide coloured cast, which reads as emitted
-        light — the tell of a "neon" button rather than a physical one.
+       1. **No `backdrop-filter`.** It was the most expensive property on the
+          page, forcing the compositor to sample and blur everything behind
+          each button. Removing it removes that cost entirely.
+       2. **No specular rim.** The two-stop inset shadow that sold the glass
+          is gone; a flat surface has no highlight to catch.
+       3. **State is carried by value, not by light.** Hover lifts the fill one
+          step and active drops it one, rather than restaging a reflection.
 
-     `backdrop-filter` is genuinely expensive, so it is confined to buttons:
-     small, few, and never animated.
+     The accent colour is unchanged — it is now applied as paint rather than
+     as transmitted light, which is the whole difference.
      ---------------------------------------------------------------- */
 
-  /*
-    Primary CTA — violet glass.
-
-    The tint is carried at 62% so the pane still reads as violet while the
-    backdrop shows through it. The version before this was an opaque gradient
-    with a bright top highlight, which the eye reads as glossy plastic; the
-    difference is that glass transmits and plastic reflects.
-  */
+  /* Primary CTA — solid accent. */
   .btn-volume {
     position: relative;
-    background: linear-gradient(
-      to bottom,
-      color-mix(in srgb, var(--color-acento) 62%, transparent) 0%,
-      color-mix(in srgb, var(--color-acento) 74%, transparent) 100%
-    );
-    backdrop-filter: blur(14px) saturate(180%);
-    -webkit-backdrop-filter: blur(14px) saturate(180%);
-    border: 1px solid color-mix(in srgb, var(--color-acento-lift) 46%, transparent);
-    box-shadow:
-      inset 0 1px 0 color-mix(in srgb, white 30%, transparent),
-      inset 0 -1px 0 color-mix(in srgb, var(--color-acento-deep) 42%, transparent),
-      0 1px 2px rgba(4, 2, 8, 0.4),
-      0 8px 24px -10px color-mix(in srgb, var(--color-acento-deep) 55%, transparent);
+    background-color: var(--color-acento);
+    border: 1px solid var(--color-acento);
+    box-shadow: var(--shadow-low);
     color: #ffffff;
+    transition:
+      background-color 180ms var(--ease-entrance),
+      border-color 180ms var(--ease-entrance),
+      box-shadow 180ms var(--ease-entrance);
   }
 
   .btn-volume:hover {
-    background: linear-gradient(
-      to bottom,
-      color-mix(in srgb, var(--color-acento) 74%, transparent) 0%,
-      color-mix(in srgb, var(--color-acento) 86%, transparent) 100%
-    );
-    border-color: color-mix(in srgb, var(--color-acento-lift) 68%, transparent);
-    box-shadow:
-      inset 0 1px 0 color-mix(in srgb, white 38%, transparent),
-      inset 0 -1px 0 color-mix(in srgb, var(--color-acento-deep) 38%, transparent),
-      0 1px 2px rgba(4, 2, 8, 0.4),
-      0 10px 30px -10px color-mix(in srgb, var(--color-acento-deep) 65%, transparent);
+    background-color: color-mix(in srgb, var(--color-acento) 86%, white);
+    border-color: color-mix(in srgb, var(--color-acento) 86%, white);
+    box-shadow: var(--shadow-mid);
   }
 
-  /* Pressed: the pane sinks, so the top edge dims and the inner shadow
-     inverts — the same read as pressing on real glass. */
+  /* Pressed: the fill deepens and the cast collapses, so the control reads as
+     having been pushed into the page rather than re-lit. */
   .btn-volume:active {
-    background: color-mix(in srgb, var(--color-acento) 82%, transparent);
-    box-shadow:
-      inset 0 2px 6px color-mix(in srgb, var(--color-acento-deep) 60%, transparent),
-      0 1px 1px rgba(4, 2, 8, 0.4);
+    background-color: var(--color-acento-deep);
+    border-color: var(--color-acento-deep);
+    box-shadow: none;
   }
 
-  /* Secondary — clear glass. Same construction, no tint. */
+  /*
+    Secondary — outline on the page surface.
+
+    Not a translucent white wash, which is what the glass version used and
+    what made the secondary read as a dimmer copy of the primary. An outlined
+    button is a different *kind* of control, not a quieter one: it states the
+    alternative action plainly and never competes for the eye.
+  */
   .btn-surface {
     position: relative;
-    background: linear-gradient(
-      to bottom,
-      color-mix(in srgb, white 9%, transparent) 0%,
-      color-mix(in srgb, white 5%, transparent) 100%
-    );
-    backdrop-filter: blur(14px) saturate(160%);
-    -webkit-backdrop-filter: blur(14px) saturate(160%);
-    border: 1px solid color-mix(in srgb, white 14%, transparent);
-    box-shadow:
-      inset 0 1px 0 color-mix(in srgb, white 16%, transparent),
-      inset 0 -1px 0 rgba(4, 2, 8, 0.28),
-      0 1px 2px rgba(4, 2, 8, 0.35),
-      0 8px 22px -12px rgba(4, 2, 8, 0.6);
+    background-color: transparent;
+    border: 1px solid var(--surface-border-strong);
+    box-shadow: none;
     color: var(--text-primary);
+    transition:
+      background-color 180ms var(--ease-entrance),
+      border-color 180ms var(--ease-entrance);
   }
 
   .btn-surface:hover {
-    background: linear-gradient(
-      to bottom,
-      color-mix(in srgb, white 15%, transparent) 0%,
-      color-mix(in srgb, white 9%, transparent) 100%
-    );
-    border-color: color-mix(in srgb, white 22%, transparent);
-    box-shadow:
-      inset 0 1px 0 color-mix(in srgb, white 24%, transparent),
-      inset 0 -1px 0 rgba(4, 2, 8, 0.24),
-      0 1px 2px rgba(4, 2, 8, 0.35),
-      0 10px 28px -12px rgba(4, 2, 8, 0.7);
+    background-color: color-mix(in srgb, var(--color-neutro-claro) 6%, transparent);
+    border-color: color-mix(in srgb, var(--color-neutro-claro) 30%, transparent);
   }
 
   .btn-surface:active {
-    background: color-mix(in srgb, white 6%, transparent);
-    box-shadow:
-      inset 0 2px 6px rgba(4, 2, 8, 0.5),
-      0 1px 1px rgba(4, 2, 8, 0.35);
+    background-color: color-mix(in srgb, var(--color-neutro-claro) 10%, transparent);
   }
 
   /* ----------------------------------------------------------------
      Hero CTA pair.
 
-     The same glass as the rest of the site — these were a separate treatment
-     only while the site buttons were opaque, and that reason is gone. They
-     keep their own classes to run the tint a little stronger: the hero's
-     backdrop is the brightest bloom on the page, and a pane calibrated for a
-     dark section reads washed out over it.
+     These existed as a separate treatment only to run the glass tint stronger
+     over the hero's bright backdrop — a calibration problem that solid fills
+     do not have. They now alias the site buttons exactly, and are kept as
+     distinct classes purely so the hero markup needs no edit.
      ---------------------------------------------------------------- */
 
   .btn-hero-primary {
     position: relative;
-    background: linear-gradient(
-      to bottom,
-      color-mix(in srgb, var(--color-acento) 70%, transparent) 0%,
-      color-mix(in srgb, var(--color-acento) 84%, transparent) 100%
-    );
-    backdrop-filter: blur(16px) saturate(190%);
-    -webkit-backdrop-filter: blur(16px) saturate(190%);
-    border: 1px solid color-mix(in srgb, var(--color-acento-lift) 52%, transparent);
-    box-shadow:
-      inset 0 1px 0 color-mix(in srgb, white 34%, transparent),
-      inset 0 -1px 0 color-mix(in srgb, var(--color-acento-deep) 45%, transparent),
-      0 2px 4px rgba(4, 2, 8, 0.4),
-      0 12px 34px -12px color-mix(in srgb, var(--color-acento-deep) 60%, transparent);
+    background-color: var(--color-acento);
+    border: 1px solid var(--color-acento);
+    box-shadow: var(--shadow-mid);
     color: #ffffff;
+    transition:
+      background-color 180ms var(--ease-entrance),
+      border-color 180ms var(--ease-entrance),
+      box-shadow 180ms var(--ease-entrance);
   }
 
   .btn-hero-primary:hover {
-    background: linear-gradient(
-      to bottom,
-      color-mix(in srgb, var(--color-acento) 82%, transparent) 0%,
-      color-mix(in srgb, var(--color-acento) 94%, transparent) 100%
-    );
-    border-color: color-mix(in srgb, var(--color-acento-lift) 74%, transparent);
-    box-shadow:
-      inset 0 1px 0 color-mix(in srgb, white 42%, transparent),
-      inset 0 -1px 0 color-mix(in srgb, var(--color-acento-deep) 40%, transparent),
-      0 2px 4px rgba(4, 2, 8, 0.4),
-      0 14px 40px -12px color-mix(in srgb, var(--color-acento-deep) 70%, transparent);
+    background-color: color-mix(in srgb, var(--color-acento) 86%, white);
+    border-color: color-mix(in srgb, var(--color-acento) 86%, white);
+    box-shadow: var(--shadow-high);
   }
 
   .btn-hero-primary:active {
-    background: color-mix(in srgb, var(--color-acento) 88%, transparent);
-    box-shadow:
-      inset 0 2px 6px color-mix(in srgb, var(--color-acento-deep) 62%, transparent),
-      0 1px 2px rgba(4, 2, 8, 0.4);
+    background-color: var(--color-acento-deep);
+    border-color: var(--color-acento-deep);
+    box-shadow: var(--shadow-low);
   }
 
+  /*
+    The hero's secondary is the one button that keeps a fill: it sits over
+    photographic artwork, where a pure outline has no reliable ground behind
+    it and the label's contrast depends on whichever part of the image it
+    lands on. An opaque dark plate guarantees the 4.5:1 regardless.
+  */
   .btn-hero-secondary {
     position: relative;
-    background: linear-gradient(
-      to bottom,
-      color-mix(in srgb, white 10%, transparent) 0%,
-      color-mix(in srgb, white 5%, transparent) 100%
-    );
-    backdrop-filter: blur(16px) saturate(170%);
-    -webkit-backdrop-filter: blur(16px) saturate(170%);
-    border: 1px solid color-mix(in srgb, white 16%, transparent);
-    box-shadow:
-      inset 0 1px 0 color-mix(in srgb, white 20%, transparent),
-      inset 0 -1px 0 rgba(4, 2, 8, 0.3),
-      0 2px 4px rgba(4, 2, 8, 0.35),
-      0 10px 28px -14px rgba(4, 2, 8, 0.65);
-    color: rgba(255, 255, 255, 0.94);
+    background-color: color-mix(in srgb, var(--surface-raised) 88%, transparent);
+    border: 1px solid var(--surface-border-strong);
+    box-shadow: var(--shadow-low);
+    color: var(--text-primary);
+    transition:
+      background-color 180ms var(--ease-entrance),
+      border-color 180ms var(--ease-entrance);
   }
 
   .btn-hero-secondary:hover {
-    background: linear-gradient(
-      to bottom,
-      color-mix(in srgb, white 17%, transparent) 0%,
-      color-mix(in srgb, white 10%, transparent) 100%
-    );
-    border-color: color-mix(in srgb, white 26%, transparent);
-    box-shadow:
-      inset 0 1px 0 color-mix(in srgb, white 28%, transparent),
-      inset 0 -1px 0 rgba(4, 2, 8, 0.26),
-      0 2px 4px rgba(4, 2, 8, 0.35),
-      0 12px 32px -14px rgba(4, 2, 8, 0.75);
+    background-color: var(--surface-panel);
+    border-color: color-mix(in srgb, var(--color-neutro-claro) 30%, transparent);
   }
 
   .btn-hero-secondary:active {
-    background: color-mix(in srgb, white 6%, transparent);
-    box-shadow:
-      inset 0 2px 6px rgba(4, 2, 8, 0.45),
-      0 1px 2px rgba(4, 2, 8, 0.35);
+    background-color: var(--surface-inset);
   }
 
   /* ----------------------------------------------------------------
@@ -621,77 +616,46 @@
 
   /* Hides the scrollbar on programmatically-scrolled panels (e.g. the hero
      chat card) without disabling scroll — the panel drives its own position. */
-      /* ----------------------------------------------------------------
-     Wordmark. The letters are painted with a gradient whose highlight
-     crosses them once every cycle — a lit surface rather than flat
-     text. It stays selectable, real text: only the fill is replaced.
+  /* ----------------------------------------------------------------
+     Wordmark.
+
+     Flat ink. The mark used to be painted with a moving gradient clipped to
+     the glyphs — a highlight band that swept across the letters three times
+     per visit — sitting above a radial halo that pulsed on a 4.5s cycle.
+
+     Both are gone, for the same reason the glass buttons are: a logotype that
+     shines is advertising itself. An established firm's mark sits still and
+     lets the work argue. It also removes two permanently-live compositor
+     layers from a `position: fixed` header, where `background-clip: text`
+     meant repainting and re-clipping the glyphs on every animated frame no
+     matter where the visitor had scrolled to.
+
+     Hover is the only state that remains, and it only changes colour.
      ---------------------------------------------------------------- */
   .wordmark {
-    /* Resting colour, and the fallback wherever `background-clip: text` is
-       unavailable — the wordmark must never render as invisible text. */
     color: var(--text-primary);
-    transition: filter 320ms var(--ease-entrance);
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
 
-  @supports (background-clip: text) or (-webkit-background-clip: text) {
-    .wordmark {
-      /* 300% wide so the highlight band can sit fully outside the glyphs at
-         rest; only its horizontal offset moves. */
-      background-image: linear-gradient(
-        100deg,
-        var(--text-primary) 0%,
-        var(--text-primary) 38%,
-        color-mix(in srgb, var(--color-acento) 45%, var(--color-neutro-claro)) 50%,
-        var(--text-primary) 62%,
-        var(--text-primary) 100%
-      );
-      background-size: 300% 100%;
-      background-position: 100% 0;
-      background-repeat: no-repeat;
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      /*
-         Three passes, then it stops — it was `infinite`.
-
-         `background-clip: text` means every frame of the sheen repaints the
-         glyphs and re-clips the gradient to their outlines, and the header is
-         `position: fixed`, so that repaint kept a layer live for the entire
-         visit no matter where the visitor had scrolled to. The mark is on
-         screen the whole time; the shine only has to say the logo is lit,
-         which it has finished saying well before the visitor is past the
-         hero. Hover replays it, so the affordance survives.
-      */
-      animation: wordmark-sheen 7s var(--ease-entrance) 3;
-    }
-
-    .group:hover .wordmark {
-      animation: wordmark-sheen 2.4s var(--ease-entrance) 1;
-    }
-  }
-
-  /* The "AI" half rests quiet and lights up with the accent on hover. */
+  /* The "AI" half rests quiet and takes the accent on hover — the one piece
+     of the old treatment worth keeping, because it marks the two halves of
+     the name rather than decorating them. */
   .wordmark-suffix {
     color: var(--text-muted);
-    -webkit-text-fill-color: var(--text-muted);
-    transition:
-      color 260ms var(--ease-entrance),
-      -webkit-text-fill-color 260ms var(--ease-entrance);
+    transition: color 200ms var(--ease-entrance);
   }
 
   .group:hover .wordmark-suffix {
-    color: var(--color-acento);
-    -webkit-text-fill-color: var(--color-acento);
+    color: var(--accent-text);
   }
 
-  .group:hover .wordmark {
-    filter: drop-shadow(
-      0 0 0.625rem color-mix(in srgb, var(--color-acento) 38%, transparent)
-    );
-  }
-
-  /* Accent haze behind the spark. Absolute and pointer-transparent, so it is
-     atmosphere only: it never affects layout or hit testing. */
+  /*
+     The accent haze behind the spark. Static: it grounds the mark on the dark
+     header without announcing itself. It was `animation: mark-pulse` — a
+     second always-live layer in the fixed header, and the pulse is precisely
+     the "AI product" signal this pass is removing.
+  */
   .mark-halo {
     position: absolute;
     inset: -40%;
@@ -699,22 +663,15 @@
     pointer-events: none;
     background: radial-gradient(
       circle,
-      color-mix(in srgb, var(--color-acento) 60%, transparent) 0%,
+      color-mix(in srgb, var(--color-acento) 55%, transparent) 0%,
       transparent 68%
     );
-    opacity: 0.35;
-    /* Transform only in the keyframes: opacity is left to hover, which an
-       animated opacity would otherwise always win over.
-
-       Bounded for the same reason as the sheen above: this sits in a fixed
-       header, so `infinite` meant a permanently animating layer pinned over
-       the page for every frame the visitor ever scrolled. */
-    animation: mark-pulse 4.5s ease-in-out 4;
-    transition: opacity 320ms var(--ease-entrance);
+    opacity: 0.3;
+    transition: opacity 200ms var(--ease-entrance);
   }
 
   .group:hover .mark-halo {
-    opacity: 0.7;
+    opacity: 0.5;
   }
 
   /* Hairline separators reused across sections instead of heavy shadows. */
@@ -788,154 +745,70 @@
           panel has and the single strongest cue that a surface is lit.
        3. A layered cast shadow, so it sits above the page rather than on it.
      ---------------------------------------------------------------- */
+  /*
+    Flat fill, one hairline, no cast.
+
+    The panel used to carry a vertical gradient, a 1px inner top highlight and
+    a layered drop shadow — the three ingredients that make a surface read as
+    a lit physical object hovering above the page. That is the correct
+    treatment for an application UI, where a panel *is* a manipulable object.
+    On a document it is costume: it makes every block look like a widget.
+
+    The border does the separating now, which is what a border is for.
+  */
   .surface-panel {
     position: relative;
-    background: linear-gradient(
-      to bottom,
-      var(--surface-panel) 0%,
-      color-mix(in srgb, var(--surface-panel) 82%, var(--surface-base)) 100%
-    );
+    background-color: var(--surface-panel);
     border: 1px solid var(--surface-border);
-    box-shadow:
-      inset 0 1px 0 color-mix(in srgb, white 6%, transparent),
-      var(--shadow-mid);
   }
 
   /* Same finish, one step quieter — for cards sitting *inside* a panel, where
      the full treatment would compete with their container. */
+  /* Same contract one step quieter, for cards sitting inside a panel. */
   .surface-card {
     position: relative;
-    background: linear-gradient(
-      to bottom,
-      color-mix(in srgb, var(--surface-raised) 94%, var(--surface-panel)) 0%,
-      var(--surface-raised) 100%
-    );
+    background-color: var(--surface-raised);
     border: 1px solid var(--surface-border-subtle);
-    box-shadow:
-      inset 0 1px 0 color-mix(in srgb, white 4%, transparent),
-      var(--shadow-low);
   }
 
   /* The featured tier. The accent is carried by a tinted fill and a lit top
      edge rather than by a coloured border — a saturated outline around a card
      is the loudest, cheapest way to mark emphasis. */
+  /*
+    The featured tier. Emphasis is carried by a left rule in the accent — the
+    editorial convention for marking a passage — rather than by a tinted fill
+    and a lit edge. It marks the card as the recommendation without making it
+    glow.
+  */
   .surface-card-featured {
-    background: linear-gradient(
-      to bottom,
-      color-mix(in srgb, var(--color-acento) 10%, var(--surface-panel)) 0%,
-      color-mix(in srgb, var(--color-acento) 4%, var(--surface-raised)) 100%
-    );
-    border-color: var(--accent-hairline);
-    box-shadow:
-      inset 0 1px 0 color-mix(in srgb, var(--color-acento-lift) 22%, transparent),
-      var(--shadow-mid);
+    background-color: color-mix(in srgb, var(--color-acento) 6%, var(--surface-panel));
+    border-color: var(--surface-border);
+    border-left: 2px solid var(--color-acento);
   }
 
   /* ----------------------------------------------------------------
-     Interactive lift. Applied to any card that is itself a link or that
-     reveals something on hover. Transform and shadow only — both compositor
-     properties, so the hover costs no layout.
+     Interactive response. Applied to any card that is itself a link or that
+     reveals something on hover. Colour only — the class keeps its `.lift`
+     name (it is spelled into a dozen components) but no longer lifts
+     anything; see the hover rule below for why.
      ---------------------------------------------------------------- */
   .lift {
     transition:
-      transform 260ms var(--ease-emphasis),
-      box-shadow 260ms var(--ease-emphasis),
-      border-color 260ms var(--ease-emphasis);
+      background-color 180ms var(--ease-entrance),
+      border-color 180ms var(--ease-entrance);
   }
 
   @media (prefers-reduced-motion: no-preference) {
     .lift:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--shadow-high);
+      /*
+        No `translateY`, no cast. A card that lifts off the page on hover is
+        telling the visitor it is a draggable object; these are links. The
+        hover now resolves the card's own border and fill one step, which
+        reads as "this responds" without pretending the page has depth.
+      */
       border-color: var(--surface-border-strong);
+      background-color: var(--surface-inset);
     }
-  }
-
-  /* ----------------------------------------------------------------
-     Opening curtain (see `IntroCurtain`).
-
-     Every animated property here is `transform`, `opacity`, `clip-path` or
-     `filter`, so the sequence stays on the compositor and never competes
-     with the hero painting underneath it.
-     ---------------------------------------------------------------- */
-
-  /* `both` fill is what holds each line at `translateY(110%)` until its own
-     delay elapses — without it every line flashes at full opacity on frame
-     one and the stagger is lost. */
-  .intro-line {
-    animation: intro-line 900ms var(--ease-intro) both;
-  }
-
-  .intro-rule {
-    animation: intro-rule 720ms var(--ease-intro) 60ms both;
-  }
-
-  .intro-bloom {
-    animation: intro-bloom 6s ease-in-out both;
-  }
-
-  .intro-grid {
-    animation: intro-grid 6s ease-out both;
-  }
-
-  /*
-     No `mix-blend-mode` here, unlike the page's own `.grain`. A blended
-     full-screen layer makes the compositor re-read everything painted
-     beneath it on every frame, and beneath this one sit the bloom, the grid
-     and four animating lines — the one moment on the page where that cost is
-     highest. A flat low-opacity overlay reads the same over a near-black
-     ground and composites for free.
-  */
-  .intro-grain {
-    pointer-events: none;
-    opacity: 0.22;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
-  }
-
-  .intro-root {
-    clip-path: inset(0 0 0 0);
-  }
-
-  /*
-     The curtain is server-rendered, so it is up from the first paint — this
-     is what takes it away again for a visit that should not see it. The
-     attribute is written by a blocking script in `<head>` (see
-     `INTRO_GATE_SCRIPT`), so this resolves before anything is painted and the
-     curtain is never briefly visible.
-
-     `data-intro` absent means the gate script did not run at all — no
-     JavaScript, or it threw. Hiding the curtain in that case is the correct
-     failure: an intro that cannot dismiss itself would trap the visitor
-     behind an overlay forever.
-  */
-  :root:not([data-intro='play']) .intro-root {
-    display: none;
-  }
-
-  /*
-     The exit runs two moves at once: the curtain is wiped away from the
-     bottom up, and its contents ride up faster than the wipe travels. The
-     offset between them is what makes it read as one gesture — the statement
-     leading its own exit — rather than as content being cut off by a mask.
-  */
-  .intro-root-leaving {
-    animation: intro-wipe var(--intro-exit, 780ms) var(--ease-intro) both;
-  }
-
-  .intro-root-leaving .intro-line,
-  .intro-root-leaving .intro-rule {
-    /*
-       `animation-delay: 0` is load-bearing. The entrance sets a per-line
-       delay inline (260/620/1060ms) to stagger the reveal, and replacing
-       only the animation *name* leaves that delay in place — so the exit
-       inherited it and the three lines left one after another, the last of
-       them starting a second after the wipe had already finished.
-
-       The exit is deliberately not staggered: on the way in the stagger is
-       the point, on the way out it just makes the curtain slow to leave.
-    */
-    animation: intro-line-out 380ms var(--ease-intro) both;
-    animation-delay: 0ms;
   }
 
   /* ----------------------------------------------------------------
@@ -1035,91 +908,6 @@
     animation-delay: var(--hero-delay, 0s);
   }
 
-  /* Accent haze breathing behind the hero copy — atmosphere, not content. */
-    .soft-float {
-    animation: soft-float 7s ease-in-out infinite;
-  }
-
-  /*
-     Everything ambient in the hero stops once the hero is off screen.
-
-     The side visuals carry `mix-blend-screen`, which is the most expensive
-     thing on the page per frame: a blended layer forces the compositor to
-     re-read what is painted beneath it, and an infinite float meant that read
-     happened 60 times a second for the entire visit — including while the
-     visitor was ten sections further down and could not see it. The attribute
-     is written by `HeroMotion` from the observer the particle field already
-     uses, so this costs no extra observer.
-  */
-  [data-hero-motion='paused'] .soft-float,
-  [data-hero-motion='paused'] .particle {
-    animation-play-state: paused;
-  }
-
-  /* ----------------------------------------------------------------
-     Hero particle field. Transform and opacity only, so the whole
-     field stays on the compositor. Negative delays start each particle
-     mid-cycle, which is what stops them rising as one visible wave.
-     ---------------------------------------------------------------- */
-  .particle {
-    position: absolute;
-    border-radius: 9999px;
-    /* A soft gradient instead of a solid dot plus `filter: blur()` — same
-       result, without a blur pass per particle per frame. */
-    background: radial-gradient(
-      circle,
-      var(--color-acento) 0%,
-      color-mix(in srgb, var(--color-acento) 55%, transparent) 50%,
-      transparent 78%
-    );
-    animation: particle-drift var(--particle-duration, 45s) linear infinite;
-    animation-delay: var(--particle-delay, 0s);
-  }
-
-  /*
-    Phones get no particle field.
-
-    On a small screen the hero already carries a gradient base, an ambient
-    bloom and the masked grid — eighteen drifting dots on top of that is the
-    layer that tips it from "atmospheric" into "busy", and it is the only one
-    of the four that animates for the entire visit. Dropped here rather than
-    in `HeroBackdrop` because that component also owns the visibility gate
-    that pauses the two blended side visuals; unmounting it on phones would
-    take the gate with it.
-  */
-  @media (width < 40rem) {
-    .particle {
-      display: none;
-    }
-  }
-
-  /*
-     The curtain is opaque and covers the hero completely while it plays, so
-     everything below — the entrance rises, the 18-particle field, the two
-     `mix-blend-screen` side visuals riding `.soft-float` — has been animating
-     invisibly since first paint, purely because the hero mounts and starts
-     immediately. That is wasted compositor work at the exact moment the
-     curtain's own four-line stagger and drifting background need every frame
-     they can get, and `mix-blend-screen` in particular forces a re-read of
-     everything painted beneath it on every tick.
-
-     Entrances snap straight to their end state — still invisible, so there is
-     nothing to see — the same technique already used for reduced motion.
-     Infinite loops are paused instead, since they have no end state to snap
-     to. `IntroCurtain` flips `data-intro` to `done` the instant the wipe
-     starts, which is what releases both.
-  */
-  :root[data-intro='play'] .hero-rise,
-  :root[data-intro='play'] .rule-grow {
-    animation-duration: 0.01ms !important;
-    animation-delay: 0s !important;
-  }
-
-  :root[data-intro='play'] .soft-float,
-  :root[data-intro='play'] .particle {
-    animation-play-state: paused;
-  }
-
   /* ----------------------------------------------------------------
      Section eyebrow rule. Same contract as `[data-reveal]`: the rule
      rests drawn, and only the `pending` state pulls it back to zero, so
@@ -1208,157 +996,12 @@
   }
 }
 
-/* ------------------------------------------------------------------
-   Opening curtain. See `.intro-*` in the components layer.
-   ------------------------------------------------------------------ */
-
-/*
-  The masked rise — the technique the whole sequence is built on.
-
-  Each line is translated up from behind its own clipping boundary rather
-  than faded in. A fade says "an element became visible"; a masked rise says
-  "this was already here, and you are now being shown it", which is the
-  difference between a splash screen and an opening.
-
-  110% rather than 100%: at 100% the tails of "p" and "g" stay visible below
-  the mask as a row of fragments.
-
-  Transform and opacity only. An earlier version also animated `filter:
-  blur(6px)` to 0 across the rise, which is not a compositor-only property:
-  every frame of every line forced a repaint of the text plus a blur pass,
-  and it ran while the hero underneath was still painting. The masked rise
-  already carries the effect on its own.
-*/
-@keyframes intro-line {
-  0% {
-    opacity: 0;
-    transform: translateY(110%);
-  }
-  55% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Leaves upward, and faster than it arrived: motion out should always
-   undercut motion in, or the exit becomes a toll the visitor pays. */
-@keyframes intro-line-out {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(-38%);
-  }
-}
-
-@keyframes intro-rule {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-
-/*
-  The exit wipe. `inset()` consuming the curtain from the bottom up, not a
-  fade: a fading overlay leaves the page looking like it sat behind frosted
-  glass for half a second, while a wipe removes the curtain as an edge
-  travelling across the screen and the page is fully itself the moment it
-  passes.
-*/
-@keyframes intro-wipe {
-  from {
-    clip-path: inset(0 0 0 0);
-  }
-  to {
-    clip-path: inset(0 0 100% 0);
-  }
-}
-
-/*
-  Both background layers drift for the sequence's whole length. None of this
-  motion is legible frame to frame — it exists so the finished frame is never
-  a still image while it holds, which is the clearest tell of a splash screen.
-*/
-@keyframes intro-bloom {
-  from {
-    opacity: 0.55;
-    transform: scale(1.06) translate3d(-1.5%, 1%, 0);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translate3d(0, 0, 0);
-  }
-}
-
-@keyframes intro-grid {
-  from {
-    opacity: 0;
-    transform: scale(1.1);
-  }
-  to {
-    opacity: 0.55;
-    transform: scale(1);
-  }
-}
-
 @keyframes rule-grow {
   from {
     transform: scaleX(0);
   }
   to {
     transform: scaleX(1);
-  }
-}
-
-/*
-  A slow rise with a small lateral drift. It fades in and out at the ends so a
-  particle is never seen appearing or vanishing at a fixed point.
-*/
-@keyframes particle-drift {
-  0% {
-    opacity: 0;
-    transform: translate3d(0, 0, 0);
-  }
-  12% {
-    opacity: var(--particle-opacity, 0.3);
-  }
-  82% {
-    opacity: var(--particle-opacity, 0.3);
-  }
-  100% {
-    opacity: 0;
-    transform: translate3d(var(--particle-drift, 0), -180px, 0);
-  }
-}
-
-/*
-  Most of the cycle is deliberately still — the highlight only travels over the
-  last 40%, so the mark shines periodically instead of shimmering constantly.
-*/
-@keyframes wordmark-sheen {
-  0%,
-  60% {
-    background-position: 100% 0;
-  }
-  100% {
-    background-position: 0% 0;
-  }
-}
-
-@keyframes soft-float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-8px);
   }
 }
 
@@ -1409,7 +1052,11 @@
     position: absolute;
     inset: 0;
     pointer-events: none;
-    opacity: 0.42;
+    /* 0.42 -> 0.2. At the old alpha the tooth was a visible treatment — the
+       surface announced itself as textured. A document's stock is felt, not
+       seen; this is the level where the fill stops reading as flat without
+       the grain becoming a thing the visitor notices. */
+    opacity: 0.2;
     mix-blend-mode: soft-light;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
   }
@@ -1504,22 +1151,6 @@
     global 0.01ms override would freeze them on their last keyframe — the
     hero photograph would stay zoomed in for the whole visit.
   */
-  .soft-float,
-  .particle,
-  .wordmark,
-  .mark-halo {
-    animation: none !important;
-  }
-
-  /* Left at its resting offset, where the gradient reads as the flat ink colour. */
-  .wordmark {
-    background-position: 100% 0;
-  }
-
-  .particle {
-    opacity: 0;
-  }
-
   /* The carousel still jumps to the requested slide — it just does not glide
      there. `scrollTo({behavior:'smooth'})` honours this automatically. */
   .services-track {

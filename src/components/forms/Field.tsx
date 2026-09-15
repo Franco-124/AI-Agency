@@ -31,7 +31,7 @@ type FieldProps = {
  * by keyboard, and the outline only paints for the latter.
  */
 const controlClasses = [
-  'w-full rounded-[0.5rem] border border-hairline bg-[var(--surface-sunken)] px-3.5 py-3',
+  'w-full rounded-[var(--radius-lg)] border border-hairline bg-[var(--surface-sunken)] px-3.5 py-3',
   'text-[0.9375rem] text-ink placeholder:text-ink-faint',
   'shadow-[inset_0_1px_2px_rgba(4,2,8,0.5)]',
   'transition-[border-color,box-shadow,background-color] duration-200',

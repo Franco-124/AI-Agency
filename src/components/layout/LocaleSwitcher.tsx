@@ -132,7 +132,7 @@ export function LocaleSwitcher({ label, className, variant = 'dropdown' }: Local
         aria-label={label}
         onClick={() => setIsOpen((open) => !open)}
         className={cn(
-          'inline-flex min-h-11 items-center gap-2 rounded-[0.5rem] border border-hairline bg-[var(--surface-panel)] px-3 py-2 text-xs font-medium text-ink shadow-[var(--shadow-low)] transition-colors duration-200 hover:border-hairline-strong hover:bg-[var(--surface-inset)]',
+          'inline-flex min-h-11 items-center gap-2 rounded-[var(--radius-lg)] border border-hairline bg-[var(--surface-panel)] px-3 py-2 text-xs font-medium text-ink shadow-[var(--shadow-low)] transition-colors duration-200 hover:border-hairline-strong hover:bg-[var(--surface-inset)]',
           variant === 'inline' && 'w-full justify-between',
           isPending && 'opacity-60',
         )}
@@ -163,7 +163,7 @@ export function LocaleSwitcher({ label, className, variant = 'dropdown' }: Local
           aria-label={label}
           inert={!isOpen}
           className={cn(
-            'surface-panel absolute right-0 top-[calc(100%+0.5rem)] z-10 min-w-[9.5rem] origin-top-right overflow-hidden rounded-[0.75rem] p-1 shadow-[var(--shadow-high)] transition-all duration-150 ease-[var(--ease-emphasis)]',
+            'surface-panel absolute right-0 top-[calc(100%+0.5rem)] z-10 min-w-[9.5rem] origin-top-right overflow-hidden rounded-[var(--radius-xl)] p-1 shadow-[var(--shadow-high)] transition-all duration-150 ease-[var(--ease-emphasis)]',
             isOpen
               ? 'pointer-events-auto scale-100 opacity-100'
               : 'pointer-events-none scale-95 opacity-0',

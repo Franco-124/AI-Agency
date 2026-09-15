@@ -1,13 +1,13 @@
 /**
  * Reference-counted body scroll lock.
  *
- * The page has two independent things that lock scrolling — the intro curtain
- * and the mobile menu — and they can overlap. Each used to save
- * `document.body.style.overflow` on lock and restore that saved value on
- * unlock, which is only correct while exactly one owner exists: if the menu
- * opened while the curtain still held the lock, the menu saved `'hidden'` as
- * the "previous" value and restored it on close, leaving the page permanently
- * unscrollable.
+ * The mobile menu is currently the only owner — the intro curtain, which was
+ * the second, has been removed. The counting is kept deliberately: it is what
+ * makes a second owner safe to add, and the bug it fixes is subtle enough to
+ * be worth not re-introducing. Each owner saving and restoring
+ * `document.body.style.overflow` for itself is only correct while exactly one
+ * exists; with two, whichever locks second saves `'hidden'` as the "previous"
+ * value and restores it on close, leaving the page permanently unscrollable.
  *
  * Counting fixes that regardless of ordering: the real style is captured once,
  * when the count goes 0 -> 1, and restored once, when it returns to 0.

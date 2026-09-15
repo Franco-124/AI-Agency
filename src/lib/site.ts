@@ -28,7 +28,19 @@ export const socialLinks = [
   { key: 'linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/company/numi-ai' },
 ] as const
 
-export const faqKeys = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight'] as const
+/*
+ * Six questions, down from eight, and every one of them is an objection that
+ * actually stops a signature: timeline, escalation, price, maintenance,
+ * integrations, exit. The two that went were about the firm's own service
+ * taxonomy ("does the diagnosis replace the free call", "can I buy both") —
+ * questions the page raised for itself rather than ones a buyer arrives with.
+ *
+ * This list drives both the accordion and the FAQ JSON-LD, so it must stay in
+ * step with `faq.items` in every locale file; `npm run i18n:check` enforces
+ * that the messages match across locales, and the build fails on a key here
+ * that no locale defines.
+ */
+export const faqKeys = ['one', 'two', 'three', 'four', 'five', 'six'] as const
 
 export const sectionIds = {
   hero: 'inicio',

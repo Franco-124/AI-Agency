@@ -13,7 +13,6 @@ import { useTranslations } from 'next-intl'
 import type { CSSProperties } from 'react'
 
 import { DemoBookingWidget } from '@/components/forms/DemoBookingWidget'
-import { HeroMotion } from '@/components/motion/HeroMotion'
 import { sectionIds } from '@/lib/site'
 
 import heroBackdrop from '../../../public/images/hero-backdrop.webp'
@@ -95,7 +94,30 @@ export function Hero() {
         priority
         fill
         sizes="100vw"
-        className="-z-30 object-cover object-[72%_center] lg:object-center"
+        /*
+          Desaturated and darkened in the browser rather than re-exported.
+
+          The artwork is a saturated violet field — the whole frame is brand
+          colour at high chroma, which is the single loudest "AI product"
+          signal left on the page now that the surfaces underneath it are
+          neutral. Left alone it simply contradicted them: a neutral document
+          with a purple-lit cover.
+
+          `saturate(0.28)` pulls the field nearly to graphite while keeping just
+          enough hue that the light sweep still reads as the brand's rather than
+          as grey; `brightness(0.62)` seats it behind the copy instead of
+          competing with it, and the slight `contrast` bump keeps the sweep from
+          going muddy once the other two have flattened it. A gentler grade was
+          tried first (0.55/0.8) and was not enough — the source is saturated
+          far enough that half measures still read as a purple wash. These are
+          `filter` on a static image, applied once at paint, so they cost
+          nothing per frame.
+
+          This is a stopgap that happens to be the right stopgap: the real fix
+          is a re-exported backdrop, and until there is one this keeps the hero
+          in the same register as everything below it.
+        */
+        className="-z-30 object-cover object-[72%_center] [filter:saturate(0.28)_brightness(0.62)_contrast(1.08)] lg:object-center"
       />
 
       {/*
@@ -113,15 +135,10 @@ export function Hero() {
         className="absolute inset-0 -z-20"
         style={{
           background: [
-            'linear-gradient(to bottom, rgba(4, 3, 10, 0.55) 0%, rgba(4, 3, 10, 0.35) 55%, rgba(4, 3, 10, 0.8) 88%, var(--surface-base) 100%)',
+            'linear-gradient(to bottom, rgba(3, 5, 9, 0.55) 0%, rgba(3, 5, 9, 0.35) 55%, rgba(3, 5, 9, 0.8) 88%, var(--surface-base) 100%)',
           ].join(', '),
         }}
       />
-
-      {/* Slow particle field. Nothing in it moves fast enough to pull focus. */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <HeroMotion />
-      </div>
 
       {/*
         Copy column. Top-aligned and ranged left on phones, exactly as before;
@@ -312,7 +329,7 @@ export function Hero() {
               */}
               <span
                 aria-hidden
-                className="mt-px flex h-7 w-7 shrink-0 items-center justify-center rounded-[0.4375rem] border border-[var(--accent-hairline)] bg-[var(--accent-soft)]"
+                className="mt-px flex h-7 w-7 shrink-0 items-center justify-center rounded-[var(--radius-lg)] border border-[var(--accent-hairline)] bg-[var(--accent-soft)]"
               >
                 <Icon
                   className="h-[0.875rem] w-[0.875rem] text-[var(--accent-text)]"

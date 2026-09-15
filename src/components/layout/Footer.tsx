@@ -70,7 +70,7 @@ export function Footer() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={label}
-                      className="inline-flex h-11 w-11 items-center justify-center rounded-[0.5625rem] border border-hairline bg-[var(--surface-raised)] text-ink-muted transition-colors duration-200 hover:border-[var(--accent-hairline)] hover:bg-[var(--accent-soft)] hover:text-[var(--accent-text)]"
+                      className="inline-flex h-11 w-11 items-center justify-center rounded-[var(--radius-lg)] border border-hairline bg-[var(--surface-raised)] text-ink-muted transition-colors duration-200 hover:border-[var(--accent-hairline)] hover:bg-[var(--accent-soft)] hover:text-[var(--accent-text)]"
                     >
                       <Glyph className="h-[1.0625rem] w-[1.0625rem]" aria-hidden />
                     </a>

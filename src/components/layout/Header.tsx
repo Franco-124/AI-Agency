@@ -194,8 +194,7 @@ export function Header() {
    * scroll to (WCAG 2.4.3 / 2.1.2). The dropdown effect above already returns
    * focus to its trigger; this mirrors that contract for the panel.
    *
-   * The lock is reference-counted because the intro curtain holds one too —
-   * see `lockScroll`.
+   * The lock is reference-counted — see `lockScroll`.
    */
   useEffect(() => {
     if (!isMenuOpen) return
@@ -417,7 +416,7 @@ export function Header() {
             href={sectionHref(sectionIds.finalCta)}
             aria-label={tHero('cta')}
             className={cn(
-              'group inline-flex min-h-11 items-center gap-1.5 rounded-[0.5rem] px-3 text-[0.8125rem] font-semibold transition-colors duration-200',
+              'group inline-flex min-h-11 items-center gap-1.5 rounded-[var(--radius-lg)] px-3 text-[0.8125rem] font-semibold transition-colors duration-200',
               'btn-volume md:min-h-11 md:px-3.5 md:text-sm md:font-medium',
               // From `md`: drop the filled treatment for the bordered pill.
               'md:border md:border-hairline md:bg-none md:text-ink md:shadow-none',
@@ -439,7 +438,7 @@ export function Header() {
             aria-controls={menuId}
             aria-label={isMenuOpen ? t('closeMenu') : t('openMenu')}
             onClick={() => setIsMenuOpen((open) => !open)}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-[0.5rem] border border-hairline bg-[var(--surface-panel)] text-ink shadow-[var(--shadow-low)] transition-colors duration-200 hover:border-hairline-strong hover:bg-[var(--surface-inset)] lg:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-[var(--radius-lg)] border border-hairline bg-[var(--surface-panel)] text-ink shadow-[var(--shadow-low)] transition-colors duration-200 hover:border-hairline-strong hover:bg-[var(--surface-inset)] lg:hidden"
           >
             {isMenuOpen ? (
               <X className="h-5 w-5" aria-hidden />

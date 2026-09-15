@@ -23,7 +23,10 @@ export function Results() {
         alt={t('imageAlt')}
         fill
         sizes="100vw"
-        className="-z-10 object-cover object-center"
+        /* Desaturated for the same reason as the hero backdrop and the service
+           illustrations: the source is a violet-lit ruled texture, and the
+           surfaces it now sits between carry no hue at all. */
+        className="-z-10 object-cover object-center [filter:saturate(0.5)_brightness(0.85)]"
       />
       <div
         aria-hidden
@@ -84,7 +87,7 @@ export function Results() {
               The squared top-left corner is what carries that read, so it
               survives the panel treatment.
             */}
-            <figure className="surface-panel relative rounded-[1.125rem] rounded-tl-md p-6 sm:p-8">
+            <figure className="surface-panel relative rounded-[var(--radius-2xl)] rounded-tl-md p-6 sm:p-8">
               {/*
                 An open quote mark set large and faint behind the text. It is
                 the one piece of ornament on the page, and it earns its place:

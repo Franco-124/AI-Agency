@@ -134,7 +134,7 @@ function ChannelMark({
     >
       {/* The tile lifts to a lighter surface on hover, so scanning the grid
           for your own tool gives feedback on the row you are reading. */}
-      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[0.5625rem] border border-hairline bg-[var(--surface-panel)] shadow-[var(--shadow-low)] transition-colors duration-300 group-hover/channel:border-hairline-strong group-hover/channel:bg-[var(--surface-inset)]">
+      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-lg)] border border-hairline bg-[var(--surface-panel)] shadow-[var(--shadow-low)] transition-colors duration-300 group-hover/channel:border-hairline-strong group-hover/channel:bg-[var(--surface-inset)]">
         <channel.Mark className="h-[1.125rem] w-[1.125rem] shrink-0" aria-hidden />
       </span>
       <span className="min-w-0 text-[0.9375rem] leading-snug text-[var(--text-secondary)] transition-colors duration-300 group-hover/channel:text-[var(--text-primary)]">

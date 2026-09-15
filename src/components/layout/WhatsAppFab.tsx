@@ -132,7 +132,7 @@ export function WhatsAppFab() {
       {showGreeting ? (
         <div
           role="status"
-          className="surface-panel absolute bottom-full right-0 mb-3 w-max max-w-[min(15rem,calc(100vw-2rem))] rounded-xl rounded-br-sm px-4 py-3 pr-9 text-[0.875rem] leading-relaxed text-ink shadow-[var(--shadow-high)] motion-safe:animate-[greeting-in_320ms_var(--ease-emphasis)]"
+          className="surface-panel absolute bottom-full right-0 mb-3 w-max max-w-[min(15rem,calc(100vw-2rem))] rounded-[var(--radius-xl)] rounded-br-sm px-4 py-3 pr-9 text-[0.875rem] leading-relaxed text-ink shadow-[var(--shadow-high)] motion-safe:animate-[greeting-in_320ms_var(--ease-emphasis)]"
         >
           <button
             type="button"

@@ -123,7 +123,11 @@ export function Section({
           */
           sizes="(min-width: 1280px) 1280px, 100vw"
           priority={backgroundPriority}
-          className="-z-10 object-cover object-center opacity-90"
+          /* Desaturated and dropped to 70%. At 90% opacity and full chroma this
+             texture was tinting whole sections violet from behind the copy —
+             the surfaces are neutral now and the texture must not reintroduce
+             the hue they had removed. */
+          className="-z-10 object-cover object-center opacity-70 [filter:saturate(0.5)_brightness(0.85)]"
         />
       ) : null}
 

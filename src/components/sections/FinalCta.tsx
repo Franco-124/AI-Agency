@@ -22,7 +22,11 @@ export function FinalCta() {
         alt={t('imageAlt')}
         fill
         sizes="100vw"
-        className="-z-10 object-cover object-center"
+        /* Graded to match the hero backdrop and the section textures — see the
+           note in `Hero`. This is the last full-bleed violet artwork on the
+           page, and leaving it at source chroma would have closed the site on
+           exactly the register the rest of it no longer uses. */
+        className="-z-10 object-cover object-center [filter:saturate(0.28)_brightness(0.62)_contrast(1.08)]"
       />
       {/*
         Two overlays rather than one. The horizontal wash keeps the copy
@@ -60,7 +64,7 @@ export function FinalCta() {
                 describing a case that does not match a package. Given the
                 page's strongest elevation: it is the final destination, so it
                 should read as sitting closest to the viewer. */}
-            <div className="surface-panel rounded-[1.125rem] p-5 shadow-[var(--shadow-high)] sm:p-8">
+            <div className="surface-panel rounded-[var(--radius-2xl)] p-5 shadow-[var(--shadow-high)] sm:p-8">
               <h3 className="text-[1.0625rem] font-semibold tracking-[-0.02em] sm:text-lg">
                 {tForm('title')}
               </h3>

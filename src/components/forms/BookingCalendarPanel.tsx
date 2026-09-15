@@ -345,7 +345,7 @@ export function BookingCalendarPanel({
     <div
       ref={panelRef}
       className={cn(
-        'surface-panel w-full basis-full rounded-[1.125rem] p-5 shadow-[var(--shadow-high)] sm:p-7 lg:p-9',
+        'surface-panel w-full basis-full rounded-[var(--radius-2xl)] p-5 shadow-[var(--shadow-high)] sm:p-7 lg:p-9',
         className,
       )}
     >
@@ -381,13 +381,13 @@ export function BookingCalendarPanel({
         to sit on so they are visibly buttons rather than glyphs.
       */}
       {currentDay && (
-        <div className="mt-6 flex items-center justify-between gap-2 rounded-[0.75rem] border border-hairline bg-[var(--surface-sunken)] p-1">
+        <div className="mt-6 flex items-center justify-between gap-2 rounded-[var(--radius-xl)] border border-hairline bg-[var(--surface-sunken)] p-1">
           <button
             type="button"
             disabled={!canGoBack || isBusy}
             onClick={() => goToDay(addDays(currentDay, -1))}
             aria-label={t('prevDay')}
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[0.5rem] text-ink-faint transition-colors hover:bg-[var(--accent-soft)] hover:text-[var(--accent-text)] disabled:pointer-events-none disabled:opacity-30"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--radius-lg)] text-ink-faint transition-colors hover:bg-[var(--accent-soft)] hover:text-[var(--accent-text)] disabled:pointer-events-none disabled:opacity-30"
           >
             <ChevronLeft aria-hidden className="h-4 w-4" />
           </button>
@@ -399,7 +399,7 @@ export function BookingCalendarPanel({
             disabled={isBusy}
             onClick={() => goToDay(addDays(currentDay, 1))}
             aria-label={t('nextDay')}
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[0.5rem] text-ink-faint transition-colors hover:bg-[var(--accent-soft)] hover:text-[var(--accent-text)] disabled:pointer-events-none disabled:opacity-30"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--radius-lg)] text-ink-faint transition-colors hover:bg-[var(--accent-soft)] hover:text-[var(--accent-text)] disabled:pointer-events-none disabled:opacity-30"
           >
             <ChevronRight aria-hidden className="h-4 w-4" />
           </button>
@@ -413,7 +413,7 @@ export function BookingCalendarPanel({
       {phase.step === 'error' && (
         <p
           role="alert"
-          className="mt-4 rounded-[0.625rem] border border-[var(--accent-hairline)] bg-[var(--accent-soft)] px-3.5 py-2.5 text-[0.875rem] leading-relaxed text-[var(--accent-text)]"
+          className="mt-4 rounded-[var(--radius-xl)] border border-[var(--accent-hairline)] bg-[var(--accent-soft)] px-3.5 py-2.5 text-[0.875rem] leading-relaxed text-[var(--accent-text)]"
         >
           {phase.message}
         </p>
@@ -446,7 +446,7 @@ export function BookingCalendarPanel({
                 */
                 aria-pressed={selectedSlot?.start === slot.start}
                 className={cn(
-                  'flex min-h-11 items-center justify-center rounded-[0.5rem] border px-2 text-[0.875rem] font-medium tabular-nums',
+                  'flex min-h-11 items-center justify-center rounded-[var(--radius-lg)] border px-2 text-[0.875rem] font-medium tabular-nums',
                   'transition-[background-color,border-color,color,box-shadow] duration-200',
                   'disabled:pointer-events-none disabled:opacity-55 lg:text-[0.9375rem]',
                   selectedSlot?.start === slot.start
@@ -556,7 +556,7 @@ export function BookingCalendarPanel({
       {phase.step === 'confirmed' && (
         <div
           role="status"
-          className="mt-6 rounded-[0.875rem] border border-[var(--accent-hairline)] bg-[var(--accent-soft)] p-5"
+          className="mt-6 rounded-[var(--radius-2xl)] border border-[var(--accent-hairline)] bg-[var(--accent-soft)] p-5"
         >
           <span
             aria-hidden

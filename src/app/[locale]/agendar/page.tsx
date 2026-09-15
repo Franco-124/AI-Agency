@@ -98,7 +98,7 @@ export default async function BookingPage({ params }: PageProps) {
               href="/"
               className="group -ml-1 inline-flex min-h-11 w-fit items-center gap-2.5 rounded-lg pl-1 pr-2 text-[0.8125rem] font-medium text-ink-muted transition-colors duration-200 hover:text-ink"
             >
-              <span className="flex h-9 w-9 items-center justify-center rounded-[0.5rem] border border-hairline bg-[var(--surface-panel)] transition-colors duration-200 group-hover:border-hairline-strong group-hover:bg-[var(--surface-inset)]">
+              <span className="flex h-9 w-9 items-center justify-center rounded-[var(--radius-lg)] border border-hairline bg-[var(--surface-panel)] transition-colors duration-200 group-hover:border-hairline-strong group-hover:bg-[var(--surface-inset)]">
                 <ArrowLeft
                   aria-hidden
                   className="h-4 w-4 transition-transform duration-200 ease-[var(--ease-emphasis)] group-hover:-translate-x-0.5"
@@ -123,7 +123,7 @@ export default async function BookingPage({ params }: PageProps) {
               </span>
             </p>
 
-            <figure className="surface-panel mt-10 hidden rounded-[1.125rem] rounded-tl-md p-6 lg:block">
+            <figure className="surface-panel mt-10 hidden rounded-[var(--radius-2xl)] rounded-tl-md p-6 lg:block">
               <blockquote className="text-[0.9375rem] leading-[1.7] text-ink">
                 <p>&ldquo;{tResults('quote')}&rdquo;</p>
               </blockquote>
