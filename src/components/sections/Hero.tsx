@@ -95,33 +95,23 @@ export function Hero() {
         fill
         sizes="100vw"
         /*
-          Desaturated and darkened in the browser rather than re-exported.
+          No `filter` here any more. The grade lives in the file.
 
-          The artwork is a saturated violet field — the whole frame is brand
-          colour at high chroma, which is the single loudest "AI product"
-          signal left on the page now that the surfaces underneath it are
-          neutral. Left alone it simply contradicted them: a neutral document
-          with a purple-lit cover.
+          This used to carry `saturate(0.45) brightness(0.82) contrast(1.04)`,
+          described in its own comment as a stopgap pending a re-exported
+          backdrop. `scripts/build-hero-backdrop.mjs` is that re-export, and it
+          fixes what the stopgap could not: the `brightness(0.82)` was dimming
+          the artwork by 18% to hold a contrast the scrim below already
+          guarantees on its own, and `saturate(0.45)` took the light sweep grey
+          along with the violet wash it was aimed at. The baked grade keeps the
+          hue in check at 0.62 and leaves the luminance alone.
 
-          Three passes were needed to land this. The source at full chroma was a
-          purple wash that contradicted the neutral surfaces; 0.55/0.8 barely
-          moved it; 0.28/0.62 fixed the hue but took the artwork down with it —
-          the light sweep went grey and flat, which loses the one thing the
-          image is actually for.
-
-          0.45/0.82 keeps the sweep luminous and legibly violet while staying
-          well clear of the wash. The `contrast` bump is eased to 1.04 to match:
-          at the darker grade it was holding the sweep out of the mud, and at
-          this brightness a heavier hand would only crush the gradient.
-
-          These are `filter` on a static image, applied once at paint, so they
-          cost nothing per frame.
-
-          This is a stopgap that happens to be the right stopgap: the real fix
-          is a re-exported backdrop, and until there is one this keeps the hero
-          in the same register as everything below it.
+          The file is also 3342px wide now rather than 1671. At full bleed the
+          old export was being scaled *up* on any desktop and by nearly four on
+          a 2x display, which is where the softness came from — no filter could
+          have fixed that one.
         */
-        className="-z-30 object-cover object-[72%_center] [filter:saturate(0.45)_brightness(0.82)_contrast(1.04)] lg:object-center"
+        className="-z-30 object-cover object-[72%_center] lg:object-center"
       />
 
       {/*
