@@ -17,6 +17,7 @@
     "home": "Inicio",
     "bookShort": "Agendar",
     "services": "Servicios",
+    "pricing": "Planes",
     "process": "Proceso",
     "faq": "Preguntas frecuentes",
     "contact": "Contacto",
@@ -180,6 +181,67 @@
         "title": "Sitios web profesionales",
         "body": "Diseñamos y programamos tu sitio completo: inicio, servicios, portafolio y un formulario que llega directo a tu WhatsApp. Rápido, listo para buscadores y hecho para que la visita termine en conversación."
       }
+    }
+  },
+  "pricing": {
+    "title": "Planes y precios claros",
+    "lead": "Dos cifras transparentes que conoces antes de firmar: implementación única y mensualidad de soporte continuo. Sin letras chicas ni contratos de amarre.",
+    "plans": {
+      "essential": {
+        "tag": "Pymes en etapa de orden",
+        "name": "Esencial WhatsApp",
+        "description": "Ideal para pymes que quieren responder 24/7 y no perder consultas básicas fuera de horario laboral.",
+        "priceLabel": "Estructura transparente",
+        "priceValue": "Setup único + soporte",
+        "priceNote": "Cotizado a medida tras tu diagnóstico inicial.",
+        "features": [
+          "Diagnóstico de preguntas frecuentes",
+          "Chatbot entrenado con catálogo y precios",
+          "Conexión con WhatsApp Business API",
+          "Handoff automático a asesor humano"
+        ],
+        "notIncluded": "Sin agendamiento autónomo en calendario",
+        "cta": "Cotizar plan esencial"
+      },
+      "pro": {
+        "badge": "Más recomendado por clientes",
+        "tag": "Máxima eficiencia",
+        "name": "Agente Pro y Procesos",
+        "description": "Agente cognitivo autónomo con conexión a Google Calendar, actualización de prospectos y seguimiento.",
+        "priceLabel": "Inversión con alto ROI",
+        "priceValue": "Implementación + mensualidad",
+        "priceNote": "Cubre monitoreo, soporte, hosting y optimizaciones continuas.",
+        "features": [
+          "Todo lo del plan Esencial",
+          "Agente con lectura de disponibilidad en vivo",
+          "Agendamiento directo en Google Calendar",
+          "Sincronización con Google Sheets o CRM",
+          "Retoma de clientes inactivos automática",
+          "Panel central de supervisión de chats"
+        ],
+        "cta": "Elegir Agente Pro"
+      },
+      "complete": {
+        "tag": "Escala completa",
+        "name": "Transformación Total",
+        "description": "Agente de IA avanzado, automatizaciones de CRM y sitio web profesional programado para conversión total.",
+        "priceLabel": "Solución integral",
+        "priceValue": "Ecosistema llave en mano",
+        "priceNote": "Construcción en 15 a 20 días hábiles.",
+        "features": [
+          "Todo lo del plan Agente Pro",
+          "Sitio web corporativo completo",
+          "Formularios directos hacia WhatsApp",
+          "Integraciones a medida (HubSpot, pagos)",
+          "Soporte prioritario mensual con ajustes"
+        ],
+        "cta": "Cotizar transformación"
+      }
+    },
+    "guarantee": {
+      "title": "Sin permanencia mínima obligatoria",
+      "body": "Puedes cancelar cuando quieras avisando con 30 días de anticipación. Tus datos y contactos siempre te pertenecen.",
+      "cta": "Consultar dudas"
     }
   },
   "integrations": {

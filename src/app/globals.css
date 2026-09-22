@@ -31,12 +31,22 @@
      accent is unchanged and is now the only chromatic thing on the page,
      which is what makes it read as a brand mark instead of as ambience.
      ---------------------------------------------------------------- */
-  --color-primario: #14171c;
-  --color-secundario: #262b33;
+  /*
+    Stitch redesign ("Rediseño Web Numinet"): the five surface values below
+    were a hue-pulled blue-graphite ink, chosen deliberately (see the comment
+    that used to sit here) so the accent stayed the only chromatic thing on
+    the page. The product owner has since asked, repeatedly and explicitly,
+    for the Stitch comp's violet-black ("#12081F" family) applied to the
+    whole site, not just the hero — so every surface below is now mixed from
+    that same violet rather than from a neutral, reverting that decision
+    site-wide. The accent itself is unchanged.
+  */
+  --color-primario: #1a0f2c;
+  --color-secundario: #201338;
   --color-acento: #8b5cf6;
   --color-acento-lift: #b39cfb;
   --color-acento-deep: #5b21b6;
-  --color-neutro-oscuro: #080a0f;
+  --color-neutro-oscuro: #12081f;
   --color-neutro-claro: #f4f6f8;
 
   /* ----------------------------------------------------------------
@@ -49,10 +59,10 @@
      elevation, and components pick the step instead of mixing a one-off.
      ---------------------------------------------------------------- */
   --surface-base: var(--color-neutro-oscuro);
-  --surface-sunken: #050609;
+  --surface-sunken: #0c0517;
   --surface-raised: var(--color-primario);
-  --surface-panel: #1a1e25;
-  --surface-inset: #21262e;
+  --surface-panel: #201338;
+  --surface-inset: #281745;
 
   /* ----------------------------------------------------------------
      Border ladder. Three weights, because one hairline everywhere is what
@@ -208,19 +218,28 @@
      the two numeric "hero figures" (the results stat and package prices) — see
      `.type-display`, `.type-section-title` and `.type-figure` below. Every
      other heading, label and piece of UI stays on `--font-sans`. */
-  --font-display: var(--font-display-face), ui-sans-serif, system-ui, sans-serif;
+  /*
+    Stitch redesign: every headline on the site now leads with Plus Jakarta
+    Sans (see the comment on `plusJakartaSans` in `[locale]/layout.tsx`),
+    falling back to the site's own IBM Plex Sans. This was scoped to the hero
+    only at first; the product owner then asked for the site to match the
+    Stitch comp exactly, so it now applies everywhere `--font-display` is
+    used — `.type-display`, `.type-section-title`, `.type-figure`.
+  */
+  --font-display: var(--font-hero-display), var(--font-display-face), ui-sans-serif, system-ui, sans-serif;
 
-  /* Corner radii, pulled in one step across the board.
-
-     A 1.25rem corner on a panel is a consumer-product corner: it reads as
-     soft, approachable, app-like. Professional-services sites sit between
-     2px and 8px almost without exception, because a nearly-square corner
-     reads as a document or a printed card rather than as a UI surface. The
-     scale keeps three steps so components need no edits — each step simply
-     resolves tighter. */
-  --radius-lg: 0.25rem;
-  --radius-xl: 0.375rem;
-  --radius-2xl: 0.5rem;
+  /*
+    Corner radii — reverted to soft, app-like corners on the product owner's
+    explicit, repeated request to match the Stitch comp exactly. This site
+    used to pull every radius down to 2–8px specifically to read as a
+    document rather than a UI surface (see the comment this replaced); the
+    Stitch comp wants the opposite read — `rounded-2xl` cards and fully
+    pill-shaped (`rounded-full`) buttons throughout — so the scale is now
+    close to Tailwind's own defaults instead of compressed toward zero.
+  */
+  --radius-lg: 0.875rem;
+  --radius-xl: 1.125rem;
+  --radius-2xl: 1.5rem;
 }
 
 @layer base {
@@ -330,7 +349,7 @@
     font-family: var(--font-display);
     font-size: clamp(2.125rem, 1.55rem + 2.6vw, 2.5rem);
     line-height: 1.12;
-    font-weight: 600;
+    font-weight: 800;
     letter-spacing: -0.012em;
   }
 
@@ -351,7 +370,7 @@
     font-family: var(--font-display);
     font-size: clamp(1.5rem, 1.3rem + 1vw, 1.75rem);
     line-height: 1.22;
-    font-weight: 600;
+    font-weight: 800;
     letter-spacing: -0.008em;
   }
 
@@ -368,7 +387,7 @@
      than a UI label — never used for anything counted or tabular. */
   .type-figure {
     font-family: var(--font-display);
-    font-weight: 600;
+    font-weight: 800;
     letter-spacing: -0.015em;
     /* A figure that is being counted up must not reflow as its digits
        change — Plex's tabular set holds every numeral on one advance width. */
@@ -425,82 +444,74 @@
   /* ----------------------------------------------------------------
      Buttons — solid.
 
-     Every CTA was a pane of tinted glass: a translucent fill, a real
-     `backdrop-filter` blur, a bright specular rim along the top and a dark
-     one along the bottom. It was well built, and it was the wrong argument.
-     Glass is a *material* effect — it says the interface is a physical object
-     the visitor is handling, which is the vocabulary of consumer software.
-     A professional-services site is making a claim in writing; its buttons
-     should read as printed ink on stock, flat and unambiguous.
-
-     The replacement is deliberately plain: an opaque fill, one hairline, one
-     contact shadow. Three things follow from it —
-
-       1. **No `backdrop-filter`.** It was the most expensive property on the
-          page, forcing the compositor to sample and blur everything behind
-          each button. Removing it removes that cost entirely.
-       2. **No specular rim.** The two-stop inset shadow that sold the glass
-          is gone; a flat surface has no highlight to catch.
-       3. **State is carried by value, not by light.** Hover lifts the fill one
-          step and active drops it one, rather than restaging a reflection.
-
-     The accent colour is unchanged — it is now applied as paint rather than
-     as transmitted light, which is the whole difference.
+     This site used to argue against glass buttons here at length: a
+     `backdrop-filter` pane reads as a physical object, the vocabulary of
+     consumer software, and a professional-services CTA should read as ink on
+     stock instead. That argument lost on the product owner's explicit,
+     repeated instruction to apply the Stitch comp's liquid-glass buttons to
+     the whole site — so every CTA is glass again, matching `.btn-hero-primary`
+     / `.btn-hero-secondary` below, which now differ from these only in that
+     they were the first place the glass treatment landed.
      ---------------------------------------------------------------- */
 
-  /* Primary CTA — solid accent. */
+  /* Primary CTA — glass accent gradient. */
   .btn-volume {
     position: relative;
-    background-color: var(--color-acento);
-    border: 1px solid var(--color-acento);
-    box-shadow: var(--shadow-low);
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--color-acento-lift) 75%, transparent) 0%,
+      color-mix(in srgb, var(--color-acento) 90%, transparent) 50%,
+      color-mix(in srgb, var(--color-acento-deep) 80%, transparent) 100%
+    );
+    border: 1px solid color-mix(in srgb, white 35%, transparent);
+    box-shadow:
+      inset 0 1px 1px 0 color-mix(in srgb, white 60%, transparent),
+      var(--shadow-mid);
     color: #ffffff;
-    transition:
-      background-color 180ms var(--ease-entrance),
-      border-color 180ms var(--ease-entrance),
-      box-shadow 180ms var(--ease-entrance);
+    transition: all 220ms var(--ease-entrance);
   }
 
   .btn-volume:hover {
-    background-color: color-mix(in srgb, var(--color-acento) 86%, white);
-    border-color: color-mix(in srgb, var(--color-acento) 86%, white);
-    box-shadow: var(--shadow-mid);
+    transform: translateY(-1px);
+    border-color: color-mix(in srgb, white 55%, transparent);
+    box-shadow:
+      inset 0 1px 2px 0 color-mix(in srgb, white 75%, transparent),
+      var(--shadow-high);
   }
 
-  /* Pressed: the fill deepens and the cast collapses, so the control reads as
-     having been pushed into the page rather than re-lit. */
   .btn-volume:active {
-    background-color: var(--color-acento-deep);
-    border-color: var(--color-acento-deep);
-    box-shadow: none;
+    transform: translateY(0) scale(0.98);
   }
 
   /*
-    Secondary — outline on the page surface.
-
-    Not a translucent white wash, which is what the glass version used and
-    what made the secondary read as a dimmer copy of the primary. An outlined
-    button is a different *kind* of control, not a quieter one: it states the
-    alternative action plainly and never competes for the eye.
+    Secondary — a quieter glass pane, not a translucent white wash: it states
+    the alternative action plainly without competing with the primary.
   */
   .btn-surface {
     position: relative;
-    background-color: transparent;
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, white 7%, transparent) 0%,
+      color-mix(in srgb, white 2%, transparent) 100%
+    );
     border: 1px solid var(--surface-border-strong);
-    box-shadow: none;
+    box-shadow: var(--shadow-low);
     color: var(--text-primary);
-    transition:
-      background-color 180ms var(--ease-entrance),
-      border-color 180ms var(--ease-entrance);
+    transition: all 220ms var(--ease-entrance);
   }
 
   .btn-surface:hover {
-    background-color: color-mix(in srgb, var(--color-neutro-claro) 6%, transparent);
-    border-color: color-mix(in srgb, var(--color-neutro-claro) 30%, transparent);
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, white 14%, transparent) 0%,
+      color-mix(in srgb, white 5%, transparent) 100%
+    );
+    border-color: color-mix(in srgb, white 34%, transparent);
+    transform: translateY(-1px);
   }
 
   .btn-surface:active {
-    background-color: color-mix(in srgb, var(--color-neutro-claro) 10%, transparent);
+    transform: translateY(0);
   }
 
   /* ----------------------------------------------------------------
@@ -512,54 +523,174 @@
      distinct classes purely so the hero markup needs no edit.
      ---------------------------------------------------------------- */
 
+  /*
+    Kept as distinct classes from `.btn-volume`/`.btn-surface` above purely so
+    the hero markup needs no edit — both pairs now carry the same Stitch
+    liquid-glass treatment, applied site-wide.
+  */
   .btn-hero-primary {
     position: relative;
-    background-color: var(--color-acento);
-    border: 1px solid var(--color-acento);
-    box-shadow: var(--shadow-mid);
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--color-acento-lift) 75%, transparent) 0%,
+      color-mix(in srgb, var(--color-acento) 90%, transparent) 50%,
+      color-mix(in srgb, var(--color-acento-deep) 80%, transparent) 100%
+    );
+    backdrop-filter: blur(20px) saturate(190%);
+    -webkit-backdrop-filter: blur(20px) saturate(190%);
+    border: 1px solid color-mix(in srgb, white 35%, transparent);
+    box-shadow:
+      inset 0 1px 1px 0 color-mix(in srgb, white 60%, transparent),
+      var(--shadow-high);
     color: #ffffff;
-    transition:
-      background-color 180ms var(--ease-entrance),
-      border-color 180ms var(--ease-entrance),
-      box-shadow 180ms var(--ease-entrance);
+    transition: all 220ms var(--ease-emphasis, ease-out);
   }
 
   .btn-hero-primary:hover {
-    background-color: color-mix(in srgb, var(--color-acento) 86%, white);
-    border-color: color-mix(in srgb, var(--color-acento) 86%, white);
-    box-shadow: var(--shadow-high);
+    transform: translateY(-2px) scale(1.02);
+    border-color: color-mix(in srgb, white 60%, transparent);
+    box-shadow:
+      inset 0 1px 2px 0 color-mix(in srgb, white 80%, transparent),
+      var(--shadow-high);
   }
 
   .btn-hero-primary:active {
-    background-color: var(--color-acento-deep);
-    border-color: var(--color-acento-deep);
-    box-shadow: var(--shadow-low);
+    transform: translateY(0) scale(0.97);
   }
 
-  /*
-    The hero's secondary is the one button that keeps a fill: it sits over
-    photographic artwork, where a pure outline has no reliable ground behind
-    it and the label's contrast depends on whichever part of the image it
-    lands on. An opaque dark plate guarantees the 4.5:1 regardless.
-  */
   .btn-hero-secondary {
     position: relative;
-    background-color: color-mix(in srgb, var(--surface-raised) 88%, transparent);
-    border: 1px solid var(--surface-border-strong);
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, white 8%, transparent) 0%,
+      color-mix(in srgb, white 3%, transparent) 100%
+    );
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid color-mix(in srgb, white 16%, transparent);
     box-shadow: var(--shadow-low);
     color: var(--text-primary);
-    transition:
-      background-color 180ms var(--ease-entrance),
-      border-color 180ms var(--ease-entrance);
+    transition: all 220ms var(--ease-emphasis, ease-out);
   }
 
   .btn-hero-secondary:hover {
-    background-color: var(--surface-panel);
-    border-color: color-mix(in srgb, var(--color-neutro-claro) 30%, transparent);
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, white 16%, transparent) 0%,
+      color-mix(in srgb, white 6%, transparent) 100%
+    );
+    border-color: color-mix(in srgb, white 35%, transparent);
+    transform: translateY(-2px);
   }
 
   .btn-hero-secondary:active {
-    background-color: var(--surface-inset);
+    transform: translateY(0);
+  }
+
+  /*
+    General-purpose glass card, used across the whole page now (service
+    cards, FAQ rows, integration tiles, the "why" and "benefits" grids, the
+    hero's feature pills and showcase panel) — the Stitch comp's
+    `liquid-glass-surface`.
+
+    No `backdrop-filter` here: the comp calls for it, but a page can carry a
+    dozen or more of these on screen at once, several of them near the hero's
+    animated `blur(120px)` orbs — every orb frame then forced all of them to
+    resample what was behind them, which froze the compositor solid during
+    testing (a verified hang, not a hunch: the tab stopped responding to CDP
+    screenshot commands entirely). The gradient fill alone reads as glass
+    without paying for live blur sampling, the same trade-off `.surface-panel`
+    and `.btn-volume` above make.
+  */
+  .glass-surface {
+    background: linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--color-acento-deep) 30%, var(--surface-raised)) 0%,
+      color-mix(in srgb, var(--surface-sunken) 96%, transparent) 100%
+    );
+    border: 1px solid color-mix(in srgb, white 12%, transparent);
+    box-shadow:
+      inset 0 1px 1px 0 color-mix(in srgb, white 15%, transparent),
+      0 20px 50px rgba(0, 0, 0, 0.45);
+    transition:
+      transform 350ms cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 350ms ease;
+  }
+
+  .glass-surface:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent-hairline);
+  }
+
+  /* Ambient glow orbs behind the hero, drifting slowly on a loop. */
+  .hero-orb {
+    position: absolute;
+    border-radius: 9999px;
+    pointer-events: none;
+    z-index: -10;
+    filter: blur(120px);
+  }
+
+  @keyframes heroFloatOrbA {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    33% {
+      transform: translate(30px, -40px) scale(1.06);
+    }
+    66% {
+      transform: translate(-25px, 20px) scale(0.95);
+    }
+  }
+
+  @keyframes heroFloatOrbB {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    33% {
+      transform: translate(-40px, 25px) scale(1.08);
+    }
+    66% {
+      transform: translate(25px, -20px) scale(0.93);
+    }
+  }
+
+  .hero-orb-a {
+    animation: heroFloatOrbA 16s ease-in-out infinite;
+  }
+
+  .hero-orb-b {
+    animation: heroFloatOrbB 20s ease-in-out infinite;
+  }
+
+  /* Faint ruled grid over the hero field, matching the Stitch comp's body
+     background — a subtler version of the same `repeating-linear-gradient`
+     pattern, kept to the hero so it does not compete with content below. */
+  .hero-grid {
+    background-image:
+      repeating-linear-gradient(
+        to right,
+        color-mix(in srgb, var(--color-acento) 10%, transparent) 0px,
+        color-mix(in srgb, var(--color-acento) 10%, transparent) 1px,
+        transparent 1px,
+        transparent 92px
+      ),
+      repeating-linear-gradient(
+        to bottom,
+        color-mix(in srgb, var(--color-acento) 10%, transparent) 0px,
+        color-mix(in srgb, var(--color-acento) 10%, transparent) 1px,
+        transparent 1px,
+        transparent 112px
+      );
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-orb-a,
+    .hero-orb-b {
+      animation: none;
+    }
   }
 
   /* ----------------------------------------------------------------
@@ -746,20 +877,33 @@
        3. A layered cast shadow, so it sits above the page rather than on it.
      ---------------------------------------------------------------- */
   /*
-    Flat fill, one hairline, no cast.
+    Glass fill: a vertical gradient, a 1px inner top highlight and a layered
+    cast shadow — reinstated on the product owner's explicit, repeated
+    request to carry the Stitch comp's liquid-glass panels across the whole
+    site, not only the hero. This reverts the flat-fill decision the comment
+    above used to describe.
 
-    The panel used to carry a vertical gradient, a 1px inner top highlight and
-    a layered drop shadow — the three ingredients that make a surface read as
-    a lit physical object hovering above the page. That is the correct
-    treatment for an application UI, where a panel *is* a manipulable object.
-    On a document it is costume: it makes every block look like a widget.
-
-    The border does the separating now, which is what a border is for.
+    No `backdrop-filter` here, on purpose: `.surface-panel` renders many times
+    on one page at once (every `ServiceCard`, every FAQ row, the header's
+    mobile menu button, `BookingCalendarPanel`, …), and stacking that many
+    live-blur surfaces is what froze the hero's compositor solid during
+    testing (see the comment on `.hero-glass-surface` below). The gradient and
+    shadow alone read as glass without paying for blur sampling.
   */
   .surface-panel {
     position: relative;
-    background-color: var(--surface-panel);
+    background: linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--color-acento-deep) 20%, var(--surface-panel)) 0%,
+      var(--surface-panel) 100%
+    );
     border: 1px solid var(--surface-border);
+    box-shadow:
+      inset 0 1px 1px 0 color-mix(in srgb, white 10%, transparent),
+      var(--shadow-low);
+    transition:
+      transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 300ms ease;
   }
 
   /* Same finish, one step quieter — for cards sitting *inside* a panel, where

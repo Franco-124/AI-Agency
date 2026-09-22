@@ -14,7 +14,10 @@ import { cn } from '@/lib/utils'
 import { LocaleSwitcher } from './LocaleSwitcher'
 
 /*
- * Four flat links. No dropdown.
+ * Five flat links. No dropdown.
+ *
+ * "Planes" was added back for the Stitch redesign, alongside the `Pricing`
+ * section it points at — see the comment in `[locale]/page.tsx`.
  *
  * "Servicios" used to be a disclosure grouping itself with "Asesoría", because
  * the two were one errand — what Numi sells — and splitting them cost a
@@ -31,6 +34,7 @@ import { LocaleSwitcher } from './LocaleSwitcher'
  */
 const navItems = [
   { key: 'services', id: sectionIds.services },
+  { key: 'pricing', id: sectionIds.pricing },
   { key: 'process', id: sectionIds.process },
   { key: 'faq', id: sectionIds.faq },
   { key: 'contact', id: sectionIds.finalCta },
