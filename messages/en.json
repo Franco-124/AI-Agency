@@ -420,6 +420,13 @@
     "rightsContact": "For data deletion requests, write to us at",
     "updated": "Last updated: August 2026."
   },
+  "notFound": {
+    "eyebrow": "Error 404",
+    "title": "This page doesn't exist",
+    "body": "The link may be broken or the page moved. Head back home or book your strategy call.",
+    "backHome": "Back to home",
+    "cta": "Book your call"
+  },
   "footer": {
     "tagline": "Artificial intelligence consultancy for small and medium-sized businesses in Colombia.",
     "navLabel": "Navigation",
