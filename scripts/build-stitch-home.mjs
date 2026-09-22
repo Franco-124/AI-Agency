@@ -8,7 +8,7 @@ import containerQueries from '@tailwindcss/container-queries'
 import sharp from 'sharp'
 import { fileURLToPath } from 'node:url'
 
-let html = readFileSync(new URL('../design/stitch/code.html', import.meta.url), 'utf8')
+let html = readFileSync(new URL('../design/stitch/code.html', import.meta.url), 'utf8').replace(/\r\n/g, '\n')
 
 const swap = (from, to) => {
   if (!html.includes(from)) throw new Error('Not found: ' + from.slice(0, 80))
