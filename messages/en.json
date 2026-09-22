@@ -17,6 +17,7 @@
     "home": "Home",
     "bookShort": "Book a call",
     "services": "Services",
+    "pricing": "Pricing",
     "process": "Process",
     "faq": "FAQ",
     "contact": "Contact",
@@ -180,6 +181,67 @@
         "title": "Professional websites",
         "body": "We design and build your full site: home, services, portfolio and a contact form that lands straight in your WhatsApp. Fast, search-ready, and built so a visit ends in a conversation."
       }
+    }
+  },
+  "pricing": {
+    "title": "Clear plans and pricing",
+    "lead": "Two transparent figures you know before signing: a one-time implementation and a monthly fee for ongoing support. No fine print, no lock-in contracts.",
+    "plans": {
+      "essential": {
+        "tag": "SMBs getting organized",
+        "name": "WhatsApp Essential",
+        "description": "Ideal for small businesses that want to answer 24/7 and stop losing basic inquiries outside business hours.",
+        "priceLabel": "Transparent structure",
+        "priceValue": "One-time setup + support",
+        "priceNote": "Quoted to your case after the initial diagnostic.",
+        "features": [
+          "FAQ diagnostic",
+          "Chatbot trained on your catalog and prices",
+          "WhatsApp Business API connection",
+          "Automatic handoff to a human advisor"
+        ],
+        "notIncluded": "No autonomous calendar scheduling",
+        "cta": "Quote the Essential plan"
+      },
+      "pro": {
+        "badge": "Most recommended by clients",
+        "tag": "Maximum efficiency",
+        "name": "Pro Agent & Processes",
+        "description": "Autonomous cognitive agent connected to Google Calendar, with lead updates and follow-up.",
+        "priceLabel": "High-ROI investment",
+        "priceValue": "Implementation + monthly fee",
+        "priceNote": "Covers monitoring, support, hosting and ongoing optimizations.",
+        "features": [
+          "Everything in Essential",
+          "Agent with live availability lookup",
+          "Direct scheduling in Google Calendar",
+          "Sync with Google Sheets or a CRM",
+          "Automatic re-engagement of inactive leads",
+          "Central chat supervision panel"
+        ],
+        "cta": "Choose Pro Agent"
+      },
+      "complete": {
+        "tag": "Full scale",
+        "name": "Total Transformation",
+        "description": "Advanced AI agent, CRM automations and a professional website built for conversion.",
+        "priceLabel": "Integral solution",
+        "priceValue": "Turnkey ecosystem",
+        "priceNote": "Built in 15 to 20 business days.",
+        "features": [
+          "Everything in Pro Agent",
+          "Complete corporate website",
+          "Forms wired directly to WhatsApp",
+          "Custom integrations (HubSpot, payments)",
+          "Priority monthly support with adjustments"
+        ],
+        "cta": "Quote the Transformation plan"
+      }
+    },
+    "guarantee": {
+      "title": "No mandatory minimum term",
+      "body": "Cancel whenever you want with 30 days' notice. Your data and contacts always belong to you.",
+      "cta": "Ask your questions"
     }
   },
   "integrations": {

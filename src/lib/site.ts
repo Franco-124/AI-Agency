@@ -45,6 +45,7 @@ export const faqKeys = ['one', 'two', 'three', 'four', 'five', 'six'] as const
 export const sectionIds = {
   hero: 'inicio',
   services: 'servicios',
+  pricing: 'planes',
   integrations: 'integraciones',
   benefits: 'beneficios',
   results: 'resultados',

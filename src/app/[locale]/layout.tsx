@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
 import { notFound } from 'next/navigation'
-import { IBM_Plex_Sans, Inter } from 'next/font/google'
+import { IBM_Plex_Sans, Inter, Plus_Jakarta_Sans } from 'next/font/google'
 import { NextIntlClientProvider } from 'next-intl'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 
@@ -116,6 +116,23 @@ const inter = Inter({
   variable: '--font-body-face',
 })
 
+/*
+  Hero-only display face, scoped to `.hero-jakarta` in globals.css.
+
+  The site's own display face is IBM Plex Sans, chosen over Plus Jakarta Sans
+  for its neutral, institutional voice (see the comment above). The Stitch
+  redesign's hero calls for Plus Jakarta Sans specifically, on the product
+  owner's explicit request to match that comp — so it is added as a second,
+  narrowly-scoped face rather than replacing the site's chosen display face
+  everywhere it appears.
+*/
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ['latin', 'latin-ext'],
+  weight: ['600', '700', '800'],
+  display: 'swap',
+  variable: '--font-hero-display',
+})
+
 export default async function LocaleLayout({
   children,
   params,
@@ -133,7 +150,7 @@ export default async function LocaleLayout({
     // token contract in globals.css).
     <html
       lang={locale}
-      className={`${inter.variable} ${ibmPlexSans.variable}`}
+      className={`${inter.variable} ${ibmPlexSans.variable} ${plusJakartaSans.variable}`}
       /*
         Opts into Next's smooth-scroll contract: `globals.css` sets
         `scroll-behavior: smooth` on this element, and without this attribute

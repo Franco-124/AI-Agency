@@ -6,12 +6,10 @@ import { cn } from '@/lib/utils'
 
 const buttonVariants = cva(
   [
-    'group/btn relative inline-flex items-center justify-center gap-2 rounded-[var(--radius-lg)]',
-    // 500, not 600. Semibold is a shouting weight for a control label, and
-    // Plex's 600 is noticeably heavier than the old face's — the buttons read
-    // as bolder than the headline they sit under. Tracking goes to zero:
-    // negative tracking on a 15px label closes its counters for no gain.
-    'font-medium tracking-normal whitespace-nowrap select-none',
+    // `rounded-full`: every button in the Stitch comp is a full pill,
+    // regardless of size — not just "rounder corners".
+    'group/btn relative inline-flex items-center justify-center gap-2 rounded-full',
+    'font-semibold tracking-normal whitespace-nowrap select-none',
     'transition-[background-color,border-color,color,box-shadow] duration-200 ease-out',
     'disabled:pointer-events-none disabled:opacity-55',
   ].join(' '),
@@ -39,8 +37,8 @@ const buttonVariants = cva(
         // Hero-only pair. Now identical in treatment to the site buttons and
         // kept separate only so the hero can diverge without touching them.
         // See .btn-hero-primary/-secondary.
-        heroPrimary: 'btn-hero-primary rounded-[var(--radius-lg)]',
-        heroSecondary: 'btn-hero-secondary rounded-[var(--radius-lg)]',
+        heroPrimary: 'btn-hero-primary',
+        heroSecondary: 'btn-hero-secondary',
       },
       size: {
         // 44px minimum touch target on every interactive size.
