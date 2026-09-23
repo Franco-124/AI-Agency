@@ -380,7 +380,7 @@
 </div>
 </div>
 <!-- Chat Messages Stream -->
-<div aria-live="polite" class="p-5 sm:p-6 space-y-4 text-[13px] overflow-y-auto max-h-[440px]" id="numi-chat-stream" role="log">
+<div aria-live="polite" class="p-4 sm:p-6 space-y-4 text-[13px] overflow-y-auto overscroll-contain h-[380px] sm:h-[440px] [overflow-anchor:none]" id="numi-chat-stream" role="log">
 <div class="flex justify-center my-1">
 <span class="text-[11px] text-text-muted font-mono bg-[#1b0f2e]/80 px-3.5 py-1 rounded-full border border-white/5 shadow-sm">Hoy, 11:42 PM • Conversación Entrante</span>
 </div>
@@ -479,9 +479,9 @@
 <span class="">Esta conversación es un ejemplo. Pruébalo tú: escríbele a Cortana, nuestro agente real, y mira cómo responde.</span>
 </div>
 <!-- Chat input bar: live Cortana agent (wired by scripts/stitch-chat.js) -->
-<form class="p-3 bg-[#150a25]/95 border-t border-white/10 flex items-center gap-3" id="numi-chat-form" novalidate>
+<form class="p-2.5 sm:p-3 bg-[#150a25]/95 border-t border-white/10 flex items-center gap-3" id="numi-chat-form" novalidate>
 <div class="relative w-full">
-<input autocomplete="off" class="w-full px-4 py-2.5 rounded-xl bg-[#0a0413] text-text-primary text-[13px] border border-white/10 focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-60" enterkeyhint="send" id="numi-chat-input" maxlength="1000" placeholder="Escribe un mensaje a Cortana..." type="text">
+<input autocomplete="off" class="w-full px-4 py-2.5 rounded-xl bg-[#0a0413] text-text-primary text-[16px] sm:text-[13px] border border-white/10 focus:outline-none focus:ring-2 focus:ring-primary read-only:opacity-60" enterkeyhint="send" id="numi-chat-input" maxlength="1000" placeholder="Escribe un mensaje a Cortana..." type="text">
 </div>
 <button aria-label="Enviar mensaje" class="w-9 h-9 rounded-xl bg-primary-container flex items-center justify-center text-white shrink-0 shadow-md hover:bg-primary-container/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" id="numi-chat-send" type="submit">
 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">

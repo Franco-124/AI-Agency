@@ -109,12 +109,25 @@
     return new Date(ts).toLocaleTimeString(isEn ? 'en-US' : 'es-CO', { hour: 'numeric', minute: '2-digit' });
   }
 
+  var reduceMotion = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var chatCard = stream.parentElement; // header + stream + invite + input
+
   function scrollToEnd() {
-    stream.scrollTop = stream.scrollHeight;
+    stream.scrollTo({ top: stream.scrollHeight, behavior: reduceMotion ? 'auto' : 'smooth' });
+  }
+
+  // Keep the whole chat in view without yanking the page when it already is.
+  function ensureChatVisible() {
+    var rect = chatCard.getBoundingClientRect();
+    var vh = window.innerHeight;
+    if (rect.top >= 0 && rect.bottom <= vh) return;
+    var behavior = reduceMotion ? 'auto' : 'smooth';
+    if (rect.height <= vh) chatCard.scrollIntoView({ block: 'center', behavior: behavior });
+    else form.scrollIntoView({ block: 'end', behavior: behavior });
   }
 
   function userRow(text, ts) {
-    var row = el('div', 'flex items-end gap-2.5 max-w-md');
+    var row = el('div', 'flex items-end gap-2 sm:gap-2.5 max-w-[88%] sm:max-w-md');
     row.appendChild(el('div', 'w-8 h-8 rounded-full bg-surface-container-high border border-white/10 flex items-center justify-center text-on-surface-variant shrink-0 font-bold text-xs shadow-sm', T.you));
     var bubble = el('div', 'bg-[#1c1031]/95 px-4 py-3 rounded-2xl rounded-bl-xs text-on-surface shadow-md border border-white/10 leading-relaxed min-w-0');
     bubble.appendChild(el('div', 'whitespace-pre-wrap break-words', text));
@@ -124,7 +137,7 @@
   }
 
   function agentRow(text, ts, isError) {
-    var row = el('div', 'flex items-end justify-end gap-2.5 ml-auto max-w-lg');
+    var row = el('div', 'flex items-end justify-end gap-2 sm:gap-2.5 ml-auto max-w-[92%] sm:max-w-lg');
     var bubbleClass = isError
       ? 'bg-red-500/15 text-text-primary px-4 py-3.5 rounded-2xl rounded-br-xs border border-red-500/40 shadow-xl min-w-0'
       : 'bg-gradient-to-br from-primary-container/30 to-[#1e0e37] text-text-primary px-4 py-3.5 rounded-2xl rounded-br-xs border border-primary/40 shadow-xl min-w-0';
@@ -137,7 +150,7 @@
   }
 
   function typingRow() {
-    var row = el('div', 'flex items-end justify-end gap-2.5 ml-auto max-w-lg');
+    var row = el('div', 'flex items-end justify-end gap-2 sm:gap-2.5 ml-auto max-w-[92%] sm:max-w-lg');
     var bubble = el('div', 'bg-gradient-to-br from-primary-container/30 to-[#1e0e37] px-4 py-3.5 rounded-2xl rounded-br-xs border border-primary/40 shadow-xl min-w-0');
     var dots = el('div', 'flex items-center gap-1.5');
     for (var i = 0; i < 3; i++) {
@@ -205,7 +218,8 @@
 
   function setPending(value) {
     pending = value;
-    input.disabled = value;
+    // readOnly (not disabled) keeps focus, so the mobile keyboard doesn't close and reopen.
+    input.readOnly = value;
     sendBtn.disabled = value;
   }
 
@@ -241,6 +255,7 @@
     syncResetButton();
     append(userRow(message, now));
     input.value = '';
+    ensureChatVisible();
 
     var typing = typingRow();
     append(typing.row);
@@ -263,7 +278,8 @@
         append(agentRow(result.error, at, true));
       }
       setPending(false);
-      input.focus();
+      input.focus({ preventScroll: true });
+      ensureChatVisible();
     });
   }
 
@@ -275,7 +291,7 @@
     active = true;
     stream.replaceChildren(emptyHint());
     syncResetButton();
-    input.focus();
+    input.focus({ preventScroll: true });
   }
 
   form.addEventListener('submit', function (e) {
