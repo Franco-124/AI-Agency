@@ -358,7 +358,7 @@
 </div>
 <div>
 <div class="text-[14px] text-text-primary font-bold flex items-center gap-1.5">
-<span class="">Agente Numi AI • Inmobiliaria</span>
+<span class="">Cortana • Numi AI</span>
 <!-- WhatsApp Official Green Badge -->
 <svg class="w-4 h-4" fill="#25D366" viewBox="0 0 24 24">
 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15l-4-4 1.41-1.41L11 14.17l6.59-6.59L19 9l-8 8z"></path>
@@ -371,13 +371,16 @@
 </div>
 </div>
 </div>
+<div class="flex items-center gap-2">
+<button class="hidden px-3 py-1 rounded-full text-[11px] font-semibold text-text-secondary border border-white/15 hover:border-primary/40 hover:text-text-primary transition-colors" id="numi-chat-reset" type="button">Nueva conversación</button>
 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-container/20 text-primary text-[11px] font-semibold border border-primary/30 shadow-sm">
 <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
         Auto-Calificación Activa
       </span>
 </div>
+</div>
 <!-- Chat Messages Stream -->
-<div class="p-5 sm:p-6 space-y-4 text-[13px] overflow-y-auto max-h-[440px]">
+<div aria-live="polite" class="p-5 sm:p-6 space-y-4 text-[13px] overflow-y-auto max-h-[440px]" id="numi-chat-stream" role="log">
 <div class="flex justify-center my-1">
 <span class="text-[11px] text-text-muted font-mono bg-[#1b0f2e]/80 px-3.5 py-1 rounded-full border border-white/5 shadow-sm">Hoy, 11:42 PM • Conversación Entrante</span>
 </div>
@@ -470,20 +473,22 @@
 <div class="w-8 h-8 rounded-full bg-status-success flex items-center justify-center text-[#12081F] font-bold text-xs shrink-0 shadow-md ring-2 ring-status-success/30">AI</div>
 </div>
 </div>
-<!-- WhatsApp Input Bar with macOS quick command pill -->
-<div class="p-3 bg-[#150a25]/95 border-t border-white/10 flex items-center gap-3">
+<!-- Invitation to try the live agent -->
+<div class="px-5 py-2.5 bg-primary-container/15 border-t border-primary/25 flex items-center gap-2 text-[12px] text-text-primary">
+<span class="material-symbols-outlined text-primary text-[16px] shrink-0">auto_awesome</span>
+<span class="">Esta conversación es un ejemplo. Pruébalo tú: escríbele a Cortana, nuestro agente real, y mira cómo responde.</span>
+</div>
+<!-- Chat input bar: live Cortana agent (wired by scripts/stitch-chat.js) -->
+<form class="p-3 bg-[#150a25]/95 border-t border-white/10 flex items-center gap-3" id="numi-chat-form" novalidate>
 <div class="relative w-full">
-<input class="w-full pl-4 pr-20 py-2.5 rounded-xl bg-[#0a0413] text-text-muted text-[13px] border border-white/10 select-none cursor-default focus:outline-none" readonly="" type="text" value="Escribe un mensaje o deja que el agente responda...">
-<div class="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
-<span class="font-mono text-[10px] text-text-muted bg-white/10 px-2 py-0.5 rounded border border-white/10">⌘ K</span>
+<input autocomplete="off" class="w-full px-4 py-2.5 rounded-xl bg-[#0a0413] text-text-primary text-[13px] border border-white/10 focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-60" enterkeyhint="send" id="numi-chat-input" maxlength="1000" placeholder="Escribe un mensaje a Cortana..." type="text">
 </div>
-</div>
-<div class="w-9 h-9 rounded-xl bg-primary-container flex items-center justify-center text-white shrink-0 shadow-md cursor-pointer hover:bg-primary-container/80 transition-colors">
+<button aria-label="Enviar mensaje" class="w-9 h-9 rounded-xl bg-primary-container flex items-center justify-center text-white shrink-0 shadow-md hover:bg-primary-container/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" id="numi-chat-send" type="submit">
 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
 <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
 </svg>
-</div>
-</div>
+</button>
+</form>
 </div>
 <!-- Right Column: Live Automation Inspector (5 cols) -->
 <div class="lg:col-span-5 p-5 md:p-6 flex flex-col justify-between space-y-5 bg-[#120721]/95">
@@ -575,10 +580,10 @@
 <div class="flex items-center justify-between mb-2">
 <div>
 <div class="font-stat-display text-[32px] font-extrabold text-text-primary leading-none flex items-center gap-2">
-<span class="">0%</span>
-<span class="text-[11px] font-mono text-status-success font-normal bg-status-success/15 px-2 py-0.5 rounded-md border border-status-success/30">Cero demoras</span>
+<span class="tabular-nums" id="numi-metric-avg">1.2</span><span class="text-[18px] -ml-1">s</span>
+<span class="text-[11px] font-mono text-status-success font-normal bg-status-success/15 px-2 py-0.5 rounded-md border border-status-success/30" id="numi-metric-badge">Respuesta inmediata</span>
 </div>
-<div class="text-[10px] text-text-muted uppercase tracking-wider font-semibold mt-1">Consultas perdidas por demora</div>
+<div class="text-[10px] text-text-muted uppercase tracking-wider font-semibold mt-1">Tiempo promedio de respuesta del agente</div>
 </div>
 <div class="w-10 h-10 rounded-xl bg-primary-container/30 border border-primary/40 flex items-center justify-center text-primary shadow-sm">
 <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -588,16 +593,16 @@
 </div>
 <!-- Synaptic mini activity progress indicator -->
 <div class="w-full bg-[#12081F] h-1.5 rounded-full overflow-hidden mb-2.5 border border-white/10">
-<div class="bg-gradient-to-r from-primary via-tertiary to-status-success h-full w-[96%] rounded-full"></div>
+<div class="bg-gradient-to-r from-primary via-tertiary to-status-success h-full w-[96%] rounded-full transition-[width] duration-500 ease-out" id="numi-metric-bar"></div>
 </div>
 <div class="pt-2 flex items-center justify-between text-[11px] border-t border-white/10">
 <span class="text-text-secondary flex items-center gap-1.5">
 <span class="w-1.5 h-1.5 rounded-full bg-status-success"></span>
-          Tiempo de respuesta promedio
+          Última respuesta
         </span>
 <span class="font-mono font-bold text-text-primary flex items-center gap-1.5 bg-[#0e051a]/90 px-2.5 py-0.5 rounded-full border border-white/15 shadow-inner">
 <span class="w-1.5 h-1.5 rounded-full bg-status-success animate-pulse"></span>
-          1.2 segundos
+          <span id="numi-metric-last">1.2 segundos</span>
         </span>
 </div>
 </div>

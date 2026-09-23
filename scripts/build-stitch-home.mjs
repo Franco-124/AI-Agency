@@ -86,7 +86,9 @@ const formScript = `
   })();
 </script>
 `
-swap('</body></html>', formScript + '</body></html>')
+// Live Cortana chat (replaces the mock conversation on first send)
+const chatScript = ['<script>', readFileSync(new URL('./stitch-chat.js', import.meta.url), 'utf8'), '</script>', ''].join('\n')
+swap('</body></html>', formScript + chatScript + '</body></html>')
 
 
 // ---- Production assets ----
