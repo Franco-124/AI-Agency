@@ -380,7 +380,11 @@
 </div>
 </div>
 <!-- Chat Messages Stream -->
-<div aria-live="polite" class="p-4 sm:p-6 space-y-4 text-[13px] overflow-y-auto overscroll-contain h-[380px] sm:h-[440px] [overflow-anchor:none]" id="numi-chat-stream" role="log">
+<div aria-live="polite" class="p-4 sm:p-6 space-y-4 text-[13px] overflow-y-auto sm:overscroll-contain min-h-[160px] max-h-[55dvh] sm:max-h-none sm:h-[440px] [overflow-anchor:none]" id="numi-chat-stream" role="log">
+<!-- Mobile: no demo conversation, just a prompt to start -->
+<div class="sm:hidden flex justify-center my-1"><span class="text-[11px] text-text-muted font-mono bg-[#1b0f2e]/80 px-3.5 py-1 rounded-full border border-white/5 shadow-sm text-center">Escribe tu primer mensaje para hablar con Cortana</span></div>
+<!-- Demo conversation (desktop only, cleared on first message) -->
+<div class="hidden sm:block space-y-4" id="numi-chat-mock">
 <div class="flex justify-center my-1">
 <span class="text-[11px] text-text-muted font-mono bg-[#1b0f2e]/80 px-3.5 py-1 rounded-full border border-white/5 shadow-sm">Hoy, 11:42 PM • Conversación Entrante</span>
 </div>
@@ -471,6 +475,7 @@
 </div>
 </div>
 <div class="w-8 h-8 rounded-full bg-status-success flex items-center justify-center text-[#12081F] font-bold text-xs shrink-0 shadow-md ring-2 ring-status-success/30">AI</div>
+</div>
 </div>
 </div>
 <!-- Invitation to try the live agent -->
