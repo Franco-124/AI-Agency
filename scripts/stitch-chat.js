@@ -109,6 +109,13 @@
     return new Date(ts).toLocaleTimeString(isEn ? 'en-US' : 'es-CO', { hour: 'numeric', minute: '2-digit' });
   }
 
+  // Touch devices: refocusing programmatically pops the on-screen keyboard back up
+  // after every reply. Only auto-focus where there is a precise pointer (desktop).
+  var canAutoFocus = !!(window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches);
+  function focusInput() {
+    if (canAutoFocus) input.focus({ preventScroll: true });
+  }
+
   var reduceMotion = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var chatCard = stream.parentElement; // header + stream + invite + input
 
@@ -218,7 +225,7 @@
 
   function setPending(value) {
     pending = value;
-    // readOnly (not disabled) keeps focus, so the mobile keyboard doesn't close and reopen.
+    // readOnly (not disabled) blocks typing while waiting without changing focus state.
     input.readOnly = value;
     sendBtn.disabled = value;
   }
@@ -278,7 +285,7 @@
         append(agentRow(result.error, at, true));
       }
       setPending(false);
-      input.focus({ preventScroll: true });
+      focusInput();
       ensureChatVisible();
     });
   }
@@ -291,7 +298,7 @@
     active = true;
     stream.replaceChildren(emptyHint());
     syncResetButton();
-    input.focus({ preventScroll: true });
+    focusInput();
   }
 
   form.addEventListener('submit', function (e) {
