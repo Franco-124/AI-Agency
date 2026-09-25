@@ -17,6 +17,9 @@ const socialGlyphs = {
 const footerNav = [
   { key: 'services', href: `/#${sectionIds.services}` },
   { key: 'process', href: `/#${sectionIds.process}` },
+  // A real page rather than a fragment, so this one is already root-relative
+  // for its own sake — `<Link>` adds the locale prefix either way.
+  { key: 'roi', href: '/calculadora-roi' },
   { key: 'faq', href: `/#${sectionIds.faq}` },
 ] as const
 

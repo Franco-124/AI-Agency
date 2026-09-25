@@ -19,6 +19,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
     { path: '', changeFrequency: 'monthly' as const, priority: 1 },
     { path: '/agendar', changeFrequency: 'monthly' as const, priority: 0.5 },
+    // Ranked above /agendar: the calculator is a destination people search for
+    // and link to, where the booking page is the last step of a visit already
+    // in progress.
+    { path: '/calculadora-roi', changeFrequency: 'monthly' as const, priority: 0.7 },
     { path: '/privacidad', changeFrequency: 'yearly' as const, priority: 0.3 },
   ]
 

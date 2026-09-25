@@ -8,7 +8,16 @@ import containerQueries from '@tailwindcss/container-queries'
 import sharp from 'sharp'
 import { fileURLToPath } from 'node:url'
 
-let html = readFileSync(new URL('../design/stitch/code.html', import.meta.url), 'utf8')
+/*
+ * Normalised to LF on read. Git checks the export out with CRLF on Windows,
+ * and every literal newline in the swaps below is a bare \n — without this the
+ * script throws "Not found" on whichever machine has the other line ending,
+ * which is exactly what it did the first time it ran on a fresh clone.
+ */
+let html = readFileSync(new URL('../design/stitch/code.html', import.meta.url), 'utf8').replace(
+  /\r\n/g,
+  '\n',
+)
 
 const swap = (from, to) => {
   if (!html.includes(from)) throw new Error('Not found: ' + from.slice(0, 80))
@@ -32,6 +41,22 @@ swap('agendar tu llamada estratégica de 15 minutos.', 'agendar tu llamada estra
 swap('Llamada de 15 minutos sin costo. Diagnóstico de viabilidad.', 'Llamada sin costo. Diagnóstico de viabilidad.')
 // Privacy link
 swap('href="#">Política de Privacidad</a>', 'href="/__LOCALE__/privacidad">Política de Privacidad</a>')
+/*
+ * ROI calculator. The comp already listed it under "Recursos" in the footer,
+ * pointing at `#` — that dead link is now the real page. The header gets an
+ * entry of its own beside the section anchors, because the calculator is the
+ * one destination in the nav that is not a band of this page, and a visitor
+ * who wants to price the thing should not have to reach the footer first.
+ */
+swap(
+  '<a class="hover:text-primary transition-colors" href="#">Calculadora de ROI</a>',
+  '<a class="hover:text-primary transition-colors" href="/__LOCALE__/calculadora-roi">Calculadora de ROI</a>',
+)
+swap(
+  '<a class="text-on-surface-variant hover:text-on-surface transition-all duration-200 text-[14px]" href="#preguntas-frecuentes">Preguntas Frecuentes</a>',
+  '<a class="text-on-surface-variant hover:text-on-surface transition-all duration-200 text-[14px]" href="/__LOCALE__/calculadora-roi">Calculadora de ROI</a>\n' +
+    '<a class="text-on-surface-variant hover:text-on-surface transition-all duration-200 text-[14px]" href="#preguntas-frecuentes">Preguntas Frecuentes</a>',
+)
 // Form: real submit handled by script below
 swap(
   ` onsubmit="event.preventDefault(); document.getElementById('form-feedback').classList.remove('hidden'); this.reset();"`,
