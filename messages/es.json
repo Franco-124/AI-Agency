@@ -421,6 +421,13 @@
     "rightsContact": "Para solicitudes de eliminación de datos, escríbenos a",
     "updated": "Última actualización: agosto de 2026."
   },
+  "notFound": {
+    "eyebrow": "Error 404",
+    "title": "Esta página no existe",
+    "body": "El enlace puede estar roto o la página se movió. Vuelve al inicio o agenda tu llamada estratégica.",
+    "backHome": "Volver al inicio",
+    "cta": "Agenda tu llamada"
+  },
   "footer": {
     "tagline": "Consultoría de inteligencia artificial para pequeñas y medianas empresas en Colombia.",
     "navLabel": "Navegación",

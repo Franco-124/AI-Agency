@@ -2,6 +2,8 @@
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <meta content="web_standard" name="shell-type">
+<link href="/icon.png" rel="icon" type="image/png">
+<link href="/apple-icon.png" rel="apple-touch-icon">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
 <link href="https://fonts.googleapis.com" rel="preconnect">
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
@@ -63,7 +65,6 @@
         background-image: 
           repeating-linear-gradient(to right, rgba(74,63,92,0.28) 0px, rgba(74,63,92,0.28) 1px, transparent 1px, transparent 92px),
           repeating-linear-gradient(to bottom, rgba(74,63,92,0.28) 0px, rgba(74,63,92,0.28) 1px, transparent 1px, transparent 112px);
-        background-attachment: fixed;
       }
       ::-webkit-scrollbar { display: none; }
     }
@@ -118,10 +119,16 @@
     .animate-orb-2 { animation: floatOrb2 20s ease-in-out infinite; }
 
     /* Apple Liquid Glass Cards */
+    /*
+      No backdrop-filter here on purpose: this class renders 40+ times on
+      this single page (every service/plan/testimonial card). Live blur
+      sampling at that count froze the compositor during testing (see the
+      same note on `.surface-panel` / `.glass-surface` in globals.css). The
+      gradient fill alone reads as glass without paying for it; opacity is
+      bumped slightly to compensate for the lost blur softness.
+    */
     .liquid-glass-surface {
-      background: linear-gradient(145deg, rgba(34, 21, 56, 0.65) 0%, rgba(18, 8, 31, 0.82) 100%) !important;
-      backdrop-filter: blur(28px) saturate(180%) !important;
-      -webkit-backdrop-filter: blur(28px) saturate(180%) !important;
+      background: linear-gradient(145deg, rgba(34, 21, 56, 0.78) 0%, rgba(18, 8, 31, 0.92) 100%) !important;
       border: 1px solid rgba(255, 255, 255, 0.12) !important;
       box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.15), 0 20px 50px rgba(0, 0, 0, 0.45) !important;
       transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;
@@ -134,9 +141,7 @@
 
     .apple-liquid-btn-primary {
       position: relative;
-      background: linear-gradient(135deg, rgba(168, 85, 247, 0.75) 0%, rgba(124, 58, 237, 0.9) 50%, rgba(99, 102, 241, 0.8) 100%);
-      backdrop-filter: blur(20px) saturate(190%);
-      -webkit-backdrop-filter: blur(20px) saturate(190%);
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.88) 0%, rgba(124, 58, 237, 0.96) 50%, rgba(99, 102, 241, 0.9) 100%);
       border: 1px solid rgba(255, 255, 255, 0.35);
       box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.6), 0 10px 25px -5px rgba(124, 58, 237, 0.5);
       color: #ffffff;
@@ -151,9 +156,7 @@
 
     .apple-liquid-btn-secondary {
       position: relative;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      background: linear-gradient(135deg, rgba(60, 45, 82, 0.55) 0%, rgba(30, 20, 48, 0.4) 100%);
       border: 1px solid rgba(255, 255, 255, 0.16);
       color: #F8FAFC;
       transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
@@ -177,7 +180,7 @@
     .accordion-wrapper > div { overflow: hidden; }
   </style>
 </head>
-<body class="font-body-md text-on-surface min-h-screen relative overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container" style="background-color: rgb(18, 8, 31); background-image: repeating-linear-gradient(to right, rgba(147, 51, 234, 0.22) 0px, rgba(147, 51, 234, 0.22) 1px, transparent 1px, transparent 92px), repeating-linear-gradient(rgba(147, 51, 234, 0.22) 0px, rgba(147, 51, 234, 0.22) 1px, transparent 1px, transparent 112px); background-attachment: fixed;">
+<body class="font-body-md text-on-surface min-h-screen relative overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container" style="background-color: rgb(18, 8, 31); background-image: repeating-linear-gradient(to right, rgba(147, 51, 234, 0.22) 0px, rgba(147, 51, 234, 0.22) 1px, transparent 1px, transparent 92px), repeating-linear-gradient(rgba(147, 51, 234, 0.22) 0px, rgba(147, 51, 234, 0.22) 1px, transparent 1px, transparent 112px);">
 <!-- NAVBAR -->
 <header class="fixed top-0 left-0 right-0 z-50 bg-[#12081F]/80 backdrop-blur-xl border-b border-white/10 transition-all duration-300 shadow-[0_4px_24px_rgba(0,0,0,0.4)]">
 <div class="h-20 max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between gap-4">
@@ -222,7 +225,7 @@
 <div class="animate-orb-2 absolute -top-10 right-1/4 w-[420px] h-[340px] bg-accent-glow/20 rounded-full blur-[120px] pointer-events-none -z-10"></div>
 <div class="max-w-7xl mx-auto flex flex-col items-center text-center relative z-10">
 <!-- Top Badge Pill -->
-<div class="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-[#1a0f2c]/75 backdrop-blur-2xl border border-white/10 shadow-lg mb-8 hover:border-border-highlight/50 transition-all duration-300">
+<div class="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-[#1a0f2c]/90 border border-white/10 shadow-lg mb-8 hover:border-border-highlight/50 transition-all duration-300">
 <div class="w-5 h-5 rounded-md overflow-hidden shrink-0 border border-white/20 shadow-sm">
 <img alt="Numi AI Isotipo" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvwSo-pSdTlF5uTSDlG6t3aU1DM9BeQH_Ain3eSX4JBsEUznqhakG_gJflvQLvxHUvjPs1nZzfL6YwYV_SaqdVL7inWMtiMBKkxq2s-OcFpOCW7kXJnc9Aj3dgDFLH-IYjWgdZvyTS0ZkhVJp-RnmFrixacO0wbjkof0JX2prBKdgUPRtLXWUDTz4sE02zazwWv7FIrKZlmg3h23ldJLRq3VFiSL41KXgM25AVFUBLhchyV3nBWHR6HLYyf90wv5GZT5Q">
 </div>
@@ -250,7 +253,7 @@
 </a>
 </div>
 <!-- Garantía llamada de 15 min -->
-<div class="flex items-center gap-2 text-text-muted text-[13px] mb-14">
+<div class="flex items-center gap-2 text-text-muted text-[13px] mb-14 max-w-md text-center sm:text-left">
 <svg class="w-4 h-4 text-primary shrink-0" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
 <path d="m9 12 2 2 4-4"></path>
@@ -339,9 +342,9 @@
 <!-- Desktop Mockup Split View: WhatsApp Chat + Automation Inspector -->
 <div class="grid grid-cols-1 lg:grid-cols-12 bg-[#0c0516]/95 divide-y lg:divide-y-0 lg:divide-x divide-white/10">
 <!-- Left Column: WhatsApp Business API Active Chat (7 cols) -->
-<div class="lg:col-span-7 flex flex-col justify-between bg-surface-container-lowest/70 backdrop-blur-md">
+<div class="lg:col-span-7 flex flex-col justify-between bg-surface-container-lowest/90">
 <!-- WhatsApp Chat Header -->
-<div class="px-5 py-3.5 bg-[#160b26]/90 border-b border-white/10 flex items-center justify-between">
+<div class="px-5 py-3.5 bg-[#160b26]/90 border-b border-white/10 flex flex-wrap items-center justify-between gap-y-2">
 <div class="flex items-center gap-3">
 <div class="relative">
 <div class="w-10 h-10 rounded-full bg-[#25D366]/20 flex items-center justify-center ring-2 ring-[#25D366]/50 shadow-md">
@@ -355,7 +358,7 @@
 </div>
 <div>
 <div class="text-[14px] text-text-primary font-bold flex items-center gap-1.5">
-<span class="">Agente Numi AI • Inmobiliaria</span>
+<span class="">Cortana • Numi AI</span>
 <!-- WhatsApp Official Green Badge -->
 <svg class="w-4 h-4" fill="#25D366" viewBox="0 0 24 24">
 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15l-4-4 1.41-1.41L11 14.17l6.59-6.59L19 9l-8 8z"></path>
@@ -364,17 +367,24 @@
 <div class="text-[11px] text-text-muted flex items-center gap-2 font-mono">
 <span class="">WhatsApp Business API</span>
 <span class="">•</span>
-<span class="text-status-success font-semibold">Responde en &lt; 1.5s</span>
+<span class="text-status-success font-semibold">Responde en &lt; 10s</span>
 </div>
 </div>
 </div>
+<div class="flex items-center gap-2">
+<button class="hidden px-3 py-1 rounded-full text-[11px] font-semibold text-text-secondary border border-white/15 hover:border-primary/40 hover:text-text-primary transition-colors" id="numi-chat-reset" type="button">Nueva conversación</button>
 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-container/20 text-primary text-[11px] font-semibold border border-primary/30 shadow-sm">
 <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
         Auto-Calificación Activa
       </span>
 </div>
+</div>
 <!-- Chat Messages Stream -->
-<div class="p-5 sm:p-6 space-y-4 text-[13px] overflow-y-auto max-h-[440px]">
+<div aria-live="polite" class="p-4 sm:p-6 space-y-4 text-[13px] overflow-y-auto sm:overscroll-contain min-h-[160px] max-h-[55dvh] sm:max-h-none sm:h-[440px] [overflow-anchor:none]" id="numi-chat-stream" role="log">
+<!-- Mobile: no demo conversation, just a prompt to start -->
+<div class="sm:hidden flex justify-center my-1"><span class="text-[11px] text-text-muted font-mono bg-[#1b0f2e]/80 px-3.5 py-1 rounded-full border border-white/5 shadow-sm text-center">Escribe tu primer mensaje para hablar con Cortana</span></div>
+<!-- Demo conversation (desktop only, cleared on first message) -->
+<div class="hidden sm:block space-y-4" id="numi-chat-mock">
 <div class="flex justify-center my-1">
 <span class="text-[11px] text-text-muted font-mono bg-[#1b0f2e]/80 px-3.5 py-1 rounded-full border border-white/5 shadow-sm">Hoy, 11:42 PM • Conversación Entrante</span>
 </div>
@@ -467,20 +477,23 @@
 <div class="w-8 h-8 rounded-full bg-status-success flex items-center justify-center text-[#12081F] font-bold text-xs shrink-0 shadow-md ring-2 ring-status-success/30">AI</div>
 </div>
 </div>
-<!-- WhatsApp Input Bar with macOS quick command pill -->
-<div class="p-3 bg-[#150a25]/95 border-t border-white/10 flex items-center gap-3">
+</div>
+<!-- Invitation to try the live agent -->
+<div class="px-5 py-2.5 bg-primary-container/15 border-t border-primary/25 flex items-center gap-2 text-[12px] text-text-primary">
+<span class="material-symbols-outlined text-primary text-[16px] shrink-0">auto_awesome</span>
+<span class="">Esta conversación es un ejemplo. Pruébalo tú: escríbele a Cortana, nuestro agente real, y mira cómo responde.</span>
+</div>
+<!-- Chat input bar: live Cortana agent (wired by scripts/stitch-chat.js) -->
+<form class="p-2.5 sm:p-3 bg-[#150a25]/95 border-t border-white/10 flex items-center gap-3" id="numi-chat-form" novalidate>
 <div class="relative w-full">
-<input class="w-full pl-4 pr-20 py-2.5 rounded-xl bg-[#0a0413] text-text-muted text-[13px] border border-white/10 select-none cursor-default focus:outline-none" readonly="" type="text" value="Escribe un mensaje o deja que el agente responda...">
-<div class="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
-<span class="font-mono text-[10px] text-text-muted bg-white/10 px-2 py-0.5 rounded border border-white/10">⌘ K</span>
+<input autocomplete="off" class="w-full px-4 py-2.5 rounded-xl bg-[#0a0413] text-text-primary text-[16px] sm:text-[13px] border border-white/10 focus:outline-none focus:ring-2 focus:ring-primary read-only:opacity-60" enterkeyhint="send" id="numi-chat-input" maxlength="1000" placeholder="Escribe un mensaje a Cortana..." type="text">
 </div>
-</div>
-<div class="w-9 h-9 rounded-xl bg-primary-container flex items-center justify-center text-white shrink-0 shadow-md cursor-pointer hover:bg-primary-container/80 transition-colors">
+<button aria-label="Enviar mensaje" class="w-9 h-9 rounded-xl bg-primary-container flex items-center justify-center text-white shrink-0 shadow-md hover:bg-primary-container/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" id="numi-chat-send" type="submit">
 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
 <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
 </svg>
-</div>
-</div>
+</button>
+</form>
 </div>
 <!-- Right Column: Live Automation Inspector (5 cols) -->
 <div class="lg:col-span-5 p-5 md:p-6 flex flex-col justify-between space-y-5 bg-[#120721]/95">
@@ -572,10 +585,10 @@
 <div class="flex items-center justify-between mb-2">
 <div>
 <div class="font-stat-display text-[32px] font-extrabold text-text-primary leading-none flex items-center gap-2">
-<span class="">0%</span>
-<span class="text-[11px] font-mono text-status-success font-normal bg-status-success/15 px-2 py-0.5 rounded-md border border-status-success/30">Cero demoras</span>
+<span class="tabular-nums" id="numi-metric-avg">1.2</span><span class="text-[18px] -ml-1">s</span>
+<span class="text-[11px] font-mono text-status-success font-normal bg-status-success/15 px-2 py-0.5 rounded-md border border-status-success/30" id="numi-metric-badge">Respuesta inmediata</span>
 </div>
-<div class="text-[10px] text-text-muted uppercase tracking-wider font-semibold mt-1">Consultas perdidas por demora</div>
+<div class="text-[10px] text-text-muted uppercase tracking-wider font-semibold mt-1">Tiempo promedio de respuesta del agente</div>
 </div>
 <div class="w-10 h-10 rounded-xl bg-primary-container/30 border border-primary/40 flex items-center justify-center text-primary shadow-sm">
 <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -585,16 +598,16 @@
 </div>
 <!-- Synaptic mini activity progress indicator -->
 <div class="w-full bg-[#12081F] h-1.5 rounded-full overflow-hidden mb-2.5 border border-white/10">
-<div class="bg-gradient-to-r from-primary via-tertiary to-status-success h-full w-[96%] rounded-full"></div>
+<div class="bg-gradient-to-r from-primary via-tertiary to-status-success h-full w-[96%] rounded-full transition-[width] duration-500 ease-out" id="numi-metric-bar"></div>
 </div>
 <div class="pt-2 flex items-center justify-between text-[11px] border-t border-white/10">
 <span class="text-text-secondary flex items-center gap-1.5">
 <span class="w-1.5 h-1.5 rounded-full bg-status-success"></span>
-          Tiempo de respuesta promedio
+          Última respuesta
         </span>
 <span class="font-mono font-bold text-text-primary flex items-center gap-1.5 bg-[#0e051a]/90 px-2.5 py-0.5 rounded-full border border-white/15 shadow-inner">
 <span class="w-1.5 h-1.5 rounded-full bg-status-success animate-pulse"></span>
-          1.2 segundos
+          <span id="numi-metric-last">1.2 segundos</span>
         </span>
 </div>
 </div>
@@ -603,7 +616,7 @@
 </div>
 </section>
 <!-- BANNER DE IMPACTO Y PRUEBA SOCIAL -->
-<section class="w-full px-6 lg:px-12 py-16 bg-[#180c2b]/70 backdrop-blur-md relative border-y border-white/10">
+<section class="w-full px-6 lg:px-12 py-16 bg-[#180c2b]/90 relative border-y border-white/10">
 <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
 <div class="lg:col-span-5 space-y-4">
 <div class="inline-flex items-center gap-2 text-primary text-[12px] tracking-widest uppercase font-bold">
@@ -617,11 +630,11 @@
             Más capacidad de atención al cliente, sin contratar personal nuevo.
           </p>
 <div class="flex flex-wrap gap-3 pt-2">
-<div class="px-3.5 py-2 rounded-lg bg-[#22133b]/70 backdrop-blur-sm text-[13px] text-on-surface-variant flex items-center gap-2 border border-white/10">
+<div class="px-3.5 py-2 rounded-lg bg-[#22133b]/90 text-[13px] text-on-surface-variant flex items-center gap-2 border border-white/10">
 <span class="material-symbols-outlined text-status-success text-[16px]">check</span>
 <span class="">Respuestas en &lt; 5s</span>
 </div>
-<div class="px-3.5 py-2 rounded-lg bg-[#22133b]/70 backdrop-blur-sm text-[13px] text-on-surface-variant flex items-center gap-2 border border-white/10">
+<div class="px-3.5 py-2 rounded-lg bg-[#22133b]/90 text-[13px] text-on-surface-variant flex items-center gap-2 border border-white/10">
 <span class="material-symbols-outlined text-status-success text-[16px]">check</span>
 <span class="">100% disponibilidad</span>
 </div>
@@ -778,79 +791,102 @@
 <div class="max-w-7xl mx-auto relative z-10">
 <div class="text-center max-w-3xl mx-auto mb-16">
 <div class="text-[12px] text-primary tracking-widest uppercase font-bold mb-2">Transparencia Total</div>
-<h2 class="font-headline-lg text-[36px] md:text-[42px] text-text-primary font-bold tracking-tight mb-4">Planes y Precios Claros</h2>
+<h2 class="font-headline-lg text-[36px] md:text-[42px] text-text-primary font-bold tracking-tight mb-4">Planes y precios</h2>
 <p class="font-body-lg text-[18px] text-on-surface-variant">
-            Dos cifras transparentes que conoces antes de firmar: implementación única y mensualidad de soporte continuo. Sin letras chicas ni contratos de amarre.
+            Dos planes con precio fijo, pensados para negocios que ya saben qué necesitan. Si tu operación es más grande o más compleja, diseñamos un sistema a tu medida.
           </p>
 </div>
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch mb-12">
 <!-- Plan 1 -->
 <div class="liquid-glass-surface group p-8 rounded-2xl flex flex-col justify-between">
 <div>
-<div class="text-[12px] uppercase font-bold text-text-muted mb-2 tracking-wider">Pymes en etapa de orden</div>
-<h3 class="font-headline-md text-[24px] text-text-primary font-bold mb-3 group-hover:text-primary transition-colors">Esencial WhatsApp</h3>
-<p class="text-[13px] text-on-surface-variant mb-6 leading-relaxed">Ideal para pymes que quieren responder 24/7 y no perder consultas básicas fuera de horario laboral.</p>
-<div class="p-4 rounded-xl bg-[#0f061c]/80 mb-6 border border-white/10 shadow-inner">
-<div class="text-[11px] text-text-muted">Estructura transparente:</div>
-<div class="text-[18px] text-text-primary font-bold mt-1">Setup Único + Soporte</div>
-<div class="text-xs text-on-surface-variant mt-1">Cotizado a medida tras tu diagnóstico inicial.</div>
+<div class="flex items-center justify-between mb-6">
+<div class="w-12 h-12 rounded-xl bg-primary-container/20 flex items-center justify-center text-primary group-hover:scale-110 transition-all duration-300">
+<span class="material-symbols-outlined text-[26px]">forum</span>
+</div>
+<span class="text-[11px] uppercase font-bold text-text-muted tracking-wider text-right">Para empezar<br/>a ordenar</span>
+</div>
+<h3 class="font-headline-md text-[24px] text-text-primary font-bold mb-3 group-hover:text-primary transition-colors">Agente Esencial</h3>
+<p class="text-[13px] text-on-surface-variant mb-6 leading-relaxed">Para negocios que hoy no automatizan nada y necesitan resolver lo básico: mensajes sin responder y citas mal agendadas.</p>
+<div class="rounded-xl bg-[#0f061c]/80 mb-6 border border-white/10 shadow-inner overflow-hidden">
+<div class="p-4">
+<div class="text-[10px] uppercase tracking-wider text-text-muted font-bold mb-1.5">Implementación</div>
+<div class="font-stat-display text-[26px] sm:text-[27px] text-text-primary font-extrabold tracking-tight leading-none break-words" style="font-variant-numeric: tabular-nums;">$999.990<span class="text-[12px] text-text-muted font-bold ml-1.5 align-middle">COP</span></div>
+</div>
+<div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 px-4 py-3 bg-primary-container/10 border-t border-white/10">
+<span class="text-[11px] text-on-surface-variant flex items-center gap-1.5 shrink-0"><span class="material-symbols-outlined text-primary text-[16px]">autorenew</span>Mantenimiento / mes</span>
+<span class="font-stat-display text-[15px] text-primary font-bold whitespace-nowrap" style="font-variant-numeric: tabular-nums;">$299.000 COP</span>
+</div>
 </div>
 <div class="space-y-3 text-[13px] text-on-surface mb-8">
-<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check</span><span class="">Diagnóstico de preguntas frecuentes</span></div>
-<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check</span><span class="">Chatbot entrenado con catálogo/precios</span></div>
-<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check</span><span class="">Conexión WhatsApp Business API</span></div>
-<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check</span><span class="">Handoff automático a asesor humano</span></div>
-<div class="flex items-center gap-2.5 text-text-muted"><span class="material-symbols-outlined text-[18px]">remove</span><span class="">Sin agendamiento autónomo en calendario</span></div>
+<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check</span><span class="">Agente de WhatsApp que responde precios, horarios y preguntas frecuentes al instante</span></div>
+<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check</span><span class="">Conectado a tu Google Calendar: agenda citas reales, sin choques de horario</span></div>
+<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check</span><span class="">Seguimiento automático si el cliente no confirma</span></div>
+<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check</span><span class="">Notificación cuando entra un cliente nuevo</span></div>
 </div>
 </div>
-<a class="apple-liquid-btn-secondary w-full py-3.5 px-6 rounded-full text-center text-[14px] font-semibold" href="#contacto">Cotizar Plan Esencial</a>
+<a class="apple-liquid-btn-secondary w-full py-3.5 px-6 rounded-full text-center text-[14px] font-semibold" href="#contacto">Empezar con este plan</a>
 </div>
 <!-- Plan 2 (Destacado) -->
 <div class="liquid-glass-surface relative p-8 md:p-10 rounded-2xl flex flex-col justify-between border-2 border-primary/50 shadow-[0_24px_64px_-12px_rgba(124,58,237,0.45)]">
-<div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-primary-container to-secondary-container text-white text-[11px] font-bold uppercase tracking-wider shadow-md flex items-center gap-1.5">
-<span class="w-1.5 h-1.5 rounded-full bg-status-success animate-pulse"></span>
-<span class="">Más Recomendado por Clientes</span>
+<div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3 sm:px-4 py-1 rounded-full bg-gradient-to-r from-primary-container to-secondary-container text-white text-[9px] sm:text-[11px] font-bold uppercase tracking-wider shadow-md flex items-center gap-1.5 whitespace-nowrap">
+<span class="w-1.5 h-1.5 rounded-full bg-status-success animate-pulse shrink-0"></span>
+<span class="">El más elegido</span>
 </div>
-<div class="pt-2">
-<div class="text-[12px] uppercase font-bold text-primary mb-2 tracking-wider">Máxima Eficiencia</div>
-<h3 class="font-headline-md text-[26px] text-text-primary font-bold mb-3">Agente Pro &amp; Procesos</h3>
-<p class="text-[13px] text-on-surface-variant mb-6 leading-relaxed">Agente cognitivo autónomo con conexión a Google Calendar, actualización de prospectos y seguimiento.</p>
-<div class="p-4 rounded-xl bg-primary-container/20 mb-6 border border-primary/30 shadow-lg">
-<div class="text-[11px] text-primary font-bold">Inversión con alto ROI:</div>
-<div class="text-[20px] text-text-primary font-bold mt-1">Implementación + Mensualidad</div>
-<div class="text-xs text-on-surface-variant mt-1">Cubre monitoreo, soporte, hosting y optimizaciones continuas.</div>
+<div class="pt-6 sm:pt-2">
+<div class="flex items-center justify-between mb-6">
+<div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-container to-secondary-container flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[30px]">bolt</span>
+</div>
+<span class="text-[11px] uppercase font-bold text-primary tracking-wider text-right">Para volumen real<br/>de consultas</span>
+</div>
+<h3 class="font-headline-md text-[26px] text-text-primary font-bold mb-3">Agente Avanzado</h3>
+<p class="text-[13px] text-on-surface-variant mb-6 leading-relaxed">Para negocios con volumen real de consultas diarias, donde perder un lead ya duele. Todo lo del Agente Esencial, más:</p>
+<div class="rounded-xl bg-primary-container/20 mb-6 border border-primary/30 shadow-lg overflow-hidden">
+<div class="p-4">
+<div class="text-[10px] uppercase tracking-wider text-primary font-bold mb-1.5">Implementación</div>
+<div class="font-stat-display text-[28px] sm:text-[30px] font-extrabold tracking-tight leading-none break-words bg-gradient-to-r from-text-primary via-primary to-secondary bg-clip-text text-transparent" style="font-variant-numeric: tabular-nums;">$1.500.000<span class="text-[13px] text-primary font-bold ml-1.5 align-middle">COP</span></div>
+</div>
+<div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 px-4 py-3 bg-[#12081f]/50 border-t border-primary/20">
+<span class="text-[11px] text-on-surface-variant flex items-center gap-1.5 shrink-0"><span class="material-symbols-outlined text-primary text-[16px]">autorenew</span>Mantenimiento / mes</span>
+<span class="font-stat-display text-[16px] text-primary font-bold whitespace-nowrap" style="font-variant-numeric: tabular-nums;">$399.000 COP</span>
+</div>
 </div>
 <div class="space-y-3 text-[13px] text-on-surface mb-8">
-<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check_circle</span><span class="font-semibold text-text-primary">Todo lo del plan Esencial</span></div>
-<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check_circle</span><span class="">Agente con lectura de disponibilidad en vivo</span></div>
-<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check_circle</span><span class="">Agendamiento directo en Google Calendar</span></div>
-<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check_circle</span><span class="">Sincronización con Google Sheets o CRM</span></div>
-<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check_circle</span><span class="">Retoma de clientes inactivos automática</span></div>
-<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check_circle</span><span class="">Panel central de supervisión de chats</span></div>
+<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check_circle</span><span class="font-semibold text-text-primary">Todo lo del Agente Esencial</span></div>
+<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check_circle</span><span class="">Escala la conversación a una persona de tu equipo cuando lo amerita, con todo el contexto ya leído</span></div>
+<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check_circle</span><span class="">Panel donde ves y gestionas cada conversación y cada contacto</span></div>
+<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check_circle</span><span class="">Seguimiento automático en varios pasos a los leads que no responden</span></div>
+<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check_circle</span><span class="">Reporte semanal de conversaciones, citas y leads atendidos</span></div>
+<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check_circle</span><span class="">Un canal adicional a tu elección: Instagram o Messenger</span></div>
 </div>
 </div>
-<a class="apple-liquid-btn-primary w-full py-4 px-6 rounded-full text-center text-[15px] font-bold shadow-xl active:scale-95 transition-all" href="#contacto">Elegir Agente Pro</a>
+<a class="apple-liquid-btn-primary w-full py-4 px-6 rounded-full text-center text-[15px] font-bold shadow-xl active:scale-95 transition-all" href="#contacto">Empezar con este plan</a>
 </div>
 <!-- Plan 3 -->
 <div class="liquid-glass-surface group p-8 rounded-2xl flex flex-col justify-between">
 <div>
-<div class="text-[12px] uppercase font-bold text-text-muted mb-2 tracking-wider">Escala Completa</div>
-<h3 class="font-headline-md text-[24px] text-text-primary font-bold mb-3 group-hover:text-primary transition-colors">Transformación Total</h3>
-<p class="text-[13px] text-on-surface-variant mb-6 leading-relaxed">Agente de IA avanzado + Automatizaciones CRM + Sitio web profesional programado para conversión total.</p>
+<div class="flex items-center justify-between mb-6">
+<div class="w-12 h-12 rounded-xl bg-primary-container/20 flex items-center justify-center text-primary group-hover:scale-110 transition-all duration-300">
+<span class="material-symbols-outlined text-[26px]">tune</span>
+</div>
+<span class="text-[11px] uppercase font-bold text-text-muted tracking-wider text-right">Para operaciones<br/>complejas</span>
+</div>
+<h3 class="font-headline-md text-[24px] text-text-primary font-bold mb-3 group-hover:text-primary transition-colors">A la medida</h3>
+<p class="text-[13px] text-on-surface-variant mb-6 leading-relaxed">Para negocios con varias sedes o una operación más compleja que necesita un sistema propio, no un plan fijo.</p>
 <div class="p-4 rounded-xl bg-[#0f061c]/80 mb-6 border border-white/10 shadow-inner">
-<div class="text-[11px] text-text-muted">Solución Integral:</div>
-<div class="text-[18px] text-text-primary font-bold mt-1">Ecosistema Llave en Mano</div>
-<div class="text-xs text-on-surface-variant mt-1">Construcción en 15 a 20 días hábiles.</div>
+<div class="text-[10px] uppercase tracking-wider text-text-muted font-bold mb-1.5">Estructura de precio</div>
+<div class="font-stat-display text-[22px] text-text-primary font-extrabold tracking-tight leading-none mb-1.5">Precio según diagnóstico</div>
+<div class="text-xs text-on-surface-variant mt-1">Cotizado a medida tras tu diagnóstico inicial.</div>
 </div>
 <div class="space-y-3 text-[13px] text-on-surface mb-8">
-<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check</span><span class="font-semibold text-text-primary">Todo lo del plan Agente Pro</span></div>
-<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check</span><span class="">Sitio Web Corporativo completo</span></div>
-<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check</span><span class="">Formularios directos hacia WhatsApp</span></div>
-<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check</span><span class="">Integraciones API a medida (HubSpot/Pagos)</span></div>
-<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check</span><span class="">Soporte prioritario mensual con ajustes</span></div>
+<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check</span><span class="">Automatización completa de tu operación, no solo la atención al cliente</span></div>
+<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check</span><span class="">Integración con tus sistemas propios</span></div>
+<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check</span><span class="">Sitio web y presencia digital completa</span></div>
+<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check</span><span class="">Sesión estratégica mensual con tu equipo</span></div>
 </div>
 </div>
-<a class="apple-liquid-btn-secondary w-full py-3.5 px-6 rounded-full text-center text-[14px] font-semibold" href="#contacto">Cotizar Transformación</a>
+<a class="apple-liquid-btn-secondary w-full py-3.5 px-6 rounded-full text-center text-[14px] font-semibold" href="#contacto">Cuéntanos tu caso</a>
 </div>
 </div>
 <!-- Garantía Sin permanencia -->
@@ -860,8 +896,8 @@
 <span class="material-symbols-outlined text-[28px]">handshake</span>
 </div>
 <div>
-<div class="text-[15px] text-text-primary font-bold">Sin permanencia mínima obligatoria</div>
-<div class="text-[13px] text-on-surface-variant">Puedes cancelar cuando quieras avisando con 30 días de anticipación. Tus datos y contactos siempre te pertenecen.</div>
+<div class="text-[15px] text-text-primary font-bold">Qué incluyen los planes fijos</div>
+<div class="text-[13px] text-on-surface-variant">Los dos planes fijos incluyen diagnóstico, construcción, carga de tu información y pruebas hasta que funcione. Aparte va solo el consumo de mensajes que cobra WhatsApp a través de Meta — normalmente unos pocos dólares al mes, y te lo estimamos con tus propios números.</div>
 </div>
 </div>
 <a class="shrink-0 px-4 py-2 rounded-full bg-primary-container/20 text-primary text-[13px] font-semibold border border-primary/30 hover:bg-primary-container/30 transition-all flex items-center gap-1.5" href="#contacto">
@@ -1043,17 +1079,17 @@
           </p>
 </div>
 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 max-w-5xl mx-auto"><!-- WhatsApp -->
-<div class="liquid-glass-surface flex items-center gap-3.5 p-4 rounded-xl cursor-pointer hover:border-border-highlight/50 transition-all">
+<div class="liquid-glass-surface flex items-center gap-3.5 p-4 h-[68px] rounded-xl cursor-pointer hover:border-border-highlight/50 transition-all">
 <div class="w-6 h-6 flex items-center justify-center shrink-0">
 <svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 <path clip-rule="evenodd" d="M20.5 11.96C20.5 16.65 16.68 20.47 11.99 20.47C10.45 20.47 9 20.06 7.74 19.34L3.5 20.5L4.69 16.37C3.93 15.08 3.49 13.57 3.49 11.96C3.49 7.27 7.31 3.45 12 3.45C16.69 3.45 20.5 7.27 20.5 11.96Z" fill="#25D366" fill-rule="evenodd"></path>
 <path clip-rule="evenodd" d="M17.47 14.88C17.22 14.75 16.01 14.16 15.78 14.07C15.55 13.99 15.39 13.95 15.22 14.2C15.06 14.44 14.59 15 14.44 15.17C14.3 15.34 14.16 15.36 13.91 15.24C13.66 15.11 12.86 14.85 11.91 14C11.17 13.34 10.67 12.53 10.53 12.28C10.38 12.03 10.51 11.9 10.64 11.77C10.75 11.66 10.89 11.48 11.02 11.33C11.14 11.18 11.19 11.08 11.27 10.91C11.35 10.75 11.31 10.6 11.25 10.48C11.19 10.36 10.7 9.15 10.49 8.66C10.29 8.18 10.09 8.24 9.94 8.24C9.8 8.23 9.63 8.23 9.47 8.23C9.3 8.23 9.03 8.29 8.8 8.54C8.57 8.79 7.93 9.39 7.93 10.61C7.93 11.83 8.82 13.01 8.94 13.17C9.07 13.34 10.68 15.82 13.15 16.89C13.74 17.14 14.2 17.29 14.55 17.41C15.14 17.59 15.68 17.57 16.1 17.5C16.58 17.43 17.57 16.9 17.78 16.32C17.98 15.75 17.98 15.26 17.92 15.15C17.86 15.05 17.72 14.99 17.47 14.88Z" fill="white" fill-rule="evenodd"></path>
 </svg>
 </div>
-<span class="text-[14px] text-text-primary font-medium">WhatsApp</span>
+<span class="text-[14px] text-text-primary font-medium truncate min-w-0">WhatsApp</span>
 </div>
 <!-- Instagram -->
-<div class="liquid-glass-surface flex items-center gap-3.5 p-4 rounded-xl cursor-pointer hover:border-border-highlight/50 transition-all">
+<div class="liquid-glass-surface flex items-center gap-3.5 p-4 h-[68px] rounded-xl cursor-pointer hover:border-border-highlight/50 transition-all">
 <div class="w-6 h-6 flex items-center justify-center shrink-0">
 <svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 <defs>
@@ -1070,10 +1106,10 @@
 <circle cx="17.2" cy="6.8" fill="white" r="1.2"></circle>
 </svg>
 </div>
-<span class="text-[14px] text-text-primary font-medium">Instagram</span>
+<span class="text-[14px] text-text-primary font-medium truncate min-w-0">Instagram</span>
 </div>
 <!-- Messenger -->
-<div class="liquid-glass-surface flex items-center gap-3.5 p-4 rounded-xl cursor-pointer hover:border-border-highlight/50 transition-all">
+<div class="liquid-glass-surface flex items-center gap-3.5 p-4 h-[68px] rounded-xl cursor-pointer hover:border-border-highlight/50 transition-all">
 <div class="w-6 h-6 flex items-center justify-center shrink-0">
 <svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 <defs>
@@ -1086,10 +1122,10 @@
 <path clip-rule="evenodd" d="M12 2C6.48 2 2 6.14 2 11.25C2 14.17 3.42 16.76 5.67 18.42V22L9.12 20.1C10.04 20.36 11 20.5 12 20.5C17.52 20.5 22 16.36 22 11.25C22 6.14 17.52 2 12 2ZM13.06 14.41L10.96 12.17L6.87 14.41L11.37 9.63L13.52 11.87L17.56 9.63L13.06 14.41Z" fill="url(#msgGrad)" fill-rule="evenodd"></path>
 </svg>
 </div>
-<span class="text-[14px] text-text-primary font-medium">Messenger</span>
+<span class="text-[14px] text-text-primary font-medium truncate min-w-0">Messenger</span>
 </div>
 <!-- Google Calendar -->
-<div class="liquid-glass-surface flex items-center gap-3.5 p-4 rounded-xl cursor-pointer hover:border-border-highlight/50 transition-all">
+<div class="liquid-glass-surface flex items-center gap-3.5 p-4 h-[68px] rounded-xl cursor-pointer hover:border-border-highlight/50 transition-all">
 <div class="w-6 h-6 flex items-center justify-center shrink-0">
 <svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 <path d="M19 4H18V2H16V4H8V2H6V4H5C3.89 4 3.01 4.9 3.01 6L3 20C3 21.1 3.89 22 5 22H19C20.1 22 21 21.1 21 20V6C21 4.9 20.1 4 19 4Z" fill="#FFFFFF"></path>
@@ -1102,10 +1138,10 @@
 <text fill="#1A73E8" font-family="Plus Jakarta Sans, sans-serif" font-size="8.5" font-weight="800" text-anchor="middle" x="12" y="18">31</text>
 </svg>
 </div>
-<span class="text-[14px] text-text-primary font-medium">G Calendar</span>
+<span class="text-[14px] text-text-primary font-medium truncate min-w-0">G Calendar</span>
 </div>
 <!-- Google Maps -->
-<div class="liquid-glass-surface flex items-center gap-3.5 p-4 rounded-xl cursor-pointer hover:border-border-highlight/50 transition-all">
+<div class="liquid-glass-surface flex items-center gap-3.5 p-4 h-[68px] rounded-xl cursor-pointer hover:border-border-highlight/50 transition-all">
 <div class="w-6 h-6 flex items-center justify-center shrink-0">
 <svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 <path d="M12 2C7.86 2 4.5 5.36 4.5 9.5C4.5 14.54 10.96 21.37 11.23 21.65C11.64 22.09 12.36 22.09 12.77 21.65C13.04 21.37 19.5 14.54 19.5 9.5C19.5 5.36 16.14 2 12 2Z" fill="#34A853"></path>
@@ -1116,10 +1152,10 @@
 <circle cx="12" cy="9.5" fill="#1A73E8" r="2.2"></circle>
 </svg>
 </div>
-<span class="text-[14px] text-text-primary font-medium">Google Maps</span>
+<span class="text-[14px] text-text-primary font-medium truncate min-w-0">Google Maps</span>
 </div>
 <!-- Google Sheets -->
-<div class="liquid-glass-surface flex items-center gap-3.5 p-4 rounded-xl cursor-pointer hover:border-border-highlight/50 transition-all">
+<div class="liquid-glass-surface flex items-center gap-3.5 p-4 h-[68px] rounded-xl cursor-pointer hover:border-border-highlight/50 transition-all">
 <div class="w-6 h-6 flex items-center justify-center shrink-0">
 <svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 <path d="M14.5 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V7.5L14.5 2Z" fill="#0F9D58"></path>
@@ -1128,10 +1164,10 @@
 <path d="M7.5 13.33H16.5M7.5 15.67H16.5M12 11V18" stroke="#0F9D58" stroke-width="1"></path>
 </svg>
 </div>
-<span class="text-[14px] text-text-primary font-medium">G Sheets</span>
+<span class="text-[14px] text-text-primary font-medium truncate min-w-0">G Sheets</span>
 </div>
 <!-- Mercado Pago -->
-<div class="liquid-glass-surface flex items-center gap-3.5 p-4 rounded-xl cursor-pointer hover:border-border-highlight/50 transition-all">
+<div class="liquid-glass-surface flex items-center gap-3.5 p-4 h-[68px] rounded-xl cursor-pointer hover:border-border-highlight/50 transition-all">
 <div class="w-6 h-6 flex items-center justify-center shrink-0">
 <svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 <rect fill="#009EE3" height="24" rx="6" width="24"></rect>
@@ -1139,10 +1175,10 @@
 <path d="M16.8 9.2C17.4 9.8 17.4 10.8 16.8 11.4L13.8 14.4C13.2 15 12.2 15 11.6 14.4L10.2 13L11.6 11.6L12.3 12.3L14.6 10C14.9 9.7 15.3 9.5 15.7 9.5C16.1 9.5 16.5 9.7 16.8 10C17.1 10.3 17.1 10.8 16.8 11.1L15.7 12.2L14.3 10.8L15.3 9.8C15.5 9.6 15.5 9.4 15.3 9.2C15.1 9 14.9 9 14.7 9.2L13 10.9L11.6 9.5L13.3 7.8C13.9 7.2 14.9 7.2 15.5 7.8L16.8 9.2Z" fill="white"></path>
 </svg>
 </div>
-<span class="text-[14px] text-text-primary font-medium">Mercado Pago</span>
+<span class="text-[14px] text-text-primary font-medium truncate min-w-0">Mercado Pago</span>
 </div>
 <!-- Email / Gmail -->
-<div class="liquid-glass-surface flex items-center gap-3.5 p-4 rounded-xl cursor-pointer hover:border-border-highlight/50 transition-all">
+<div class="liquid-glass-surface flex items-center gap-3.5 p-4 h-[68px] rounded-xl cursor-pointer hover:border-border-highlight/50 transition-all">
 <div class="w-6 h-6 flex items-center justify-center shrink-0">
 <svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 <path d="M3 6.5C3 5.67 3.67 5 4.5 5H6V11.5L3 9.25V6.5Z" fill="#4285F4"></path>
@@ -1153,10 +1189,10 @@
 <path d="M6 20H18V11.5L12 16L6 11.5V20Z" fill="#FBBC05"></path>
 </svg>
 </div>
-<span class="text-[14px] text-text-primary font-medium">Email</span>
+<span class="text-[14px] text-text-primary font-medium truncate min-w-0">Email</span>
 </div>
 <!-- HubSpot CRM -->
-<div class="liquid-glass-surface flex items-center gap-3.5 p-4 rounded-xl cursor-pointer hover:border-border-highlight/50 transition-all">
+<div class="liquid-glass-surface flex items-center gap-3.5 p-4 h-[68px] rounded-xl cursor-pointer hover:border-border-highlight/50 transition-all">
 <div class="w-6 h-6 flex items-center justify-center shrink-0">
 <svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 <circle cx="17.5" cy="6.5" fill="#FF7A59" r="2.5"></circle>
@@ -1169,10 +1205,10 @@
 <path d="M12 17V19.5" stroke="#FF7A59" stroke-linecap="round" stroke-width="2.2"></path>
 </svg>
 </div>
-<span class="text-[14px] text-text-primary font-medium">HubSpot CRM</span>
+<span class="text-[14px] text-text-primary font-medium truncate min-w-0">HubSpot CRM</span>
 </div>
 <!-- APIs Rest -->
-<div class="liquid-glass-surface flex items-center gap-3.5 p-4 rounded-xl cursor-pointer hover:border-border-highlight/50 transition-all">
+<div class="liquid-glass-surface flex items-center gap-3.5 p-4 h-[68px] rounded-xl cursor-pointer hover:border-border-highlight/50 transition-all">
 <div class="w-6 h-6 flex items-center justify-center shrink-0">
 <svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 <rect fill="#7C3AED" fill-opacity="0.2" height="18" rx="4" stroke="#D2BBFF" stroke-width="1.5" width="20" x="2" y="3"></rect>
@@ -1181,7 +1217,7 @@
 <path d="M13 8.5L11 15.5" stroke="#9333EA" stroke-linecap="round" stroke-width="1.8"></path>
 </svg>
 </div>
-<span class="text-[14px] text-text-primary font-medium">APIs Rest</span>
+<span class="text-[14px] text-text-primary font-medium truncate min-w-0">APIs Rest</span>
 </div></div>
 </div>
 </section>
@@ -1197,7 +1233,7 @@
 <div class="faq-item rounded-xl liquid-glass-surface overflow-hidden">
 <button class="faq-toggle w-full p-6 text-left flex items-center justify-between gap-4 cursor-pointer" type="button">
 <span class="text-[17px] text-text-primary font-bold">¿Cuánto tiempo toma implementarlo y empezar a usarlo?</span>
-<span class="faq-icon material-symbols-outlined text-primary transition-transform duration-300">expand_more</span>
+<span class="faq-icon material-symbols-outlined text-primary transition-transform duration-300 shrink-0">expand_more</span>
 </button>
 <div class="accordion-wrapper">
 <div>
@@ -1211,7 +1247,7 @@
 <div class="faq-item rounded-xl liquid-glass-surface overflow-hidden">
 <button class="faq-toggle w-full p-6 text-left flex items-center justify-between gap-4 cursor-pointer" type="button">
 <span class="text-[17px] text-text-primary font-bold">¿Qué pasa si el agente no sabe responder algo o el cliente se enoja?</span>
-<span class="faq-icon material-symbols-outlined text-primary transition-transform duration-300">expand_more</span>
+<span class="faq-icon material-symbols-outlined text-primary transition-transform duration-300 shrink-0">expand_more</span>
 </button>
 <div class="accordion-wrapper">
 <div>
@@ -1225,12 +1261,12 @@
 <div class="faq-item rounded-xl liquid-glass-surface overflow-hidden">
 <button class="faq-toggle w-full p-6 text-left flex items-center justify-between gap-4 cursor-pointer" type="button">
 <span class="text-[17px] text-text-primary font-bold">¿Cuánto cuesta y qué incluye exactamente el precio?</span>
-<span class="faq-icon material-symbols-outlined text-primary transition-transform duration-300">expand_more</span>
+<span class="faq-icon material-symbols-outlined text-primary transition-transform duration-300 shrink-0">expand_more</span>
 </button>
 <div class="accordion-wrapper">
 <div>
 <div class="px-6 pb-6 pt-1 text-on-surface-variant text-[15px] leading-relaxed border-t border-white/5 mt-1">
-                  Hay dos cifras y las dos las conoces antes de firmar. Una implementación única, que cubre el diagnóstico, la construcción, la carga de tu información, las integraciones acordadas y las pruebas hasta que funcione. Y una mensualidad, que cubre el alojamiento, el monitoreo, los ajustes de respuestas y el soporte continuo. Aparte va solo el consumo de mensajes que cobra WhatsApp, que se paga a Meta según tu volumen; te lo estimamos con tus propios números en la propuesta. No cobramos por cambios menores ni por resolver un problema que sea nuestro.
+                  Depende del plan. El Agente Esencial tiene una implementación de $999.990 y un mantenimiento de $299.000 al mes. El Agente Avanzado, $1.500.000 de implementación y $399.000 al mes. Los dos incluyen diagnóstico, construcción, carga de tu información, las integraciones acordadas, pruebas hasta que funcione, alojamiento, monitoreo y soporte. Si tu negocio necesita algo distinto (varias sedes, integraciones propias, sitio web completo), armamos un plan a la medida y te damos el precio después del diagnóstico. Aparte va solo el consumo de mensajes que cobra WhatsApp a través de Meta — el costo por mensaje es mínimo en Colombia, y te lo estimamos con tus propios números en la propuesta.
                 </div>
 </div>
 </div>
@@ -1239,7 +1275,7 @@
 <div class="faq-item rounded-xl liquid-glass-surface overflow-hidden">
 <button class="faq-toggle w-full p-6 text-left flex items-center justify-between gap-4 cursor-pointer" type="button">
 <span class="text-[17px] text-text-primary font-bold">¿Necesito saber de tecnología o tener un equipo técnico para mantenerlo?</span>
-<span class="faq-icon material-symbols-outlined text-primary transition-transform duration-300">expand_more</span>
+<span class="faq-icon material-symbols-outlined text-primary transition-transform duration-300 shrink-0">expand_more</span>
 </button>
 <div class="accordion-wrapper">
 <div>
@@ -1253,7 +1289,7 @@
 <div class="faq-item rounded-xl liquid-glass-surface overflow-hidden">
 <button class="faq-toggle w-full p-6 text-left flex items-center justify-between gap-4 cursor-pointer" type="button">
 <span class="text-[17px] text-text-primary font-bold">¿Funciona con las herramientas que ya uso (CRM, WhatsApp, calendario)?</span>
-<span class="faq-icon material-symbols-outlined text-primary transition-transform duration-300">expand_more</span>
+<span class="faq-icon material-symbols-outlined text-primary transition-transform duration-300 shrink-0">expand_more</span>
 </button>
 <div class="accordion-wrapper">
 <div>
@@ -1267,7 +1303,7 @@
 <div class="faq-item rounded-xl liquid-glass-surface overflow-hidden">
 <button class="faq-toggle w-full p-6 text-left flex items-center justify-between gap-4 cursor-pointer" type="button">
 <span class="text-[17px] text-text-primary font-bold">¿Qué pasa si quiero cancelar o no me sirve después de un tiempo?</span>
-<span class="faq-icon material-symbols-outlined text-primary transition-transform duration-300">expand_more</span>
+<span class="faq-icon material-symbols-outlined text-primary transition-transform duration-300 shrink-0">expand_more</span>
 </button>
 <div class="accordion-wrapper">
 <div>
@@ -1373,6 +1409,18 @@
 <p class="text-[14px] text-on-surface-variant max-w-sm leading-relaxed">
             Consultoría de automatización con inteligencia artificial para pymes en Colombia. Impulsamos tu crecimiento operativo con agentes cognitivos e infraestructura moderna.
           </p>
+<ul aria-label="Redes sociales de Numi AI" class="flex items-center gap-2.5">
+<li class="">
+<a aria-label="Instagram" class="flex items-center justify-center w-10 h-10 rounded-xl border border-white/10 bg-white/5 text-on-surface-variant transition-colors duration-200 hover:border-primary/40 hover:bg-primary-container/15 hover:text-primary" href="https://www.instagram.com/num_iai/" rel="noopener noreferrer" target="_blank">
+<svg class="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"></path></svg>
+</a>
+</li>
+<li class="">
+<a aria-label="LinkedIn" class="flex items-center justify-center w-10 h-10 rounded-xl border border-white/10 bg-white/5 text-on-surface-variant transition-colors duration-200 hover:border-primary/40 hover:bg-primary-container/15 hover:text-primary" href="https://www.linkedin.com/company/numi-ai" rel="noopener noreferrer" target="_blank">
+<svg class="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path></svg>
+</a>
+</li>
+</ul>
 </div>
 <div class="space-y-3">
 <div class="text-[14px] text-text-primary font-bold tracking-wide">Servicios</div>
@@ -1421,7 +1469,7 @@
 </div>
 <div class="mt-12 pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-[12px] text-text-muted border-t border-white/5">
 <p class="">© 2025 Numi AI. Todos los derechos reservados.</p>
-<div class="flex items-center gap-6">
+<div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
 <a class="hover:text-on-surface transition-colors" href="#">Política de Privacidad</a>
 <a class="hover:text-on-surface transition-colors" href="#">Términos del Servicio</a>
 <a class="hover:text-on-surface transition-colors" href="#">Seguridad de Datos</a>
@@ -1430,7 +1478,7 @@
 </div>
 </footer>
 <!-- BOTÓN FLOTANTE WHATSAPP -->
-<div class="fixed bottom-6 right-6 z-50">
+<div class="fixed right-4 sm:right-6 z-50" style="bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));">
 <a aria-label="Chat en WhatsApp con Numi AI" class="flex items-center gap-2 px-4 py-3 rounded-full bg-status-success text-white text-[14px] shadow-[0_8px_24px_rgba(16,185,129,0.4)] hover:scale-105 active:scale-95 transition-all font-semibold" href="https://wa.me/573127676549" target="_blank">
 <span class="material-symbols-outlined text-[22px]">chat</span>
 <span class="hidden sm:inline">Hablar con Asesor</span>

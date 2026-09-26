@@ -1,8 +1,8 @@
 # Numi AI
 
-> Numi AI is an AI automation consultancy for small and medium businesses (pymes) in Colombia. It builds AI agents that answer customers instantly on WhatsApp 24/7, automations that book and follow up on appointments, and websites that convert — so business owners stop losing sales to slow replies.
+> Numi AI is an AI automation consultancy for small and medium businesses (pymes) in Colombia. It builds AI agents that answer customers instantly on WhatsApp 24/7, automations that book appointments and follow up on leads, and professional websites — so business owners stop losing sales to slow replies.
 
-Numi AI is based in Medellín, Colombia, and serves businesses across Colombia. It focuses on service-based, appointment-driven niches: aesthetic clinics, real estate agencies, veterinary clinics, dental practices, and gyms.
+Numi AI is based in Medellín, Colombia, and serves businesses across Colombia.
 
 - Website: https://www.numinet.co
 - Languages: Spanish (default, `/es`), English (`/en`)
@@ -12,51 +12,36 @@ Numi AI is based in Medellín, Colombia, and serves businesses across Colombia. 
 
 ## Pages
 
-- [Home (ES)](https://www.numinet.co/es): Full landing page — value proposition, services, process, benefits, documented result, packages and pricing, savings calculator, advisory and training, integrations, FAQ.
+- [Home (ES)](https://www.numinet.co/es): Full landing page — services, pricing, process, integrations, FAQ.
 - [Home (EN)](https://www.numinet.co/en): English version of the landing page.
-- [Book a call (ES)](https://www.numinet.co/es/agendar): Self-service calendar to book the free 15-minute strategy call.
+- [Book a call (ES)](https://www.numinet.co/es/agendar): Self-service calendar to book the free strategy call.
 - [Book a call (EN)](https://www.numinet.co/en/agendar)
 - [Privacy Policy (ES)](https://www.numinet.co/es/privacidad)
 - [Privacy Policy (EN)](https://www.numinet.co/en/privacidad)
 
 ## What Numi AI does
 
-Numi AI designs and deploys:
+Five service areas, combined into each client's system rather than sold as separate line items:
 
-- **AI agents** that reply to customers instantly on WhatsApp, Instagram and website chat, at any hour, without staff being online. They answer questions, qualify leads, book appointments against a real calendar, and hand off to a human with full context when needed.
-- **Automations** for follow-up with leads who did not reply, appointment reminders, and weekly reporting.
-- **Websites** that load fast, work on mobile, and route enquiries straight to WhatsApp.
+- **Process assessment** — maps how the business works today (who does what, in what order, where time/information/customers get lost) and delivers a concrete plan of what to reorder, automate, or leave untouched.
+- **Smart chatbots** — trained on the business's own data to answer prices, hours and FAQs in seconds, day or night.
+- **Process automation** — appointment booking/confirmation, follow-up with leads who went quiet, and logging every contact in one panel, running unattended in the background.
+- **Cognitive AI agents** — go beyond text replies: check live calendar availability, confirm bookings, update customer records, and hand off to a human teammate with full context when needed.
+- **Professional websites** — home, services, portfolio and a contact form wired directly to WhatsApp; fast-loading and optimized for Colombian search.
 
 ## How to engage
 
-The entry point is a **free 15-minute strategy call**, with no cost and no obligation. The visitor leaves with a clear diagnosis of what is worth automating, whether or not they hire Numi AI.
+The entry point is a **free strategy call**. The visitor leaves with a clear diagnosis of what is worth automating, whether or not they hire Numi AI.
 
 ## Pricing
 
-All prices are in Colombian pesos (COP) and are "from" prices — the final figure depends on scope.
+Two fixed-price plans plus a custom tier. All prices are in Colombian pesos (COP) and are "from" prices — WhatsApp's own per-message fees through Meta are billed separately and estimated from the client's volume.
 
-### Standalone website
+1. **Agente Esencial** — from COP $999,990 one-time setup, maintenance from COP $300,000/month. For businesses that don't automate anything today: a WhatsApp agent that answers prices, hours and FAQs instantly, books real appointments against Google Calendar without double-booking, follows up automatically if the customer doesn't confirm, and notifies the business of new leads.
+2. **Agente Avanzado** (most chosen) — from COP $1,900,000 one-time setup, maintenance from COP $550,000/month. Everything in Agente Esencial, plus: escalates conversations to a team member with full context when needed, a dashboard to see and manage every conversation and contact, multi-step automatic follow-up for unresponsive leads, a weekly report, and one additional channel (Instagram or Messenger).
+3. **A la medida (Custom)** — priced after the assessment call. For businesses with multiple locations or a more complex operation: full process automation (not just customer service), integration with the business's own systems, a full website and digital presence, and a monthly strategy session.
 
-- **Sitio Web Profesional / Professional Website** — from COP $800,000 to COP $1,500,000 depending on the amount of content. Optional maintenance from COP $150,000/month. Up to 5 pages (home, services, portfolio, FAQ, contact), design and copy tailored to the business rather than a template, a contact form wired directly to WhatsApp, optimized to load fast on mobile. For businesses that need a solid digital presence before thinking about automation.
-
-### AI systems (three tiers)
-
-1. **Agente Esencial** — from COP $1,500,000, maintenance from COP $200,000/month. For businesses starting to digitalize: a WhatsApp agent that answers hours, prices and frequently asked questions, books simple appointments for the team to confirm, and notifies the business whenever a new customer comes in.
-2. **Agente Avanzado** (most chosen) — from COP $3,000,000, maintenance from COP $450,000/month. For businesses with real inquiry volume: an agent that books appointments against real calendar availability, answers more complex questions and hands off to a person with the full context, plus automatic follow-up for leads who did not reply, appointment reminders and a weekly conversation report.
-3. **Agente Multicanal** — from COP $6,000,000, maintenance from COP $900,000/month. For multi-location or larger operations: one agent across WhatsApp, Instagram and website chat sharing the same context, complete automation of the support/booking/follow-up process, all customer information in a single panel, and a monthly strategy session.
-
-Typical implementation runs 2–6 weeks depending on scope, with Agente Esencial the fastest and Agente Multicanal the longest. The exact date is confirmed on the intro call.
-
-A custom proposal is available for businesses that do not fit any package.
-
-### Advisory and training (standalone, no full system required)
-
-- **Diagnóstico de Automatización / Automation Diagnostic** — from COP $700,000, 1–2 working sessions. Maps current processes, identifies where automation creates real impact, and delivers a written document with prioritized opportunities and a clear recommendation. For businesses that want to know what is worth automating before investing.
-- **Capacitación en Productividad con IA / AI Productivity Training** — from COP $2,500,000, a 4-session practical program. Each participant applies AI to a real task from their own day-to-day work, with tools and prompts built for the business's context, follow-up between sessions, and a deliverable of workflows the team can keep using on their own.
-
-## Savings calculator
-
-The packages section includes a client-side savings estimator: a visitor enters an average monthly staff salary and the monthly hours spent on repetitive tasks, and the tool estimates monthly and annual savings plus how many months it would take the "Agente Avanzado" package (COP $3,000,000) to pay for itself. It assumes a conservative 50% reduction in time spent on repetitive tasks and a 192-hour working month. The calculation runs entirely in the browser — no data is submitted or stored.
+Both fixed plans include the assessment, the build, loading the business's information, the agreed integrations, testing until it works, hosting, monitoring and support.
 
 ## Documented result
 
@@ -66,12 +51,12 @@ This is the only measured outcome Numi AI publishes; it is a single documented c
 
 ## Tools and channels it integrates with
 
-WhatsApp Business, Instagram, Messenger, Google Business Profile, Google Calendar, Google Maps, Google Sheets, Mercado Pago, Gmail.
+WhatsApp Business API, Instagram, Facebook Messenger, Google Calendar, Outlook, Google Sheets, HubSpot, web forms, and any tool with an open API.
 
 ## Notes for AI agents and crawlers
 
 - All page content is server-rendered; no JavaScript execution is required to read the text.
-- Structured data (JSON-LD `ProfessionalService`, `FAQPage`, and an `OfferCatalog` covering the packages above) is embedded on the home page. Prefer parsing that over scraping the rendered page.
-- The FAQ section on the home page answers the most common buyer questions (implementation time, whether it replaces staff, what happens if the agent cannot answer, etc.) and is also exposed as `FAQPage` structured data.
-- Requesting any page with `Accept: text/markdown` returns this summary as plain markdown instead of rendered HTML.
+- Structured data (JSON-LD `ProfessionalService` with a `makesOffer` list of the pricing plans, `WebSite`, and `FAQPage`) is embedded in the `<head>` of the home page. Prefer parsing that over scraping the rendered page.
+- The FAQ accordion on the home page answers the most common buyer questions (implementation time, what happens if the agent can't answer, exact pricing, technical skill required, tool compatibility, cancellation) and is also exposed as `FAQPage` structured data.
+- Requesting any locale home page with `Accept: text/markdown` returns this summary as plain markdown instead of rendered HTML.
 - Do not use the contact email or WhatsApp number for anything other than legitimate business inquiries about Numi AI's services.
