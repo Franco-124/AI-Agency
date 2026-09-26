@@ -150,7 +150,7 @@ export function bookingSection() {
   const successOpen = '<div class="hidden p-4 rounded-xl bg-status-success/20'
   if (!block.includes(successOpen)) throw new Error('Success slot not found')
   block = block.split(successOpen).join(
-    '<div class="hidden p-4 rounded-xl bg-red-500/15 border border-red-500/40 text-on-surface text-center text-[13px] mt-3" id="form-error"></div>\n' +
+    '<div class="hidden p-4 rounded-xl bg-red-500/15 border border-red-500/40 text-on-surface text-center text-[13px] mt-3" id="form-error" role="alert"></div>\n' +
       successOpen,
   )
 
@@ -207,7 +207,8 @@ export const bookingScript = `
         name: document.getElementById('lead-name').value.trim(),
         whatsapp: document.getElementById('lead-whatsapp').value.trim(),
         email: document.getElementById('lead-email').value.trim(),
-        message: document.getElementById('lead-message').value.trim()
+        message: document.getElementById('lead-message').value.trim(),
+        consent: document.getElementById('lead-consent').checked
       };
       var label = btn.textContent; btn.disabled = true; btn.textContent = 'Enviando...';
       try {

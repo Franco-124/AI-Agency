@@ -24,6 +24,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // in progress.
     { path: '/calculadora-roi', changeFrequency: 'monthly' as const, priority: 0.7 },
     { path: '/privacidad', changeFrequency: 'yearly' as const, priority: 0.3 },
+    { path: '/terminos', changeFrequency: 'yearly' as const, priority: 0.3 },
+    { path: '/cookies', changeFrequency: 'yearly' as const, priority: 0.3 },
   ]
 
   return routes.flatMap((route) =>

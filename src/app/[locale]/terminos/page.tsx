@@ -3,8 +3,8 @@ import { locales } from '@/i18n/routing'
 
 export const generateStaticParams = () => locales.map((locale) => ({ locale }))
 
-export const generateMetadata = (props: LegalPageProps) => legalMetadata('privacy', props)
+export const generateMetadata = (props: LegalPageProps) => legalMetadata('terms', props)
 
-export default function PrivacyPage(props: LegalPageProps) {
-  return <LegalPage doc="privacy" {...props} />
+export default function TermsPage(props: LegalPageProps) {
+  return <LegalPage doc="terms" {...props} />
 }

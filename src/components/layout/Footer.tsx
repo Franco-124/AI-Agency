@@ -23,10 +23,16 @@ const footerNav = [
   { key: 'faq', href: `/#${sectionIds.faq}` },
 ] as const
 
+const legalLinks = [
+  { key: 'privacy', href: '/privacidad' },
+  { key: 'terms', href: '/terminos' },
+  { key: 'cookies', href: '/cookies' },
+] as const
+
 export function Footer() {
   const t = useTranslations('footer')
   const tNav = useTranslations('nav')
-  const tPrivacy = useTranslations('privacy')
+  const tLegal = useTranslations('legal')
   const tWhatsapp = useTranslations('whatsapp')
   const year = new Date().getFullYear()
 
@@ -105,16 +111,18 @@ export function Footer() {
                   </Link>
                 </li>
               ))}
-              {/* Separate from `footerNav`: its label lives in the `privacy`
-                  namespace, not `nav`, so it cannot share the loop's lookup. */}
-              <li>
-                <Link
-                  href="/privacidad"
-                  className="flex min-h-11 items-center text-sm text-ink-muted transition-colors duration-200 hover:text-ink"
-                >
-                  {tPrivacy('linkLabel')}
-                </Link>
-              </li>
+              {/* Separate from `footerNav`: their labels live in the `legal`
+                  namespace, not `nav`, so they cannot share the loop's lookup. */}
+              {legalLinks.map(({ key, href }) => (
+                <li key={key}>
+                  <Link
+                    href={href}
+                    className="flex min-h-11 items-center text-sm text-ink-muted transition-colors duration-200 hover:text-ink"
+                  >
+                    {tLegal(key)}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </nav>
 

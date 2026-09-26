@@ -49,8 +49,6 @@ swap('© 2025 Numi AI.', '© __YEAR__ Numi AI.')
 swap('Llamada de 15 min sin costo', 'Llamada inicial sin costo')
 swap('agendar tu llamada estratégica de 15 minutos.', 'agendar tu llamada estratégica.')
 swap('Llamada de 15 minutos sin costo. Diagnóstico de viabilidad.', 'Llamada sin costo. Diagnóstico de viabilidad.')
-// Privacy link
-swap('href="#">Política de Privacidad</a>', 'href="/__LOCALE__/privacidad">Política de Privacidad</a>')
 /*
  * ROI calculator. The comp already listed it under "Recursos" in the footer,
  * pointing at `#` — that dead link is now the real page. The header gets an
@@ -95,6 +93,34 @@ swap(
 const chatScript = ['<script>', readFileSync(new URL('./stitch-chat.js', import.meta.url), 'utf8'), '</script>', ''].join('\n')
 swap('</body></html>', bookingScript + chatScript + '</body></html>')
 
+
+/*
+ * Material Symbols are ligatures: the glyph is drawn from a word such as
+ * "check_circle", and that word is what a screen reader reads out. Every icon
+ * on the page sits beside text that already says the same thing (the audit
+ * found no button or link named only by its icon), so all of them are hidden
+ * from assistive tech.
+ */
+{
+  const before = html
+  html = html.replace(/<span class="material-symbols-outlined/g, '<span aria-hidden="true" class="material-symbols-outlined')
+  if (html === before) throw new Error('No Material Symbols found to hide')
+}
+
+/*
+ * Placeholders: the forms plugin paints them #6b7280, 4.1:1 on the field's
+ * #0f061c — under the 4.5:1 WCAG AA minimum. The design's own muted tone
+ * reads at 5.4:1. Same specificity as the plugin's rule, and this <style>
+ * comes after the compiled Tailwind one, so it wins without !important.
+ *
+ * On touch screens, footer and contact links (16–20px tall) get 4px of block
+ * padding to reach the 24px minimum target of WCAG 2.2 (2.5.8).
+ */
+swap(
+  '<style>',
+  '<style>input::placeholder,textarea::placeholder{color:#8d81a3;opacity:1}' +
+    '@media (pointer:coarse){footer a,a[href^="mailto:"],a[href^="https://wa.me"],a[href="/es"],a[href="/en"]{display:inline-block;padding-block:4px}a[href="/es"],a[href="/en"]{padding-inline:6px}}\n',
+)
 
 // ---- Production assets ----
 // 1. Logos: download Stitch's temporary googleusercontent images into /public as WebP
@@ -185,7 +211,7 @@ const ldJson = (obj) => JSON.stringify(obj).replace(/</g, '\\u003c')
 const FAQ_ES = [
   ['¿Cuánto tiempo toma implementarlo y empezar a usarlo?', 'Entre 10 y 20 días hábiles según el alcance del proyecto. Para arrancar necesitamos tres cosas de tu parte: acceso a tu WhatsApp Business, tu catálogo o lista de servicios con precios vigentes, y las preguntas que más te repiten tus clientes. Mientras construimos, tu operación continúa con normalidad: nada se apaga ni se migra hasta que el sistema esté probado y lo apruebes.'],
   ['¿Qué pasa si el agente no sabe responder algo o el cliente se enoja?', 'Escala de inmediato a una persona de tu equipo. Definimos contigo los disparadores del handoff: cuando el cliente solicita un humano, cuando aparece un reclamo o una palabra sensible, cuando la consulta sale del alcance establecido, o cuando el agente no tiene certeza suficiente. La persona recibe la conversación completa y responde con el contexto ya leído. Además ves todas las conversaciones en un panel y puedes intervenir cuando quieras: no es una caja negra.'],
-  ['¿Cuánto cuesta y qué incluye exactamente el precio?', 'Depende del plan. El Agente Esencial empieza en $999.990 de implementación y $300.000 al mes. El Agente Avanzado empieza en $1.900.000 de implementación y $550.000 al mes. Los dos incluyen diagnóstico, construcción, carga de tu información, las integraciones acordadas, pruebas hasta que funcione, alojamiento, monitoreo y soporte. Si tu negocio necesita algo distinto (varias sedes, integraciones propias, sitio web completo), armamos un plan a la medida y te damos el precio después del diagnóstico. Aparte va solo el consumo de mensajes que cobra WhatsApp a través de Meta, que varía según tu volumen y te lo estimamos con tus propios números en la propuesta.'],
+  ['¿Cuánto cuesta y qué incluye exactamente el precio?', 'Depende del plan. El Agente Esencial tiene una implementación de $999.990 y un mantenimiento de $299.000 al mes. El Agente Avanzado, $1.500.000 de implementación y $399.000 al mes. Los dos incluyen diagnóstico, construcción, carga de tu información, las integraciones acordadas, pruebas hasta que funcione, alojamiento, monitoreo y soporte. Si tu negocio necesita algo distinto (varias sedes, integraciones propias, sitio web completo), armamos un plan a la medida y te damos el precio después del diagnóstico. Aparte va solo el consumo de mensajes que cobra WhatsApp a través de Meta — el costo por mensaje es mínimo en Colombia, y te lo estimamos con tus propios números en la propuesta.'],
   ['¿Necesito saber de tecnología o tener un equipo técnico para mantenerlo?', 'No. Lo que tú haces es responder cuando una conversación te llega escalada, igual que hoy respondes un WhatsApp común. Si quieres cambiar un precio, un horario o una respuesta, se hace desde un panel visual intuitivo sin tocar código, y te enseñamos cómo en la sesión de entrega. Los errores imprevistos, actualizaciones y cambios de plataformas de Meta los resolvemos nosotros dentro de la mensualidad.'],
   ['¿Funciona con las herramientas que ya uso (CRM, WhatsApp, calendario)?', 'Hoy conectamos de forma nativa WhatsApp Business API, Google Calendar y Outlook, Google Sheets, HubSpot y formularios web, además de cualquier herramienta con API abierta. Si usas algo que no está en esa lista, lo revisamos en la llamada de diagnóstico y te decimos si se puede conectar, con qué límites, o si conviene otra ruta — siempre antes de que contrates, no después.'],
   ['¿Qué pasa si quiero cancelar o no me sirve después de un tiempo?', 'Cancelas cuando quieras avisando con 30 días de anticipación. No hay permanencia mínima forzosa ni multas por salir. Tus datos son 100% tuyos: al cerrar te entregamos el histórico completo de conversaciones y los contactos capturados en un formato estándar que puedas abrir y llevarte, y borramos de forma segura lo que quede en nuestros servidores si así lo requieres.'],
@@ -193,7 +219,7 @@ const FAQ_ES = [
 const FAQ_EN = [
   ['How long does it take to set up and start using it?', "Between 10 and 20 business days depending on scope. To get started we need three things from you: access to your WhatsApp Business, your catalog or service list with current prices, and the questions your customers ask most. While we build, your operation runs as usual: nothing is shut down or migrated until the system is tested and you approve it."],
   ["What if the agent can't answer something or the customer gets upset?", "It escalates immediately to someone on your team. We define the handoff triggers with you: when the customer asks for a human, when a complaint or sensitive word appears, when the question falls outside the agreed scope, or when the agent isn't confident enough. That person receives the full conversation and replies with the context already read. You also see every conversation in a dashboard and can step in whenever you want: it's not a black box."],
-  ['How much does it cost and what exactly does the price include?', "It depends on the plan. The Essential Agent starts at $999,990 setup and $300,000 a month. The Advanced Agent starts at $1,900,000 setup and $550,000 a month. Both include the assessment, the build, loading your information, the agreed integrations, testing until it works, hosting, monitoring and support. If your business needs something different (multiple locations, custom integrations, a full website), we put together a custom plan and give you the price after the assessment. The only extra is WhatsApp's message fees through Meta, which vary with your volume and we estimate with your own numbers in the proposal."],
+  ['How much does it cost and what exactly does the price include?', "It depends on the plan. The Essential Agent has a $999,990 setup and $299,000 a month in maintenance. The Advanced Agent, $1,500,000 setup and $399,000 a month. Both include the assessment, the build, loading your information, the agreed integrations, testing until it works, hosting, monitoring and support. If your business needs something different (multiple locations, custom integrations, a full website), we put together a custom plan and give you the price after the assessment. The only extra is WhatsApp's message fees through Meta — the per-message cost is minimal in Colombia, and we estimate it with your own numbers in the proposal."],
   ['Do I need to know tech or have a technical team to maintain it?', "No. All you do is reply when a conversation is escalated to you, just like answering a regular WhatsApp today. If you want to change a price, a schedule or a reply, you do it from an intuitive visual dashboard without touching code, and we show you how in the handover session. Unexpected errors, updates and Meta platform changes are handled by us within the monthly fee."],
   ['Does it work with the tools I already use (CRM, WhatsApp, calendar)?', "Today we natively connect WhatsApp Business API, Google Calendar and Outlook, Google Sheets, HubSpot and web forms, plus any tool with an open API. If you use something not on that list, we review it on the assessment call and tell you whether it can be connected, with what limits, or whether another route makes more sense — always before you sign, not after."],
   ['What if I want to cancel or it stops being useful after a while?', "Cancel anytime with 30 days' notice. There's no forced minimum term and no exit fees. Your data is 100% yours: when you leave, we hand over the full conversation history and captured contacts in a standard format you can open and take with you, and we securely delete whatever remains on our servers if you ask us to."],
@@ -201,12 +227,12 @@ const FAQ_EN = [
 
 const OFFERS_ES = [
   { name: 'Agente Esencial', description: 'Para negocios que hoy no automatizan nada y necesitan resolver lo básico: mensajes sin responder y citas mal agendadas.', minPrice: 999990 },
-  { name: 'Agente Avanzado', description: 'Para negocios con volumen real de consultas diarias, donde perder un lead ya duele. Incluye todo lo del Agente Esencial, más escalado con contexto, panel de conversaciones, seguimiento automático y reporte semanal.', minPrice: 1900000 },
+  { name: 'Agente Avanzado', description: 'Para negocios con volumen real de consultas diarias, donde perder un lead ya duele. Incluye todo lo del Agente Esencial, más escalado con contexto, panel de conversaciones, seguimiento automático y reporte semanal.', minPrice: 1500000 },
   { name: 'A la medida', description: 'Para negocios con varias sedes o una operación más compleja que necesita un sistema propio, no un plan fijo. Precio según diagnóstico.', minPrice: null },
 ]
 const OFFERS_EN = [
   { name: 'Essential Agent', description: "For businesses that don't automate anything today and need to solve the basics: unanswered messages and poorly booked appointments.", minPrice: 999990 },
-  { name: 'Advanced Agent', description: 'For businesses with real daily inquiry volume, where losing a lead already hurts. Includes everything in the Essential Agent, plus context-aware handoff, a conversation dashboard, automatic follow-up and a weekly report.', minPrice: 1900000 },
+  { name: 'Advanced Agent', description: 'For businesses with real daily inquiry volume, where losing a lead already hurts. Includes everything in the Essential Agent, plus context-aware handoff, a conversation dashboard, automatic follow-up and a weekly report.', minPrice: 1500000 },
   { name: 'Custom', description: "For businesses with multiple locations or a more complex operation that needs its own system, not a fixed plan. Priced after the assessment.", minPrice: null },
 ]
 
@@ -240,7 +266,7 @@ function buildHead(locale) {
     address: { '@type': 'PostalAddress', addressLocality: 'Medellín', addressCountry: 'CO' },
     areaServed: { '@type': 'Country', name: 'Colombia' },
     sameAs: SAME_AS,
-    priceRange: '$999.990–$1.900.000 COP',
+    priceRange: '$999.990–$1.500.000 COP',
     makesOffer: offers.map((offer) => ({
       '@type': 'Offer',
       name: offer.name,

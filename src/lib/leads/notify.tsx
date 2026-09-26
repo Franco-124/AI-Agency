@@ -3,6 +3,7 @@ import { Resend } from 'resend'
 
 import { NewLeadEmail, type NewLeadEmailProps } from '@/emails/NewLeadEmail'
 import { requiredEnv } from '@/lib/env'
+import { legalEntity } from '@/lib/site'
 import type { Lead } from '@/lib/schemas'
 
 let cachedResend: Resend | null = null
@@ -20,6 +21,10 @@ const toEmailProps = (lead: Lead): NewLeadEmailProps => ({
   whatsapp: lead.whatsapp,
   email: lead.email,
   message: lead.message,
+  // The request is only accepted with `consent: true`, so the moment it is
+  // handled is the moment of authorization.
+  consentAt: new Date().toISOString(),
+  policyVersion: legalEntity.policyVersion,
 })
 
 /** Why the lead could not book itself — absent when this is a plain new-lead notification. */

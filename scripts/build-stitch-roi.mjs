@@ -63,13 +63,20 @@ wire('agendar-diagnostico', '#contacto')
 // an unrelated section.
 dropAnchor('Guías de IA para PYMES')
 
-// The three legal links all shared `data-path="aviso-legal"`. Only one of them
-// corresponds to a page that exists.
-dropAnchor('Términos de Servicio')
-dropAnchor('Aviso Legal')
+// The three legal links all shared `data-path="aviso-legal"`. Each now goes
+// to its own page: terms, the data policy, and the cookie policy in place of
+// the comp's "Aviso Legal", which the site has no separate document for.
+swap(
+  'data-path="aviso-legal" href="#">Términos de Servicio</a>',
+  'href="/__LOCALE__/terminos">Términos y Condiciones</a>',
+)
 swap(
   'data-path="aviso-legal" href="#">Tratamiento de Datos Personales (Habeas Data)</a>',
   'href="/__LOCALE__/privacidad">Tratamiento de Datos Personales (Habeas Data)</a>',
+)
+swap(
+  'data-path="aviso-legal" href="#">Aviso Legal</a>',
+  'href="/__LOCALE__/cookies">Política de Cookies</a>',
 )
 
 // ---- Locale switcher ----
@@ -102,9 +109,21 @@ swap(
   '<a class="font-body-sm text-body-sm text-status-success hover:text-on-surface transition-colors" href="https://wa.me/573127676549" rel="noopener noreferrer" target="_blank">+57 312 767 6549 (WhatsApp)</a>',
 )
 // Worded exactly like the home's, which needs no translation entry.
+// The operator's identity is filled in per request from `legalEntity` in
+// src/lib/site.ts (Ley 1480, art. 50), the same line the home's footer carries.
 swap(
   '© 2025 Numi AI Colombia SAS. Todos los derechos reservados. NIT 901.782.443-1.',
-  '© __YEAR__ Numi AI.',
+  '© __YEAR__ Numi AI. Numi AI es operado por __LEGAL_HOLDER__ · __LEGAL_ID__ · Medellín, Colombia',
+)
+
+/*
+ * The figures are an estimate built on general payroll assumptions, and the
+ * page must not read as accounting or labor advice. Said next to the result
+ * rather than only in the terms, because that is where the number is read.
+ */
+swap(
+  '<span class="">Sin contratos forzosos. Cumplimiento de Ley 1581 Habeas Data.</span>\n</div>',
+  '<span class="">Sin contratos forzosos. Cumplimiento de Ley 1581 Habeas Data.</span>\n</div>\n<p class="mt-3 text-center text-[11px] leading-relaxed text-text-muted">Estimación ilustrativa con supuestos generales de nómina; no es asesoría contable, laboral ni tributaria. <a class="underline underline-offset-2 hover:text-on-surface" href="/__LOCALE__/terminos">Ver términos</a></p>',
 )
 // No fixed call length anywhere on the site — see build-stitch-home.mjs.
 // Dated in the comp; the page is not re-exported every year.
@@ -402,6 +421,40 @@ swap(
  * would ship a broken image as well as a false affordance.
  */
 html = html.replace(/<img alt="Profile"[^>]*>/g, '')
+
+/*
+ * Material Symbols are ligatures whose word ("calendar_month") is what a
+ * screen reader reads out. Each icon here sits beside text that says the same
+ * thing, so all of them are hidden from assistive tech — same as the home.
+ */
+{
+  const before = html
+  html = html.replace(/<span class="material-symbols-outlined/g, '<span aria-hidden="true" class="material-symbols-outlined')
+  if (html === before) throw new Error('No Material Symbols found to hide')
+}
+
+// Skip link to the main landmark, as on the home: keyboard users otherwise tab
+// through the whole header on every visit.
+swap('<main class="w-full pt-20 bg-surface min-h-screen">', '<main class="w-full pt-20 bg-surface min-h-screen" id="contenido" tabindex="-1">')
+swap(
+  '<body class="bg-surface text-on-surface font-body-md text-body-md antialiased selection:bg-primary-container selection:text-on-primary-container">',
+  '<body class="bg-surface text-on-surface font-body-md text-body-md antialiased selection:bg-primary-container selection:text-on-primary-container">\n<a class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:px-5 focus:py-3 focus:rounded-full focus:bg-primary-container focus:text-white focus:font-semibold" href="#contenido">Saltar al contenido</a>',
+)
+
+/*
+ * Placeholders: the forms plugin paints them #6b7280, 4.1:1 on the field's
+ * #0f061c — under the 4.5:1 WCAG AA minimum. The design's own muted tone
+ * reads at 5.4:1. Same specificity as the plugin's rule, and this <style>
+ * comes after the compiled Tailwind one, so it wins without !important.
+ *
+ * On touch screens, footer and contact links (16–20px tall) get 4px of block
+ * padding to reach the 24px minimum target of WCAG 2.2 (2.5.8).
+ */
+swap(
+  '<style>',
+  '<style>input::placeholder,textarea::placeholder{color:#8d81a3;opacity:1}' +
+    '@media (pointer:coarse){footer a,a[href^="mailto:"],a[href^="https://wa.me"],a[href="/es/calculadora-roi"],a[href="/en/calculadora-roi"]{display:inline-block;padding-block:4px}}\n',
+)
 
 // ---- Production assets ----
 // 1. Logos: download Stitch's temporary googleusercontent images into /public as WebP

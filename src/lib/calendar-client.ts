@@ -17,6 +17,8 @@ export interface BookingRequest {
   whatsapp: string
   /** Required so the backend's reminder job has somewhere to send the 24h/1h reminder. */
   email: string
+  /** Data-processing authorization — the route rejects the booking without it. */
+  consent: true
   /** Pass-through context — set when the panel was opened from the long qualification form. */
   notes?: string
 }

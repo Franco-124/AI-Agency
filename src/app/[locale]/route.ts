@@ -1,4 +1,5 @@
 import { isLocale } from '@/i18n/routing'
+import { fillLegalPlaceholders } from '@/lib/site'
 
 import { stitchHomeHtml } from './stitch-home'
 
@@ -19,7 +20,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ loc
     return new Response('Not found', { status: 404 })
   }
 
-  const html = stitchHomeHtml[locale]
+  const html = fillLegalPlaceholders(stitchHomeHtml[locale])
     .replaceAll('__LOCALE__', locale)
     .replaceAll('__CHAT_API_URL__', CHAT_API_URL)
     .replaceAll('__YEAR__', String(new Date().getFullYear()))
