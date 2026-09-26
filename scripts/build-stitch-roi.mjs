@@ -129,6 +129,165 @@ if (pdfHandlerStart < 0 || pdfHandlerEnd < 0 || pdfHandlerEnd < pdfHandlerStart)
 }
 html = html.slice(0, pdfHandlerStart) + html.slice(pdfHandlerEnd)
 
+// ---- Payroll model ----
+/*
+ * The comp's arithmetic was a year out of date and rested on a number that
+ * does not exist. Everything in this block is sourced:
+ *
+ * - SMLV 2026 is $1.750.905 and the transport allowance $249.095 (Decreto
+ *   1469 de 2025; briefly suspended, restated by Decreto 159 de 2026, back in
+ *   force once the suspension was lifted). The slider started at $1.423.500,
+ *   which is the 2025 figure, and the allowance was missing entirely although
+ *   it is mandatory up to 2 SMLV — most of the slider's range — and counts
+ *   towards the prima and cesantías base.
+ * - There is no "53% factor prestacional". Computed line by line the employer
+ *   load runs from +55% at the minimum wage down to +38% above 2 SMLV, where
+ *   the allowance stops. A flat multiplier understates the bottom of the
+ *   range and overstates the top by about 15%.
+ * - Whether the employer is exonerated from health, SENA and ICBF (art. 114-1
+ *   E.T.) moves the result by 13.5 points, so the visitor now says which case
+ *   they are in instead of the page guessing.
+ * - A working month is 182 hours since the 42-hour week completed in July
+ *   2026, so the panel says when a scenario would not fit in the staff the
+ *   visitor set, rather than silently dividing payroll by impossible work.
+ */
+swap(
+  '<p class="text-xs text-text-muted mt-0.5">+53% estimado de factor prestacional legal colombiano</p>',
+  '<p class="text-xs text-text-muted mt-0.5">Incluye auxilio de transporte, seguridad social, parafiscales y prestaciones (vigencia 2026)</p>',
+)
+swap(
+  '<input class="w-full accent-primary bg-surface-variant h-2 rounded-lg cursor-pointer" id="slider-salary" max="4500000" min="1423500" step="50000" type="range" value="2200000">',
+  '<input class="w-full accent-primary bg-surface-variant h-2 rounded-lg cursor-pointer" id="slider-salary" max="5250905" min="1750905" step="50000" type="range" value="2750905">',
+)
+swap(
+  `<span class="">SMLV ($1.423.500)</span>
+<span class="">Técnico ($2.2M)</span>
+<span class="">Especializado ($4.5M)</span>
+</div>`,
+  `<span class="">SMLV ($1.750.905)</span>
+<span class="">Técnico ($2.750.905)</span>
+<span class="">Especializado ($5.250.905)</span>
+</div>
+<label class="flex items-start gap-3 mt-4 pt-4 border-t border-white/10 cursor-pointer">
+<input checked class="mt-0.5 w-4 h-4 accent-primary shrink-0" id="chk-exonerada" type="checkbox">
+<span class="text-xs text-text-muted leading-relaxed">Mi empresa está exonerada de salud, SENA e ICBF (art. 114-1 E.T.: sociedades y personas naturales con dos o más empleados, por quienes ganen menos de 10 SMLV)</span>
+</label>`,
+)
+swap(
+  '<!-- CTAs -->',
+  `<p class="hidden mt-4 rounded-xl border border-amber-400/30 bg-amber-400/10 px-3 py-2 text-[11px] leading-relaxed text-amber-200" id="capacity-note"></p>
+<!-- CTAs -->`,
+)
+swap(
+  'En Colombia, un trabajador devenga su salario base más un factor prestacional legal aproximado del <strong>52% al 54%</strong> (cesantías, primas de servicios, vacaciones, aportes a salud, pensión, ARL y caja de compensación). Nuestro simulador computa la carga patronal completa que tu empresa realmente asume.',
+  'Sobre el salario base el empleador paga prima, cesantías, intereses sobre cesantías, vacaciones, pensión, ARL y caja de compensación, más el auxilio de transporte de <strong>$249.095</strong> hasta dos salarios mínimos. No es un porcentaje fijo: sumado partida por partida va del <strong>+55% en el mínimo al +38% por encima de dos SMLV</strong>, y sube 13,5 puntos más si tu empresa no está exonerada de salud, SENA e ICBF. El simulador lo calcula así, no con un multiplicador.',
+)
+swap(
+  'Ajustado al régimen laboral colombiano',
+  'SMLV 2026 ($1.750.905) y auxilio de transporte incluidos',
+)
+swap(
+  'Disponibilidad 24/7 sin recargo nocturno',
+  'Sin recargo nocturno (7:00 p.m.) ni dominical (+90%)',
+)
+
+/*
+ * "480% en el año 1" sat under the ROI multiple as fixed text, so at 29.4x it
+ * still claimed 480%. It is the same number said twice, and now it is derived
+ * from the multiple rather than typed beside it.
+ */
+swap(
+  '<span class="text-[11px] text-text-muted font-body-sm">480% en el año 1</span>',
+  '<span class="text-[11px] text-text-muted font-body-sm"><span id="out-roi-percent">430</span>% en el año 1</span>',
+)
+swap(
+  `      const outPayback = document.getElementById('out-payback');`,
+  `      const outPayback = document.getElementById('out-payback');
+      const outRoiPercent = document.getElementById('out-roi-percent');`,
+)
+swap(
+  `        outRoiMultiple.textContent = roi + 'x';`,
+  `        outRoiMultiple.textContent = roi + 'x';
+        outRoiPercent.textContent = Math.round((parseFloat(roi) - 1) * 100).toLocaleString('es-CO');`,
+)
+
+// The WhatsApp cost answer described a pricing model Meta has replaced.
+swap(
+  'Meta cobra tarifas fijas por conversación (ventana de 24 horas) en la API oficial de WhatsApp Cloud. Para Colombia, las conversaciones de servicio iniciadas por el usuario tienen un costo marginal (aproximadamente $0.015 USD o ~$60 COP). Al consolidar cientos de mensajes bajo una sola ventana de 24 horas, el costo por interacción sigue siendo 15 a 20 veces más económico que pagar minutos hombre de atención manual.',
+  'Menos de lo que se suele creer. Las conversaciones de servicio —las que abre el cliente— no se cobran dentro de la ventana de 24 horas, y Meta incluye 1.000 gratis al mes por número. Desde el 1 de octubre de 2026 el cobro es por mensaje: en Colombia las plantillas de utilidad rondan los $0,001 USD (unos $3 COP) y las de marketing unos $0,0125 USD. La mensajería es marginal en la ecuación; lo que se paga es la plataforma y la implementación, no los mensajes.',
+)
+
+// New element handles, alongside the ones the export already grabs.
+swap(
+  `      const btnReset = document.getElementById('btn-reset');`,
+  `      const btnReset = document.getElementById('btn-reset');
+      const chkExonerada = document.getElementById('chk-exonerada');
+      const capacityNote = document.getElementById('capacity-note');`,
+)
+
+// The employer-cost half of `calculate()`, replaced in place.
+swap(
+  `        // Burden calculation (53% Colombian Prestational Factor)
+        const loadedMonthlyCostPerPerson = baseSalary * 1.53;
+        valSalaryLoaded.textContent = 'Costo empresa: ~' + formatCOP(loadedMonthlyCostPerPerson) + ' COP';`,
+  `        // Employer cost, line by line (CST + art. 114-1 E.T., vigencia 2026)
+        const SMLV_2026 = 1750905;
+        const AUXILIO_TRANSPORTE = 249095;
+        // Mandatory up to two minimum wages. Not part of the contribution
+        // base, but it does count towards prima and cesantías.
+        const auxilio = baseSalary <= 2 * SMLV_2026 ? AUXILIO_TRANSPORTE : 0;
+        const basePrestacional = baseSalary + auxilio;
+        let loadedMonthlyCostPerPerson =
+          baseSalary +
+          auxilio +
+          baseSalary * 0.12 +          // pensión
+          baseSalary * 0.00522 +       // ARL, riesgo I
+          baseSalary * 0.04 +          // caja de compensación
+          basePrestacional * 0.0833 +  // prima de servicios
+          basePrestacional * 0.0833 +  // cesantías
+          basePrestacional * 0.01 +    // intereses sobre cesantías
+          baseSalary * 0.0417;         // vacaciones
+        if (chkExonerada && !chkExonerada.checked) {
+          // Salud 8.5% + SENA 2% + ICBF 3%
+          loadedMonthlyCostPerPerson += baseSalary * 0.135;
+        }
+        const factorPct = Math.round((loadedMonthlyCostPerPerson / baseSalary - 1) * 100);
+        valSalaryLoaded.textContent =
+          'Costo empresa: ~' + formatCOP(loadedMonthlyCostPerPerson) + ' COP (+' + factorPct + '%)';`,
+)
+
+// Capacity check, appended where the hours are already known.
+swap(
+  `        outHoursBefore.textContent = totalHoursPerMonth + 'h/mes';`,
+  `        // A working month is 182 hours since the 42-hour week completed in
+        // July 2026 (Ley 2101 de 2021). Past that the scenario is not a
+        // staffing cost, it is work that nobody is doing.
+        const asesoresNecesarios = Math.ceil(totalHoursPerMonth / 182);
+        if (asesoresNecesarios > staffCount) {
+          capacityNote.textContent =
+            'Con ' + staffCount + (staffCount === 1 ? ' asesor' : ' asesores') +
+            ' esta carga no cabe en la jornada legal de 42 h/semana: requeriría ' +
+            asesoresNecesarios + ' personas.';
+          capacityNote.classList.remove('hidden');
+        } else {
+          capacityNote.classList.add('hidden');
+        }
+
+        outHoursBefore.textContent = totalHoursPerMonth + 'h/mes';`,
+)
+
+swap(
+  `      sliderSalary.addEventListener('input', calculate);`,
+  `      sliderSalary.addEventListener('input', calculate);
+      if (chkExonerada) chkExonerada.addEventListener('change', calculate);`,
+)
+
+swap(
+  `        sliderSalary.value = 2200000;`,
+  `        sliderSalary.value = 2750905;
+        if (chkExonerada) chkExonerada.checked = true;`,
+)
+
 // ---- Lead form ----
 /*
  * `/api/contact` takes name, whatsapp, email and message; the comp asked for a
