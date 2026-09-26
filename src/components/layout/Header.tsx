@@ -32,16 +32,29 @@ import { LocaleSwitcher } from './LocaleSwitcher'
  * carries the form and the agency's channels — a nav entry that scrolls to
  * the existing ask, not a second place to make it.
  */
+/*
+ * One entry carries a `path` instead of a section `id`: the ROI calculator is
+ * its own page, not a band of the home page, so it is a navigation rather than
+ * a scroll. It sits between "Proceso" and "Preguntas frecuentes" because that
+ * is where it belongs in the visitor's reasoning — after they understand how
+ * the work is done and before they start asking about it.
+ */
 const navItems = [
   { key: 'services', id: sectionIds.services },
   { key: 'pricing', id: sectionIds.pricing },
   { key: 'process', id: sectionIds.process },
+  { key: 'roi', path: '/calculadora-roi' },
   { key: 'faq', id: sectionIds.faq },
   { key: 'contact', id: sectionIds.finalCta },
 ] as const
 
-/** Every section id the nav can highlight. */
-const trackedSections = navItems.map((item) => item.id)
+type NavItem = (typeof navItems)[number]
+
+const isSectionItem = (item: NavItem): item is Extract<NavItem, { id: string }> =>
+  'id' in item
+
+/** Every section id the nav can highlight. Route entries have none. */
+const trackedSections = navItems.filter(isSectionItem).map((item) => item.id)
 
 type TrackedSection = (typeof trackedSections)[number]
 
@@ -71,6 +84,18 @@ export function Header() {
    */
   const isHome = pathname === '/'
   const sectionHref = (id: string) => (isHome ? `#${id}` : `/${locale}#${id}`)
+
+  /*
+   * Route entries are written with the locale prefix by hand rather than going
+   * through `next-intl`'s `<Link>`, so both kinds of nav entry stay a plain
+   * `<a>` and keep the same markup, focus ring and underline animation. The
+   * section entries cannot be `<Link>`s anyway — a bare `#id` is not a route.
+   */
+  const itemHref = (item: NavItem) =>
+    isSectionItem(item) ? sectionHref(item.id) : `/${locale}${item.path}`
+
+  const isItemActive = (item: NavItem) =>
+    isSectionItem(item) ? activeId === item.id : pathname === item.path
 
   /*
    * One rAF-throttled listener drives both the header surface and the current
@@ -362,13 +387,15 @@ export function Header() {
         <nav ref={navRef} aria-label={t('mainNav')} className="hidden lg:block">
           <ul className="flex items-center gap-1">
             {navItems.map((item) => {
-              const isActive = activeId === item.id
+              const isActive = isItemActive(item)
 
               return (
                 <li key={item.key}>
                   <a
-                    href={sectionHref(item.id)}
-                    aria-current={isActive ? 'location' : undefined}
+                    href={itemHref(item)}
+                    aria-current={
+                      isActive ? (isSectionItem(item) ? 'location' : 'page') : undefined
+                    }
                     className={cn(
                       'relative flex min-h-11 items-center rounded-md px-3 text-sm transition-colors duration-200',
                       isActive ? 'text-ink' : 'text-ink-muted hover:text-ink',
@@ -495,7 +522,14 @@ export function Header() {
             {navItems.map((item) => (
               <li key={item.key}>
                 <a
-                  href={sectionHref(item.id)}
+                  href={itemHref(item)}
+                  aria-current={
+                    isItemActive(item)
+                      ? isSectionItem(item)
+                        ? 'location'
+                        : 'page'
+                      : undefined
+                  }
                   onClick={() => setIsMenuOpen(false)}
                   className="flex min-h-12 items-center rounded-lg px-3 text-[1.0625rem] text-ink-muted transition-colors duration-200 hover:bg-[var(--accent-soft)] hover:text-ink"
                 >
