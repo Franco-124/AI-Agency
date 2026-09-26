@@ -386,40 +386,19 @@
     "tooShort": "Tell us a little more.",
     "tooLong": "This text is too long.",
     "sending": "Sending…",
-    "errorsTitle": "Please review the highlighted fields."
+    "errorsTitle": "Please review the highlighted fields.",
+    "consent": "I authorize Numi AI to process my personal data to contact me and book my appointment, under the <link>Privacy policy</link>, including its transfer to providers outside Colombia.",
+    "consentRequired": "We need your authorization to use your data and book the appointment."
   },
   "buttons": {
     "schedule": "Book your call",
     "talkToExpert": "Talk to an expert",
     "seeHowItWorks": "See how it works"
   },
-  "privacy": {
-    "linkLabel": "Privacy policy",
-    "title": "Privacy policy",
-    "metaDescription": "How Numi AI collects, uses and protects the personal data it receives through its contact form.",
-    "intro": "Numi AI collects personal data solely through the contact form on this site. This policy explains what data we receive, what we use it for and how you can request its deletion, in compliance with Colombia's Law 1581 of 2012.",
-    "dataTitle": "What data we collect",
-    "dataIntro": "Only the data you type into the form:",
-    "data": {
-      "one": "Name",
-      "two": "WhatsApp number",
-      "three": "Email address",
-      "four": "The description of what you need"
-    },
-    "useTitle": "What we use it for",
-    "useIntro": "For two purposes, and no others:",
-    "use": {
-      "one": "To contact you in order to schedule and hold the strategy call you requested.",
-      "two": "To assess your case and prepare a proposal suited to your operation."
-    },
-    "sharingTitle": "Who we share it with",
-    "sharing": "Nobody. We do not sell, transfer or share your data with third parties, and we do not use it for advertising or to build profiles.",
-    "retentionTitle": "How long we keep it",
-    "retention": "We keep your data for as long as there is an active commercial conversation with you. If you ask us to delete it, we do.",
-    "rightsTitle": "Your rights and how to exercise them",
-    "rights": "You may ask us at any time to tell you what data of yours we hold, to correct it, or to delete it entirely. We respond within the timeframes set by law.",
-    "rightsContact": "For data deletion requests, write to us at",
-    "updated": "Last updated: August 2026."
+  "legal": {
+    "privacy": "Privacy policy",
+    "terms": "Terms and conditions",
+    "cookies": "Cookie policy"
   },
   "notFound": {
     "eyebrow": "Error 404",

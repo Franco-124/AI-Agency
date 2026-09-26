@@ -182,6 +182,7 @@ export function BookingCalendarPanel({
     if (!code) return undefined
     if (code === 'invalidWhatsapp') return tForm('invalidWhatsapp')
     if (code === 'invalidEmail') return tForm('invalidEmail')
+    if (code === 'consentRequired') return tForm('consentRequired')
     return tForm('required')
   }
 
@@ -280,6 +281,7 @@ export function BookingCalendarPanel({
         name: values.name,
         whatsapp: values.whatsapp,
         email: values.email,
+        consent: values.consent,
         notes,
       })
       setPhase({ step: 'confirmed' })
@@ -351,9 +353,10 @@ export function BookingCalendarPanel({
     >
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
-          <h3 className="text-[1.0625rem] font-semibold tracking-[-0.02em] text-ink sm:text-lg">
+          {/* The page heading: /agendar has no other, and this panel only renders there. */}
+          <h1 className="text-[1.0625rem] font-semibold tracking-[-0.02em] text-ink sm:text-lg">
             {phase.step === 'fallback' ? t('fallbackTitle') : t('title')}
-          </h3>
+          </h1>
           {phase.step !== 'fallback' && (
             <p className="mt-1.5 text-[0.875rem] leading-relaxed text-ink-muted">
               {t('subtitle')}
@@ -515,6 +518,50 @@ export function BookingCalendarPanel({
                   />
                 )}
               </Field>
+
+              {/*
+                Data-processing authorization (Ley 1581, art. 9). Never
+                pre-ticked, and the schema only accepts `true`, so the booking
+                cannot go through without it. The policy opens in a new tab so
+                reading it does not throw away the slot being booked.
+              */}
+              <div className="flex flex-col gap-2">
+                <label
+                  htmlFor={`${prefix}-consent`}
+                  className="flex cursor-pointer items-start gap-3 text-[0.8125rem] leading-relaxed text-ink-muted"
+                >
+                  <input
+                    id={`${prefix}-consent`}
+                    type="checkbox"
+                    aria-invalid={Boolean(errors.consent)}
+                    aria-describedby={errors.consent ? `${prefix}-consent-error` : undefined}
+                    className="mt-0.5 h-5 w-5 shrink-0 cursor-pointer accent-[var(--color-acento)]"
+                    {...register('consent')}
+                  />
+                  <span>
+                    {tForm.rich('consent', {
+                      link: (chunks) => (
+                        <a
+                          href={`/${locale}/privacidad`}
+                          target="_blank"
+                          rel="noopener"
+                          className="text-[var(--accent-text)] underline decoration-[var(--accent-hairline)] underline-offset-4 hover:decoration-[var(--accent-text)]"
+                        >
+                          {chunks}
+                        </a>
+                      ),
+                    })}
+                  </span>
+                </label>
+                {/* Always mounted, like `Field`'s error slot, so the message is announced. */}
+                <p
+                  id={`${prefix}-consent-error`}
+                  aria-live="polite"
+                  className="text-[0.75rem] leading-snug text-[var(--accent-text)]"
+                >
+                  {messageFor(errors.consent?.message)}
+                </p>
+              </div>
 
               {/*
                 `isSubmitting` as well as the phase, because they commit at

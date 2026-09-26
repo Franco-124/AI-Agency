@@ -386,40 +386,19 @@
     "tooShort": "Cuéntanos un poco más.",
     "tooLong": "El texto es demasiado largo.",
     "sending": "Enviando…",
-    "errorsTitle": "Revisa los campos marcados."
+    "errorsTitle": "Revisa los campos marcados.",
+    "consent": "Autorizo a Numi AI a tratar mis datos personales para contactarme y agendar mi cita, según la <link>Política de privacidad</link>, incluida su transferencia a proveedores fuera de Colombia.",
+    "consentRequired": "Necesitamos tu autorización para usar tus datos y agendar la cita."
   },
   "buttons": {
     "schedule": "Agenda tu llamada",
     "talkToExpert": "Hablar con un experto",
     "seeHowItWorks": "Ver cómo funciona"
   },
-  "privacy": {
-    "linkLabel": "Política de privacidad",
-    "title": "Política de privacidad",
-    "metaDescription": "Cómo Numi AI recolecta, usa y protege los datos personales que recibe a través de su formulario de contacto.",
-    "intro": "Numi AI recolecta datos personales únicamente a través del formulario de contacto de este sitio. Esta política explica qué datos recibimos, para qué los usamos y cómo puedes pedir su eliminación, en cumplimiento de la Ley 1581 de 2012 de Colombia.",
-    "dataTitle": "Qué datos recolectamos",
-    "dataIntro": "Solo los datos que tú escribes en el formulario:",
-    "data": {
-      "one": "Nombre",
-      "two": "Número de WhatsApp",
-      "three": "Correo electrónico",
-      "four": "La descripción de lo que necesitas"
-    },
-    "useTitle": "Para qué los usamos",
-    "useIntro": "Con dos fines, y ninguno más:",
-    "use": {
-      "one": "Contactarte para agendar y sostener la llamada estratégica que solicitaste.",
-      "two": "Evaluar tu caso y preparar una propuesta ajustada a tu operación."
-    },
-    "sharingTitle": "Con quién los compartimos",
-    "sharing": "Con nadie. No vendemos, cedemos ni compartimos tus datos con terceros, y no los usamos para publicidad ni para construir perfiles.",
-    "retentionTitle": "Cuánto tiempo los conservamos",
-    "retention": "Conservamos los datos mientras exista una conversación comercial activa contigo. Si nos pides eliminarlos, lo hacemos.",
-    "rightsTitle": "Tus derechos y cómo ejercerlos",
-    "rights": "Puedes pedir en cualquier momento que te digamos qué datos tuyos tenemos, que los corrijamos o que los eliminemos por completo. Respondemos dentro de los plazos que fija la ley.",
-    "rightsContact": "Para solicitudes de eliminación de datos, escríbenos a",
-    "updated": "Última actualización: agosto de 2026."
+  "legal": {
+    "privacy": "Política de privacidad",
+    "terms": "Términos y condiciones",
+    "cookies": "Política de cookies"
   },
   "notFound": {
     "eyebrow": "Error 404",

@@ -37,9 +37,9 @@ const UNDERLINE =
   " focus-visible:after:scale-x-100 motion-reduce:after:transition-none"
 
 const IDLE_LINK =
-  'text-on-surface-variant hover:text-on-surface transition-all duration-200 text-[14px]' + UNDERLINE
+  'whitespace-nowrap text-on-surface-variant hover:text-on-surface transition-all duration-200 text-[13px] min-[1440px]:text-[14px]' + UNDERLINE
 const CURRENT_LINK =
-  'transition-all duration-200 text-on-surface font-semibold hover:text-primary' + UNDERLINE
+  'whitespace-nowrap transition-all duration-200 text-on-surface font-semibold hover:text-primary text-[13px] min-[1440px]:text-[14px]' + UNDERLINE
 
 /**
  * One list, one order, one set of labels. `fragment` names a band of the home
@@ -81,7 +81,14 @@ export function nav(current) {
     )
   })
 
-  return `<nav class="hidden lg:flex items-center gap-6">\n${links.join('\n')}\n</nav>`
+  /*
+   * Links never wrap (`whitespace-nowrap`): "Planes y Precios" and "Preguntas
+   * Frecuentes" used to break onto two lines. Unwrapped, the seven Spanish
+   * labels need about 700px, which does not fit beside the logo and the CTA
+   * until 1280px, so the nav starts at `xl` (below it the header shows logo
+   * and CTA, as on mobile). 13px up to 1440px, 14px above, measured to fit.
+   */
+  return `<nav class="hidden xl:flex items-center gap-4 min-[1440px]:gap-6">\n${links.join('\n')}\n</nav>`
 }
 
 /**
@@ -150,7 +157,7 @@ export function bookingSection() {
   const successOpen = '<div class="hidden p-4 rounded-xl bg-status-success/20'
   if (!block.includes(successOpen)) throw new Error('Success slot not found')
   block = block.split(successOpen).join(
-    '<div class="hidden p-4 rounded-xl bg-red-500/15 border border-red-500/40 text-on-surface text-center text-[13px] mt-3" id="form-error"></div>\n' +
+    '<div class="hidden p-4 rounded-xl bg-red-500/15 border border-red-500/40 text-on-surface text-center text-[13px] mt-3" id="form-error" role="alert"></div>\n' +
       successOpen,
   )
 
@@ -207,7 +214,8 @@ export const bookingScript = `
         name: document.getElementById('lead-name').value.trim(),
         whatsapp: document.getElementById('lead-whatsapp').value.trim(),
         email: document.getElementById('lead-email').value.trim(),
-        message: document.getElementById('lead-message').value.trim()
+        message: document.getElementById('lead-message').value.trim(),
+        consent: document.getElementById('lead-consent').checked
       };
       var label = btn.textContent; btn.disabled = true; btn.textContent = 'Enviando...';
       try {
@@ -229,3 +237,79 @@ export const bookingScript = `
   })();
 </script>
 `
+
+/**
+ * Serves the pages' web fonts from this site instead of Google Fonts.
+ *
+ * Loading a stylesheet from fonts.googleapis.com sends every visitor's IP
+ * address to Google before they have done anything — a third-party transfer
+ * the privacy policy would otherwise have to disclose, for nothing the site
+ * needs. Each Google stylesheet is fetched here at build time, its font files
+ * are saved under `public/fonts/stitch/`, and the CSS is inlined with local
+ * URLs. The preconnect and preload hints to Google go too.
+ *
+ * Only the `latin` and `latin-ext` subsets are kept: they cover Spanish and
+ * English, and the other scripts (Cyrillic, Greek, Vietnamese) would be files
+ * the site never serves. Material Symbols ships as a single subset of the
+ * icons the page uses, so it is kept whole.
+ *
+ * File names are a hash of the content, so a rebuild with unchanged fonts
+ * rewrites the same files and a font update cannot be served stale.
+ */
+export async function selfHostFonts(html) {
+  const { createHash } = await import('node:crypto')
+  const { mkdirSync, writeFileSync } = await import('node:fs')
+  const dir = new URL('../public/fonts/stitch/', import.meta.url)
+  mkdirSync(dir, { recursive: true })
+
+  // A current desktop Chrome user agent, or Google answers with TTF instead of WOFF2.
+  const headers = {
+    'User-Agent':
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36',
+  }
+
+  for (const hint of html.match(/<link\b[^>]*(?:rel="preconnect"[^>]*href="https:\/\/fonts\.(?:googleapis|gstatic)\.com"|href="https:\/\/fonts\.(?:googleapis|gstatic)\.com"[^>]*rel="preconnect"|rel="preload"[^>]*href="https:\/\/fonts\.googleapis\.com[^"]*")[^>]*>\n?/g) ?? []) {
+    html = html.replace(hint, '')
+  }
+
+  const links = html.match(/<link\b[^>]*href="https:\/\/fonts\.googleapis\.com\/css2\?[^"]+"[^>]*rel="stylesheet"[^>]*>/g) ?? []
+  if (links.length === 0) throw new Error('No Google Fonts stylesheet found')
+
+  for (const link of links) {
+    const url = link.match(/href="([^"]+)"/)[1].replace(/&amp;/g, '&')
+    const res = await fetch(url, { headers })
+    if (!res.ok) throw new Error('Font CSS download failed: ' + url)
+    const css = await res.text()
+    const isIcons = url.includes('Material+Symbols')
+
+    // Text fonts: blocks are "/* subset */\n@font-face {…}"; keep the Latin
+    // ones. The icon stylesheet is kept whole — besides its @font-face it
+    // carries the `.material-symbols-outlined` rule that turns the ligature
+    // words into glyphs, and without it every icon renders as its name.
+    let local
+    if (isIcons) {
+      if (!css.includes('.material-symbols-outlined')) throw new Error('Icon class rule missing from ' + url)
+      local = css
+    } else {
+      const blocks = [...css.matchAll(/(?:\/\*\s*([\w-]+)\s*\*\/\s*)?(@font-face\s*\{[^}]*\})/g)]
+        .filter((m) => !m[1] || m[1] === 'latin' || m[1] === 'latin-ext')
+        .map((m) => m[2])
+      if (blocks.length === 0) throw new Error('No @font-face blocks kept for ' + url)
+      local = blocks.join('\n')
+    }
+    for (const fontUrl of new Set(local.match(/https:\/\/fonts\.gstatic\.com\/[^)\s'"]+/g) ?? [])) {
+      const fontRes = await fetch(fontUrl, { headers })
+      if (!fontRes.ok) throw new Error('Font download failed: ' + fontUrl)
+      const bytes = Buffer.from(await fontRes.arrayBuffer())
+      const ext = (fontUrl.match(/\.(woff2|woff|ttf|otf)(?:$|\?)/) ?? [, 'woff2'])[1]
+      const name = createHash('sha256').update(bytes).digest('hex').slice(0, 16) + '.' + ext
+      writeFileSync(new URL(name, dir), bytes)
+      local = local.split(fontUrl).join('/fonts/stitch/' + name)
+    }
+
+    html = html.replace(link, '<style>' + local.replace(/\s+/g, ' ') + '</style>')
+  }
+
+  if (/fonts\.(googleapis|gstatic)\.com/.test(html)) throw new Error('A Google Fonts reference is left')
+  return html
+}

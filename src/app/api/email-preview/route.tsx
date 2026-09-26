@@ -21,6 +21,8 @@ export async function GET() {
       whatsapp="+57 313 582 0975"
       email="ana@sonrisa.co"
       message={'Necesitamos automatizar la agenda.\nHoy respondemos a mano por WhatsApp.'}
+      consentAt="2026-09-26T15:04:05.000Z"
+      policyVersion="2026-09-26"
     />,
   )
 

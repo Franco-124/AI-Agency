@@ -18,6 +18,24 @@ export const siteConfig = {
 export const whatsappUrl = `https://wa.me/${siteConfig.whatsapp}`
 
 /**
+ * How the business is identified on the legal pages: trade name, city and
+ * contact channels. The owner decided not to publish personal data (name, ID
+ * number, home address), so none is stored here.
+ *
+ * The privacy policy, the terms and the cookie policy all read from here.
+ */
+export const legalEntity = {
+  commercialName: 'Numi AI',
+  city: 'Medellín, Antioquia, Colombia',
+  email: siteConfig.email,
+  phone: '+57 312 767 6549',
+  /** Bump whenever the privacy policy's substance changes — stored with each consent. */
+  policyVersion: '2026-09-26',
+  /** Date shown as "última actualización" on the three legal pages. */
+  updated: { es: '26 de septiembre de 2026', en: 'September 26, 2026' },
+} as const
+
+/**
  * The agency's own profiles. Order is the order they render in the footer,
  * and the same list feeds `sameAs` in the Organization JSON-LD — one place to
  * edit when a profile is added, so the page and the structured data cannot

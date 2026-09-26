@@ -22,6 +22,13 @@ export type NewLeadEmailProps = {
   whatsapp: string
   email: string
   message?: string
+  /**
+   * When the visitor ticked the data-processing authorization, and which
+   * version of the policy they accepted. Kept in the email because it is the
+   * one durable record of that authorization (Decreto 1377 de 2013, art. 8).
+   */
+  consentAt: string
+  policyVersion: string
 }
 
 /* Mirrors the landing's palette. Email clients ignore CSS variables, so the
@@ -57,6 +64,8 @@ export function NewLeadEmail({
   whatsapp,
   email,
   message,
+  consentAt,
+  policyVersion,
 }: NewLeadEmailProps) {
   return (
     <Html lang="es">
@@ -132,6 +141,13 @@ export function NewLeadEmail({
               }}
             >
               {message ?? 'No dejó un mensaje adicional.'}
+            </Text>
+
+            <Hr style={{ borderColor: colors.secondary, margin: '16px 0' }} />
+
+            <Text style={label}>Autorización de tratamiento de datos</Text>
+            <Text style={{ ...value, fontSize: '13px', fontWeight: 400 }}>
+              {`Aceptada el ${consentAt} (UTC) · Política de privacidad versión ${policyVersion}`}
             </Text>
           </Section>
 

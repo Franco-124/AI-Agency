@@ -11,6 +11,15 @@ const WHATSAPP_PATTERN = /^[+()\d][\d\s()+-]{6,19}$/
 const requiredText = (max: number) =>
   z.string().trim().min(1, 'required').max(max, 'tooLong')
 
+/**
+ * Prior, express and informed authorization for the processing of personal
+ * data (Ley 1581 de 2012, art. 9; Decreto 1377 de 2013, arts. 5 and 7). It has
+ * to be an affirmative act — a box the visitor ticks, never one that arrives
+ * ticked — so the only value accepted is `true`, and the server checks it
+ * again because the client checkbox is a UX aid, not the record.
+ */
+const consent = z.literal(true, { error: 'consentRequired' })
+
 export const leadSchema = z.object({
   name: requiredText(120),
   whatsapp: z
@@ -29,6 +38,7 @@ export const leadSchema = z.object({
    * contact handles and nothing to act on.
    */
   message: requiredText(4000),
+  consent,
 })
 
 export type Lead = z.infer<typeof leadSchema>
@@ -54,6 +64,7 @@ export const bookingContactSchema = z.object({
     .max(24, 'tooLong')
     .regex(WHATSAPP_PATTERN, 'invalidWhatsapp'),
   email: z.string().trim().min(1, 'required').max(180).pipe(z.email('invalidEmail')),
+  consent,
 })
 
 export type BookingContact = z.infer<typeof bookingContactSchema>

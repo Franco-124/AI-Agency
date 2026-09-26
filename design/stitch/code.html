@@ -181,6 +181,7 @@
   </style>
 </head>
 <body class="font-body-md text-on-surface min-h-screen relative overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container" style="background-color: rgb(18, 8, 31); background-image: repeating-linear-gradient(to right, rgba(147, 51, 234, 0.22) 0px, rgba(147, 51, 234, 0.22) 1px, transparent 1px, transparent 92px), repeating-linear-gradient(rgba(147, 51, 234, 0.22) 0px, rgba(147, 51, 234, 0.22) 1px, transparent 1px, transparent 112px);">
+<a class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:px-5 focus:py-3 focus:rounded-full focus:bg-primary-container focus:text-white focus:font-semibold" href="#contenido">Saltar al contenido</a>
 <!-- NAVBAR -->
 <header class="fixed top-0 left-0 right-0 z-50 bg-[#12081F]/80 backdrop-blur-xl border-b border-white/10 transition-all duration-300 shadow-[0_4px_24px_rgba(0,0,0,0.4)]">
 <div class="h-20 max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between gap-4">
@@ -215,7 +216,7 @@
 </div>
 </div>
 </header>
-<main class="w-full pt-20 relative">
+<main class="w-full pt-20 relative" id="contenido" tabindex="-1">
 <!-- CAPA GLOBAL CONTINUA DE PANELES APILADOS FONDO-13 -->
 
 <!-- HERO SECTION (Con Horizonte de luz de Fondo-9 superpuesto) -->
@@ -486,7 +487,7 @@
 <!-- Chat input bar: live Cortana agent (wired by scripts/stitch-chat.js) -->
 <form class="p-2.5 sm:p-3 bg-[#150a25]/95 border-t border-white/10 flex items-center gap-3" id="numi-chat-form" novalidate>
 <div class="relative w-full">
-<input autocomplete="off" class="w-full px-4 py-2.5 rounded-xl bg-[#0a0413] text-text-primary text-[16px] sm:text-[13px] border border-white/10 focus:outline-none focus:ring-2 focus:ring-primary read-only:opacity-60" enterkeyhint="send" id="numi-chat-input" maxlength="1000" placeholder="Escribe un mensaje a Cortana..." type="text">
+<input autocomplete="off" class="w-full px-4 py-2.5 rounded-xl bg-[#0a0413] text-text-primary text-[16px] sm:text-[13px] border border-white/10 focus:outline-none focus:ring-2 focus:ring-primary read-only:opacity-60" aria-describedby="numi-chat-notice" aria-label="Mensaje para Cortana" enterkeyhint="send" id="numi-chat-input" maxlength="1000" placeholder="Escribe un mensaje a Cortana..." type="text">
 </div>
 <button aria-label="Enviar mensaje" class="w-9 h-9 rounded-xl bg-primary-container flex items-center justify-center text-white shrink-0 shadow-md hover:bg-primary-container/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" id="numi-chat-send" type="submit">
 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -494,6 +495,7 @@
 </svg>
 </button>
 </form>
+<p class="px-4 pb-3 pt-1 bg-[#150a25]/95 text-[12px] leading-snug text-text-muted" id="numi-chat-notice">Cortana es un asistente de inteligencia artificial y puede equivocarse. Lo que escribas se procesa para responderte; no compartas datos sensibles. <a class="underline underline-offset-2 hover:text-on-surface" href="/__LOCALE__/privacidad">Política de privacidad</a></p>
 </div>
 <!-- Right Column: Live Automation Inspector (5 cols) -->
 <div class="lg:col-span-5 p-5 md:p-6 flex flex-col justify-between space-y-5 bg-[#120721]/95">
@@ -678,7 +680,7 @@
 <div class="w-12 h-12 rounded-xl bg-primary-container/20 flex items-center justify-center text-primary group-hover:scale-110 transition-all duration-300">
 <span class="material-symbols-outlined text-[28px]">troubleshoot</span>
 </div>
-<span class="font-stat-display text-[22px] font-bold text-text-muted/40 group-hover:text-primary transition-colors">01</span>
+<span aria-hidden="true" class="font-stat-display text-[22px] font-bold text-text-muted group-hover:text-primary transition-colors">01</span>
 </div>
 <h3 class="font-headline-sm text-[20px] text-text-primary font-bold mb-3 group-hover:text-primary transition-colors">Diagnóstico de procesos</h3>
 <p class="text-[15px] text-on-surface-variant mb-6 leading-relaxed">
@@ -697,7 +699,7 @@
 <div class="w-12 h-12 rounded-xl bg-secondary-container/30 flex items-center justify-center text-secondary group-hover:scale-110 transition-all duration-300">
 <span class="material-symbols-outlined text-[28px]">forum</span>
 </div>
-<span class="font-stat-display text-[22px] font-bold text-text-muted/40 group-hover:text-secondary transition-colors">02</span>
+<span aria-hidden="true" class="font-stat-display text-[22px] font-bold text-text-muted group-hover:text-secondary transition-colors">02</span>
 </div>
 <h3 class="font-headline-sm text-[20px] text-text-primary font-bold mb-3 group-hover:text-secondary transition-colors">Chatbots Inteligentes</h3>
 <p class="text-[15px] text-on-surface-variant mb-6 leading-relaxed">
@@ -716,7 +718,7 @@
 <div class="w-12 h-12 rounded-xl bg-tertiary-container/30 flex items-center justify-center text-tertiary group-hover:scale-110 transition-all duration-300">
 <span class="material-symbols-outlined text-[28px]">hub</span>
 </div>
-<span class="font-stat-display text-[22px] font-bold text-text-muted/40 group-hover:text-tertiary transition-colors">03</span>
+<span aria-hidden="true" class="font-stat-display text-[22px] font-bold text-text-muted group-hover:text-tertiary transition-colors">03</span>
 </div>
 <h3 class="font-headline-sm text-[20px] text-text-primary font-bold mb-3 group-hover:text-tertiary transition-colors">Automatización de procesos</h3>
 <p class="text-[15px] text-on-surface-variant mb-6 leading-relaxed">
@@ -1329,7 +1331,7 @@
 <span class="text-tertiary">Empecemos hoy.</span>
 </h2>
 <p class="text-[17px] text-on-surface-variant leading-relaxed">
-            Completa el formulario y uno de nuestros socios te contacta en menos de 24 horas para agendar tu llamada estratégica de 15 minutos. Sales con un diagnóstico claro de qué conviene automatizar en tu operación, contrates o no.
+            Completa el formulario y alguien de nuestro equipo te contacta en menos de 24 horas para agendar tu llamada estratégica de 15 minutos. Sales con un diagnóstico claro de qué conviene automatizar en tu operación, contrates o no.
           </p>
 <div class="pt-4 space-y-3 text-[14px] text-on-surface-variant">
 <div class="flex items-center gap-3">
@@ -1355,16 +1357,16 @@
 <form class="space-y-4" id="contact-form" onsubmit="event.preventDefault(); document.getElementById('form-feedback').classList.remove('hidden'); this.reset();">
 <div>
 <label class="block text-[11px] uppercase font-bold text-on-surface-variant mb-1.5" for="lead-name">Nombre completo</label>
-<input class="w-full px-4 py-3 rounded-xl bg-[#0f061c] text-text-primary text-[14px] focus:outline-none focus:ring-2 focus:ring-primary border border-white/10" id="lead-name" placeholder="Ej: Carlos Mejía" required="" type="text">
+<input class="w-full px-4 py-3 rounded-xl bg-[#0f061c] text-text-primary text-[16px] sm:text-[14px] focus:outline-none focus:ring-2 focus:ring-primary border border-white/10" autocomplete="name" id="lead-name" placeholder="Ej: Carlos Mejía" required="" type="text">
 </div>
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 <div>
 <label class="block text-[11px] uppercase font-bold text-on-surface-variant mb-1.5" for="lead-whatsapp">WhatsApp</label>
-<input class="w-full px-4 py-3 rounded-xl bg-[#0f061c] text-text-primary text-[14px] focus:outline-none focus:ring-2 focus:ring-primary border border-white/10" id="lead-whatsapp" placeholder="+57 300 000 0000" required="" type="tel">
+<input class="w-full px-4 py-3 rounded-xl bg-[#0f061c] text-text-primary text-[16px] sm:text-[14px] focus:outline-none focus:ring-2 focus:ring-primary border border-white/10" autocomplete="tel" id="lead-whatsapp" placeholder="+57 300 000 0000" required="" type="tel">
 </div>
 <div>
 <label class="block text-[11px] uppercase font-bold text-on-surface-variant mb-1.5" for="lead-email">Correo electrónico</label>
-<input class="w-full px-4 py-3 rounded-xl bg-[#0f061c] text-text-primary text-[14px] focus:outline-none focus:ring-2 focus:ring-primary border border-white/10" id="lead-email" placeholder="carlos@empresa.com" required="" type="email">
+<input class="w-full px-4 py-3 rounded-xl bg-[#0f061c] text-text-primary text-[16px] sm:text-[14px] focus:outline-none focus:ring-2 focus:ring-primary border border-white/10" autocomplete="email" id="lead-email" placeholder="carlos@empresa.com" required="" type="email">
 </div>
 </div>
 <div>
@@ -1372,15 +1374,19 @@
 <label class="block text-[11px] uppercase font-bold text-on-surface-variant" for="lead-message">Cuéntanos qué necesitas</label>
 <span class="text-[11px] text-text-muted">Mínimo 10 caracteres</span>
 </div>
-<textarea class="w-full px-4 py-3 rounded-xl bg-[#0f061c] text-text-primary text-[14px] focus:outline-none focus:ring-2 focus:ring-primary border border-white/10" id="lead-message" minlength="10" placeholder="Cuéntanos cómo funciona tu negocio hoy y qué te gustaría automatizar..." required="" rows="3"></textarea>
+<textarea class="w-full px-4 py-3 rounded-xl bg-[#0f061c] text-text-primary text-[16px] sm:text-[14px] focus:outline-none focus:ring-2 focus:ring-primary border border-white/10" id="lead-message" minlength="10" placeholder="Cuéntanos cómo funciona tu negocio hoy y qué te gustaría automatizar..." required="" rows="3"></textarea>
 </div>
+<label class="flex items-start gap-3 text-[12px] leading-relaxed text-on-surface-variant cursor-pointer" for="lead-consent">
+<input class="mt-0.5 h-5 w-5 shrink-0 rounded border-white/30 bg-[#0f061c] text-primary-container focus:ring-2 focus:ring-primary cursor-pointer" id="lead-consent" required="" type="checkbox">
+<span class="">Autorizo a Numi AI a tratar mis datos personales para contactarme y agendar mi llamada, según la <a class="text-primary underline underline-offset-2" href="/__LOCALE__/privacidad" rel="noopener" target="_blank">Política de privacidad</a>, incluida su transferencia a proveedores fuera de Colombia.</span>
+</label>
 <button class="apple-liquid-btn-primary w-full py-4 px-6 rounded-full text-[14px] font-bold cursor-pointer" type="submit">
                 Agenda tu llamada estratégica
               </button>
 <p class="text-center text-[12px] text-text-muted mt-2">
                 Te contactaremos por WhatsApp o correo para coordinar el horario que mejor te funcione.
               </p>
-<div class="hidden p-4 rounded-xl bg-status-success/20 border border-status-success/40 text-on-surface text-center text-[13px] mt-3 flex items-center justify-center gap-2" id="form-feedback">
+<div class="hidden p-4 rounded-xl bg-status-success/20 border border-status-success/40 text-on-surface text-center text-[13px] mt-3 flex items-center justify-center gap-2" id="form-feedback" role="status">
 <span class="material-symbols-outlined text-status-success">check_circle</span>
 <span class="">¡Mensaje recibido! Nos comunicaremos en menos de 24 horas para tu llamada.</span>
 </div>
@@ -1425,28 +1431,25 @@
 <div class="space-y-3">
 <div class="text-[14px] text-text-primary font-bold tracking-wide">Servicios</div>
 <ul class="space-y-2 text-[13px] text-on-surface-variant">
-<li class=""><a class="hover:text-primary transition-colors" href="#servicios">Automatización de Ventas</a></li>
-<li class=""><a class="hover:text-primary transition-colors" href="#servicios">Agentes de Soporte IA</a></li>
-<li class=""><a class="hover:text-primary transition-colors" href="#servicios">Optimización de CRM</a></li>
-<li class=""><a class="hover:text-primary transition-colors" href="#servicios">Auditoría de Procesos</a></li>
+<li class=""><a class="hover:text-primary transition-colors" href="#servicios">Diagnóstico de procesos</a></li>
+<li class=""><a class="hover:text-primary transition-colors" href="#servicios">Chatbots Inteligentes</a></li>
+<li class=""><a class="hover:text-primary transition-colors" href="#servicios">Automatización de procesos</a></li>
+<li class=""><a class="hover:text-primary transition-colors" href="#servicios">Agentes de IA Cognitivos</a></li>
+<li class=""><a class="hover:text-primary transition-colors" href="#servicios">Sitios web profesionales</a></li>
 </ul>
 </div>
 <div class="space-y-3">
 <div class="text-[14px] text-text-primary font-bold tracking-wide">Planes</div>
 <ul class="space-y-2 text-[13px] text-on-surface-variant">
-<li class=""><a class="hover:text-primary transition-colors" href="#planes">Diagnóstico Express</a></li>
-<li class=""><a class="hover:text-primary transition-colors" href="#planes">Plan Crecimiento</a></li>
-<li class=""><a class="hover:text-primary transition-colors" href="#planes">Escala Corporativa</a></li>
-<li class=""><a class="hover:text-primary transition-colors" href="#planes">Soporte Continuo</a></li>
+<li class=""><a class="hover:text-primary transition-colors" href="#planes">Agente Esencial</a></li>
+<li class=""><a class="hover:text-primary transition-colors" href="#planes">Agente Avanzado</a></li>
+<li class=""><a class="hover:text-primary transition-colors" href="#planes">A la medida</a></li>
 </ul>
 </div>
 <div class="space-y-3">
 <div class="text-[14px] text-text-primary font-bold tracking-wide">Recursos</div>
 <ul class="space-y-2 text-[13px] text-on-surface-variant">
-<li class=""><a class="hover:text-primary transition-colors" href="#">Casos de Éxito</a></li>
-<li class=""><a class="hover:text-primary transition-colors" href="#">Blog de Automatización</a></li>
 <li class=""><a class="hover:text-primary transition-colors" href="#">Calculadora de ROI</a></li>
-<li class=""><a class="hover:text-primary transition-colors" href="#">Guías de IA para Pymes</a></li>
 </ul>
 </div>
 <div class="space-y-3">
@@ -1454,7 +1457,7 @@
 <ul class="space-y-2.5 text-[13px] text-on-surface-variant">
 <li class="flex items-start gap-2.5">
 <span class="material-symbols-outlined text-[18px] text-primary shrink-0">chat</span>
-<a class="hover:text-primary transition-colors" href="https://wa.me/573127676549" target="_blank">+57 312 767 6549</a>
+<a class="hover:text-primary transition-colors" href="https://wa.me/573127676549" rel="noopener noreferrer" target="_blank">+57 312 767 6549</a>
 </li>
 <li class="flex items-start gap-2.5">
 <span class="material-symbols-outlined text-[18px] text-primary shrink-0">mail</span>
@@ -1470,9 +1473,9 @@
 <div class="mt-12 pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-[12px] text-text-muted border-t border-white/5">
 <p class="">© 2025 Numi AI. Todos los derechos reservados.</p>
 <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-<a class="hover:text-on-surface transition-colors" href="#">Política de Privacidad</a>
-<a class="hover:text-on-surface transition-colors" href="#">Términos del Servicio</a>
-<a class="hover:text-on-surface transition-colors" href="#">Seguridad de Datos</a>
+<a class="hover:text-on-surface transition-colors" href="/__LOCALE__/privacidad">Política de Privacidad</a>
+<a class="hover:text-on-surface transition-colors" href="/__LOCALE__/terminos">Términos y Condiciones</a>
+<a class="hover:text-on-surface transition-colors" href="/__LOCALE__/cookies">Política de Cookies</a>
 </div>
 </div>
 </div>
