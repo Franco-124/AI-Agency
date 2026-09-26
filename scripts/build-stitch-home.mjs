@@ -8,6 +8,8 @@ import containerQueries from '@tailwindcss/container-queries'
 import sharp from 'sharp'
 import { fileURLToPath } from 'node:url'
 
+import { bookingScript, bookingSection, enclosing, escapeSingleQuoted, nav } from './stitch-chrome.mjs'
+
 /*
  * Normalised to LF on read. Git checks the export out with CRLF on Windows,
  * and every literal newline in the swaps below is a bare \n — without this the
@@ -52,11 +54,11 @@ swap(
   '<a class="hover:text-primary transition-colors" href="#">Calculadora de ROI</a>',
   '<a class="hover:text-primary transition-colors" href="/__LOCALE__/calculadora-roi">Calculadora de ROI</a>',
 )
-swap(
-  '<a class="text-on-surface-variant hover:text-on-surface transition-all duration-200 text-[14px]" href="#preguntas-frecuentes">Preguntas Frecuentes</a>',
-  '<a class="text-on-surface-variant hover:text-on-surface transition-all duration-200 text-[14px]" href="/__LOCALE__/calculadora-roi">Calculadora de ROI</a>\n' +
-    '<a class="text-on-surface-variant hover:text-on-surface transition-all duration-200 text-[14px]" href="#preguntas-frecuentes">Preguntas Frecuentes</a>',
-)
+// The header nav itself comes from the shared definition — see stitch-chrome.mjs.
+{
+  const { start, end } = enclosing(html, '<nav class="hidden lg:flex', 'nav')
+  html = html.slice(0, start) + nav('home') + html.slice(end)
+}
 /*
  * The floating "Hablar con Asesor" button already opened WhatsApp, but it did
  * not look like WhatsApp: a generic Material "chat" bubble on the design
@@ -76,88 +78,12 @@ swap(
 <svg aria-hidden="true" class="w-[22px] h-[22px] shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"></path><path d="M12.001 2C6.478 2 2 6.478 2 12c0 1.98.573 3.827 1.563 5.383L2 22l4.735-1.539A9.953 9.953 0 0 0 12.001 22C17.523 22 22 17.522 22 12S17.523 2 12.001 2zm0 18.13a8.12 8.12 0 0 1-4.14-1.135l-.297-.176-3.07.998.996-3.07-.187-.309A8.13 8.13 0 1 1 20.13 12a8.14 8.14 0 0 1-8.129 8.13z"></path></svg>`,
 )
 
-/*
- * Header nav: an underline on hover and on keyboard focus.
- *
- * The only hover affordance was a shift from `on-surface-variant` (#ccc3d8)
- * to `on-surface` (#e4e1ed) — two greys eight per cent apart, which on a dark
- * bar is not a state change anyone registers, and is invisible to a visitor
- * who cannot distinguish them. The rule is drawn in `primary` (#d2bbff),
- * which sits at roughly 11:1 against the header, so the target is obvious
- * rather than merely implied.
- *
- * It is a scaled pseudo-element rather than `underline`, so it grows from the
- * left instead of appearing, and it reserves no layout — a real underline
- * toggling on hover would shift the text baseline by the rule's thickness.
- * `focus-visible` gets the same treatment: a hover-only cue leaves keyboard
- * users with no indication of where they are.
- */
-const navUnderline =
-  " relative after:absolute after:inset-x-0 after:-bottom-1.5 after:h-0.5 after:origin-left" +
-  " after:scale-x-0 after:rounded-full after:bg-primary after:transition-transform" +
-  " after:duration-200 after:content-[''] hover:after:scale-x-100" +
-  " focus-visible:after:scale-x-100 motion-reduce:after:transition-none"
-
-swap(
-  'class="text-on-surface-variant hover:text-on-surface transition-all duration-200 text-[14px]"',
-  'class="text-on-surface-variant hover:text-on-surface transition-all duration-200 text-[14px]' +
-    navUnderline +
-    '"',
-)
-swap(
-  'class="transition-all duration-200 text-on-surface font-semibold hover:text-primary"',
-  'class="transition-all duration-200 text-on-surface font-semibold hover:text-primary' +
-    navUnderline +
-    '"',
-)
-
-// Form: real submit handled by script below
-swap(
-  ` onsubmit="event.preventDefault(); document.getElementById('form-feedback').classList.remove('hidden'); this.reset();"`,
-  ' novalidate',
-)
-swap('<div class="hidden p-4 rounded-xl bg-status-success/20', '<div class="hidden p-4 rounded-xl bg-red-500/15 border border-red-500/40 text-on-surface text-center text-[13px] mt-3" id="form-error"></div>\n<div class="hidden p-4 rounded-xl bg-status-success/20')
-
-const formScript = `
-<script>
-  (function () {
-    var form = document.getElementById('contact-form');
-    if (!form) return;
-    var ok = document.getElementById('form-feedback');
-    var err = document.getElementById('form-error');
-    var btn = form.querySelector('button[type="submit"]');
-    function showError(msg) { err.textContent = msg; err.classList.remove('hidden'); }
-    form.addEventListener('submit', async function (e) {
-      e.preventDefault();
-      err.classList.add('hidden'); ok.classList.add('hidden');
-      if (!form.checkValidity()) { form.reportValidity(); return; }
-      var data = {
-        name: document.getElementById('lead-name').value.trim(),
-        whatsapp: document.getElementById('lead-whatsapp').value.trim(),
-        email: document.getElementById('lead-email').value.trim(),
-        message: document.getElementById('lead-message').value.trim()
-      };
-      var label = btn.textContent; btn.disabled = true; btn.textContent = 'Enviando...';
-      try {
-        var res = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
-        var body = await res.json().catch(function () { return {}; });
-        if (!res.ok || !body.success) {
-          showError(res.status === 429 ? 'Demasiados intentos. Intenta de nuevo en unos minutos.' : res.status === 422 ? 'Revisa los datos: el WhatsApp o el correo no parecen válidos.' : 'No pudimos enviar tu mensaje. Escríbenos por WhatsApp.');
-          return;
-        }
-        try { sessionStorage.setItem('numi:booking-handoff', JSON.stringify(data)); } catch (_) {}
-        ok.classList.remove('hidden'); ok.style.display = 'flex';
-        window.location.href = '/__LOCALE__/agendar#reserva';
-      } catch (_) {
-        showError('No pudimos enviar tu mensaje. Revisa tu conexión o escríbenos por WhatsApp.');
-      } finally {
-        btn.disabled = false; btn.textContent = label;
-      }
-    });
-  })();
-</script>
-`
-swap('</body></html>', formScript + '</body></html>')
+// The booking section and its submit handler are shared with the ROI page.
+{
+  const { start, end } = enclosing(html, 'id="contacto"', 'section')
+  html = html.slice(0, start) + bookingSection() + html.slice(end)
+}
+swap('</body></html>', bookingScript + '</body></html>')
 
 
 // ---- Production assets ----
@@ -203,7 +129,9 @@ const tr = (t) => {
 // Translate text nodes and attributes outside <script>/<style>; inside scripts only quoted UI strings
 let htmlEn = html.split(/(<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>)/).map((chunk, i) => {
   if (i % 2 === 1) {
-    return chunk.replace(/'([^'\n]+)'/g, (m, t) => (t in en ? (missing.delete(t), "'" + en[t] + "'") : m))
+    return chunk.replace(/'([^'\n]+)'/g, (m, t) =>
+      t in en ? (missing.delete(t), "'" + escapeSingleQuoted(en[t]) + "'") : m,
+    )
   }
   return chunk
     .replace(/>([^<]+)</g, (m, t) => '>' + tr(t) + '<')

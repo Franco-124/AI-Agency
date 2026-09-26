@@ -9,6 +9,8 @@ import containerQueries from '@tailwindcss/container-queries'
 import sharp from 'sharp'
 import { fileURLToPath } from 'node:url'
 
+import { bookingScript, bookingSection, bookingStyles, enclosing, escapeSingleQuoted, nav } from './stitch-chrome.mjs'
+
 // Normalised to LF on read, for the reason given in build-stitch-home.mjs.
 let html = readFileSync(new URL('../design/stitch/roi.html', import.meta.url), 'utf8').replace(
   /\r\n/g,
@@ -35,22 +37,30 @@ const dropAnchor = (text) => {
 }
 
 // ---- Navigation ----
-// The export's chrome links nowhere (`href="#"` throughout). Section anchors
-// point back at the home page rather than at this one, because the sections
-// they name live there.
-wire('inicio', '/__LOCALE__')
+/*
+ * The export shipped its own nav — six pill-shaped links, a different set from
+ * the home's seven, calling the FAQ "FAQ" and omitting "Integraciones". It is
+ * replaced wholesale by the shared one, so both pages present the same header.
+ * This runs before the wiring below, which then only has the footer's anchors
+ * left to fix.
+ */
+{
+  const { start, end } = enclosing(html, '<nav class="hidden xl:flex', 'nav')
+  html = html.slice(0, start) + nav('roi') + html.slice(end)
+}
+
+// The export's remaining chrome links nowhere (`href="#"` throughout).
 wire('servicios', '/__LOCALE__#servicios')
 wire('proceso', '/__LOCALE__#proceso')
 wire('planes-y-precios', '/__LOCALE__#planes')
 wire('faq', '/__LOCALE__#preguntas-frecuentes')
 wire('calculadora-de-roi', '/__LOCALE__/calculadora-roi')
-// The header CTA stays on the page: the diagnostic form is right here.
-wire('agendar-diagnostico', '#diagnostico')
+// The header CTA stays on the page: the booking section is right here.
+wire('agendar-diagnostico', '#contacto')
 
-// "Guías de IA" is a page the site does not have. A nav entry that resolves to
-// nothing is worse than no entry, so it goes rather than being pointed at an
-// unrelated section.
-dropAnchor('Guías de IA')
+// "Guías de IA" is a page the site does not have. A footer entry that resolves
+// to nothing is worse than no entry, so it goes rather than being pointed at
+// an unrelated section.
 dropAnchor('Guías de IA para PYMES')
 
 // The three legal links all shared `data-path="aviso-legal"`. Only one of them
@@ -96,13 +106,7 @@ swap(
   '© 2025 Numi AI Colombia SAS. Todos los derechos reservados. NIT 901.782.443-1.',
   '© __YEAR__ Numi AI.',
 )
-swap(
-  'Un especialista de Numi AI Medellín te contactará por WhatsApp para validar tu caso con los parámetros ingresados.',
-  'Un especialista de Numi AI te contactará para validar tu caso con los parámetros ingresados.',
-)
 // No fixed call length anywhere on the site — see build-stitch-home.mjs.
-swap('Agenda un diagnóstico financiero y técnico de 15 minutos.', 'Agenda un diagnóstico financiero y técnico.')
-swap('Respuesta en menos de 10 minutos por WhatsApp.', 'Te respondemos por WhatsApp o correo.')
 // Dated in the comp; the page is not re-exported every year.
 swap('Ajustado al régimen laboral colombiano (2025/2026)', 'Ajustado al régimen laboral colombiano')
 
@@ -288,84 +292,68 @@ swap(
         if (chkExonerada) chkExonerada.checked = true;`,
 )
 
-// ---- Lead form ----
+// ---- Booking section ----
 /*
- * `/api/contact` takes name, whatsapp, email and message; the comp asked for a
- * company name and an economic sector instead. The two-column row keeps its
- * shape and becomes email + message, so the form matches the endpoint that
- * already exists rather than adding a second lead schema to maintain.
+ * The export carried its own lead panel: a different heading, a different
+ * button and fields the contact endpoint does not take (a company name and an
+ * economic sector instead of an email and a message). It is replaced by the
+ * home's #contacto block, so a visitor meets the same booking section
+ * whichever page they are on, and there is one form to keep working.
  */
-const fieldClass =
-  'w-full px-4 py-3 rounded-xl bg-surface-elevated text-text-primary text-sm focus:outline-none focus:ring-2 focus:ring-primary/60 transition-all placeholder:text-text-muted'
-const labelClass =
-  'block font-label-sm text-label-sm text-text-secondary uppercase tracking-wider mb-1.5'
+{
+  const { start, end } = enclosing(html, 'id="diagnostico"', 'section')
+  html = html.slice(0, start) + bookingSection() + html.slice(end)
+}
 
-const companyAndSectorStart = html.indexOf('<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">')
-const companyAndSectorEnd = html.indexOf('<button class="w-full mt-2 py-4 px-6 rounded-xl')
-if (companyAndSectorStart < 0 || companyAndSectorEnd < 0) throw new Error('Form fields block not found')
-html =
-  html.slice(0, companyAndSectorStart) +
-  `<div>
-<label class="${labelClass}" for="lead-email">Correo electrónico</label>
-<input class="${fieldClass}" id="lead-email" placeholder="tucorreo@empresa.com" required="" type="email">
-</div>
-<div>
-<label class="${labelClass}" for="lead-message">Cuéntanos qué necesitas</label>
-<textarea class="${fieldClass}" id="lead-message" minlength="10" placeholder="Cuéntanos cómo funciona tu negocio hoy y qué te gustaría automatizar" required="" rows="3"></textarea>
-</div>
-` +
-  html.slice(companyAndSectorEnd)
+// "Validar en llamada", in the results card, pointed at the panel that is now
+// the shared section.
+// The section's hand-written rules travel with its markup.
+swap('<style>', '<style>' + bookingStyles())
 
-// An error slot beside the success one, and no native validation popups until
-// we have checked the form ourselves.
-swap('<form class="space-y-4" id="lead-calculator-form">', '<form class="space-y-4" id="lead-calculator-form" novalidate>')
+// ---- Liquid glass ----
+/*
+ * The comp's panels were a flat translucent fill (`bg-surface-glass` + blur)
+ * while the home's cards use the liquid-glass recipe: gradient, rim light and
+ * a hairline border. Every glass box here takes that same class. Only the
+ * benefit cards keep its hover lift — on the calculator, the result card, the
+ * FAQ rows and the pills a lift reads as a glitch, so they are pinned.
+ */
 swap(
-  '<div class="hidden p-6 rounded-xl bg-status-success/15',
-  '<div class="hidden p-4 rounded-xl bg-red-500/15 border border-red-500/40 text-on-surface text-center text-[13px] mt-3" id="form-error"></div>\n<div class="hidden p-6 rounded-xl bg-status-success/15',
+  '<style>',
+  '<style>.liquid-glass-static:hover{transform:none;border-color:rgba(255,255,255,0.12)!important;box-shadow:inset 0 1px 1px 0 rgba(255,255,255,0.15),0 20px 50px rgba(0,0,0,0.45)!important}\n',
 )
+swap(
+  'bg-surface-glass backdrop-blur-xl rounded-2xl p-7 flex flex-col justify-between hover:bg-surface-elevated transition-all',
+  'liquid-glass-surface rounded-2xl p-7 flex flex-col justify-between',
+)
+swap('bg-surface-glass backdrop-blur-2xl rounded-3xl p-6 sm:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.6)]', 'liquid-glass-surface liquid-glass-static rounded-3xl p-6 sm:p-8')
+swap('rounded-3xl bg-surface-glass backdrop-blur-2xl p-7', 'rounded-3xl liquid-glass-surface liquid-glass-static p-7')
+swap('bg-surface-glass px-4 py-2 rounded-xl backdrop-blur-xl', 'liquid-glass-surface liquid-glass-static px-4 py-2 rounded-xl')
+swap('bg-surface-glass backdrop-blur-xl', 'liquid-glass-surface liquid-glass-static')
 
-// Same submit path as the home form: POST to /api/contact, remember the lead
-// for the booking page, then hand off to /agendar.
-const formScript = `
-<script>
-  (function () {
-    var form = document.getElementById('lead-calculator-form');
-    if (!form) return;
-    var ok = document.getElementById('form-success-msg');
-    var err = document.getElementById('form-error');
-    var btn = form.querySelector('button[type="submit"]');
-    function showError(msg) { err.textContent = msg; err.classList.remove('hidden'); }
-    form.addEventListener('submit', async function (e) {
-      e.preventDefault();
-      err.classList.add('hidden'); ok.classList.add('hidden');
-      if (!form.checkValidity()) { form.reportValidity(); return; }
-      var data = {
-        name: document.getElementById('lead-name').value.trim(),
-        whatsapp: document.getElementById('lead-whatsapp').value.trim(),
-        email: document.getElementById('lead-email').value.trim(),
-        message: document.getElementById('lead-message').value.trim()
-      };
-      var label = btn.textContent; btn.disabled = true; btn.textContent = 'Enviando...';
-      try {
-        var res = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
-        var body = await res.json().catch(function () { return {}; });
-        if (!res.ok || !body.success) {
-          showError(res.status === 429 ? 'Demasiados intentos. Intenta de nuevo en unos minutos.' : res.status === 422 ? 'Revisa los datos: el WhatsApp o el correo no parecen válidos.' : 'No pudimos enviar tu mensaje. Escríbenos por WhatsApp.');
-          return;
-        }
-        try { sessionStorage.setItem('numi:booking-handoff', JSON.stringify(data)); } catch (_) {}
-        ok.classList.remove('hidden');
-        window.location.href = '/__LOCALE__/agendar#reserva';
-      } catch (_) {
-        showError('No pudimos enviar tu mensaje. Revisa tu conexión o escríbenos por WhatsApp.');
-      } finally {
-        btn.disabled = false; btn.textContent = label;
-      }
-    });
-  })();
-</script>
-`
-swap('</body></html>', formScript + '</body></html>')
+swap('href="#diagnostico"', 'href="#contacto"')
+
+/*
+ * The simulator's own script ended with a mock submit handler bound to that
+ * panel's form. With the panel gone `getElementById` returns null and the
+ * handler throws — before the initial `calculate()` two lines below it, so the
+ * whole calculator rendered as the comp's hard-coded sample figures and never
+ * responded to a slider. The real handler ships with the shared section.
+ */
+swap(
+  `      // Form submit mockup
+      const leadForm = document.getElementById('lead-calculator-form');
+      const formSuccess = document.getElementById('form-success-msg');
+      leadForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        leadForm.classList.add('hidden');
+        formSuccess.classList.remove('hidden');
+      });
+
+`,
+  '',
+)
+swap('</body></html>', bookingScript + '</body></html>')
 
 // ---- Brand lockup ----
 /*
@@ -519,8 +507,23 @@ swap(
 )
 
 // ---- English version ----
-const en = JSON.parse(readFileSync(new URL('./stitch-roi-en.json', import.meta.url), 'utf8'))
-const missing = new Set(Object.keys(en))
+/*
+ * The shared chrome's strings are translated by the home's dictionary, so the
+ * nav and the booking section read the same on both pages instead of being
+ * translated twice. Only this page's own keys are tracked for staleness.
+ */
+const sharedEn = JSON.parse(readFileSync(new URL('./stitch-en.json', import.meta.url), 'utf8'))
+const ownEn = JSON.parse(readFileSync(new URL('./stitch-roi-en.json', import.meta.url), 'utf8'))
+/*
+ * The shared dictionary wins on a collision, so a string that appears in the
+ * shared chrome reads the same on both pages. A collision that disagrees is
+ * reported rather than silently resolved: it means the same Spanish sentence
+ * is being translated twice, which is how the two pages drift apart.
+ */
+const clashes = Object.keys(ownEn).filter((k) => k in sharedEn && sharedEn[k] !== ownEn[k])
+if (clashes.length) console.warn('Translated twice, shared wins:', clashes)
+const en = { ...ownEn, ...sharedEn }
+const missing = new Set(Object.keys(ownEn))
 const tr = (t) => {
   const k = t.trim().replace(/\s+/g, ' ')
   if (k in en) { missing.delete(k); return t.replace(t.trim(), en[k]) }
@@ -529,7 +532,9 @@ const tr = (t) => {
 // Translate text nodes and attributes outside <script>/<style>; inside scripts only quoted UI strings
 let htmlEn = html.split(/(<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>)/).map((chunk, i) => {
   if (i % 2 === 1) {
-    return chunk.replace(/'([^'\n]+)'/g, (m, t) => (t in en ? (missing.delete(t), "'" + en[t] + "'") : m))
+    return chunk.replace(/'([^'\n]+)'/g, (m, t) =>
+      t in en ? (missing.delete(t), "'" + escapeSingleQuoted(en[t]) + "'") : m,
+    )
   }
   return chunk
     .replace(/>([^<]+)</g, (m, t) => '>' + tr(t) + '<')
