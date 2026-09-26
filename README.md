@@ -121,3 +121,5 @@ Crea `.env.local` con:
 | `GOOGLE_SITE_VERIFICATION`     | Verificación de Google Search Console (opcional)     |
 
 No subas `.env.local` al repositorio.
+
+MADE WITH ❤️ BY THE NUMI AI TEAM
