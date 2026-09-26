@@ -1,7 +1,7 @@
 // Regenerates src/app/[locale]/stitch-roi.ts from the Stitch "Calculadora de
 // ROI" export, the same way scripts/build-stitch-home.mjs does for the home.
 // Run: node scripts/build-stitch-roi.mjs
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import postcss from 'postcss'
 import tailwind from 'tailwindcss3'
 import forms from '@tailwindcss/forms'
@@ -208,6 +208,45 @@ const formScript = `
 `
 swap('</body></html>', formScript + '</body></html>')
 
+// ---- Brand lockup ----
+/*
+ * The export draws the mark as the letter "N" set in a rounded box, and
+ * wordmarks it "Numi AI / COLOMBIA". The home page uses the real logo image
+ * and reads "NUMI AI / SISTEMAS COGNITIVOS", at a heavier weight. Two pages
+ * of one site must not disagree about what the logo is, so the header and the
+ * footer here are rebuilt from the home's markup.
+ *
+ * The images come from build-stitch-home.mjs, which downloads them out of the
+ * home export — this script does not fetch them a second time.
+ */
+for (const logo of ['logo-1.webp', 'logo-3.webp']) {
+  if (!existsSync(new URL('../public/images/stitch/' + logo, import.meta.url))) {
+    throw new Error('Missing ' + logo + ' — run `node scripts/build-stitch-home.mjs` first')
+  }
+}
+
+const wordmark = (tagline) =>
+  `<div class="flex flex-col">
+<span class="font-headline-sm text-[20px] font-extrabold tracking-tight text-text-primary leading-none flex items-center gap-1.5">
+NUMI <span class="bg-gradient-to-r from-primary via-tertiary to-secondary bg-clip-text text-transparent font-bold">AI</span>
+</span>
+<span class="text-[10px] tracking-[0.2em] uppercase font-semibold text-text-muted leading-tight">${tagline}</span>
+</div>`
+
+swap(
+  '<div class="w-10 h-10 rounded-xl bg-surface-elevated flex items-center justify-center p-1.5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)]"><span class="font-headline-sm text-headline-sm text-primary font-bold">N</span></div><div class="flex flex-col"><span class="font-headline-sm text-headline-sm tracking-tight text-on-surface leading-none">Numi <span class="text-primary font-bold">AI</span></span><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mt-1">Colombia</span></div>',
+  `<a class="relative flex items-center justify-center w-10 h-10 rounded-xl overflow-hidden shadow-[0_4px_16px_rgba(124,58,237,0.4)] border border-white/15 hover:scale-105 transition-transform duration-300" href="/__LOCALE__">
+<img alt="Numi AI Logo" class="w-full h-full object-cover" src="/images/stitch/logo-1.webp">
+</a>` + wordmark('Sistemas Cognitivos'),
+)
+
+swap(
+  '<div class="w-8 h-8 rounded-lg bg-surface-elevated flex items-center justify-center"><span class="font-headline-sm text-headline-sm text-primary font-bold">N</span></div><span class="font-headline-sm text-headline-sm font-bold text-on-surface">Numi AI</span>',
+  `<div class="relative flex items-center justify-center w-10 h-10 rounded-xl overflow-hidden shadow-md border border-white/15">
+<img alt="Numi AI Logo" class="w-full h-full object-cover" src="/images/stitch/logo-3.webp">
+</div>` + wordmark('Sistemas Cognitivos'),
+)
+
 // ---- Decorative avatar ----
 /*
  * The comp's header ends in a round "Profile" photo. The site has no accounts
@@ -250,9 +289,70 @@ swap(
 const configMatch = html.match(/<script id="tailwind-config">\s*tailwind\.config = ([\s\S]*?);?\s*<\/script>/)
 if (!configMatch) throw new Error('Tailwind config not found')
 const twTheme = new Function('return ' + configMatch[1])()
+
+/*
+ * Surfaces are taken from the home page, not from this export.
+ *
+ * The two comps disagree: the home is built on the violet-black `#12081F`
+ * family, this one on a neutral blue-graphite `#13131b`. That is the same
+ * split `globals.css` records having already been settled once — the product
+ * owner asked for the violet applied site-wide — and side by side the two
+ * pages read as two different products. The accent, the type scale and the
+ * fonts already match, so only the ground moves.
+ *
+ * The first block is copied verbatim from the home's config. The second
+ * re-tints the tokens this export has and the home does not, holding each
+ * one's lightness and moving it onto the same violet hue.
+ */
+const homeSurfaces = {
+  background: '#12081F',
+  surface: '#12081F',
+  'surface-base': '#12081F',
+  'surface-elevated': '#1a0f2c',
+  'surface-container': '#201338',
+  'surface-container-low': '#180c29',
+  'surface-container-high': '#281745',
+  'surface-container-lowest': '#0e051a',
+  'text-muted': '#8d81a3',
+}
+const retinted = {
+  'surface-dim': '#12081F',
+  'surface-bright': '#352059',
+  'surface-variant': '#2f1b52',
+  'surface-container-highest': '#2f1b52',
+  // The header sits on this. The home's bar is `bg-[#12081F]/80`, so this is
+  // the same colour at the same opacity rather than a second glass recipe.
+  'surface-glass': 'rgba(18, 8, 31, 0.8)',
+  outline: '#9b8db6',
+  'outline-variant': '#45385c',
+  'inverse-on-surface': '#2b1c47',
+}
+twTheme.theme.extend.colors = { ...twTheme.theme.extend.colors, ...homeSurfaces, ...retinted }
+
 // No trailing newline in this export, unlike the home one.
 swap('<script src="https://cdn.tailwindcss.com"></script>', '')
 swap(configMatch[0], '')
+
+/*
+ * The export also hard-codes some of those surfaces as arbitrary Tailwind
+ * classes and inline styles, which the token override cannot reach. This runs
+ * only after the config block is out of the document, so the swap above still
+ * matches the text it was captured from.
+ */
+for (const [from, to] of [
+  ['#13131b', '#12081F'],
+  ['#0A0A12', '#12081F'],
+  ['#0d0d16', '#0e051a'],
+  ['#1b1b23', '#180c29'],
+  ['#1f1f27', '#201338'],
+  ['#292932', '#281745'],
+  ['#121124', '#1a0f2c'],
+  ['#34343d', '#2f1b52'],
+  ['#393842', '#352059'],
+]) {
+  html = html.split(from).join(to).split(from.toLowerCase()).join(to)
+}
+
 // Preload the text fonts so they arrive sooner
 swap(
   '<link href="https://fonts.googleapis.com/css2?family=Inter',
