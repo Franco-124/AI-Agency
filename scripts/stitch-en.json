@@ -180,7 +180,7 @@
   "Cupos limitados para implementación este mes": "Limited implementation spots this month",
   "Tu negocio puede responder solo.": "Your business can answer on its own.",
   "Empecemos hoy.": "Let's start today.",
-  "Completa el formulario y uno de nuestros socios te contacta en menos de 24 horas para agendar tu llamada estratégica. Sales con un diagnóstico claro de qué conviene automatizar en tu operación, contrates o no.": "Fill out the form and one of our partners will contact you within 24 hours to schedule your strategy call. You leave with a clear assessment of what's worth automating in your operation, whether you hire us or not.",
+  "Completa el formulario y alguien de nuestro equipo te contacta en menos de 24 horas para agendar tu llamada estratégica. Sales con un diagnóstico claro de qué conviene automatizar en tu operación, contrates o no.": "Fill out the form and someone from our team will contact you within 24 hours to schedule your strategy call. You leave with a clear assessment of what's worth automating in your operation, whether you hire us or not.",
   "WhatsApp directo:": "Direct WhatsApp:",
   "Correo:": "Email:",
   "Sede: Medellín, Colombia (Atención nacional e internacional)": "Based in: Medellín, Colombia (serving clients nationally and internationally)",
@@ -194,15 +194,7 @@
   "Te contactaremos por WhatsApp o correo para coordinar el horario que mejor te funcione.": "We'll reach out by WhatsApp or email to find the time that works best for you.",
   "¡Mensaje recibido! Nos comunicaremos en menos de 24 horas para tu llamada.": "Message received! We'll be in touch within 24 hours about your call.",
   "Consultoría de automatización con inteligencia artificial para pymes en Colombia. Impulsamos tu crecimiento operativo con agentes cognitivos e infraestructura moderna.": "AI automation consulting for SMBs in Colombia. We power your operational growth with cognitive agents and modern infrastructure.",
-  "Automatización de Ventas": "Sales Automation",
-  "Agentes de Soporte IA": "AI Support Agents",
-  "Optimización de CRM": "CRM Optimization",
-  "Auditoría de Procesos": "Process Audit",
   "Planes": "Plans",
-  "Diagnóstico Express": "Express Assessment",
-  "Plan Crecimiento": "Growth Plan",
-  "Escala Corporativa": "Enterprise Scale",
-  "Soporte Continuo": "Ongoing Support",
   "Recursos": "Resources",
   "Calculadora de ROI": "ROI Calculator",
   "Contacto Directo": "Direct Contact",
@@ -230,6 +222,5 @@
   "Autorizo a Numi AI a tratar mis datos personales para contactarme y agendar mi llamada, según la": "I authorize Numi AI to process my personal data to contact me and book my call, under the",
   ", incluida su transferencia a proveedores fuera de Colombia.": ", including its transfer to providers outside Colombia.",
   "Términos y Condiciones": "Terms and Conditions",
-  "Política de Cookies": "Cookie Policy",
-  "Numi AI es operado por __LEGAL_HOLDER__ · __LEGAL_ID__ · Medellín, Colombia": "Numi AI is operated by __LEGAL_HOLDER__ · __LEGAL_ID__ · Medellín, Colombia"
+  "Política de Cookies": "Cookie Policy"
 }

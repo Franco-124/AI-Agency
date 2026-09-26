@@ -230,3 +230,79 @@ export const bookingScript = `
   })();
 </script>
 `
+
+/**
+ * Serves the pages' web fonts from this site instead of Google Fonts.
+ *
+ * Loading a stylesheet from fonts.googleapis.com sends every visitor's IP
+ * address to Google before they have done anything — a third-party transfer
+ * the privacy policy would otherwise have to disclose, for nothing the site
+ * needs. Each Google stylesheet is fetched here at build time, its font files
+ * are saved under `public/fonts/stitch/`, and the CSS is inlined with local
+ * URLs. The preconnect and preload hints to Google go too.
+ *
+ * Only the `latin` and `latin-ext` subsets are kept: they cover Spanish and
+ * English, and the other scripts (Cyrillic, Greek, Vietnamese) would be files
+ * the site never serves. Material Symbols ships as a single subset of the
+ * icons the page uses, so it is kept whole.
+ *
+ * File names are a hash of the content, so a rebuild with unchanged fonts
+ * rewrites the same files and a font update cannot be served stale.
+ */
+export async function selfHostFonts(html) {
+  const { createHash } = await import('node:crypto')
+  const { mkdirSync, writeFileSync } = await import('node:fs')
+  const dir = new URL('../public/fonts/stitch/', import.meta.url)
+  mkdirSync(dir, { recursive: true })
+
+  // A current desktop Chrome user agent, or Google answers with TTF instead of WOFF2.
+  const headers = {
+    'User-Agent':
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36',
+  }
+
+  for (const hint of html.match(/<link\b[^>]*(?:rel="preconnect"[^>]*href="https:\/\/fonts\.(?:googleapis|gstatic)\.com"|href="https:\/\/fonts\.(?:googleapis|gstatic)\.com"[^>]*rel="preconnect"|rel="preload"[^>]*href="https:\/\/fonts\.googleapis\.com[^"]*")[^>]*>\n?/g) ?? []) {
+    html = html.replace(hint, '')
+  }
+
+  const links = html.match(/<link\b[^>]*href="https:\/\/fonts\.googleapis\.com\/css2\?[^"]+"[^>]*rel="stylesheet"[^>]*>/g) ?? []
+  if (links.length === 0) throw new Error('No Google Fonts stylesheet found')
+
+  for (const link of links) {
+    const url = link.match(/href="([^"]+)"/)[1].replace(/&amp;/g, '&')
+    const res = await fetch(url, { headers })
+    if (!res.ok) throw new Error('Font CSS download failed: ' + url)
+    const css = await res.text()
+    const isIcons = url.includes('Material+Symbols')
+
+    // Text fonts: blocks are "/* subset */\n@font-face {…}"; keep the Latin
+    // ones. The icon stylesheet is kept whole — besides its @font-face it
+    // carries the `.material-symbols-outlined` rule that turns the ligature
+    // words into glyphs, and without it every icon renders as its name.
+    let local
+    if (isIcons) {
+      if (!css.includes('.material-symbols-outlined')) throw new Error('Icon class rule missing from ' + url)
+      local = css
+    } else {
+      const blocks = [...css.matchAll(/(?:\/\*\s*([\w-]+)\s*\*\/\s*)?(@font-face\s*\{[^}]*\})/g)]
+        .filter((m) => !m[1] || m[1] === 'latin' || m[1] === 'latin-ext')
+        .map((m) => m[2])
+      if (blocks.length === 0) throw new Error('No @font-face blocks kept for ' + url)
+      local = blocks.join('\n')
+    }
+    for (const fontUrl of new Set(local.match(/https:\/\/fonts\.gstatic\.com\/[^)\s'"]+/g) ?? [])) {
+      const fontRes = await fetch(fontUrl, { headers })
+      if (!fontRes.ok) throw new Error('Font download failed: ' + fontUrl)
+      const bytes = Buffer.from(await fontRes.arrayBuffer())
+      const ext = (fontUrl.match(/\.(woff2|woff|ttf|otf)(?:$|\?)/) ?? [, 'woff2'])[1]
+      const name = createHash('sha256').update(bytes).digest('hex').slice(0, 16) + '.' + ext
+      writeFileSync(new URL(name, dir), bytes)
+      local = local.split(fontUrl).join('/fonts/stitch/' + name)
+    }
+
+    html = html.replace(link, '<style>' + local.replace(/\s+/g, ' ') + '</style>')
+  }
+
+  if (/fonts\.(googleapis|gstatic)\.com/.test(html)) throw new Error('A Google Fonts reference is left')
+  return html
+}

@@ -8,7 +8,7 @@ import containerQueries from '@tailwindcss/container-queries'
 import sharp from 'sharp'
 import { fileURLToPath } from 'node:url'
 
-import { bookingScript, bookingSection, enclosing, escapeSingleQuoted, nav } from './stitch-chrome.mjs'
+import { bookingScript, bookingSection, enclosing, escapeSingleQuoted, nav, selfHostFonts } from './stitch-chrome.mjs'
 
 /*
  * Normalised to LF on read. Git checks the export out with CRLF on Windows,
@@ -153,6 +153,9 @@ swap(
   '<link href="https://fonts.googleapis.com/css2?family=Inter',
   '<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap">\n<link href="https://fonts.googleapis.com/css2?family=Inter',
 )
+
+// Fonts from this site, not Google — see selfHostFonts in stitch-chrome.mjs.
+html = await selfHostFonts(html)
 
 // ---- English version ----
 const en = JSON.parse(readFileSync(new URL('./stitch-en.json', import.meta.url), 'utf8'))

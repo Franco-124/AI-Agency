@@ -9,7 +9,7 @@ import containerQueries from '@tailwindcss/container-queries'
 import sharp from 'sharp'
 import { fileURLToPath } from 'node:url'
 
-import { bookingScript, bookingSection, bookingStyles, enclosing, escapeSingleQuoted, nav } from './stitch-chrome.mjs'
+import { bookingScript, bookingSection, bookingStyles, enclosing, escapeSingleQuoted, nav, selfHostFonts } from './stitch-chrome.mjs'
 
 // Normalised to LF on read, for the reason given in build-stitch-home.mjs.
 let html = readFileSync(new URL('../design/stitch/roi.html', import.meta.url), 'utf8').replace(
@@ -50,6 +50,24 @@ const dropAnchor = (text) => {
 }
 
 // The export's remaining chrome links nowhere (`href="#"` throughout).
+/*
+ * The export's footer listed services and resources the business does not
+ * offer ("Agentes Autónomos", "Entrenamiento de Equipos", a "Sprint 4-Step"
+ * method that contradicts the home's 10–20 business days). It now names the
+ * home's own five services and points the rest at real sections.
+ */
+{
+  const anchor = (text) => `<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="servicios" href="#">${text}</a>`
+  const before = ['Auditoría de Procesos', 'Agentes Autónomos', 'Automatización CRM', 'Entrenamiento de Equipos'].map(anchor).join('')
+  if (!html.includes(before)) throw new Error('ROI footer services markup changed')
+  html = html.replace(
+    before,
+    ['Diagnóstico de procesos', 'Chatbots Inteligentes', 'Automatización de procesos', 'Agentes de IA Cognitivos', 'Sitios web profesionales'].map(anchor).join(''),
+  )
+}
+swap('data-path="proceso" href="#">Metodología Sprint 4-Step</a>', 'data-path="proceso" href="#">Proceso</a>')
+swap('data-path="planes-y-precios" href="#">Planes de Suscripción</a>', 'data-path="planes-y-precios" href="#">Planes y Precios</a>')
+
 wire('servicios', '/__LOCALE__#servicios')
 wire('proceso', '/__LOCALE__#proceso')
 wire('planes-y-precios', '/__LOCALE__#planes')
@@ -109,11 +127,9 @@ swap(
   '<a class="font-body-sm text-body-sm text-status-success hover:text-on-surface transition-colors" href="https://wa.me/573127676549" rel="noopener noreferrer" target="_blank">+57 312 767 6549 (WhatsApp)</a>',
 )
 // Worded exactly like the home's, which needs no translation entry.
-// The operator's identity is filled in per request from `legalEntity` in
-// src/lib/site.ts (Ley 1480, art. 50), the same line the home's footer carries.
 swap(
   '© 2025 Numi AI Colombia SAS. Todos los derechos reservados. NIT 901.782.443-1.',
-  '© __YEAR__ Numi AI. Numi AI es operado por __LEGAL_HOLDER__ · __LEGAL_ID__ · Medellín, Colombia',
+  '© __YEAR__ Numi AI.',
 )
 
 /*
@@ -123,7 +139,7 @@ swap(
  */
 swap(
   '<span class="">Sin contratos forzosos. Cumplimiento de Ley 1581 Habeas Data.</span>\n</div>',
-  '<span class="">Sin contratos forzosos. Cumplimiento de Ley 1581 Habeas Data.</span>\n</div>\n<p class="mt-3 text-center text-[11px] leading-relaxed text-text-muted">Estimación ilustrativa con supuestos generales de nómina; no es asesoría contable, laboral ni tributaria. <a class="underline underline-offset-2 hover:text-on-surface" href="/__LOCALE__/terminos">Ver términos</a></p>',
+  '<span class="">Sin contratos forzosos. Cumplimiento de Ley 1581 Habeas Data.</span>\n</div>\n<p class="mt-3 text-center text-[11px] leading-relaxed text-text-muted">Estimación ilustrativa; no es asesoría contable, laboral ni tributaria. <a class="underline underline-offset-2 hover:text-on-surface" href="#fuentes">Supuestos y fuentes</a> · <a class="underline underline-offset-2 hover:text-on-surface" href="/__LOCALE__/terminos">Términos</a></p>',
 )
 // No fixed call length anywhere on the site — see build-stitch-home.mjs.
 // Dated in the comp; the page is not re-exported every year.
@@ -237,7 +253,10 @@ swap(
 // The WhatsApp cost answer described a pricing model Meta has replaced.
 swap(
   'Meta cobra tarifas fijas por conversación (ventana de 24 horas) en la API oficial de WhatsApp Cloud. Para Colombia, las conversaciones de servicio iniciadas por el usuario tienen un costo marginal (aproximadamente $0.015 USD o ~$60 COP). Al consolidar cientos de mensajes bajo una sola ventana de 24 horas, el costo por interacción sigue siendo 15 a 20 veces más económico que pagar minutos hombre de atención manual.',
-  'Menos de lo que se suele creer. Las conversaciones de servicio —las que abre el cliente— no se cobran dentro de la ventana de 24 horas, y Meta incluye 1.000 gratis al mes por número. Desde el 1 de octubre de 2026 el cobro es por mensaje: en Colombia las plantillas de utilidad rondan los $0,001 USD (unos $3 COP) y las de marketing unos $0,0125 USD. La mensajería es marginal en la ecuación; lo que se paga es la plataforma y la implementación, no los mensajes.',
+  // Checked against Meta's pricing page (updated 10 Sep 2026): per-message
+  // pricing since 1 Jul 2025; from 1 Oct 2026 service messages are charged at
+  // the utility rate, with 1.000 free a month per number.
+  'Menos de lo que se suele creer. Desde el 1 de julio de 2025 Meta cobra por mensaje entregado, y desde el 1 de octubre de 2026 también cobra las respuestas de servicio —las que envías dentro de las 24 horas después de que el cliente te escribe— con la misma tarifa de utilidad, con 1.000 gratis al mes por número. En Colombia esa tarifa ronda los US$0,0008 por mensaje (unos $3 COP) y la de marketing unos US$0,0125. La mensajería es marginal en la ecuación; lo que se paga es la plataforma y la implementación. Las tarifas vigentes están en la página de precios de Meta.',
 )
 
 // New element handles, alongside the ones the export already grabs.
@@ -309,6 +328,225 @@ swap(
   `        sliderSalary.value = 2200000;`,
   `        sliderSalary.value = 2750905;
         if (chkExonerada) chkExonerada.checked = true;`,
+)
+
+// ---- Benefit model: only what a source backs ----
+/*
+ * The export's benefit side could not be defended if anyone asked where a
+ * number came from, and some of it was rigged:
+ *
+ * - `Math.max(18000000, …)`, `Math.max(2.4, …)` and `Math.max(24, …)` put a
+ *   floor under the net saving, the ROI and the payback, so the page showed a
+ *   profit even for a business that would lose money. Publishing that is the
+ *   textbook case of misleading advertising (Ley 1480 de 2011, art. 30).
+ * - Payroll saving was 65% of the whole team's payroll, whatever the chat
+ *   volume — ten reps on forty chats a day "saved" six and a half salaries.
+ * - "Sales recovered" multiplied three invented factors (12%, 45%, 8%).
+ * - The technology cost ($15–19M a year) matched none of the real plans, and
+ *   the $190 per chat afterwards was a constant.
+ *
+ * What replaces it, each figure with its source (the page lists them under
+ * "Supuestos y fuentes"):
+ *
+ * - 4.5 min of a person's time per chat: deliberately below the 8–10 min that
+ *   live-chat benchmarks measure (LiveChat Customer Service Report; Comm100),
+ *   because WhatsApp questions to a small business are shorter.
+ * - 65% of chats resolved without a person: roughly the two thirds Klarna
+ *   reported for its AI assistant (press release, 27 Feb 2024) and the 67%
+ *   average Intercom published for Fin (2025).
+ * - Time freed is valued at the loaded cost per hour of the reps entered,
+ *   over the 182-hour legal month, and never exceeds the hours those reps
+ *   actually have.
+ * - Cost: the published plans (Esencial $999.990 + $299.000/month, Avanzado
+ *   $1.500.000 + $399.000/month) plus Meta's messaging — from 1 Oct 2026
+ *   service messages are charged at the utility rate (~US$0,0008 ≈ $3 COP in
+ *   Colombia) after 1.000 free a month per number; four business replies per
+ *   chat is assumed.
+ * - No sales uplift is added: no source gives a conversion lift we could
+ *   apply to a visitor's own ticket, so the ticket selector goes too.
+ */
+swap(
+  `        const hoursAfter = Math.max(12, Math.round(totalHoursPerMonth * 0.12)); // 88% reduction`,
+  `        // Share of chats the AI resolves without a person (Klarna 2024: two
+        // thirds; Intercom Fin 2025: 67%).
+        const AUTOMATION_RATE = 0.65;
+        const hoursAfter = Math.round(totalHoursPerMonth * (1 - AUTOMATION_RATE));`,
+)
+swap(
+  `        outHoursAfter.textContent = hoursAfter + 'h/mes (-88%)';`,
+  `        outHoursAfter.textContent = hoursAfter + 'h/mes (-65%)';`,
+)
+swap(
+  `        // Cost per chat before: Staff total monthly loaded payroll divided by monthly chats
+        const totalMonthlyPayroll = loadedMonthlyCostPerPerson * staffCount;
+        const costBeforePerChat = Math.round(totalMonthlyPayroll / monthlyChats);
+        outCostChatBefore.textContent = formatCOP(Math.max(1800, costBeforePerChat)) + ' COP';
+
+        // Cost after with Numi AI: Approx 190 COP
+        outCostChatAfter.textContent = '$190 COP';
+
+        // Saved Payroll: 65% of dedicated time can be repurposed or deferred from hiring
+        const annualPayrollSavings = (totalMonthlyPayroll * 0.65) * 12;
+
+        // Rescued Sales Opportunity:
+        // Monthly potential leads lost = monthlyChats * 0.15 (leads portion) * lossRate
+        const leadsRescuedMonthly = (monthlyChats * 0.12) * (currentLossRate * 0.45);
+        const monthlySalesRecovery = leadsRescuedMonthly * (currentTicket * 0.08); // conservative conversion
+        const annualSalesRecovery = monthlySalesRecovery * 12;
+
+        // Total gross annual economic benefit
+        const totalAnnualBenefit = annualPayrollSavings + annualSalesRecovery;
+
+        // Technology cost estimate (Implementation + Monthly fee)
+        const estimatedTechAnnualCost = 6800000 + (staffCount > 3 ? 12000000 : 8400000);
+        const netAnnualSaving = Math.max(18000000, totalAnnualBenefit - estimatedTechAnnualCost);
+
+        // Display results
+        outAnnualSaving.textContent = formatCOP(netAnnualSaving) + ' COP';
+
+        const roi = Math.max(2.4, (totalAnnualBenefit / estimatedTechAnnualCost)).toFixed(1);
+        outRoiMultiple.textContent = roi + 'x';
+        outRoiPercent.textContent = Math.round((parseFloat(roi) - 1) * 100).toLocaleString('es-CO');
+
+        // Payback calculation in days
+        const paybackDays = Math.max(24, Math.round((estimatedTechAnnualCost / (totalAnnualBenefit / 365))));
+        outPayback.textContent = paybackDays + ' días';`,
+  `        // Loaded cost of one hour of a rep, over the 182-hour legal month.
+        const costPerHour = loadedMonthlyCostPerPerson / 182;
+
+        // Plan by team size; published prices. Meta charges service messages
+        // at the utility rate (~$3 COP) after 1.000 free a month per number;
+        // four business replies per chat.
+        const plan = staffCount > 3
+          ? { setup: 1500000, monthly: 399000 }
+          : { setup: 999990, monthly: 299000 };
+        const metaMonthly = Math.max(0, monthlyChats * 4 - 1000) * 3;
+
+        const costBeforePerChat = (4.5 / 60) * costPerHour;
+        const costAfterPerChat = (hoursAfter * costPerHour + plan.monthly + metaMonthly) / monthlyChats;
+        outCostChatBefore.textContent = formatCOP(costBeforePerChat) + ' COP';
+        outCostChatAfter.textContent = formatCOP(costAfterPerChat) + ' COP';
+
+        // Only hours the team really has can be freed.
+        const hoursSaved = Math.min(totalHoursPerMonth - hoursAfter, staffCount * 182);
+        const totalAnnualBenefit = hoursSaved * costPerHour * 12;
+        const estimatedTechAnnualCost = plan.setup + (plan.monthly + metaMonthly) * 12;
+        const netAnnualSaving = totalAnnualBenefit - estimatedTechAnnualCost;
+
+        outAnnualSaving.textContent = (netAnnualSaving < 0 ? '-' : '') + formatCOP(Math.abs(netAnnualSaving)) + ' COP';
+
+        const roi = (totalAnnualBenefit / estimatedTechAnnualCost).toFixed(1);
+        outRoiMultiple.textContent = roi + 'x';
+        outRoiPercent.textContent = Math.round((parseFloat(roi) - 1) * 100).toLocaleString('es-CO');
+
+        // Days of benefit needed to cover the first year's cost.
+        const paybackDays = totalAnnualBenefit > 0
+          ? Math.round(estimatedTechAnnualCost / (totalAnnualBenefit / 365))
+          : Infinity;
+        outPayback.textContent = paybackDays > 365 ? 'Más de 1 año' : paybackDays + ' días';`,
+)
+
+// The ticket selector only fed the removed sales estimate.
+{
+  const inner = enclosing(html, 'Ticket promedio de venta o servicio (COP)', 'div')
+  const start = html.lastIndexOf('<div', inner.start - 1)
+  let depth = 0
+  let end = -1
+  for (const token of html.slice(start).matchAll(/<div\b|<\/div>/g)) {
+    depth += token[0].startsWith('</') ? -1 : 1
+    if (depth === 0) {
+      end = start + token.index + token[0].length
+      break
+    }
+  }
+  const block = html.slice(start, end)
+  if (end < 0 || !block.includes('id="ticket-group"') || block.includes('id="slider-')) {
+    throw new Error('Ticket block boundaries changed')
+  }
+  html = html.slice(0, start) + html.slice(end)
+}
+
+// A booking/close-rate lift nobody measured.
+{
+  const { start, end } = enclosing(html, 'Tasa de agendamiento/cierre', 'div')
+  html = html.slice(0, start) + html.slice(end)
+}
+
+// ---- Claims: sourced, or gone ----
+// Nobody audits these figures; they are an estimate, and the badge says so.
+swap('text-status-success text-xs font-semibold">Auditado</span>', 'text-status-success text-xs font-semibold">Estimado</span>')
+swap(
+  'Nuestro algoritmo de cálculo se rige bajo normatividad contable y laboral colombiana y datos reales de conversión.',
+  'El cálculo sigue la normatividad laboral colombiana y usa supuestos con fuente pública, que listamos abajo.',
+)
+swap('SIMULADOR FINANCIERO Y OPERATIVO · NUMI AI BENCHMARK 2026', 'SIMULADOR FINANCIERO Y OPERATIVO · NUMI AI')
+swap(
+  'Descubre en 60 segundos el retorno de inversión real al implementar',
+  'Estima en 60 segundos el retorno de inversión de implementar',
+)
+swap('Respuesta promedio: <strong>3 segundos</strong>', 'Responde en <strong>segundos</strong>, 24/7')
+swap('<span class="text-status-success">3 segundos (24/7)</span>', '<span class="text-status-success">Segundos (24/7)</span>')
+swap(
+  '<p class="text-xs text-text-muted mb-6">Ahorro consolidado en nómina operativa + leads rescatados fuera de horario.</p>',
+  '<p class="text-xs text-text-muted mb-6">Tiempo de atención liberado menos el costo del plan y la mensajería. No incluye ventas adicionales.</p>',
+)
+// The deflection ring: 88% had no source; two thirds does.
+swap('stroke-dasharray="88, 100"', 'stroke-dasharray="65, 100"')
+swap('<span class="absolute font-headline-sm text-sm font-bold text-text-primary">88%</span>', '<span class="absolute font-headline-sm text-sm font-bold text-text-primary">65%</span>')
+swap('>Tasa de Descompresión</span>', '>Chats resueltos por la IA</span>')
+swap(
+  'El 88% de los chats entrantes se resuelven de punta a punta sin requerir intervención humana.',
+  'En casos publicados, la IA resolvió cerca de dos tercios de los chats sin una persona (Klarna, 2024; Intercom, 2025). El simulador usa 65%.',
+)
+// Pilar 02 credited Velocify's 391% to Harvard Business Review. HBR's own
+// finding is the "nearly 7 times" one (Oldroyd, McElheran y Elkington, 2011).
+swap(
+  'Según el estudio de Harvard Business Review y benchmarks regionales de comercio conversacional, las probabilidades de calificar un prospecto decaen un <strong>391% si se responde después del primer minuto</strong>. Cada hora de demora en WhatsApp representa un cliente que ya cotizó con tu competidor directo.',
+  'Según Harvard Business Review (2011), las empresas que responden a un prospecto dentro de la primera hora tienen <strong>casi 7 veces más probabilidad de calificarlo</strong> que las que tardan más. Cada hora de demora en WhatsApp es tiempo para que el cliente cotice con otro.',
+)
+swap(
+  '<span class="">Tasa de rescate</span>\n<span class="font-semibold text-status-success">+35% conversión en horario nocturno</span>',
+  '<span class="">Fuente</span>\n<span class="font-semibold text-status-success">Harvard Business Review, 2011</span>',
+)
+swap('Handoff Eficiente 80 / 20', 'Handoff eficiente')
+swap(
+  'Numi AI no busca reemplazar el juicio comercial experto de tu equipo, sino eliminar las 140 preguntas idénticas que reciben sobre horarios, catálogos, direcciones y precios. El agente cognitivo filtra y ageda; tus asesores solo intervienen en el 20% de leads calificados listos para pagar.',
+  'Numi AI no busca reemplazar el criterio comercial de tu equipo, sino responder las preguntas repetitivas sobre horarios, catálogo, direcciones y precios. El agente filtra y agenda; tus asesores intervienen en los casos que requieren criterio o que ya están listos para comprar.',
+)
+swap(
+  '<span class="font-semibold text-text-primary">&gt; 140 horas / asesor / mes</span>',
+  '<span class="font-semibold text-text-primary">Según tus datos, arriba</span>',
+)
+swap('suele pagar la totalidad de la mensualidad', 'puede pagar la mensualidad')
+/*
+ * The "guarantee" promised a 14-day sprint, a "Shadow Mode" and a 60%
+ * reduction or a free recalibration — terms that exist in no contract, and
+ * that contradict the home (10 to 20 business days, cancel with 30 days'
+ * notice). An advertised guarantee binds the advertiser (Ley 1480, arts. 7
+ * and 29), so the answer now states only what the home already commits to.
+ */
+swap('¿Ofrecen garantía o periodo de validación de resultados?', '¿Qué pasa si no me funciona?')
+swap(
+  "Absolutamente. Trabajamos bajo un Sprint de Implementación de 14 días. Antes del despliegue en producción masivo, realizamos una fase de pruebas 'Shadow Mode' donde la IA sugiere respuestas a tus asesores y comparamos la precisión. Si al término de los primeros 30 días en vivo el sistema no ha reducido al menos el 60% del tiempo de atención repetitiva, recalibramos sin costo o cancelas el servicio.",
+  'La implementación toma entre 10 y 20 días hábiles e incluye pruebas hasta que el sistema funcione; nada sale a producción sin tu aprobación. No hay permanencia mínima: cancelas cuando quieras avisando con 30 días de anticipación, y te entregamos tus datos.',
+)
+
+// ---- Sources ----
+// Every assumption the simulator uses, where a reader can check it.
+swap(
+  '<!-- SECTION 4: CASE STUDIES (COLOMBIAN ENTERPRISES) -->',
+  `<section class="relative z-10 max-w-5xl mx-auto px-6 lg:px-12 pb-16 w-full" id="fuentes">
+<h2 class="font-headline-sm text-headline-sm text-text-primary mb-4">Supuestos y fuentes</h2>
+<ul class="space-y-2 text-sm text-text-secondary leading-relaxed list-disc pl-5">
+<li class="">Nómina: SMLV y auxilio de transporte 2026, aportes, parafiscales y prestaciones según la ley colombiana; mes laboral de 182 horas por la jornada de 42 horas semanales (Ley 2101 de 2021).</li>
+<li class="">Tiempo por chat: 4,5 minutos, por debajo de los 8 a 10 minutos que miden los reportes de chat en vivo (<a class="text-primary underline underline-offset-2" href="https://www.livechat.com/customer-service-report/" rel="noopener noreferrer" target="_blank">LiveChat</a>), porque las consultas por WhatsApp a una pyme suelen ser más cortas.</li>
+<li class="">Chats resueltos por la IA: 65%, en línea con los dos tercios que reportó <a class="text-primary underline underline-offset-2" href="https://www.klarna.com/international/press/klarna-ai-assistant-handles-two-thirds-of-customer-service-chats-in-its-first-month/" rel="noopener noreferrer" target="_blank">Klarna (2024)</a> y el 67% promedio que publicó Intercom para Fin (2025). El resultado real depende de tu negocio.</li>
+<li class="">Velocidad de respuesta: <a class="text-primary underline underline-offset-2" href="https://hbr.org/2011/03/the-short-life-of-online-sales-leads" rel="noopener noreferrer" target="_blank">Harvard Business Review, "The Short Life of Online Sales Leads" (2011)</a>.</li>
+<li class="">Costo: precios publicados de los planes Agente Esencial y Agente Avanzado, más la mensajería de WhatsApp según las <a class="text-primary underline underline-offset-2" href="https://developers.facebook.com/documentation/business-messaging/whatsapp/pricing" rel="noopener noreferrer" target="_blank">tarifas de Meta</a>, suponiendo cuatro respuestas por chat.</li>
+<li class="">No se suman ventas adicionales: no hay una fuente que permita estimarlas para tu negocio sin conocerlo.</li>
+</ul>
+</section>
+<!-- SECTION 4: CASE STUDIES (COLOMBIAN ENTERPRISES) -->`,
 )
 
 // ---- Booking section ----
@@ -558,6 +796,9 @@ swap(
   '<link href="https://fonts.googleapis.com/css2?family=Inter',
   '<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap">\n<link href="https://fonts.googleapis.com/css2?family=Inter',
 )
+
+// Fonts from this site, not Google — see selfHostFonts in stitch-chrome.mjs.
+html = await selfHostFonts(html)
 
 // ---- English version ----
 /*

@@ -35,9 +35,6 @@ export const legalPaths: Record<LegalDocKey, string> = {
   cookies: 'cookies',
 }
 
-const holder = `${e.holderName}, identificado(a) con ${e.holderId}`
-const holderEn = `${e.holderName}, holder of ${e.holderId}`
-
 /**
  * Who receives personal data on the controller's behalf ("encargados"), and
  * why. One list so the privacy and cookie policies cannot disagree.
@@ -49,7 +46,6 @@ const processors = {
     'Resend (Plus Five Five, Inc., Estados Unidos): envío de los correos internos que nos avisan de una nueva solicitud y de los correos de confirmación y recordatorio de citas.',
     'Railway Corp. (Estados Unidos): servidor que gestiona la agenda de citas y el asistente de chat.',
     'OpenAI, L.L.C. (Estados Unidos): procesa los mensajes que escribes en el chat del asistente para generar la respuesta.',
-    'Google LLC (Estados Unidos): sirve las fuentes tipográficas de algunas páginas; al cargarlas, tu navegador le envía tu dirección IP.',
   ],
   en: [
     'Vercel Inc. (United States): hosting of the site and technical access logs.',
@@ -57,7 +53,6 @@ const processors = {
     'Resend (Plus Five Five, Inc., United States): delivery of the internal emails that tell us about a new request, and of appointment confirmation and reminder emails.',
     'Railway Corp. (United States): server that runs the appointment calendar and the chat assistant.',
     'OpenAI, L.L.C. (United States): processes the messages you type into the chat assistant to generate its reply.',
-    'Google LLC (United States): serves the typefaces on some pages; loading them sends your IP address to Google.',
   ],
 }
 
@@ -72,10 +67,10 @@ const privacy: Record<Locale, LegalDocument> = {
       {
         title: '1. Responsable del tratamiento',
         body: [
-          `${e.commercialName} es el nombre comercial bajo el que opera ${holder}, persona natural domiciliada en ${e.city}, quien actúa como Responsable del Tratamiento.`,
+          `${e.commercialName}, con domicilio en ${e.city}, es el Responsable del Tratamiento de los datos que recibe a través de este sitio. Puedes contactarnos por estos canales:`,
           {
             list: [
-              `Dirección: ${e.address}, ${e.city}`,
+              `Ciudad: ${e.city}`,
               `Correo electrónico: ${e.email}`,
               `Teléfono y WhatsApp: ${e.phone}`,
               `Sitio web: ${siteConfig.url}`,
@@ -188,10 +183,10 @@ const privacy: Record<Locale, LegalDocument> = {
       {
         title: '1. Data controller',
         body: [
-          `${e.commercialName} is the trade name under which ${holderEn}, a natural person domiciled in ${e.city}, operates and acts as data controller.`,
+          `${e.commercialName}, domiciled in ${e.city}, is the controller of the data it receives through this site. You can reach us through these channels:`,
           {
             list: [
-              `Address: ${e.address}, ${e.city}`,
+              `City: ${e.city}`,
               `Email: ${e.email}`,
               `Phone and WhatsApp: ${e.phone}`,
               `Website: ${siteConfig.url}`,
@@ -306,7 +301,7 @@ const terms: Record<Locale, LegalDocument> = {
       {
         title: '1. Quién presta el servicio',
         body: [
-          `${e.commercialName} es el nombre comercial bajo el que opera ${holder}, persona natural domiciliada en ${e.city}. Contacto: ${e.email} · ${e.phone} · ${e.address}.`,
+          `${e.commercialName}, con domicilio en ${e.city}. Contacto: ${e.email} · ${e.phone}.`,
         ],
       },
       {
@@ -387,7 +382,7 @@ const terms: Record<Locale, LegalDocument> = {
       {
         title: '1. Who provides the service',
         body: [
-          `${e.commercialName} is the trade name under which ${holderEn}, a natural person domiciled in ${e.city}, operates. Contact: ${e.email} · ${e.phone} · ${e.address}.`,
+          `${e.commercialName}, domiciled in ${e.city}. Contact: ${e.email} · ${e.phone}.`,
         ],
       },
       {
@@ -489,7 +484,7 @@ const cookies: Record<Locale, LegalDocument> = {
       {
         title: '3. Servicios de terceros',
         body: [
-          'Algunas páginas cargan fuentes tipográficas desde Google Fonts. Google no instala cookies por ello, pero recibe tu dirección IP al servir el archivo. Los enlaces a WhatsApp, Instagram y LinkedIn solo te llevan a esos servicios cuando haces clic; a partir de ahí aplican sus propias políticas.',
+          'El sitio no carga scripts, fuentes ni imágenes de terceros: todo se sirve desde numinet.co. Los enlaces a WhatsApp, Instagram y LinkedIn solo te llevan a esos servicios cuando haces clic; a partir de ahí aplican sus propias políticas.',
         ],
       },
       {
@@ -533,7 +528,7 @@ const cookies: Record<Locale, LegalDocument> = {
       {
         title: '3. Third-party services',
         body: [
-          'Some pages load typefaces from Google Fonts. Google sets no cookies for this, but it receives your IP address when serving the file. Links to WhatsApp, Instagram and LinkedIn only take you to those services when you click them; from then on their own policies apply.',
+          'The site loads no third-party scripts, fonts or images: everything is served from numinet.co. Links to WhatsApp, Instagram and LinkedIn only take you to those services when you click them; from then on their own policies apply.',
         ],
       },
       {

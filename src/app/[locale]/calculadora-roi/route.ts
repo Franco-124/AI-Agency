@@ -1,5 +1,4 @@
 import { isLocale } from '@/i18n/routing'
-import { fillLegalPlaceholders } from '@/lib/site'
 
 import { stitchRoiHtml } from '../stitch-roi'
 
@@ -19,7 +18,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ loc
     return new Response('Not found', { status: 404 })
   }
 
-  const html = fillLegalPlaceholders(stitchRoiHtml[locale])
+  const html = stitchRoiHtml[locale]
     .replaceAll('__LOCALE__', locale)
     .replaceAll('__YEAR__', String(new Date().getFullYear()))
 
