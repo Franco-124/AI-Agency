@@ -37,9 +37,9 @@ const UNDERLINE =
   " focus-visible:after:scale-x-100 motion-reduce:after:transition-none"
 
 const IDLE_LINK =
-  'text-on-surface-variant hover:text-on-surface transition-all duration-200 text-[14px]' + UNDERLINE
+  'whitespace-nowrap text-on-surface-variant hover:text-on-surface transition-all duration-200 text-[13px] min-[1440px]:text-[14px]' + UNDERLINE
 const CURRENT_LINK =
-  'transition-all duration-200 text-on-surface font-semibold hover:text-primary' + UNDERLINE
+  'whitespace-nowrap transition-all duration-200 text-on-surface font-semibold hover:text-primary text-[13px] min-[1440px]:text-[14px]' + UNDERLINE
 
 /**
  * One list, one order, one set of labels. `fragment` names a band of the home
@@ -81,7 +81,14 @@ export function nav(current) {
     )
   })
 
-  return `<nav class="hidden lg:flex items-center gap-6">\n${links.join('\n')}\n</nav>`
+  /*
+   * Links never wrap (`whitespace-nowrap`): "Planes y Precios" and "Preguntas
+   * Frecuentes" used to break onto two lines. Unwrapped, the seven Spanish
+   * labels need about 700px, which does not fit beside the logo and the CTA
+   * until 1280px, so the nav starts at `xl` (below it the header shows logo
+   * and CTA, as on mobile). 13px up to 1440px, 14px above, measured to fit.
+   */
+  return `<nav class="hidden xl:flex items-center gap-4 min-[1440px]:gap-6">\n${links.join('\n')}\n</nav>`
 }
 
 /**
