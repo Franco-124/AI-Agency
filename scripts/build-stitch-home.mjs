@@ -91,7 +91,8 @@ swap(
 }
 // Live Cortana chat (replaces the mock conversation on first send)
 const chatScript = ['<script>', readFileSync(new URL('./stitch-chat.js', import.meta.url), 'utf8'), '</script>', ''].join('\n')
-swap('</body></html>', bookingScript + chatScript + '</body></html>')
+// Consent banner first: the chat asks it where to keep its history.
+swap('</body></html>', '<script src="/cookie-consent.js"></script>\n' + bookingScript + chatScript + '</body></html>')
 
 
 /*

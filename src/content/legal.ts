@@ -461,24 +461,25 @@ const cookies: Record<Locale, LegalDocument> = {
     title: 'Política de cookies',
     metaDescription: 'Qué cookies y almacenamiento del navegador usa numinet.co, para qué sirven y cómo borrarlos.',
     intro:
-      'Este sitio no usa cookies de publicidad, de analítica ni de redes sociales, y no te rastrea entre sitios. Solo guarda en tu navegador lo imprescindible para que funcione. Aquí está la lista completa.',
+      'Este sitio no usa cookies de publicidad, de analítica ni de redes sociales, y no te rastrea entre sitios. Al entrar te preguntamos si aceptas o rechazas el almacenamiento opcional; lo necesario para que el sitio funcione se guarda siempre. Aquí está la lista completa.',
     sections: [
       {
         title: '1. Qué guardamos en tu navegador',
         body: [
           {
             list: [
-              'NEXT_LOCALE (cookie propia, técnica): recuerda si ves el sitio en español o en inglés. Dura lo que dure tu sesión del navegador.',
-              'numi:chat:session, numi:chat:history y numi:chat:latency (almacenamiento local): un identificador aleatorio de tu conversación con el asistente, el historial de esa conversación para que no se pierda al recargar la página, y los tiempos de respuesta recientes para mostrarte una espera realista. Permanecen hasta que los borres.',
-              'numi:booking-handoff (almacenamiento de sesión): lleva los datos que escribiste en el formulario de contacto a la página de agenda para que no tengas que escribirlos otra vez. Se borra al usarse o al cerrar la pestaña.',
+              'Necesario — NEXT_LOCALE (cookie propia): recuerda si ves el sitio en español o en inglés. Dura lo que dure tu sesión del navegador.',
+              'Necesario — numi:booking-handoff (almacenamiento de sesión): lleva los datos que escribiste en el formulario de contacto a la página de agenda para que no tengas que escribirlos otra vez. Se borra al usarse o al cerrar la pestaña.',
+              'Necesario — numi:consent (almacenamiento local): guarda si aceptaste o rechazaste, para no preguntarte en cada visita.',
+              'Opcional, solo si aceptas — numi:chat:session, numi:chat:history y numi:chat:latency (almacenamiento local): el identificador de tu conversación con el asistente, su historial y los tiempos de respuesta recientes, para que puedas retomar la conversación otro día. Si rechazas, el chat funciona igual pero esos datos se guardan solo en la pestaña y se borran al cerrarla.',
             ],
           },
         ],
       },
       {
-        title: '2. ¿Necesitamos tu consentimiento?',
+        title: '2. Tu consentimiento',
         body: [
-          'Todo lo anterior es estrictamente necesario para prestarte una función que tú pides (ver el sitio en tu idioma, conversar con el asistente, agendar sin repetir datos), por eso no mostramos un aviso para aceptarlas. Si algún día incorporamos analítica, publicidad u otras cookies no esenciales, te pediremos permiso antes de activarlas y actualizaremos esta política.',
+          'Lo necesario no requiere tu consentimiento porque sin ello el sitio no puede prestarte lo que pides. Lo opcional solo se activa si pulsas «Aceptar», y puedes cambiar tu decisión cuando quieras con el botón de abajo; si rechazas después de haber aceptado, borramos el historial guardado. Si algún día incorporamos analítica o publicidad, te pediremos permiso antes de activarlas y actualizaremos esta política.',
         ],
       },
       {
@@ -505,24 +506,25 @@ const cookies: Record<Locale, LegalDocument> = {
     title: 'Cookie policy',
     metaDescription: 'Which cookies and browser storage numinet.co uses, what they are for and how to clear them.',
     intro:
-      'This site uses no advertising, analytics or social media cookies and does not track you across sites. It only stores what it strictly needs to work in your browser. Here is the complete list. This English version is a courtesy translation; the Spanish text governs.',
+      'This site uses no advertising, analytics or social media cookies and does not track you across sites. When you arrive we ask whether you accept or reject optional storage; what the site needs to work is always stored. Here is the complete list. This English version is a courtesy translation; the Spanish text governs.',
     sections: [
       {
         title: '1. What we store in your browser',
         body: [
           {
             list: [
-              'NEXT_LOCALE (first-party, technical cookie): remembers whether you view the site in Spanish or English. Lasts for your browser session.',
-              'numi:chat:session, numi:chat:history and numi:chat:latency (local storage): a random identifier for your conversation with the assistant, that conversation’s history so it survives a page reload, and recent response times to show you a realistic wait. They stay until you clear them.',
-              'numi:booking-handoff (session storage): carries what you typed in the contact form to the booking page so you do not have to type it again. Cleared once used or when you close the tab.',
+              'Necessary — NEXT_LOCALE (first-party cookie): remembers whether you view the site in Spanish or English. Lasts for your browser session.',
+              'Necessary — numi:booking-handoff (session storage): carries what you typed in the contact form to the booking page so you do not have to type it again. Cleared once used or when you close the tab.',
+              'Necessary — numi:consent (local storage): remembers whether you accepted or rejected, so we do not ask on every visit.',
+              'Optional, only if you accept — numi:chat:session, numi:chat:history and numi:chat:latency (local storage): your conversation id with the assistant, its history and recent response times, so you can pick the conversation up another day. If you reject, the chat works the same but this data lives only in the tab and is deleted when you close it.',
             ],
           },
         ],
       },
       {
-        title: '2. Do we need your consent?',
+        title: '2. Your consent',
         body: [
-          'Everything above is strictly necessary to provide a feature you ask for (viewing the site in your language, talking to the assistant, booking without retyping), which is why we do not show a banner asking you to accept it. If we ever add analytics, advertising or other non-essential cookies, we will ask your permission before enabling them and update this policy.',
+          'What is necessary needs no consent because without it the site cannot provide what you ask for. What is optional only turns on if you press “Accept”, and you can change your mind at any time with the button below; if you reject after accepting, we delete the stored history. If we ever add analytics or advertising, we will ask your permission before enabling them and update this policy.',
         ],
       },
       {

@@ -610,7 +610,8 @@ swap(
 `,
   '',
 )
-swap('</body></html>', bookingScript + '</body></html>')
+// Same consent banner as the home — see public/cookie-consent.js.
+swap('</body></html>', '<script src="/cookie-consent.js"></script>\n' + bookingScript + '</body></html>')
 
 // ---- Brand lockup ----
 /*

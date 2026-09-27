@@ -42,12 +42,20 @@
       };
 
   // ---- storage (private mode / blocked storage falls back to memory) ----
+  // The history only outlives the tab if the visitor accepted storage in the
+  // consent banner (public/cookie-consent.js); otherwise it lives in
+  // sessionStorage and is gone when the tab closes. Checked on every call so
+  // a choice made mid-conversation applies from the next message.
   var memory = {};
+  function store() {
+    var accepted = window.numiConsent && window.numiConsent.get() === 'accepted';
+    return accepted ? localStorage : sessionStorage;
+  }
   function read(key) {
-    try { return localStorage.getItem(key); } catch (_) { return memory[key] || null; }
+    try { return store().getItem(key); } catch (_) { return memory[key] || null; }
   }
   function write(key, value) {
-    try { localStorage.setItem(key, value); } catch (_) { memory[key] = value; }
+    try { store().setItem(key, value); } catch (_) { memory[key] = value; }
   }
 
   function newSessionId() {
