@@ -37,6 +37,11 @@ const updatedLabel: Record<Locale, string> = {
   en: 'Last updated',
 }
 
+const changePreferencesLabel: Record<Locale, string> = {
+  es: 'Cambiar mis preferencias de cookies',
+  en: 'Change my cookie preferences',
+}
+
 const otherDocsLabel: Record<Locale, string> = {
   es: 'Documentos legales',
   en: 'Legal documents',
@@ -96,6 +101,17 @@ export async function LegalPage({ doc, params }: { doc: LegalDocKey } & LegalPag
             )}
           </section>
         ))}
+
+        {/* Reopens the consent banner (public/cookie-consent.js listens for `data-cookie-settings`). */}
+        {doc === 'cookies' && (
+          <button
+            type="button"
+            data-cookie-settings=""
+            className="mt-10 inline-flex min-h-11 items-center rounded-full border border-hairline-strong px-6 text-[0.9375rem] font-medium text-ink transition-[transform,background-color] duration-200 hover:scale-[1.02] hover:bg-[var(--accent-soft)] active:scale-[0.98]"
+          >
+            {changePreferencesLabel[locale]}
+          </button>
+        )}
 
         <nav aria-label={otherDocsLabel[locale]} className="mt-16 border-t border-hairline-subtle pt-7">
           <p className="text-[0.8125rem] text-ink-faint">

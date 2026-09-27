@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
 import { notFound } from 'next/navigation'
+import Script from 'next/script'
 import { IBM_Plex_Sans, Inter, Plus_Jakarta_Sans } from 'next/font/google'
 import { NextIntlClientProvider } from 'next-intl'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
@@ -168,6 +169,8 @@ export default async function LocaleLayout({
       */}
       <body className="page-grain relative min-h-dvh bg-surface text-ink antialiased">
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        {/* Same consent banner the Stitch pages load — see public/cookie-consent.js. */}
+        <Script src="/cookie-consent.js" strategy="afterInteractive" />
       </body>
     </html>
   )
