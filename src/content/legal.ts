@@ -86,7 +86,7 @@ const privacy: Record<Locale, LegalDocument> = {
             list: [
               'Formulario de contacto: nombre, número de WhatsApp, correo electrónico y la descripción de lo que necesitas.',
               'Agenda de citas: nombre, WhatsApp, correo electrónico, la fecha y hora que eliges y, si vienes del formulario, tu mensaje.',
-              'Chat con el asistente (Cortana): los mensajes que escribes y un identificador aleatorio de la conversación. No te pedimos datos de identificación en el chat.',
+              'Chat con el asistente (Selene): los mensajes que escribes y un identificador aleatorio de la conversación. No te pedimos datos de identificación en el chat.',
               'Datos técnicos: dirección IP y datos del navegador que cualquier servidor web recibe al atender una visita, usados para seguridad y para limitar el envío abusivo de formularios.',
             ],
           },
@@ -202,7 +202,7 @@ const privacy: Record<Locale, LegalDocument> = {
             list: [
               'Contact form: name, WhatsApp number, email and the description of what you need.',
               'Appointment booking: name, WhatsApp, email, the date and time you choose and, if you came from the form, your message.',
-              'Chat assistant (Cortana): the messages you type and a random conversation identifier. We do not ask for identifying data in the chat.',
+              'Chat assistant (Selene): the messages you type and a random conversation identifier. We do not ask for identifying data in the chat.',
               'Technical data: the IP address and browser data any web server receives when serving a visit, used for security and to limit abusive form submissions.',
             ],
           },
@@ -325,7 +325,7 @@ const terms: Record<Locale, LegalDocument> = {
       {
         title: '5. Asistente de chat',
         body: [
-          'Cortana es un asistente automático basado en inteligencia artificial. Sus respuestas pueden contener errores u omisiones, son informativas y no obligan a Numi AI a una oferta, precio o compromiso; lo que vale es lo que acordemos por escrito. No compartas en el chat datos sensibles, contraseñas ni información financiera.',
+          'Selene es un asistente automático basado en inteligencia artificial. Sus respuestas pueden contener errores u omisiones, son informativas y no obligan a Numi AI a una oferta, precio o compromiso; lo que vale es lo que acordemos por escrito. No compartas en el chat datos sensibles, contraseñas ni información financiera.',
         ],
       },
       {
@@ -406,7 +406,7 @@ const terms: Record<Locale, LegalDocument> = {
       {
         title: '5. Chat assistant',
         body: [
-          'Cortana is an automated assistant based on artificial intelligence. Its answers may contain errors or omissions, are for information only and do not bind Numi AI to any offer, price or commitment; only what we agree in writing does. Do not share sensitive data, passwords or financial information in the chat.',
+          'Selene is an automated assistant based on artificial intelligence. Its answers may contain errors or omissions, are for information only and do not bind Numi AI to any offer, price or commitment; only what we agree in writing does. Do not share sensitive data, passwords or financial information in the chat.',
         ],
       },
       {

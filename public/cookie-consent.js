@@ -45,14 +45,14 @@
   var T = lang === 'en'
     ? {
         title: 'Cookies and storage',
-        body: 'We use only what the site needs to work (language and booking). If you accept, we also keep your chat history with Cortana in this browser so you can pick it up later. No advertising or tracking.',
+        body: 'We use only what the site needs to work (language and booking). If you accept, we also keep your chat history with Selene in this browser so you can pick it up later. No advertising or tracking.',
         policy: 'Cookie policy',
         accept: 'Accept',
         reject: 'Reject',
       }
     : {
         title: 'Cookies y almacenamiento',
-        body: 'Usamos solo lo necesario para que el sitio funcione (idioma y agenda). Si aceptas, también guardamos en este navegador tu historial del chat con Cortana para que puedas retomarlo. Sin publicidad ni rastreo.',
+        body: 'Usamos solo lo necesario para que el sitio funcione (idioma y agenda). Si aceptas, también guardamos en este navegador tu historial del chat con Selene para que puedas retomarlo. Sin publicidad ni rastreo.',
         policy: 'Política de cookies',
         accept: 'Aceptar',
         reject: 'Rechazar',

@@ -2,7 +2,7 @@ import { isLocale } from '@/i18n/routing'
 
 import { stitchHomeHtml } from './stitch-home'
 
-// Cortana web-chat API (browser calls it directly; its CORS allow-list must
+// Selene web-chat API (browser calls it directly; its CORS allow-list must
 // include this site's origin).
 const CHAT_API_URL = (process.env.NEXT_PUBLIC_CHAT_API_URL ?? 'https://numi-agent-backend-production.up.railway.app').replace(/\/+$/, '')
 
