@@ -1,4 +1,4 @@
-// Live Cortana chat for the home hero mock. Inlined as a <script> by
+// Live Selene chat for the home hero mock. Inlined as a <script> by
 // scripts/build-stitch-home.mjs. API contract: POST {session_id, message} -> {reply}.
 // `reply` is plain text: it is only ever rendered with textContent, never innerHTML.
 (function () {
@@ -24,7 +24,7 @@
   var T = isEn
     ? {
         you: 'You',
-        empty: 'Write your first message to talk to Cortana',
+        empty: 'Write your first message to talk to Selene',
         coldStart: 'Waking the agent up, the first reply can take up to a minute…',
         errGeneric: "We couldn't send your message. Please try again.",
         errNetwork: "We couldn't reach the chat. Check your connection and try again.",
@@ -33,7 +33,7 @@
       }
     : {
         you: 'Tú',
-        empty: 'Escribe tu primer mensaje para hablar con Cortana',
+        empty: 'Escribe tu primer mensaje para hablar con Selene',
         coldStart: 'Despertando al agente, la primera respuesta puede tardar hasta un minuto…',
         errGeneric: 'No pudimos enviar tu mensaje. Inténtalo de nuevo.',
         errNetwork: 'No pudimos conectar con el chat. Revisa tu conexión e inténtalo de nuevo.',

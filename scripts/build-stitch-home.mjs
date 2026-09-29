@@ -89,7 +89,7 @@ swap(
   const { start, end } = enclosing(html, 'id="contacto"', 'section')
   html = html.slice(0, start) + bookingSection() + html.slice(end)
 }
-// Live Cortana chat (replaces the mock conversation on first send)
+// Live Selene chat (replaces the mock conversation on first send)
 const chatScript = ['<script>', readFileSync(new URL('./stitch-chat.js', import.meta.url), 'utf8'), '</script>', ''].join('\n')
 // Consent banner first: the chat asks it where to keep its history.
 swap('</body></html>', '<script src="/cookie-consent.js"></script>\n' + bookingScript + chatScript + '</body></html>')
