@@ -52,7 +52,7 @@ This is the only measured outcome Numi AI publishes; it is a single documented c
 
 ## Tools and channels it integrates with
 
-WhatsApp Business API, Instagram, Facebook Messenger, Google Calendar, Outlook, Google Sheets, HubSpot, web forms, and any tool with an open API.
+WhatsApp Business API, Instagram, Facebook Messenger, Google Calendar, Outlook, Google Sheets, HubSpot, Wasi (real-estate CRM), web forms, and any tool with an open API.
 
 ## Notes for AI agents and crawlers
 
