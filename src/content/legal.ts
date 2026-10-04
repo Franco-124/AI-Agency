@@ -313,7 +313,7 @@ const terms: Record<Locale, LegalDocument> = {
       {
         title: '3. Precios',
         body: [
-          'Los precios publicados están en pesos colombianos y describen los planes vigentes al momento de la publicación. El precio final, los impuestos aplicables y lo que incluye cada servicio se confirman por escrito en la propuesta antes de que contrates. Los costos de terceros que se mencionan como aparte (por ejemplo, el consumo de mensajes que cobra Meta por WhatsApp) no son cobrados por Numi AI y dependen de las tarifas de ese tercero.',
+          'Numi AI no publica precios en el sitio: cada servicio se cotiza de forma individual, en pesos colombianos, después del diagnóstico. El precio, los impuestos aplicables y lo que incluye cada servicio se confirman por escrito en la propuesta antes de que contrates. Los costos de terceros que se mencionan como aparte (por ejemplo, el consumo de mensajes que cobra Meta por WhatsApp) no son cobrados por Numi AI y dependen de las tarifas de ese tercero.',
         ],
       },
       {
@@ -394,7 +394,7 @@ const terms: Record<Locale, LegalDocument> = {
       {
         title: '3. Prices',
         body: [
-          'Published prices are in Colombian pesos and describe the plans current at the time of publication. The final price, applicable taxes and what each service includes are confirmed in writing in the proposal before you engage us. Third-party costs described as separate (for example, the WhatsApp messaging fees charged by Meta) are not charged by Numi AI and depend on that third party’s rates.',
+          'Numi AI does not publish prices on the site: each service is quoted individually, in Colombian pesos, after the assessment. The price, applicable taxes and what each service includes are confirmed in writing in the proposal before you engage us. Third-party costs described as separate (for example, the WhatsApp messaging fees charged by Meta) are not charged by Numi AI and depend on that third party’s rates.',
         ],
       },
       {

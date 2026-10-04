@@ -49,7 +49,7 @@ export const NAV_ITEMS = [
   { key: 'home', label: 'Inicio', fragment: '' },
   { key: 'servicios', label: 'Servicios', fragment: '#servicios' },
   { key: 'proceso', label: 'Proceso', fragment: '#proceso' },
-  { key: 'planes', label: 'Planes y Precios', fragment: '#planes' },
+  { key: 'planes', label: 'Planes', fragment: '#planes' },
   { key: 'integraciones', label: 'Integraciones', fragment: '#integraciones' },
   { key: 'roi', label: 'Calculadora de ROI', route: '/calculadora-roi' },
   { key: 'faq', label: 'Preguntas Frecuentes', fragment: '#preguntas-frecuentes' },
@@ -82,9 +82,10 @@ export function nav(current) {
   })
 
   /*
-   * Links never wrap (`whitespace-nowrap`): "Planes y Precios" and "Preguntas
-   * Frecuentes" used to break onto two lines. Unwrapped, the seven Spanish
-   * labels need about 700px, which does not fit beside the logo and the CTA
+   * Links never wrap (`whitespace-nowrap`): "Preguntas Frecuentes" used to
+   * break onto two lines. Unwrapped, the seven Spanish labels need about
+   * 700px (measured when "Planes" still read "Planes y Precios"), which does
+   * not fit beside the logo and the CTA
    * until 1280px, so the nav starts at `xl` (below it the header shows logo
    * and CTA, as on mobile). 13px up to 1440px, 14px above, measured to fit.
    */

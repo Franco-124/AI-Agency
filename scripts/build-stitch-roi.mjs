@@ -66,7 +66,7 @@ const dropAnchor = (text) => {
   )
 }
 swap('data-path="proceso" href="#">Metodología Sprint 4-Step</a>', 'data-path="proceso" href="#">Proceso</a>')
-swap('data-path="planes-y-precios" href="#">Planes de Suscripción</a>', 'data-path="planes-y-precios" href="#">Planes y Precios</a>')
+swap('data-path="planes-y-precios" href="#">Planes de Suscripción</a>', 'data-path="planes-y-precios" href="#">Planes</a>')
 
 wire('servicios', '/__LOCALE__#servicios')
 wire('proceso', '/__LOCALE__#proceso')
@@ -357,8 +357,11 @@ swap(
  * - Time freed is valued at the loaded cost per hour of the reps entered,
  *   over the 182-hour legal month, and never exceeds the hours those reps
  *   actually have.
- * - Cost: the published plans (Esencial $999.990 + $299.000/month, Avanzado
- *   $1.500.000 + $399.000/month) plus Meta's messaging — from 1 Oct 2026
+ * - Cost: an internal reference cost per plan (Esencial $999.990 +
+ *   $299.000/month, Avanzado $1.500.000 + $399.000/month). Prices are no
+ *   longer published — every client is quoted individually — so the page
+ *   presents this as a typical-implementation reference, not a price list.
+ *   Plus Meta's messaging — from 1 Oct 2026
  *   service messages are charged at the utility rate (~US$0,0008 ≈ $3 COP in
  *   Colombia) after 1.000 free a month per number; four business replies per
  *   chat is assumed.
@@ -414,7 +417,8 @@ swap(
   `        // Loaded cost of one hour of a rep, over the 182-hour legal month.
         const costPerHour = loadedMonthlyCostPerPerson / 182;
 
-        // Plan by team size; published prices. Meta charges service messages
+        // Plan by team size; internal reference cost of a typical
+        // implementation (not a published price). Meta charges service messages
         // at the utility rate (~$3 COP) after 1.000 free a month per number;
         // four business replies per chat.
         const plan = staffCount > 3
@@ -542,7 +546,7 @@ swap(
 <li class="">Tiempo por chat: 4,5 minutos, por debajo de los 8 a 10 minutos que miden los reportes de chat en vivo (<a class="text-primary underline underline-offset-2" href="https://www.livechat.com/customer-service-report/" rel="noopener noreferrer" target="_blank">LiveChat</a>), porque las consultas por WhatsApp a una pyme suelen ser más cortas.</li>
 <li class="">Chats resueltos por la IA: 65%, en línea con los dos tercios que reportó <a class="text-primary underline underline-offset-2" href="https://www.klarna.com/international/press/klarna-ai-assistant-handles-two-thirds-of-customer-service-chats-in-its-first-month/" rel="noopener noreferrer" target="_blank">Klarna (2024)</a> y el 67% promedio que publicó Intercom para Fin (2025). El resultado real depende de tu negocio.</li>
 <li class="">Velocidad de respuesta: <a class="text-primary underline underline-offset-2" href="https://hbr.org/2011/03/the-short-life-of-online-sales-leads" rel="noopener noreferrer" target="_blank">Harvard Business Review, "The Short Life of Online Sales Leads" (2011)</a>.</li>
-<li class="">Costo: precios publicados de los planes Agente Esencial y Agente Avanzado, más la mensajería de WhatsApp según las <a class="text-primary underline underline-offset-2" href="https://developers.facebook.com/documentation/business-messaging/whatsapp/pricing" rel="noopener noreferrer" target="_blank">tarifas de Meta</a>, suponiendo cuatro respuestas por chat.</li>
+<li class="">Costo: valor de referencia de una implementación típica de los planes Agente Esencial y Agente Avanzado (tu cotización final es personalizada), más la mensajería de WhatsApp según las <a class="text-primary underline underline-offset-2" href="https://developers.facebook.com/documentation/business-messaging/whatsapp/pricing" rel="noopener noreferrer" target="_blank">tarifas de Meta</a>, suponiendo cuatro respuestas por chat.</li>
 <li class="">No se suman ventas adicionales: no hay una fuente que permita estimarlas para tu negocio sin conocerlo.</li>
 </ul>
 </section>

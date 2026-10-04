@@ -200,7 +200,7 @@
 <a class="transition-all duration-200 text-on-surface font-semibold hover:text-primary" href="#">Inicio</a>
 <a class="text-on-surface-variant hover:text-on-surface transition-all duration-200 text-[14px]" href="#servicios">Servicios</a>
 <a class="text-on-surface-variant hover:text-on-surface transition-all duration-200 text-[14px]" href="#proceso">Proceso</a>
-<a class="text-on-surface-variant hover:text-on-surface transition-all duration-200 text-[14px]" href="#planes">Planes y Precios</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-all duration-200 text-[14px]" href="#planes">Planes</a>
 <a class="text-on-surface-variant hover:text-on-surface transition-all duration-200 text-[14px]" href="#integraciones">Integraciones</a>
 <a class="text-on-surface-variant hover:text-on-surface transition-all duration-200 text-[14px]" href="#preguntas-frecuentes">Preguntas Frecuentes</a>
 </nav>
@@ -241,7 +241,7 @@
         </h1>
 <!-- Subtitle -->
 <p class="font-body-lg text-[17px] sm:text-[19px] text-on-surface-variant max-w-2xl mb-10 leading-relaxed">
-          Implementamos agentes de IA, automatizaciones y sitios web que convierten conversaciones cotidianas en citas confirmadas, clientes fidelizados y facturación predecible.
+          Implementamos agentes de IA, automatizaciones, CRMs a la medida y sitios web que convierten conversaciones cotidianas en citas confirmadas, clientes fidelizados y facturación predecible.
         </p>
 <!-- CTAs & Micro-trust -->
 <div class="flex flex-col sm:flex-row items-center gap-4 mb-6 w-full sm:w-auto">
@@ -288,15 +288,18 @@
 </div>
 <span class="text-[13px] sm:text-[14px] text-left text-text-primary font-medium leading-snug">Agenda automática de citas</span>
 </div>
-<!-- Pill 3: Seguimiento Inteligente IA -->
+<!-- Pill 3: CRM a la medida -->
 <div class="liquid-glass-surface flex items-center gap-3 px-4 py-3 rounded-xl border border-white/10 shadow-sm hover:border-accent-glow/50 transition-all duration-300">
 <div class="w-7 h-7 rounded-lg bg-primary-container/20 flex items-center justify-center shrink-0 border border-primary/30">
-<svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M12 2L13.8 8.2L20 10L13.8 11.8L12 18L10.2 11.8L4 10L10.2 8.2L12 2Z" fill="#D2BBFF"></path>
-<path d="M19 16L19.9 19.1L23 20L19.9 20.9L19 24L18.1 20.9L15 20L18.1 19.1L19 16Z" fill="#8B5CF6"></path>
+<svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<rect fill="rgba(139, 92, 246, 0.2)" height="16" rx="3" stroke="#D2BBFF" width="20" x="2" y="4"></rect>
+<circle cx="8" cy="10.5" r="2.25" stroke="#D2BBFF"></circle>
+<path d="M4.75 16.5c.6-1.6 1.85-2.5 3.25-2.5s2.65.9 3.25 2.5" stroke="#D2BBFF"></path>
+<line stroke="#8B5CF6" x1="14" x2="19" y1="9.5" y2="9.5"></line>
+<line stroke="#8B5CF6" x1="14" x2="17.5" y1="13.5" y2="13.5"></line>
 </svg>
 </div>
-<span class="text-[13px] sm:text-[14px] text-left text-text-primary font-medium leading-snug">Seguimiento inteligente</span>
+<span class="text-[13px] sm:text-[14px] text-left text-text-primary font-medium leading-snug">CRM a la medida</span>
 </div>
 <!-- Pill 4: Sitios Web de Alta Conversión -->
 <div class="liquid-glass-surface flex items-center gap-3 px-4 py-3 rounded-xl border border-white/10 shadow-sm hover:border-secondary/40 transition-all duration-300">
@@ -731,8 +734,8 @@
 </div>
 </div>
 </div>
-<!-- 2 Tarjetas Anchas Inferiores -->
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- 3 Tarjetas Inferiores -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 <!-- Servicio 4 -->
 <div class="liquid-glass-surface group p-8 md:p-10 rounded-2xl relative overflow-hidden flex flex-col justify-between">
 <div>
@@ -785,125 +788,137 @@
 </li>
 </ul>
 </div>
+<!-- Servicio 6 -->
+<div class="liquid-glass-surface group p-8 md:p-10 rounded-2xl relative overflow-hidden flex flex-col justify-between md:col-span-2 lg:col-span-1">
+<div>
+<div class="flex items-center justify-between mb-6">
+<div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-container to-secondary-container flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[32px]">contacts</span>
+</div>
+<span class="font-stat-display text-[28px] font-bold text-primary">06</span>
+</div>
+<div class="inline-block px-3 py-1 rounded-full bg-primary-container/20 text-primary text-[12px] mb-3 font-semibold border border-primary/20">Hecho para tu operación</div>
+<h3 class="font-headline-md text-[24px] text-text-primary font-bold mb-3 group-hover:text-primary transition-colors">CRM a la medida</h3>
+<p class="text-[15px] text-on-surface-variant mb-6 leading-relaxed">
+                Cuando un CRM genérico no encaja con cómo vendes, construimos uno propio para tu negocio: tus etapas de venta, tus campos y tus reportes, conectado a WhatsApp, a tu agenda y al agente de IA.
+              </p>
+</div>
+<ul class="space-y-2.5 text-[13px] text-on-surface pt-4 border-t border-white/5">
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-status-success text-[18px]">check_circle</span>
+<span class="">Pipeline con las etapas reales de tu proceso comercial.</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-status-success text-[18px]">check_circle</span>
+<span class="">Historial y seguimiento de cada cliente en un solo lugar.</span>
+</li>
+</ul>
+</div>
 </div>
 </div>
 </section>
-<!-- 04. PLANES Y PRECIOS CLAROS -->
+<!-- 04. PLANES (SIN PRECIOS PUBLICADOS: COTIZACIÓN INDIVIDUAL) -->
 <section class="w-full px-6 lg:px-12 py-24 relative" id="planes">
-<div class="max-w-7xl mx-auto relative z-10">
-<div class="text-center max-w-3xl mx-auto mb-16">
-<div class="text-[12px] text-primary tracking-widest uppercase font-bold mb-2">Transparencia Total</div>
-<h2 class="font-headline-lg text-[36px] md:text-[42px] text-text-primary font-bold tracking-tight mb-4">Planes y precios</h2>
-<p class="font-body-lg text-[18px] text-on-surface-variant">
-            Dos planes con precio fijo, pensados para negocios que ya saben qué necesitan. Si tu operación es más grande o más compleja, diseñamos un sistema a tu medida.
+<div class="max-w-6xl mx-auto relative z-10">
+<div class="text-center max-w-2xl mx-auto mb-12">
+<div class="text-[12px] text-primary tracking-widest uppercase font-bold mb-2">Elige tu punto de partida</div>
+<h2 class="font-headline-lg text-[36px] md:text-[42px] text-text-primary font-bold tracking-tight mb-4">Planes</h2>
+<p class="font-body-lg text-[17px] text-on-surface-variant">
+            Tres formas de empezar según el momento de tu negocio. Cada propuesta se cotiza de forma individual después del diagnóstico, con base en tu operación y lo que de verdad necesitas.
           </p>
 </div>
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch mb-12">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch mb-12">
 <!-- Plan 1 -->
-<div class="liquid-glass-surface group p-8 rounded-2xl flex flex-col justify-between">
-<div>
-<div class="flex items-center justify-between mb-6">
-<div class="w-12 h-12 rounded-xl bg-primary-container/20 flex items-center justify-center text-primary group-hover:scale-110 transition-all duration-300">
+<div class="liquid-glass-surface group relative p-7 lg:p-8 rounded-2xl flex flex-col">
+<div class="flex items-center gap-4 mb-5">
+<div class="w-12 h-12 rounded-xl bg-primary-container/20 border border-primary/20 flex items-center justify-center text-primary shrink-0 group-hover:scale-110 transition-transform duration-300">
 <span class="material-symbols-outlined text-[26px]">forum</span>
 </div>
-<span class="text-[11px] uppercase font-bold text-text-muted tracking-wider text-right">Para empezar<br/>a ordenar</span>
-</div>
-<h3 class="font-headline-md text-[24px] text-text-primary font-bold mb-3 group-hover:text-primary transition-colors">Agente Esencial</h3>
-<p class="text-[13px] text-on-surface-variant mb-6 leading-relaxed">Para negocios que hoy no automatizan nada y necesitan resolver lo básico: mensajes sin responder y citas mal agendadas.</p>
-<div class="rounded-xl bg-[#0f061c]/80 mb-6 border border-white/10 shadow-inner overflow-hidden">
-<div class="p-4">
-<div class="text-[10px] uppercase tracking-wider text-text-muted font-bold mb-1.5">Implementación</div>
-<div class="font-stat-display text-[26px] sm:text-[27px] text-text-primary font-extrabold tracking-tight leading-none break-words" style="font-variant-numeric: tabular-nums;">$999.990<span class="text-[12px] text-text-muted font-bold ml-1.5 align-middle">COP</span></div>
-</div>
-<div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 px-4 py-3 bg-primary-container/10 border-t border-white/10">
-<span class="text-[11px] text-on-surface-variant flex items-center gap-1.5 shrink-0"><span class="material-symbols-outlined text-primary text-[16px]">autorenew</span>Mantenimiento / mes</span>
-<span class="font-stat-display text-[15px] text-primary font-bold whitespace-nowrap" style="font-variant-numeric: tabular-nums;">$299.000 COP</span>
+<div>
+<h3 class="font-headline-md text-[22px] text-text-primary font-bold leading-tight group-hover:text-primary transition-colors">Agente Esencial</h3>
+<span class="text-[11px] uppercase tracking-wider text-text-muted font-semibold">Para empezar a ordenar</span>
 </div>
 </div>
-<div class="space-y-3 text-[13px] text-on-surface mb-8">
-<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check</span><span class="">Agente de WhatsApp que responde precios, horarios y preguntas frecuentes al instante</span></div>
-<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check</span><span class="">Conectado a tu Google Calendar: agenda citas reales, sin choques de horario</span></div>
-<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check</span><span class="">Seguimiento automático si el cliente no confirma</span></div>
-<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check</span><span class="">Notificación cuando entra un cliente nuevo</span></div>
+<p class="text-[15px] text-on-surface-variant leading-relaxed mb-5">Resuelve lo básico: mensajes sin responder y citas mal agendadas.</p>
+<div class="rounded-xl p-4 mb-5 border bg-[#1b0e30]/60 border-white/5">
+<span class="text-[11px] text-primary uppercase font-bold tracking-wider block mb-1">Ideal si</span>
+<span class="text-[14px] text-on-surface leading-snug">Hoy respondes todo a mano y se te escapan mensajes.</span>
+</div>
+<ul class="space-y-3 text-[14px] text-on-surface mb-8 pt-5 border-t border-white/5">
+<li class="flex items-start gap-2"><span class="material-symbols-outlined text-status-success text-[19px] shrink-0">check</span><span class="">Agente de WhatsApp que responde al instante</span></li>
+<li class="flex items-start gap-2"><span class="material-symbols-outlined text-status-success text-[19px] shrink-0">check</span><span class="">Citas reales en tu Google Calendar, sin choques</span></li>
+<li class="flex items-start gap-2"><span class="material-symbols-outlined text-status-success text-[19px] shrink-0">check</span><span class="">Seguimiento si el cliente no confirma</span></li>
+</ul>
+<a class="apple-liquid-btn-secondary mt-auto w-full py-3.5 px-6 rounded-full text-center text-[14px] font-semibold" href="#contacto">Cotizar este plan</a>
+</div>
+<!-- Plan 2 (Destacado: regla izquierda en acento, no glow) -->
+<div class="liquid-glass-surface group relative p-7 lg:p-8 rounded-2xl flex flex-col overflow-hidden">
+<span aria-hidden="true" class="absolute left-0 top-8 bottom-8 w-[2px] rounded-full bg-gradient-to-b from-primary to-secondary"></span>
+<div class="flex items-center gap-4 mb-5">
+<div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary-container to-secondary-container flex items-center justify-center text-white shrink-0 shadow-md group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-[26px]">bolt</span>
+</div>
+<div>
+<h3 class="font-headline-md text-[22px] text-text-primary font-bold leading-tight group-hover:text-primary transition-colors">Agente Avanzado</h3>
+<span class="text-[11px] uppercase tracking-wider text-primary font-semibold">Para volumen real de consultas</span>
 </div>
 </div>
-<a class="apple-liquid-btn-secondary w-full py-3.5 px-6 rounded-full text-center text-[14px] font-semibold" href="#contacto">Empezar con este plan</a>
-</div>
-<!-- Plan 2 (Destacado) -->
-<div class="liquid-glass-surface relative p-8 md:p-10 rounded-2xl flex flex-col justify-between border-2 border-primary/50 shadow-[0_24px_64px_-12px_rgba(124,58,237,0.45)]">
-<div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3 sm:px-4 py-1 rounded-full bg-gradient-to-r from-primary-container to-secondary-container text-white text-[9px] sm:text-[11px] font-bold uppercase tracking-wider shadow-md flex items-center gap-1.5 whitespace-nowrap">
-<span class="w-1.5 h-1.5 rounded-full bg-status-success animate-pulse shrink-0"></span>
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary-container/20 border border-primary/30 text-primary text-[11px] font-bold uppercase tracking-wider w-fit mb-4">
+<span class="w-1.5 h-1.5 rounded-full bg-status-success animate-pulse"></span>
 <span class="">El más elegido</span>
 </div>
-<div class="pt-6 sm:pt-2">
-<div class="flex items-center justify-between mb-6">
-<div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-container to-secondary-container flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined text-[30px]">bolt</span>
+<p class="text-[15px] text-on-surface-variant leading-relaxed mb-5">Para negocios donde perder un lead ya duele.</p>
+<div class="rounded-xl p-4 mb-5 border bg-primary-container/15 border-primary/25">
+<span class="text-[11px] text-primary uppercase font-bold tracking-wider block mb-1">Ideal si</span>
+<span class="text-[14px] text-on-surface leading-snug">Recibes decenas de consultas al día y necesitas control total.</span>
 </div>
-<span class="text-[11px] uppercase font-bold text-primary tracking-wider text-right">Para volumen real<br/>de consultas</span>
-</div>
-<h3 class="font-headline-md text-[26px] text-text-primary font-bold mb-3">Agente Avanzado</h3>
-<p class="text-[13px] text-on-surface-variant mb-6 leading-relaxed">Para negocios con volumen real de consultas diarias, donde perder un lead ya duele. Todo lo del Agente Esencial, más:</p>
-<div class="rounded-xl bg-primary-container/20 mb-6 border border-primary/30 shadow-lg overflow-hidden">
-<div class="p-4">
-<div class="text-[10px] uppercase tracking-wider text-primary font-bold mb-1.5">Implementación</div>
-<div class="font-stat-display text-[28px] sm:text-[30px] font-extrabold tracking-tight leading-none break-words bg-gradient-to-r from-text-primary via-primary to-secondary bg-clip-text text-transparent" style="font-variant-numeric: tabular-nums;">$1.500.000<span class="text-[13px] text-primary font-bold ml-1.5 align-middle">COP</span></div>
-</div>
-<div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 px-4 py-3 bg-[#12081f]/50 border-t border-primary/20">
-<span class="text-[11px] text-on-surface-variant flex items-center gap-1.5 shrink-0"><span class="material-symbols-outlined text-primary text-[16px]">autorenew</span>Mantenimiento / mes</span>
-<span class="font-stat-display text-[16px] text-primary font-bold whitespace-nowrap" style="font-variant-numeric: tabular-nums;">$399.000 COP</span>
-</div>
-</div>
-<div class="space-y-3 text-[13px] text-on-surface mb-8">
-<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check_circle</span><span class="font-semibold text-text-primary">Todo lo del Agente Esencial</span></div>
-<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check_circle</span><span class="">Escala la conversación a una persona de tu equipo cuando lo amerita, con todo el contexto ya leído</span></div>
-<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check_circle</span><span class="">Panel donde ves y gestionas cada conversación y cada contacto</span></div>
-<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check_circle</span><span class="">Seguimiento automático en varios pasos a los leads que no responden</span></div>
-<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check_circle</span><span class="">Reporte semanal de conversaciones, citas y leads atendidos</span></div>
-<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check_circle</span><span class="">Un canal adicional a tu elección: Instagram o Messenger</span></div>
-</div>
-</div>
-<a class="apple-liquid-btn-primary w-full py-4 px-6 rounded-full text-center text-[15px] font-bold shadow-xl active:scale-95 transition-all" href="#contacto">Empezar con este plan</a>
+<ul class="space-y-3 text-[14px] text-on-surface mb-8 pt-5 border-t border-white/5">
+<li class="flex items-start gap-2"><span class="material-symbols-outlined text-status-success text-[19px] shrink-0">check_circle</span><span class="font-semibold text-text-primary">Todo lo del Agente Esencial</span></li>
+<li class="flex items-start gap-2"><span class="material-symbols-outlined text-status-success text-[19px] shrink-0">check_circle</span><span class="">Escala a tu equipo con el contexto ya leído</span></li>
+<li class="flex items-start gap-2"><span class="material-symbols-outlined text-status-success text-[19px] shrink-0">check_circle</span><span class="">Panel de conversaciones y contactos</span></li>
+<li class="flex items-start gap-2"><span class="material-symbols-outlined text-status-success text-[19px] shrink-0">check_circle</span><span class="">Seguimiento en varios pasos y reporte semanal</span></li>
+<li class="flex items-start gap-2"><span class="material-symbols-outlined text-status-success text-[19px] shrink-0">check_circle</span><span class="">Canal extra: Instagram o Messenger</span></li>
+</ul>
+<a class="apple-liquid-btn-primary mt-auto w-full py-3.5 px-6 rounded-full text-center text-[14px] font-bold shadow-xl active:scale-95 transition-all" href="#contacto">Cotizar este plan</a>
 </div>
 <!-- Plan 3 -->
-<div class="liquid-glass-surface group p-8 rounded-2xl flex flex-col justify-between">
-<div>
-<div class="flex items-center justify-between mb-6">
-<div class="w-12 h-12 rounded-xl bg-primary-container/20 flex items-center justify-center text-primary group-hover:scale-110 transition-all duration-300">
+<div class="liquid-glass-surface group relative p-7 lg:p-8 rounded-2xl flex flex-col">
+<div class="flex items-center gap-4 mb-5">
+<div class="w-12 h-12 rounded-xl bg-primary-container/20 border border-primary/20 flex items-center justify-center text-primary shrink-0 group-hover:scale-110 transition-transform duration-300">
 <span class="material-symbols-outlined text-[26px]">tune</span>
 </div>
-<span class="text-[11px] uppercase font-bold text-text-muted tracking-wider text-right">Para operaciones<br/>complejas</span>
-</div>
-<h3 class="font-headline-md text-[24px] text-text-primary font-bold mb-3 group-hover:text-primary transition-colors">A la medida</h3>
-<p class="text-[13px] text-on-surface-variant mb-6 leading-relaxed">Para negocios con varias sedes o una operación más compleja que necesita un sistema propio, no un plan fijo.</p>
-<div class="p-4 rounded-xl bg-[#0f061c]/80 mb-6 border border-white/10 shadow-inner">
-<div class="text-[10px] uppercase tracking-wider text-text-muted font-bold mb-1.5">Estructura de precio</div>
-<div class="font-stat-display text-[22px] text-text-primary font-extrabold tracking-tight leading-none mb-1.5">Precio según diagnóstico</div>
-<div class="text-xs text-on-surface-variant mt-1">Cotizado a medida tras tu diagnóstico inicial.</div>
-</div>
-<div class="space-y-3 text-[13px] text-on-surface mb-8">
-<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check</span><span class="">Automatización completa de tu operación, no solo la atención al cliente</span></div>
-<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check</span><span class="">Integración con tus sistemas propios</span></div>
-<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check</span><span class="">Sitio web y presencia digital completa</span></div>
-<div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-status-success text-[18px]">check</span><span class="">Sesión estratégica mensual con tu equipo</span></div>
+<div>
+<h3 class="font-headline-md text-[22px] text-text-primary font-bold leading-tight group-hover:text-primary transition-colors">A la medida</h3>
+<span class="text-[11px] uppercase tracking-wider text-text-muted font-semibold">Para operaciones complejas</span>
 </div>
 </div>
-<a class="apple-liquid-btn-secondary w-full py-3.5 px-6 rounded-full text-center text-[14px] font-semibold" href="#contacto">Cuéntanos tu caso</a>
+<p class="text-[15px] text-on-surface-variant leading-relaxed mb-5">Varias sedes o una operación que necesita un sistema propio.</p>
+<div class="rounded-xl p-4 mb-5 border bg-[#1b0e30]/60 border-white/5">
+<span class="text-[11px] text-primary uppercase font-bold tracking-wider block mb-1">Ideal si</span>
+<span class="text-[14px] text-on-surface leading-snug">Tu operación tiene varias sedes, equipos o sistemas propios.</span>
+</div>
+<ul class="space-y-3 text-[14px] text-on-surface mb-8 pt-5 border-t border-white/5">
+<li class="flex items-start gap-2"><span class="material-symbols-outlined text-status-success text-[19px] shrink-0">check</span><span class="">Automatización completa de tu operación</span></li>
+<li class="flex items-start gap-2"><span class="material-symbols-outlined text-status-success text-[19px] shrink-0">check</span><span class="">CRM a la medida e integración con tus sistemas</span></li>
+<li class="flex items-start gap-2"><span class="material-symbols-outlined text-status-success text-[19px] shrink-0">check</span><span class="">Sitio web y presencia digital completa</span></li>
+<li class="flex items-start gap-2"><span class="material-symbols-outlined text-status-success text-[19px] shrink-0">check</span><span class="">Sesión estratégica mensual con tu equipo</span></li>
+</ul>
+<a class="apple-liquid-btn-secondary mt-auto w-full py-3.5 px-6 rounded-full text-center text-[14px] font-semibold" href="#contacto">Cuéntanos tu caso</a>
 </div>
 </div>
-<!-- Garantía Sin permanencia -->
-<div class="liquid-glass-surface p-6 rounded-2xl max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+<!-- Cotización personalizada -->
+<div class="liquid-glass-surface p-5 rounded-2xl max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
 <div class="flex items-center gap-3.5">
-<div class="w-12 h-12 rounded-xl bg-primary-container/20 border border-primary/30 flex items-center justify-center text-primary shrink-0">
-<span class="material-symbols-outlined text-[28px]">handshake</span>
+<div class="w-11 h-11 rounded-xl bg-primary-container/20 border border-primary/30 flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[24px]">handshake</span>
 </div>
 <div>
-<div class="text-[15px] text-text-primary font-bold">Qué incluyen los planes fijos</div>
-<div class="text-[13px] text-on-surface-variant">Los dos planes fijos incluyen diagnóstico, construcción, carga de tu información y pruebas hasta que funcione. Aparte va solo el consumo de mensajes que cobra WhatsApp a través de Meta — normalmente unos pocos dólares al mes, y te lo estimamos con tus propios números.</div>
+<div class="text-[15px] text-text-primary font-bold">Cotización personalizada</div>
+<div class="text-[13px] text-on-surface-variant">Toda propuesta incluye diagnóstico, construcción, carga de tu información y pruebas hasta que funcione. Aparte va solo el consumo de mensajes que cobra WhatsApp a través de Meta, y te lo estimamos con tus propios números.</div>
 </div>
 </div>
 <a class="shrink-0 px-4 py-2 rounded-full bg-primary-container/20 text-primary text-[13px] font-semibold border border-primary/30 hover:bg-primary-container/30 transition-all flex items-center gap-1.5" href="#contacto">
-<span class="">Consultar dudas</span>
+<span class="">Pide tu cotización</span>
 <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
 </a>
 </div>
@@ -1262,13 +1277,13 @@
 <!-- FAQ 3 -->
 <div class="faq-item rounded-xl liquid-glass-surface overflow-hidden">
 <button class="faq-toggle w-full p-6 text-left flex items-center justify-between gap-4 cursor-pointer" type="button">
-<span class="text-[17px] text-text-primary font-bold">¿Cuánto cuesta y qué incluye exactamente el precio?</span>
+<span class="text-[17px] text-text-primary font-bold">¿Cuánto cuesta y qué incluye?</span>
 <span class="faq-icon material-symbols-outlined text-primary transition-transform duration-300 shrink-0">expand_more</span>
 </button>
 <div class="accordion-wrapper">
 <div>
 <div class="px-6 pb-6 pt-1 text-on-surface-variant text-[15px] leading-relaxed border-t border-white/5 mt-1">
-                  Depende del plan. El Agente Esencial tiene una implementación de $999.990 y un mantenimiento de $299.000 al mes. El Agente Avanzado, $1.500.000 de implementación y $399.000 al mes. Los dos incluyen diagnóstico, construcción, carga de tu información, las integraciones acordadas, pruebas hasta que funcione, alojamiento, monitoreo y soporte. Si tu negocio necesita algo distinto (varias sedes, integraciones propias, sitio web completo), armamos un plan a la medida y te damos el precio después del diagnóstico. Aparte va solo el consumo de mensajes que cobra WhatsApp a través de Meta — el costo por mensaje es mínimo en Colombia, y te lo estimamos con tus propios números en la propuesta.
+                  Cada proyecto se cotiza de forma individual, porque no hay dos negocios que necesiten lo mismo. En la llamada de diagnóstico, sin costo, entendemos tu operación; después te enviamos una propuesta personalizada con el valor de la implementación, la mensualidad y exactamente qué incluye: diagnóstico, construcción, carga de tu información, las integraciones acordadas, pruebas hasta que funcione, alojamiento, monitoreo y soporte. Aparte va solo el consumo de mensajes que cobra WhatsApp a través de Meta — el costo por mensaje es mínimo en Colombia, y te lo estimamos con tus propios números en la propuesta.
                 </div>
 </div>
 </div>
@@ -1436,6 +1451,7 @@
 <li class=""><a class="hover:text-primary transition-colors" href="#servicios">Automatización de procesos</a></li>
 <li class=""><a class="hover:text-primary transition-colors" href="#servicios">Agentes de IA Cognitivos</a></li>
 <li class=""><a class="hover:text-primary transition-colors" href="#servicios">Sitios web profesionales</a></li>
+<li class=""><a class="hover:text-primary transition-colors" href="#servicios">CRM a la medida</a></li>
 </ul>
 </div>
 <div class="space-y-3">

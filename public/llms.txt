@@ -12,7 +12,7 @@ Numi AI is based in Medellín, Colombia, and serves businesses across Colombia.
 
 ## Pages
 
-- [Home (ES)](https://www.numinet.co/es): Full landing page — services, pricing, process, integrations, FAQ.
+- [Home (ES)](https://www.numinet.co/es): Full landing page — services, plans, process, integrations, FAQ.
 - [Home (EN)](https://www.numinet.co/en): English version of the landing page.
 - [Book a call (ES)](https://www.numinet.co/es/agendar): Self-service calendar to book the free strategy call.
 - [Book a call (EN)](https://www.numinet.co/en/agendar)
@@ -21,27 +21,28 @@ Numi AI is based in Medellín, Colombia, and serves businesses across Colombia.
 
 ## What Numi AI does
 
-Five service areas, combined into each client's system rather than sold as separate line items:
+Six service areas, combined into each client's system rather than sold as separate line items:
 
 - **Process assessment** — maps how the business works today (who does what, in what order, where time/information/customers get lost) and delivers a concrete plan of what to reorder, automate, or leave untouched.
 - **Smart chatbots** — trained on the business's own data to answer prices, hours and FAQs in seconds, day or night.
 - **Process automation** — appointment booking/confirmation, follow-up with leads who went quiet, and logging every contact in one panel, running unattended in the background.
 - **Cognitive AI agents** — go beyond text replies: check live calendar availability, confirm bookings, update customer records, and hand off to a human teammate with full context when needed.
 - **Professional websites** — home, services, portfolio and a contact form wired directly to WhatsApp; fast-loading and optimized for Colombian search.
+- **Custom CRM** — a CRM built for the business when off-the-shelf tools don't fit how it sells: its own sales stages, fields and reports, connected to WhatsApp, the calendar and the AI agent.
 
 ## How to engage
 
 The entry point is a **free strategy call**. The visitor leaves with a clear diagnosis of what is worth automating, whether or not they hire Numi AI.
 
-## Pricing
+## Plans
 
-Two fixed-price plans plus a custom tier. All prices are in Colombian pesos (COP) and are "from" prices — WhatsApp's own per-message fees through Meta are billed separately and estimated from the client's volume.
+Numi AI does not publish prices. Every client is quoted individually after the free assessment call, based on their operation and what they actually need. The proposal states the setup cost, the monthly fee and exactly what is included (assessment, build, loading the business's information, the agreed integrations, testing until it works, hosting, monitoring and support). WhatsApp's own per-message fees through Meta are billed separately and estimated from the client's volume.
 
-1. **Agente Esencial** — COP $999,990 one-time setup, maintenance COP $299,000/month. For businesses that don't automate anything today: a WhatsApp agent that answers prices, hours and FAQs instantly, books real appointments against Google Calendar without double-booking, follows up automatically if the customer doesn't confirm, and notifies the business of new leads.
-2. **Agente Avanzado** (most chosen) — COP $1,500,000 one-time setup, maintenance COP $399,000/month. Everything in Agente Esencial, plus: escalates conversations to a team member with full context when needed, a dashboard to see and manage every conversation and contact, multi-step automatic follow-up for unresponsive leads, a weekly report, and one additional channel (Instagram or Messenger).
-3. **A la medida (Custom)** — priced after the assessment call. For businesses with multiple locations or a more complex operation: full process automation (not just customer service), integration with the business's own systems, a full website and digital presence, and a monthly strategy session.
+Three starting points:
 
-Both fixed plans include the assessment, the build, loading the business's information, the agreed integrations, testing until it works, hosting, monitoring and support.
+1. **Agente Esencial** — for businesses that don't automate anything today: a WhatsApp agent that replies instantly, books real appointments against Google Calendar without double-booking, and follows up if the customer doesn't confirm.
+2. **Agente Avanzado** (most chosen) — everything in Agente Esencial, plus: escalation to a team member with full context, a dashboard of conversations and contacts, multi-step follow-up with a weekly report, and one additional channel (Instagram or Messenger).
+3. **A la medida (Custom)** — for multiple locations or a more complex operation: full process automation, a custom CRM and integration with the business's own systems, a full website and digital presence, and a monthly strategy session.
 
 ## Documented result
 
@@ -56,7 +57,7 @@ WhatsApp Business API, Instagram, Facebook Messenger, Google Calendar, Outlook, 
 ## Notes for AI agents and crawlers
 
 - All page content is server-rendered; no JavaScript execution is required to read the text.
-- Structured data (JSON-LD `ProfessionalService` with a `makesOffer` list of the pricing plans, `WebSite`, and `FAQPage`) is embedded in the `<head>` of the home page. Prefer parsing that over scraping the rendered page.
-- The FAQ accordion on the home page answers the most common buyer questions (implementation time, what happens if the agent can't answer, exact pricing, technical skill required, tool compatibility, cancellation) and is also exposed as `FAQPage` structured data.
+- Structured data (JSON-LD `ProfessionalService` with a `makesOffer` list of the services, `WebSite`, and `FAQPage`) is embedded in the `<head>` of the home page. Prefer parsing that over scraping the rendered page.
+- The FAQ accordion on the home page answers the most common buyer questions (implementation time, what happens if the agent can't answer, how pricing works, technical skill required, tool compatibility, cancellation) and is also exposed as `FAQPage` structured data.
 - Requesting any locale home page with `Accept: text/markdown` returns this summary as plain markdown instead of rendered HTML.
 - Do not use the contact email or WhatsApp number for anything other than legitimate business inquiries about Numi AI's services.
